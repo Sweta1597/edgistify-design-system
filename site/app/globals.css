@@ -127,25 +127,34 @@ body {
 .seg__btn:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
 
 /* ---- prose ----------------------------------------------------------- */
-.prose { max-width: 46rem; padding: var(--ed-space-10) var(--ed-space-8) var(--ed-space-12); }
+.prose { max-width: 52rem; padding: var(--ed-space-10) var(--ed-space-8) var(--ed-space-12); }
 .prose > * + * { margin-top: var(--ed-space-4); }
+/* Documentation is read, not scanned at a glance. The products run at
+   `base` (14px) because they are dense by necessity; prose here steps up to
+   `lg` and takes the relaxed leading. Every size is still a scale step — the
+   old specimens used 15px and a 46px title, neither of which exists. */
 .prose h1 {
   font-family: var(--ed-font-ui);
-  font-size: var(--ed-text-4xl); font-weight: var(--ed-weight-bold);
-  letter-spacing: -0.022em; line-height: var(--ed-leading-tight); margin: 0;
+  font-size: var(--ed-text-5xl); font-weight: var(--ed-weight-bold);
+  letter-spacing: var(--ed-tracking-tight); line-height: var(--ed-leading-tight); margin: 0;
 }
 .prose h2 {
-  font-size: var(--ed-text-2xl); font-weight: var(--ed-weight-semibold);
-  letter-spacing: -0.014em; margin-top: var(--ed-space-10); scroll-margin-top: 5rem;
+  font-size: var(--ed-text-3xl); font-weight: var(--ed-weight-semibold);
+  letter-spacing: var(--ed-tracking-snug); line-height: var(--ed-leading-tight);
+  margin-top: var(--ed-space-10); scroll-margin-top: 5rem;
 }
-.prose h3 { font-size: var(--ed-text-lg); font-weight: var(--ed-weight-semibold);
-            margin-top: var(--ed-space-6); }
-.prose p { color: var(--ed-text-secondary); margin: 0; }
+.prose h3 { font-size: var(--ed-text-xl); font-weight: var(--ed-weight-semibold);
+            letter-spacing: var(--ed-tracking-snug); margin-top: var(--ed-space-6); }
+.prose p, .prose li {
+  color: var(--ed-text-secondary); margin: 0;
+  font-size: var(--ed-text-lg); line-height: var(--ed-leading-relaxed);
+}
 /* In MDX the lede is a <div> — loose text inside a JSX block becomes its own
    <p>, and a <p> cannot contain another one. Style both shapes. */
 .prose .lede, .prose .lede p {
-  font-size: var(--ed-text-lg); color: var(--ed-text-secondary);
-  line-height: var(--ed-leading-relaxed); margin: 0;
+  font-size: var(--ed-text-2xl); color: var(--ed-text-secondary);
+  line-height: var(--ed-leading-normal); margin: 0;
+  letter-spacing: var(--ed-tracking-snug);
 }
 .prose ul, .prose ol { color: var(--ed-text-secondary); padding-left: var(--ed-space-5);
                        margin: 0; display: flex; flex-direction: column; gap: var(--ed-space-2); }
