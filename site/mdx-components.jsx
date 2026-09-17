@@ -11,6 +11,12 @@ import { InputDemo } from '@/components/demos/InputDemo';
 import { ModalDemo } from '@/components/demos/ModalDemo';
 import { MenuDemo } from '@/components/demos/MenuDemo';
 
+/* A wide table scrolls inside its own container rather than widening the
+   page — the grid column can shrink, so anything that cannot must say so. */
+const table = (props) => (
+  <div className="table-scroll"><table {...props} /></div>
+);
+
 export function useMDXComponents(components) {
-  return { Example, ButtonDemo, CardDemo, TableDemo, InputDemo, ModalDemo, MenuDemo, ...components };
+  return { Example, ButtonDemo, CardDemo, TableDemo, InputDemo, ModalDemo, MenuDemo, table, ...components };
 }

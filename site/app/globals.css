@@ -32,8 +32,11 @@ body {
 }
 
 /* ---- layout ---------------------------------------------------------- */
+/* minmax(0, …) on both: a plain 1fr refuses to shrink below its content's
+   min-content width, so one unbreakable line — a long package spec in a
+   <pre> — widens the whole column and drags the sidebar out with it. */
 .layout { display: grid; grid-template-columns: 17rem minmax(0, 1fr); min-height: 100dvh; }
-@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
 .sidebar {
   border-right: 1px solid var(--ed-border-subtle);
@@ -41,9 +44,36 @@ body {
   padding: var(--ed-space-6) var(--ed-space-5) var(--ed-space-10);
   position: sticky; top: 0; height: 100dvh; overflow-y: auto;
 }
+/* ---- narrow: the nav folds away ------------------------------------- */
+/* Stacked full-height, the nav is ~600px of links before a reader reaches
+   a single word of the page. Below 900px it collapses behind a button and
+   the content starts at the top where it belongs. */
+.nav-toggle { display: none; }
+
 @media (max-width: 900px) {
-  .sidebar { position: static; height: auto; border-right: 0;
-             border-bottom: 1px solid var(--ed-border-subtle); }
+  .sidebar {
+    position: sticky; top: 0; z-index: 20; height: auto; max-height: 100dvh;
+    border-right: 0; border-bottom: 1px solid var(--ed-border-subtle);
+    padding: var(--ed-space-3) var(--ed-space-4);
+  }
+  .sidebar__panel { display: none; padding-bottom: var(--ed-space-4); }
+  .sidebar[data-open="true"] .sidebar__panel { display: block; }
+  .sidebar[data-open="true"] { overflow-y: auto; }
+  .brand { margin-bottom: 0; }
+
+  .sidebar__bar { display: flex; align-items: center; justify-content: space-between; }
+  .nav-toggle {
+    display: inline-flex; align-items: center; gap: var(--ed-space-2);
+    font: var(--ed-weight-medium) var(--ed-text-md)/1 var(--ed-font-ui);
+    min-height: var(--ed-control-sm); padding: 0 var(--ed-space-3);
+    border: 1px solid var(--ed-border); border-radius: var(--ed-radius-control);
+    background: var(--ed-surface); color: var(--ed-text-secondary); cursor: pointer;
+  }
+  .nav-toggle:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
+  .nav-toggle svg { width: var(--ed-icon-sm); height: var(--ed-icon-sm); }
+
+  .topbar { padding-inline: var(--ed-space-4); }
+  .prose { padding: var(--ed-space-6) var(--ed-space-4) var(--ed-space-10); }
 }
 
 .brand { display: flex; align-items: center; gap: var(--ed-space-2);
@@ -125,6 +155,9 @@ body {
               background: var(--ed-surface-id); color: var(--ed-text-id);
               padding: 2px 6px; border-radius: 4px; }
 .prose hr { border: 0; border-top: 1px solid var(--ed-border-subtle); margin: var(--ed-space-10) 0; }
+.prose pre { max-width: 100%; overflow-x: auto; }
+.prose img, .prose svg { max-width: 100%; }
+.table-scroll { overflow-x: auto; max-width: 100%; }
 .prose table { width: 100%; border-collapse: collapse; font-size: var(--ed-text-md); }
 .prose th { text-align: left; font-size: var(--ed-text-2xs); letter-spacing: 0.1em;
             text-transform: uppercase; color: var(--ed-text-muted);
