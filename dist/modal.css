@@ -1,0 +1,192 @@
+/* Edgistify Design System — modal, drawer, sheet
+   ------------------------------------------------------------------
+   The dashboard has nine modals built from `fixed inset-0`. Between them:
+   zero role="dialog", zero aria-modal, one Escape handler, no focus
+   management and no scroll lock. A keyboard user who opens one is
+   stranded — Tab walks out of the modal into the page behind, which is
+   still fully interactive, and nothing announces that a dialog opened.
+
+   This is built on the native <dialog> element opened with showModal(),
+   which gives all of that from the platform rather than from us:
+
+     · focus is trapped inside the dialog
+     · Escape closes it
+     · everything behind is inert — not just visually, actually
+     · it renders in the top layer, so no z-index can fight it
+     · focus returns to whatever opened it
+
+   We add the two things the platform does not: a scroll lock on the
+   page behind, and the visual design.
+   ------------------------------------------------------------------ */
+
+.ed-modal {
+  /* reset the UA dialog box */
+  padding: 0;
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-panel);
+  background: var(--ed-surface-raised);
+  color: var(--ed-text);
+  box-shadow: var(--ed-elevation-4);
+  max-width: min(calc(100vw - var(--ed-space-8)), 32rem);
+  max-height: min(85vh, 48rem);
+  width: 100%;
+  overflow: hidden;              /* the body scrolls, not the dialog */
+  display: flex;
+  flex-direction: column;
+  margin: auto;                  /* centred */
+}
+.ed-modal:not([open]) { display: none; }
+
+.ed-modal::backdrop {
+  background: rgb(15 20 23 / 0.45);
+  background: var(--ed-scrim, rgb(15 20 23 / 0.45));
+}
+
+/* Open animates; close does not. A native dialog leaves the top layer the
+   moment it closes, so an exit animation would need JS to hold it there —
+   not worth the complexity for a frame and a half. */
+@media (prefers-reduced-motion: no-preference) {
+  .ed-modal[open] { animation: ed-modal-in .16s ease-out; }
+  .ed-modal[open]::backdrop { animation: ed-backdrop-in .16s ease-out; }
+}
+@keyframes ed-modal-in { from { opacity: 0; transform: translateY(8px) scale(.99); } }
+@keyframes ed-backdrop-in { from { opacity: 0; } }
+
+/* ---- sizes ---------------------------------------------------------- */
+/* The dashboard uses max-w-lg, xl, 3xl and 4xl with no rule about which. */
+.ed-modal--sm { max-width: min(calc(100vw - var(--ed-space-8)), 24rem); }
+.ed-modal--lg { max-width: min(calc(100vw - var(--ed-space-8)), 42rem); }
+.ed-modal--xl { max-width: min(calc(100vw - var(--ed-space-8)), 60rem); }
+.ed-modal--full {
+  max-width: calc(100vw - var(--ed-space-8));
+  max-height: calc(100vh - var(--ed-space-8));
+}
+
+/* ---- drawer --------------------------------------------------------- */
+/* Filter panels and detail views that keep the table visible behind them. */
+.ed-modal--drawer {
+  margin: 0 0 0 auto;
+  height: 100vh;
+  max-height: 100vh;
+  max-width: min(100vw, 30rem);
+  border-radius: 0;
+  border-inline-end: 0;
+  border-block: 0;
+}
+.ed-modal--drawer.ed-modal--lg { max-width: min(100vw, 42rem); }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-modal--drawer[open] { animation: ed-drawer-in .18s ease-out; }
+}
+@keyframes ed-drawer-in { from { transform: translateX(100%); } }
+
+/* ---- bottom sheet ---------------------------------------------------- */
+.ed-modal--sheet {
+  margin: auto auto 0;
+  max-width: 100vw;
+  width: 100vw;
+  max-height: 85vh;
+  border-radius: var(--ed-radius-panel) var(--ed-radius-panel) 0 0;
+  border-bottom: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ed-modal--sheet[open] { animation: ed-sheet-in .2s cubic-bezier(.2,.8,.3,1); }
+}
+@keyframes ed-sheet-in { from { transform: translateY(100%); } }
+
+/* On a handheld a centred dialog is the wrong shape — it comes from the
+   bottom, within thumb reach, with the actions nearest the thumb. */
+[data-mode="warehouse"] .ed-modal:not(.ed-modal--drawer) {
+  margin: auto auto 0;
+  max-width: 100vw;
+  width: 100vw;
+  max-height: 88vh;
+  border-radius: var(--ed-radius-panel) var(--ed-radius-panel) 0 0;
+  border-bottom: 0;
+}
+
+/* A sheet gets a grab handle, because it looks draggable and people will try. */
+.ed-modal--sheet .ed-modal__header::before,
+[data-mode="warehouse"] .ed-modal:not(.ed-modal--drawer) .ed-modal__header::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  translate: -50% 0;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ed-border-strong);
+}
+.ed-modal--sheet .ed-modal__header,
+[data-mode="warehouse"] .ed-modal:not(.ed-modal--drawer) .ed-modal__header {
+  padding-top: calc(var(--ed-pad-panel) + 8px);
+}
+
+/* ---- slots ----------------------------------------------------------- */
+.ed-modal__header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ed-gap-tight);
+  padding: var(--ed-pad-panel) var(--ed-pad-panel) var(--ed-pad-card-sm);
+  flex: none;
+}
+.ed-modal__heading { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ed-modal__title {
+  margin: 0;
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-xl);
+  font-weight: var(--ed-weight-semibold);
+  line-height: var(--ed-leading-tight);
+  letter-spacing: var(--ed-tracking-tight);
+  color: var(--ed-text);
+}
+.ed-modal__subtitle {
+  margin: 0;
+  font-size: var(--ed-text-md);
+  line-height: var(--ed-leading-snug);
+  color: var(--ed-text-muted);
+}
+
+.ed-modal__body {
+  padding: 0 var(--ed-pad-panel) var(--ed-pad-panel);
+  overflow-y: auto;
+  overscroll-behavior: contain;   /* stops the page behind scrolling at the ends */
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ed-gap-stack);
+}
+/* A ruled header is for a body that scrolls past it. */
+.ed-modal__header--ruled {
+  border-bottom: 1px solid var(--ed-border-subtle);
+  padding-bottom: var(--ed-pad-card-sm);
+}
+.ed-modal__header--ruled + .ed-modal__body { padding-top: var(--ed-pad-card-sm); }
+
+.ed-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ed-gap-inline);
+  padding: var(--ed-pad-card-sm) var(--ed-pad-panel);
+  border-top: 1px solid var(--ed-border-subtle);
+  background: var(--ed-surface-sunken);
+  flex: none;
+}
+.ed-modal__footer--spread { justify-content: space-between; }
+
+/* Stacked, full width, confirm nearest the thumb. */
+[data-mode="warehouse"] .ed-modal__footer {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  padding-bottom: calc(var(--ed-pad-panel) + env(safe-area-inset-bottom, 0px));
+}
+[data-mode="warehouse"] .ed-modal__footer > .ed-btn { width: 100%; }
+
+/* ---- destructive confirmation ---------------------------------------- */
+/* role="alertdialog" and a stripe. These do NOT dismiss on a backdrop click —
+   a misplaced click should never be able to confirm or cancel a deletion. */
+.ed-modal--alert { border-top: 3px solid var(--ed-danger-text); }

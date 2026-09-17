@@ -1,0 +1,80 @@
+{
+  "name": "@edgistify/design-system",
+  "version": "0.1.0",
+  "description": "Edgistify design system \u2014 one visual language for the seller dashboard, warehouse apps and support docs.",
+  "type": "module",
+  "exports": {
+    "./primitives.css": "./dist/primitives.css",
+    "./semantic.css": "./dist/semantic.css",
+    "./type.css": "./dist/type.css",
+    "./space.css": "./dist/space.css",
+    "./tokens/color": "./tokens/color.json",
+    "./tokens/type": "./tokens/type.json",
+    "./button.css": "./dist/button.css",
+    "./react/Button": {
+      "types": "./react/Button.d.ts",
+      "default": "./react/Button.jsx"
+    },
+    "./card.css": "./dist/card.css",
+    "./react/Card": {
+      "types": "./react/Card.d.ts",
+      "default": "./react/Card.jsx"
+    },
+    "./dark-auto.css": "./dist/dark-auto.css",
+    "./table.css": "./dist/table.css",
+    "./react/Table": {
+      "types": "./react/Table.d.ts",
+      "default": "./react/Table.jsx"
+    },
+    "./input.css": "./dist/input.css",
+    "./react/Input": {
+      "types": "./react/Input.d.ts",
+      "default": "./react/Input.jsx"
+    },
+    "./modal.css": "./dist/modal.css",
+    "./react/Modal": {
+      "types": "./react/Modal.d.ts",
+      "default": "./react/Modal.jsx"
+    },
+    "./menu.css": "./dist/menu.css",
+    "./react/Menu": {
+      "types": "./react/Menu.d.ts",
+      "default": "./react/Menu.jsx"
+    },
+    "./react/Popover": {
+      "types": "./react/Popover.d.ts",
+      "default": "./react/Popover.jsx"
+    }
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "build",
+    "react",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale",
+    "check:contrast": "node build/contrast-check.mjs",
+    "lint:grid": "node build/grid-lint.mjs",
+    "lint:scale": "node build/scale-lint.mjs",
+    "build": "node build/gen-dark-auto.mjs",
+    "docs:css": "node build/bundle-specimen-css.mjs docs/ds.css"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "license": "UNLICENSED",
+  "sideEffects": [
+    "*.css"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,297 @@
+/* Edgistify Design System — form controls
+   ------------------------------------------------------------------
+   154 inputs, 57 checkboxes, 44 selects, 22 radios — and three separate
+   `inputCls` constants defined independently in three files, all meaning
+   the same thing and none agreeing.
+
+   Two defects this corrects, both of which are accessibility rather than
+   styling:
+
+   1. 45 standalone <label> elements with 12 `htmlFor` between them. A label
+      that is not associated with its field does not focus it when clicked
+      and is not announced with it. <Field> generates and wires the id, so
+      getting it right costs nothing and getting it wrong is impossible.
+
+   2. `focus:outline-none` appears 51 times. Removing the focus ring without
+      reliably replacing it strands keyboard users. Here focus is replaced,
+      never removed.
+
+   Error styling is driven by aria-invalid, so the visual state and the
+   announced state cannot drift apart — the same rule as aria-sort on Table.
+   ------------------------------------------------------------------ */
+
+/* ---- field wrapper -------------------------------------------------- */
+.ed-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ed-field__label {
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-sm);
+  font-weight: var(--ed-weight-medium);
+  line-height: var(--ed-leading-snug);
+  color: var(--ed-text-secondary);
+}
+.ed-field__required {
+  color: var(--ed-danger-text);
+  margin-left: 2px;
+}
+.ed-field__hint {
+  font-size: var(--ed-text-xs);
+  line-height: var(--ed-leading-snug);
+  color: var(--ed-text-muted);
+}
+.ed-field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: var(--ed-text-xs);
+  line-height: var(--ed-leading-snug);
+  color: var(--ed-danger-text);
+  font-weight: var(--ed-weight-medium);
+}
+
+/* ---- text input, textarea, select ------------------------------------ */
+.ed-input, .ed-textarea, .ed-select {
+  width: 100%;
+  min-width: 0;
+  height: var(--ed-control-md);
+  padding-inline: var(--ed-pad-cell-x);
+  background: var(--ed-surface);
+  color: var(--ed-text);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-control);
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  line-height: var(--ed-leading-normal);
+  transition: border-color .12s ease, box-shadow .12s ease;
+  appearance: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-input, .ed-textarea, .ed-select { transition: none; }
+}
+
+.ed-input::placeholder, .ed-textarea::placeholder {
+  color: var(--ed-text-muted);
+}
+
+.ed-input:hover:not(:disabled):not([readonly]),
+.ed-textarea:hover:not(:disabled):not([readonly]),
+.ed-select:hover:not(:disabled) { border-color: var(--ed-border-strong); }
+
+/* Replaced, never removed. */
+.ed-input:focus-visible, .ed-textarea:focus-visible, .ed-select:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 1px;
+  border-color: var(--ed-focus);
+}
+
+/* Disabled fields keep a readable value. WCAG exempts inactive controls, but a
+   locked field whose value you cannot read is useless — half these are settings
+   pages showing a value someone needs to see and cannot change. The disabled cue
+   is the sunken fill, the softened border and the cursor, not faded text. */
+.ed-input:disabled, .ed-textarea:disabled, .ed-select:disabled {
+  background: var(--ed-surface-sunken);
+  color: var(--ed-text-muted);
+  border-color: var(--ed-border-subtle);
+  cursor: not-allowed;
+}
+.ed-input[readonly], .ed-textarea[readonly] {
+  background: var(--ed-surface-sunken);
+  border-color: var(--ed-border-subtle);
+}
+
+/* The one source of the error look. Set aria-invalid and the styling follows. */
+.ed-input[aria-invalid="true"],
+.ed-textarea[aria-invalid="true"],
+.ed-select[aria-invalid="true"] { border-color: var(--ed-danger-text); }
+.ed-input[aria-invalid="true"]:focus-visible,
+.ed-textarea[aria-invalid="true"]:focus-visible,
+.ed-select[aria-invalid="true"]:focus-visible {
+  outline-color: var(--ed-danger-text);
+  border-color: var(--ed-danger-text);
+}
+
+/* Quantities, prices and counts line up. 28 number inputs in the dashboard,
+   none of them tabular today. */
+.ed-input[type="number"], .ed-input--num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  text-align: right;
+}
+/* The spinner is a 12px hit target that changes a stock count by accident. */
+.ed-input[type="number"]::-webkit-outer-spin-button,
+.ed-input[type="number"]::-webkit-inner-spin-button { appearance: none; margin: 0; }
+.ed-input[type="number"] { -moz-appearance: textfield; }
+
+/* SKU, order number, batch — the identifier role reaches inputs too. */
+.ed-input--id {
+  font-family: var(--ed-font-id);
+  font-variant-numeric: slashed-zero tabular-nums;
+  font-feature-settings: 'zero' 1, 'tnum' 1;
+  letter-spacing: var(--ed-tracking-snug);
+  text-align: left;
+}
+
+.ed-textarea {
+  height: auto;
+  min-height: calc(var(--ed-control-md) * 2);
+  padding-block: 8px;
+  resize: vertical;
+  line-height: var(--ed-leading-normal);
+}
+
+/* Chevron is drawn here so every browser shows the same one. */
+.ed-select {
+  padding-right: calc(var(--ed-pad-cell-x) + 18px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%236c7170' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--ed-pad-cell-x) center;
+  background-size: 16px;
+  cursor: pointer;
+}
+[data-theme="dark"] .ed-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%239fa6a4' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+}
+
+/* ---- sizes ----------------------------------------------------------- */
+.ed-input--sm, .ed-select--sm { height: var(--ed-control-sm); font-size: var(--ed-text-md);
+                                padding-inline: var(--ed-space-2); }
+.ed-input--lg, .ed-select--lg { height: var(--ed-control-lg); }
+.ed-input--xl, .ed-select--xl { height: var(--ed-control-xl); font-size: var(--ed-text-lg); }
+
+/* ---- prefix / suffix -------------------------------------------------- */
+/* Currency and units belong beside the field, not inside the placeholder,
+   which vanishes the moment someone types. */
+.ed-input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+.ed-input-group > .ed-input { border-radius: 0; }
+.ed-input-group > :first-child { border-start-start-radius: var(--ed-radius-control);
+                                 border-end-start-radius: var(--ed-radius-control); }
+.ed-input-group > :last-child  { border-start-end-radius: var(--ed-radius-control);
+                                 border-end-end-radius: var(--ed-radius-control); }
+.ed-input-group > .ed-input:not(:first-child) { margin-left: -1px; }
+.ed-input-group > .ed-input:focus-visible { z-index: 1; }
+.ed-input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding-inline: var(--ed-pad-cell-x);
+  background: var(--ed-surface-sunken);
+  border: 1px solid var(--ed-border);
+  color: var(--ed-text-muted);
+  font-size: var(--ed-text-md);
+  white-space: nowrap;
+}
+.ed-input-group__addon + .ed-input { margin-left: -1px; }
+
+/* Leading icon sits inside the field. */
+.ed-input-icon { position: relative; display: flex; align-items: center; width: 100%; }
+.ed-input-icon > svg {
+  position: absolute;
+  left: var(--ed-pad-cell-x);
+  width: var(--ed-icon-sm);
+  height: var(--ed-icon-sm);
+  color: var(--ed-text-muted);
+  pointer-events: none;
+}
+.ed-input-icon > .ed-input { padding-left: calc(var(--ed-pad-cell-x) * 2 + var(--ed-icon-sm)); }
+
+/* ---- checkbox and radio ----------------------------------------------- */
+/* Drawn rather than relying on accent-color, because the table's select-all
+   needs a real indeterminate state and it has to be the right size at 44px
+   in warehouse mode. */
+.ed-checkbox, .ed-radio {
+  appearance: none;
+  flex: none;
+  width: var(--ed-icon-md);
+  height: var(--ed-icon-md);
+  margin: 0;
+  background: var(--ed-surface);
+  border: 1.5px solid var(--ed-border-strong);
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: background-color .12s ease, border-color .12s ease;
+}
+.ed-checkbox { border-radius: var(--ed-radius-sharp); }
+.ed-radio    { border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) { .ed-checkbox, .ed-radio { transition: none; } }
+
+.ed-checkbox::before, .ed-radio::before {
+  content: '';
+  transform: scale(0);
+  transition: transform .1s ease-out;
+}
+.ed-checkbox::before {
+  width: var(--ed-icon-md);
+  height: var(--ed-icon-md);
+  background: var(--ed-on-action);
+  clip-path: polygon(19% 47%, 12% 55%, 39% 82%, 88% 30%, 80% 22%, 39% 66%);
+}
+.ed-radio::before {
+  width: 42%; height: 42%; border-radius: 50%;
+  background: var(--ed-on-action);
+}
+
+.ed-checkbox:hover:not(:disabled), .ed-radio:hover:not(:disabled) { border-color: var(--ed-action); }
+
+.ed-checkbox:checked, .ed-radio:checked,
+.ed-checkbox:indeterminate {
+  background: var(--ed-action);
+  border-color: var(--ed-action);
+}
+.ed-checkbox:checked::before, .ed-radio:checked::before { transform: scale(1); }
+
+/* Indeterminate: a dash, not a tick. "Some of these" is not "all of these". */
+.ed-checkbox:indeterminate::before {
+  transform: scale(1);
+  clip-path: none;
+  width: 56%;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.ed-checkbox:focus-visible, .ed-radio:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 2px;
+}
+.ed-checkbox:disabled, .ed-radio:disabled {
+  background: var(--ed-surface-sunken);
+  border-color: var(--ed-border);
+  cursor: not-allowed;
+}
+.ed-checkbox:disabled:checked, .ed-checkbox:disabled:indeterminate, .ed-radio:disabled:checked {
+  background: var(--ed-border-strong);
+  border-color: var(--ed-border-strong);
+}
+
+/* The label wraps the control, so the whole row is the hit target and the
+   association needs no id at all. */
+.ed-check {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--ed-gap-inline);
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  line-height: var(--ed-leading-normal);
+  color: var(--ed-text);
+  cursor: pointer;
+  min-height: var(--ed-target-min);
+  padding-block: 2px;
+}
+.ed-check:has(:disabled) { color: var(--ed-text-disabled); cursor: not-allowed; }
+.ed-check__text { min-width: 0; }
+.ed-check__hint {
+  display: block;
+  font-size: var(--ed-text-xs);
+  color: var(--ed-text-muted);
+  margin-top: 2px;
+}

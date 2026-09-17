@@ -1,0 +1,34 @@
+# The design system's rules are only real if something enforces them.
+# These three checks encode what would otherwise live in someone's head:
+# which ramp step is safe behind body text, whether a padding is on the grid,
+# whether a font size is on the scale. They exit non-zero, so a PR that
+# breaks one cannot merge green.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Contrast, grid and scale
+        run: npm test
+
+      # dist/dark-auto.css is generated from semantic.css. If someone edits
+      # the source and forgets to regenerate, the two drift silently — so
+      # regenerate here and fail if the result differs from what was committed.
+      - name: Generated CSS is up to date
+        run: |
+          npm run build
+          if ! git diff --quiet -- dist/; then
+            echo "::error::dist/ is stale — run 'npm run build' and commit the result."
+            git diff --stat -- dist/
+            exit 1
+          fi

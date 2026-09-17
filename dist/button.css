@@ -1,0 +1,210 @@
+/* Edgistify Design System — button
+   ------------------------------------------------------------------
+   Consumes all three foundations: --ed-action (colour), --ed-text-base
+   (type), --ed-control-md + --ed-radius-control (space). Warehouse mode
+   is therefore free — the button grows to a 56px target on its own.
+
+   Replaces 368 hand-styled <button> elements in the dashboard, none of
+   which agreed on padding, weight, hover or disabled treatment.
+   ------------------------------------------------------------------ */
+
+.ed-btn {
+  /* box */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ed-gap-inline);
+  height: var(--ed-control-md);
+  padding-inline: var(--ed-pad-control-x);
+  min-width: calc(var(--ed-control-md) * 2);   /* "OK" should not look cramped */
+  border: 1px solid transparent;
+  border-radius: var(--ed-radius-control);
+
+  /* type */
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  font-weight: var(--ed-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  transition: background-color .12s ease, border-color .12s ease, color .12s ease;
+}
+@media (prefers-reduced-motion: reduce) { .ed-btn { transition: none; } }
+
+/* Icons inside a button track the button's size, and never eat the click. */
+.ed-btn > svg {
+  width: var(--ed-icon-sm);
+  height: var(--ed-icon-sm);
+  flex: none;
+  pointer-events: none;
+}
+
+/* Focus is never removed, only replaced. 4.71:1 against both card and canvas. */
+.ed-btn:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 2px;
+}
+
+/* ---- variants ---------------------------------------------------- */
+/* Hover darkens; it does not fade. The dashboard's hover:opacity-90 washes
+   the label out with the fill and looks muddy over a tinted row. */
+
+.ed-btn--primary {
+  background: var(--ed-action);
+  color: var(--ed-on-action);
+}
+.ed-btn--primary:hover  { background: var(--ed-action-hover); }
+.ed-btn--primary:active { background: var(--ed-action-active); }
+
+/* Full-strength #00a699 with dark ink — 6.10:1.
+   ONE per screen, at most. See RULE 04. */
+.ed-btn--brand {
+  background: var(--ed-brand);
+  color: var(--ed-on-brand);
+}
+.ed-btn--brand:hover  { background: var(--ed-teal-400); }
+.ed-btn--brand:active { background: var(--ed-teal-600); color: var(--ed-white); }
+
+.ed-btn--secondary {
+  background: var(--ed-surface);
+  color: var(--ed-text-secondary);
+  border-color: var(--ed-border);
+}
+.ed-btn--secondary:hover  { background: var(--ed-surface-hover); border-color: var(--ed-border-strong); }
+.ed-btn--secondary:active { background: var(--ed-surface-active); }
+
+.ed-btn--ghost {
+  background: transparent;
+  color: var(--ed-action);
+}
+.ed-btn--ghost:hover  { background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle); }
+.ed-btn--ghost:active { background: var(--ed-brand-muted);  color: var(--ed-action-active); }
+
+.ed-btn--danger {
+  background: var(--ed-danger-solid);
+  color: var(--ed-on-danger);
+}
+.ed-btn--danger:hover  { background: var(--ed-red-700); }
+.ed-btn--danger:active { background: var(--ed-red-800); }
+
+/* Destructive actions that sit in a row of ordinary ones. A red block beside
+   every row trains people to ignore red. */
+.ed-btn--danger-quiet {
+  background: transparent;
+  color: var(--ed-danger-text);
+}
+.ed-btn--danger-quiet:hover  { background: var(--ed-danger-subtle); }
+.ed-btn--danger-quiet:active { background: var(--ed-danger-muted); }
+
+.ed-btn--link {
+  background: transparent;
+  color: var(--ed-text-link);
+  height: auto;
+  min-width: 0;
+  padding: 0;
+  border-radius: var(--ed-radius-sharp);
+  text-underline-offset: 3px;
+}
+.ed-btn--link:hover { text-decoration: underline; }
+
+/* ---- sizes -------------------------------------------------------- */
+.ed-btn--xs { height: var(--ed-control-xs); font-size: var(--ed-text-sm);
+              padding-inline: var(--ed-space-2);  min-width: 0; gap: var(--ed-space-1); }
+.ed-btn--sm { height: var(--ed-control-sm); font-size: var(--ed-text-md);
+              padding-inline: var(--ed-space-3);  min-width: 0; }
+.ed-btn--lg { height: var(--ed-control-lg); font-size: var(--ed-text-lg);
+              padding-inline: var(--ed-space-5); }
+.ed-btn--xl { height: var(--ed-control-xl); font-size: var(--ed-text-lg);
+              padding-inline: var(--ed-space-6); }
+.ed-btn--xs > svg { width: var(--ed-icon-xs); height: var(--ed-icon-xs); }
+.ed-btn--lg > svg,
+.ed-btn--xl > svg { width: var(--ed-icon-md); height: var(--ed-icon-md); }
+
+/* Icon-only: square, and REQUIRES an aria-label — an icon is not a name. */
+.ed-btn--icon {
+  width: var(--ed-control-md);
+  padding-inline: 0;
+  min-width: 0;
+  aspect-ratio: 1;
+}
+.ed-btn--icon.ed-btn--xs { width: var(--ed-control-xs); }
+.ed-btn--icon.ed-btn--sm { width: var(--ed-control-sm); }
+.ed-btn--icon.ed-btn--lg { width: var(--ed-control-lg); }
+.ed-btn--icon.ed-btn--xl { width: var(--ed-control-xl); }
+
+/* Grows the hit area outward without changing a visible pixel, so a 24px
+   icon button in a dense row still answers to the minimum target. */
+.ed-btn--icon::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  width: max(100%, var(--ed-target-min));
+  height: max(100%, var(--ed-target-min));
+}
+
+/* On a handheld the primary action spans the screen. */
+.ed-btn--block { width: 100%; }
+
+/* ---- states ------------------------------------------------------- */
+/* Disabled reads as inert, not as a faded version of itself. Opacity on a
+   filled button washes the label into the fill. */
+.ed-btn:disabled,
+.ed-btn[aria-disabled="true"] {
+  background: var(--ed-neutral-100);
+  color: var(--ed-neutral-600);
+  border-color: transparent;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.ed-btn--link:disabled,
+.ed-btn--ghost:disabled,
+.ed-btn--danger-quiet:disabled {
+  background: transparent;
+  color: var(--ed-text-disabled);
+}
+
+/* Loading. The label stays in the box so the button does not resize and
+   shift everything beside it; only its visibility changes. */
+.ed-btn[data-loading="true"] {
+  pointer-events: none;
+  cursor: progress;
+}
+.ed-btn[data-loading="true"] > * { visibility: hidden; }
+.ed-btn[data-loading="true"]::before {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ed-spin .6s linear infinite;
+}
+@keyframes ed-spin { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .ed-btn[data-loading="true"]::before { animation-duration: 2.4s; }
+}
+
+/* ---- groups ------------------------------------------------------- */
+.ed-btn-group {
+  display: flex;
+  gap: var(--ed-gap-inline);
+  flex-wrap: wrap;
+  align-items: center;
+}
+/* On a handheld, stack and fill: two 56px targets side by side on a 360px
+   screen leaves each one too narrow to hit reliably. */
+[data-mode="warehouse"] .ed-btn-group--stack {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+[data-mode="warehouse"] .ed-btn-group--stack > .ed-btn { width: 100%; }

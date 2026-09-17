@@ -1,0 +1,215 @@
+/* Edgistify Design System — table
+   ------------------------------------------------------------------
+   The dashboard has 45 tables and eleven different <thead> treatments.
+   Two of the 45 have a sticky header. Row hover appears exactly once.
+
+   Those are not styling inconsistencies, they are usability defects: a
+   200-row order list whose header scrolls away makes every column a
+   guess, and a row that does not answer the pointer reads as static text.
+   So the component makes the right thing the default and the exception
+   opt-in — sticky head is on unless you turn it off.
+   ------------------------------------------------------------------ */
+
+/* The scroll container. A table must never widen the page; it scrolls in its
+   own box. Sticky head only works if this element is the scroll parent. */
+.ed-table-wrap {
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  border-radius: inherit;
+  position: relative;
+}
+
+.ed-table {
+  width: 100%;
+  border-collapse: separate;      /* separate, so sticky cells keep their border */
+  border-spacing: 0;
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-sm);
+  line-height: var(--ed-leading-snug);
+  color: var(--ed-text-secondary);
+}
+
+/* ---- head --------------------------------------------------------- */
+.ed-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: var(--ed-z-sticky);
+  background: var(--ed-surface-sunken);
+  color: var(--ed-text-muted);
+  font-size: var(--ed-text-2xs);
+  font-weight: var(--ed-weight-medium);
+  letter-spacing: var(--ed-tracking-wide);
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  padding: var(--ed-pad-cell-y) var(--ed-pad-cell-x);
+  border-bottom: 1px solid var(--ed-border);
+}
+.ed-table--static thead th { position: static; }
+
+/* ---- body --------------------------------------------------------- */
+.ed-table tbody td {
+  padding: var(--ed-pad-cell-y) var(--ed-pad-cell-x);
+  border-bottom: 1px solid var(--ed-border-subtle);
+  vertical-align: middle;
+}
+.ed-table tbody tr:last-child td { border-bottom: 0; }
+
+.ed-table tbody tr { transition: background-color .1s ease; }
+.ed-table tbody tr:hover { background: var(--ed-surface-hover); }
+@media (prefers-reduced-motion: reduce) { .ed-table tbody tr { transition: none; } }
+
+/* Rows that do something when clicked must look like it. */
+.ed-table--clickable tbody tr { cursor: pointer; }
+.ed-table--clickable tbody tr:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: -2px;
+}
+
+/* ---- density ------------------------------------------------------- */
+/* The dashboard uses five vertical paddings. There are three real cases. */
+.ed-table--compact     { --ed-pad-cell-y: 6px;  --ed-pad-cell-x: 10px; }
+.ed-table--comfortable { --ed-pad-cell-y: 14px; }
+.ed-table--comfortable tbody td { vertical-align: top; }
+
+/* ---- foot ---------------------------------------------------------- */
+.ed-table tfoot td {
+  padding: var(--ed-pad-cell-y) var(--ed-pad-cell-x);
+  border-top: 1px solid var(--ed-border);
+  background: var(--ed-surface-sunken);
+  font-weight: var(--ed-weight-semibold);
+  color: var(--ed-text);
+  position: sticky;
+  bottom: 0;
+}
+
+/* ---- cell roles ---------------------------------------------------- */
+
+/* Numbers. Right-aligned and tabular, always — a column of quantities you
+   cannot compare by eye is a column you have to read twice. */
+.ed-th--num, .ed-td--num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.ed-td--num { font-weight: var(--ed-weight-medium); color: var(--ed-text); }
+
+/* SKU, order id, bin, pincode. Same role as .ed-id — mono, slashed zero. */
+.ed-td--id {
+  font-family: var(--ed-font-id);
+  font-variant-numeric: slashed-zero tabular-nums;
+  font-feature-settings: 'zero' 1, 'tnum' 1;
+  letter-spacing: var(--ed-tracking-snug);
+  font-weight: var(--ed-weight-medium);
+  color: var(--ed-text-id);
+  white-space: nowrap;
+}
+
+/* The one column that carries the row's meaning. */
+.ed-td--strong { color: var(--ed-text); font-weight: var(--ed-weight-medium); }
+.ed-td--muted  { color: var(--ed-text-muted); }
+.ed-td--top    { vertical-align: top; }
+.ed-td--nowrap { white-space: nowrap; }
+
+/* Actions column: shrink to content, stay right, stop the row click. */
+.ed-th--actions, .ed-td--actions {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* ---- selection ------------------------------------------------------ */
+.ed-th--select, .ed-td--select {
+  width: 1%;
+  padding-right: 0;
+  white-space: nowrap;
+}
+.ed-tr--selected { background: var(--ed-brand-subtle); }
+.ed-tr--selected:hover { background: var(--ed-brand-muted); }
+
+/* ---- sortable headers ------------------------------------------------ */
+/* Zero of the dashboard's 45 tables can be sorted. Make it cheap. */
+.ed-th--sortable { padding: 0; }
+.ed-th--sortable > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: var(--ed-pad-cell-y) var(--ed-pad-cell-x);
+  background: none;
+  border: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+.ed-th--sortable.ed-th--num > button { justify-content: flex-end; }
+.ed-th--sortable > button:hover { color: var(--ed-text-secondary); }
+.ed-th--sortable > button:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: -2px;
+}
+/* The arrow is drawn from the aria-sort state, so the accessible name and the
+   visible indicator can never disagree. */
+.ed-th--sortable > button::after {
+  content: '↕';
+  opacity: .35;
+  font-size: .95em;
+}
+.ed-table th[aria-sort="ascending"]  > button::after { content: '↑'; opacity: 1; }
+.ed-table th[aria-sort="descending"] > button::after { content: '↓'; opacity: 1; }
+.ed-table th[aria-sort]:not([aria-sort="none"]) { color: var(--ed-text); }
+
+/* ---- pinned first column --------------------------------------------- */
+/* For the wide tables that scroll sideways — the identifier must stay visible
+   or the row loses its name halfway across. */
+.ed-table--pin-first tbody td:first-child,
+.ed-table--pin-first thead th:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--ed-surface);
+  z-index: 1;
+}
+.ed-table--pin-first thead th:first-child {
+  background: var(--ed-surface-sunken);
+  z-index: calc(var(--ed-z-sticky) + 1);
+}
+.ed-table--pin-first tbody tr:hover td:first-child { background: var(--ed-surface-hover); }
+.ed-table--pin-first tbody td:first-child::after {
+  content: '';
+  position: absolute;
+  inset: 0 -1px 0 auto;
+  width: 1px;
+  background: var(--ed-border);
+}
+
+/* ---- row severity ----------------------------------------------------- */
+/* A stripe, not a tinted row — a wash of colour behind data fights the data. */
+.ed-tr--danger  td:first-child { box-shadow: inset 3px 0 0 var(--ed-danger-text); }
+.ed-tr--warning td:first-child { box-shadow: inset 3px 0 0 var(--ed-warning-text); }
+.ed-tr--success td:first-child { box-shadow: inset 3px 0 0 var(--ed-success-text); }
+
+/* ---- zebra ------------------------------------------------------------ */
+/* Off by default. Row striping and a hairline divider do the same job, and
+   doing both makes a dense table look like corduroy. Use one. */
+.ed-table--zebra tbody tr:nth-child(even) { background: var(--ed-surface-sunken); }
+.ed-table--zebra tbody td { border-bottom: 0; }
+.ed-table--zebra tbody tr:nth-child(even):hover { background: var(--ed-surface-active); }
+
+/* ---- empty and loading -------------------------------------------------- */
+.ed-table__empty {
+  padding: var(--ed-space-10) var(--ed-pad-cell-x);
+  text-align: center;
+  color: var(--ed-text-muted);
+  font-size: var(--ed-text-md);
+}
+.ed-table__empty-title {
+  display: block;
+  color: var(--ed-text);
+  font-weight: var(--ed-weight-semibold);
+  font-size: var(--ed-text-base);
+  margin-bottom: 4px;
+}

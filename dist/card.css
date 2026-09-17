@@ -1,0 +1,204 @@
+/* Edgistify Design System — card
+   ------------------------------------------------------------------
+   Composable by slot, not driven by props.
+
+   The dashboard already has a <Card title subtitle action> component. It is
+   used 48 times — and bypassed by 101 inline card divs, because a monolithic
+   prop API cannot express a full-bleed table, a clickable tile, a modal shell
+   or a card inside a card. So people write divs, and the radius drifts:
+   rounded-lg, rounded-xl, rounded-2xl and rounded-md all appear as "card".
+
+   Slots fix that. Compose what you need; nothing is required except .ed-card.
+
+   NOT EVERYTHING IS A CARD. Border, fill, radius and shadow each announce
+   "separate object". Spend them on the one thing that needs lifting. A table
+   inside a card does not also make its rows cards.
+   ------------------------------------------------------------------ */
+
+.ed-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--ed-surface);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-card);
+  box-shadow: var(--ed-elevation-1);
+  color: var(--ed-text);
+  min-width: 0;                       /* so it can shrink inside a grid */
+  position: relative;
+}
+
+/* ---- slots -------------------------------------------------------- */
+
+.ed-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ed-gap-tight);
+  padding: var(--ed-pad-card) var(--ed-pad-card) 0;
+  flex-wrap: wrap;
+}
+/* A rule under the header only when the body is full-bleed — otherwise the
+   padding already separates them and the line is noise. */
+.ed-card__header--ruled {
+  padding-bottom: var(--ed-pad-card-sm);
+  border-bottom: 1px solid var(--ed-border-subtle);
+}
+
+.ed-card__heading { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.ed-card__title {
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  font-weight: var(--ed-weight-semibold);
+  line-height: var(--ed-leading-tight);
+  color: var(--ed-text);
+  margin: 0;
+}
+.ed-card__subtitle {
+  font-size: var(--ed-text-xs);
+  line-height: var(--ed-leading-snug);
+  color: var(--ed-text-muted);
+  margin: 0;
+}
+.ed-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ed-gap-inline);
+  flex: none;
+}
+
+.ed-card__body {
+  padding: var(--ed-pad-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ed-gap-stack);
+  flex: 1;
+  min-width: 0;
+}
+/* A header above a body would otherwise stack two paddings. */
+.ed-card__header + .ed-card__body { padding-top: var(--ed-pad-card-sm); }
+
+/* Escapes the body padding so a table, chart or image can reach the card's
+   edges. Replaces the 15 `overflow-hidden` card divs in the dashboard. */
+.ed-card__bleed {
+  margin-inline: calc(var(--ed-pad-card) * -1);
+  margin-block: 0;
+}
+.ed-card__bleed:last-child {
+  margin-bottom: calc(var(--ed-pad-card) * -1);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  overflow: hidden;
+}
+/* A bleed as the only child: drop the body padding entirely. */
+.ed-card__body--bleed { padding: 0; gap: 0; }
+
+.ed-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ed-gap-inline);
+  padding: var(--ed-pad-card-sm) var(--ed-pad-card);
+  border-top: 1px solid var(--ed-border-subtle);
+  background: var(--ed-surface-sunken);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.ed-card__footer--start { justify-content: space-between; }
+
+.ed-card__divider {
+  height: 1px;
+  background: var(--ed-border-subtle);
+  margin-inline: calc(var(--ed-pad-card) * -1);
+  border: 0;
+}
+
+/* ---- variants ------------------------------------------------------ */
+
+/* Cards inside cards, and cards inside an already-raised surface. Nesting two
+   shadows reads as smudge rather than depth. */
+.ed-card--flat {
+  box-shadow: none;
+}
+.ed-card--raised { box-shadow: var(--ed-elevation-2); }
+
+/* Dense: dashboard grids where the figures matter more than the air. */
+.ed-card--dense {
+  --ed-pad-card: var(--ed-pad-card-sm);
+  border-radius: var(--ed-radius-card);
+}
+
+/* Clickable. Use .ed-card__link inside for the accessible name — see RULE 06. */
+.ed-card--interactive {
+  transition: border-color .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.ed-card--interactive:hover {
+  border-color: var(--ed-action);
+  box-shadow: var(--ed-elevation-2);
+}
+.ed-card--interactive:active { background: var(--ed-surface-hover); }
+.ed-card--interactive:has(.ed-card__link:focus-visible) {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) { .ed-card--interactive { transition: none; } }
+
+/* Stretches one real link across the whole card, so the card is clickable but
+   the link still carries the accessible name and the text stays selectable. */
+.ed-card__link { text-decoration: none; color: inherit; }
+.ed-card__link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.ed-card__link:focus-visible { outline: none; }
+
+/* Status. A stripe, not a tinted card — a wash of colour over a data card
+   fights the data. The stripe reads at a glance down a column of cards. */
+.ed-card--accent-danger,
+.ed-card--accent-warning,
+.ed-card--accent-success,
+.ed-card--accent-info { border-left-width: 3px; }
+.ed-card--accent-danger  { border-left-color: var(--ed-danger-text); }
+.ed-card--accent-warning { border-left-color: var(--ed-warning-text); }
+.ed-card--accent-success { border-left-color: var(--ed-success-text); }
+.ed-card--accent-info    { border-left-color: var(--ed-info-solid); }
+
+/* ---- stat tile ------------------------------------------------------ */
+/* Lead with these only when the figures are the point of the view. A row of
+   big numbers above content that does not need them is decoration. */
+.ed-card__metric {
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-4xl);
+  font-weight: var(--ed-weight-bold);
+  line-height: var(--ed-leading-tight);
+  letter-spacing: var(--ed-tracking-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--ed-text);
+}
+.ed-card__label {
+  font-size: var(--ed-text-2xs);
+  font-weight: var(--ed-weight-medium);
+  letter-spacing: var(--ed-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ed-text-muted);
+}
+.ed-card__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--ed-text-xs);
+  font-weight: var(--ed-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+/* Direction is not sentiment. Returns rising is bad; fill rate rising is good.
+   The caller says which, because only the caller knows. */
+.ed-card__delta--good { color: var(--ed-success-text); }
+.ed-card__delta--bad  { color: var(--ed-danger-text); }
+.ed-card__delta--flat { color: var(--ed-text-muted); }
+
+/* ---- layout --------------------------------------------------------- */
+.ed-card-grid {
+  display: grid;
+  gap: var(--ed-gap-group);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+/* Cards in a row share a top edge and a baseline; let content set the height
+   rather than stretching one card over dead space. */
+.ed-card-grid--equal { align-items: stretch; }

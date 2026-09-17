@@ -1,0 +1,155 @@
+/* Edgistify Design System — type
+   ------------------------------------------------------------------
+   Two families, one job each.
+
+   UI   Inter           Built for interfaces at small sizes. Tall x-height and
+                        open apertures keep 11px table cells legible, and its
+                        OpenType features give us tabular figures and a marked
+                        zero without a second font.
+   ID   JetBrains Mono  Every SKU, order number, bin location, pincode and
+                        barcode. Chosen for glyph disambiguation, not flavour:
+                        someone reading SKU-4417-BLK-M off a screen and matching
+                        it to a printed label must never confuse 0/O or 1/l/I.
+
+   There is no third family. The old theme declared Inter, Plus Jakarta Sans and
+   Instrument Sans; none of them ever loaded. Two families that load beat three
+   that don't.
+
+   LOADING — self-host, do not use the Google Fonts CDN.
+   Warehouse wifi is unreliable and a missing font swap costs a shift.
+     npm i @fontsource-variable/inter @fontsource-variable/jetbrains-mono
+     import '@fontsource-variable/inter';
+     import '@fontsource-variable/jetbrains-mono';
+   ------------------------------------------------------------------ */
+
+:root {
+  /* ---- families ------------------------------------------------ */
+  --ed-font-ui: 'Inter Variable', 'InterVariable', Inter, system-ui, -apple-system,
+                'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --ed-font-id: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace,
+                'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---- size scale ---------------------------------------------- */
+  /* Fine-grained from 10-16px because that is where these products live:
+     1,076 of the dashboard's type sizes sit in that band. Coarser above it,
+     where one more step buys nothing. */
+  --ed-text-2xs:  10px;   /* dense table meta, row counters            */
+  --ed-text-xs:   11px;   /* secondary cell text, chip labels          */
+  --ed-text-sm:   12px;   /* table cell default, form labels - workhorse */
+  --ed-text-md:   13px;   /* body inside dense panels                  */
+  --ed-text-base: 14px;   /* default body, button labels               */
+  --ed-text-lg:   16px;   /* intro text, mobile body                   */
+  --ed-text-xl:   18px;   /* card titles                               */
+  --ed-text-2xl:  20px;   /* section headings                          */
+  --ed-text-3xl:  24px;   /* page titles                               */
+  --ed-text-4xl:  30px;   /* KPI figures                               */
+  --ed-text-5xl:  40px;   /* hero metric, scan counters                */
+
+  /* ---- line height --------------------------------------------- */
+  --ed-leading-none:    1;
+  --ed-leading-tight:   1.2;    /* headings, KPI figures              */
+  --ed-leading-snug:    1.35;   /* table rows, dense lists            */
+  --ed-leading-normal:  1.45;   /* default UI                         */
+  --ed-leading-relaxed: 1.65;   /* documentation prose                */
+
+  /* ---- weight -------------------------------------------------- */
+  /* The apps already vote: semibold 603x, medium 230x, bold 42x.
+     Four weights is the whole set. Extrabold is not in the system. */
+  --ed-weight-regular:  400;
+  --ed-weight-medium:   500;
+  --ed-weight-semibold: 600;
+  --ed-weight-bold:     700;
+
+  /* ---- tracking ------------------------------------------------ */
+  --ed-tracking-tight:  -0.022em;  /* 24px and up                    */
+  --ed-tracking-snug:   -0.01em;   /* identifiers                    */
+  --ed-tracking-normal: 0;
+  --ed-tracking-wide:   0.09em;    /* uppercase eyebrows only        */
+}
+
+/* ==================================================================
+   WAREHOUSE — the scale's floor comes up.
+   A picker reads at arm's length, in motion, sometimes through a
+   scratched screen protector. 10px is not a size you can use there.
+   Composes with [data-theme="dark"] for night shifts.
+   ================================================================== */
+[data-mode="warehouse"] {
+  --ed-text-2xs:  12px;   /* +2 */
+  --ed-text-xs:   13px;   /* +2 */
+  --ed-text-sm:   14px;   /* +2 - nothing operational below this */
+  --ed-text-md:   15px;   /* +2 */
+  --ed-text-base: 16px;   /* +2 */
+  --ed-text-lg:   18px;   /* +2 */
+  --ed-text-xl:   20px;
+  --ed-text-2xl:  22px;
+  --ed-text-3xl:  26px;
+  --ed-text-4xl:  34px;
+  --ed-text-5xl:  46px;
+
+  /* thin strokes disappear under glare */
+  --ed-weight-regular: 500;
+  --ed-weight-medium:  600;
+}
+
+/* ==================================================================
+   COMPOSITE STYLES
+   Reach for these, not the raw tokens. A developer should never have
+   to decide size + weight + leading + tracking again.
+   ================================================================== */
+
+.ed-display {
+  font: var(--ed-weight-bold) var(--ed-text-5xl)/var(--ed-leading-tight) var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-tight);
+  font-variant-numeric: tabular-nums;
+}
+.ed-h1 { font: var(--ed-weight-semibold) var(--ed-text-3xl)/var(--ed-leading-tight) var(--ed-font-ui);
+         letter-spacing: var(--ed-tracking-tight); }
+.ed-h2 { font: var(--ed-weight-semibold) var(--ed-text-2xl)/var(--ed-leading-tight) var(--ed-font-ui);
+         letter-spacing: var(--ed-tracking-tight); }
+.ed-h3 { font: var(--ed-weight-semibold) var(--ed-text-xl)/var(--ed-leading-tight) var(--ed-font-ui); }
+.ed-h4 { font: var(--ed-weight-semibold) var(--ed-text-base)/var(--ed-leading-normal) var(--ed-font-ui); }
+
+.ed-body      { font: var(--ed-weight-regular) var(--ed-text-base)/var(--ed-leading-normal) var(--ed-font-ui); }
+.ed-body-sm   { font: var(--ed-weight-regular) var(--ed-text-md)/var(--ed-leading-normal) var(--ed-font-ui); }
+.ed-prose     { font: var(--ed-weight-regular) var(--ed-text-lg)/var(--ed-leading-relaxed) var(--ed-font-ui);
+                max-width: 68ch; }
+
+.ed-label     { font: var(--ed-weight-medium) var(--ed-text-sm)/var(--ed-leading-normal) var(--ed-font-ui); }
+.ed-caption   { font: var(--ed-weight-regular) var(--ed-text-xs)/var(--ed-leading-snug) var(--ed-font-ui); }
+.ed-eyebrow   { font: var(--ed-weight-medium) var(--ed-text-2xs)/var(--ed-leading-none) var(--ed-font-ui);
+                letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; }
+.ed-button    { font: var(--ed-weight-medium) var(--ed-text-base)/var(--ed-leading-none) var(--ed-font-ui); }
+
+/* ---- table cells: numbers must line up -------------------------- */
+.ed-cell      { font: var(--ed-weight-regular) var(--ed-text-sm)/var(--ed-leading-snug) var(--ed-font-ui); }
+.ed-cell-head { font: var(--ed-weight-medium) var(--ed-text-xs)/var(--ed-leading-snug) var(--ed-font-ui); }
+.ed-num       { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+.ed-metric    { font: var(--ed-weight-bold) var(--ed-text-4xl)/var(--ed-leading-tight) var(--ed-font-ui);
+                letter-spacing: var(--ed-tracking-tight); font-variant-numeric: tabular-nums; }
+
+/* ---- identifiers ------------------------------------------------ */
+/* slashed-zero is the point: 0 and O must never be mistaken for each
+   other by someone matching a screen to a printed label. */
+.ed-id, .ed-id-lg, .ed-id-strong {
+  font-family: var(--ed-font-id);
+  font-variant-numeric: slashed-zero tabular-nums;
+  font-feature-settings: 'zero' 1, 'tnum' 1;
+  letter-spacing: var(--ed-tracking-snug);
+}
+.ed-id        { font-size: var(--ed-text-sm);  font-weight: var(--ed-weight-medium);
+                line-height: var(--ed-leading-snug); }
+.ed-id-lg     { font-size: var(--ed-text-lg);  font-weight: var(--ed-weight-medium);
+                line-height: var(--ed-leading-snug); }
+.ed-id-strong { font-size: var(--ed-text-base); font-weight: var(--ed-weight-bold);
+                line-height: var(--ed-leading-snug); }
+
+/* ---- base ------------------------------------------------------- */
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font: var(--ed-weight-regular) var(--ed-text-base)/var(--ed-leading-normal) var(--ed-font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Inter's default single-storey 'a' and geometric shapes are fine, but its
+   quotes and asterisk are not; cv05/cv11 fix the l and the 1 at small sizes. */
+body { font-feature-settings: 'cv05' 1, 'cv11' 1; }

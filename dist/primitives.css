@@ -1,0 +1,92 @@
+/* Edgistify Design System — colour primitives (generated, do not edit by hand) */
+/* Perceptually even OKLCH ramps. Invariants: step 600 >= 4.5:1 on white, step 500 >= 3.0:1 */
+
+:root {
+  /* teal */
+  --ed-teal-25: #f9fbfa;
+  --ed-teal-50: #ebf5f3;
+  --ed-teal-100: #c5f0e9;
+  --ed-teal-200: #87e4d8;
+  --ed-teal-300: #5ad1c3;
+  --ed-teal-400: #2ebbae;
+  --ed-teal-500: #00a699;
+  --ed-teal-600: #008277;
+  --ed-teal-700: #076961;
+  --ed-teal-800: #0f534c;
+  --ed-teal-900: #103e39;
+  --ed-teal-950: #0d2c29;
+
+  /* neutral */
+  --ed-neutral-25: #fafafa;
+  --ed-neutral-50: #f2f2f2;
+  --ed-neutral-100: #e3e6e5;
+  --ed-neutral-200: #ccd2d1;
+  --ed-neutral-300: #b5bbba;
+  --ed-neutral-400: #9fa6a4;
+  --ed-neutral-500: #8b9190;
+  --ed-neutral-600: #6c7170;
+  --ed-neutral-700: #575c5b;
+  --ed-neutral-800: #454848;
+  --ed-neutral-900: #333636;
+  --ed-neutral-950: #252727;
+
+  /* green */
+  --ed-green-25: #f9faf9;
+  --ed-green-50: #edf5ed;
+  --ed-green-100: #d0efd1;
+  --ed-green-200: #8cea93;
+  --ed-green-300: #61d76f;
+  --ed-green-400: #3bc252;
+  --ed-green-500: #1caa3d;
+  --ed-green-600: #13872e;
+  --ed-green-700: #146d26;
+  --ed-green-800: #155620;
+  --ed-green-900: #134019;
+  --ed-green-950: #0f2e13;
+
+  /* amber */
+  --ed-amber-25: #fafaf9;
+  --ed-amber-50: #f5f2ed;
+  --ed-amber-100: #efe4d2;
+  --ed-amber-200: #edcb94;
+  --ed-amber-300: #e6b050;
+  --ed-amber-400: #d29827;
+  --ed-amber-500: #bc8400;
+  --ed-amber-600: #936700;
+  --ed-amber-700: #775304;
+  --ed-amber-800: #5e420b;
+  --ed-amber-900: #45310c;
+  --ed-amber-950: #32240a;
+
+  /* red */
+  --ed-red-25: #fafafa;
+  --ed-red-50: #f5f1f1;
+  --ed-red-100: #efe2e0;
+  --ed-red-200: #edc6c0;
+  --ed-red-300: #f0a399;
+  --ed-red-400: #f7786c;
+  --ed-red-500: #fc3d37;
+  --ed-red-600: #d10f18;
+  --ed-red-700: #a91315;
+  --ed-red-800: #851614;
+  --ed-red-900: #621512;
+  --ed-red-950: #47110e;
+
+  /* blue */
+  --ed-blue-25: #fafafa;
+  --ed-blue-50: #f1f3f5;
+  --ed-blue-100: #dfe6ef;
+  --ed-blue-200: #bdd3eb;
+  --ed-blue-300: #94beee;
+  --ed-blue-400: #62a8f4;
+  --ed-blue-500: #2091fa;
+  --ed-blue-600: #1171c7;
+  --ed-blue-700: #115ca1;
+  --ed-blue-800: #12497e;
+  --ed-blue-900: #11365d;
+  --ed-blue-950: #0d2743;
+
+  /* pure */
+  --ed-white: #ffffff;
+  --ed-ink:   #0f1417;
+}
