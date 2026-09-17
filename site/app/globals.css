@@ -1,0 +1,179 @@
+/* The design system first — the docs site is its own first consumer.
+   If a token is awkward to use here, it will be awkward in the products. */
+@import '@edgistify/design-system/primitives.css';
+@import '@edgistify/design-system/semantic.css';
+@import '@edgistify/design-system/type.css';
+@import '@edgistify/design-system/space.css';
+@import '@edgistify/design-system/button.css';
+@import '@edgistify/design-system/card.css';
+@import '@edgistify/design-system/table.css';
+@import '@edgistify/design-system/input.css';
+@import '@edgistify/design-system/modal.css';
+@import '@edgistify/design-system/menu.css';
+
+/* ── site chrome ──────────────────────────────────────────────────────
+   Written entirely in design-system tokens. There are no raw colours in
+   this file on purpose: if something cannot be expressed in tokens, that
+   is a gap in the system, and we would rather find it here than in an app. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ed-canvas);
+  color: var(--ed-text);
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  line-height: var(--ed-leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- layout ---------------------------------------------------------- */
+.layout { display: grid; grid-template-columns: 17rem minmax(0, 1fr); min-height: 100dvh; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+.sidebar {
+  border-right: 1px solid var(--ed-border-subtle);
+  background: var(--ed-surface);
+  padding: var(--ed-space-6) var(--ed-space-5) var(--ed-space-10);
+  position: sticky; top: 0; height: 100dvh; overflow-y: auto;
+}
+@media (max-width: 900px) {
+  .sidebar { position: static; height: auto; border-right: 0;
+             border-bottom: 1px solid var(--ed-border-subtle); }
+}
+
+.brand { display: flex; align-items: center; gap: var(--ed-space-2);
+         margin-bottom: var(--ed-space-7); text-decoration: none; color: inherit; }
+.brand__mark { width: 26px; height: 26px; border-radius: 7px; background: var(--ed-brand); flex: none; }
+.brand__name { font-family: var(--ed-font-display, var(--ed-font-ui));
+               font-size: var(--ed-text-lg); font-weight: var(--ed-weight-bold);
+               letter-spacing: -0.01em; }
+
+.nav-group + .nav-group { margin-top: var(--ed-space-6); }
+.nav-group__label {
+  font-family: var(--ed-font-id); font-size: var(--ed-text-2xs);
+  font-weight: var(--ed-weight-medium); letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ed-text-muted);
+  margin-bottom: var(--ed-space-2);
+}
+.nav-link {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--ed-space-2);
+  padding: 7px var(--ed-space-2); border-radius: var(--ed-radius-control);
+  color: var(--ed-text-secondary); text-decoration: none; font-size: var(--ed-text-md);
+}
+.nav-link:hover { background: var(--ed-surface-hover); color: var(--ed-text); }
+.nav-link[aria-current="page"] { background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle);
+                                 font-weight: var(--ed-weight-medium); }
+.nav-link:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
+.nav-link__tag {
+  font-family: var(--ed-font-id); font-size: var(--ed-text-2xs);
+  color: var(--ed-text-muted); border: 1px solid var(--ed-border);
+  border-radius: 999px; padding: 1px 7px;
+}
+
+/* ---- top bar --------------------------------------------------------- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: flex-end; gap: var(--ed-space-2);
+  padding: var(--ed-space-3) var(--ed-space-8);
+  background: color-mix(in srgb, var(--ed-canvas) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--ed-border-subtle);
+}
+.seg { display: flex; gap: 2px; padding: 2px; background: var(--ed-surface-sunken);
+       border: 1px solid var(--ed-border-subtle); border-radius: var(--ed-radius-control); }
+.seg__btn {
+  font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-ui);
+  padding: 7px 12px; border: 0; border-radius: calc(var(--ed-radius-control) - 2px);
+  background: transparent; color: var(--ed-text-secondary); cursor: pointer;
+}
+.seg__btn:hover { color: var(--ed-text); }
+.seg__btn[aria-pressed="true"] { background: var(--ed-surface); color: var(--ed-text);
+                                 box-shadow: var(--ed-elevation-1); }
+.seg__btn:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
+
+/* ---- prose ----------------------------------------------------------- */
+.prose { max-width: 46rem; padding: var(--ed-space-9) var(--ed-space-8) var(--ed-space-12); }
+.prose > * + * { margin-top: var(--ed-space-4); }
+.prose h1 {
+  font-family: var(--ed-font-display, var(--ed-font-ui));
+  font-size: var(--ed-text-4xl); font-weight: var(--ed-weight-bold);
+  letter-spacing: -0.022em; line-height: var(--ed-leading-tight); margin: 0;
+}
+.prose h2 {
+  font-size: var(--ed-text-2xl); font-weight: var(--ed-weight-semibold);
+  letter-spacing: -0.014em; margin-top: var(--ed-space-10); scroll-margin-top: 5rem;
+}
+.prose h3 { font-size: var(--ed-text-lg); font-weight: var(--ed-weight-semibold);
+            margin-top: var(--ed-space-7); }
+.prose p { color: var(--ed-text-secondary); margin: 0; }
+/* In MDX the lede is a <div> — loose text inside a JSX block becomes its own
+   <p>, and a <p> cannot contain another one. Style both shapes. */
+.prose .lede, .prose .lede p {
+  font-size: var(--ed-text-lg); color: var(--ed-text-secondary);
+  line-height: var(--ed-leading-relaxed); margin: 0;
+}
+.prose ul, .prose ol { color: var(--ed-text-secondary); padding-left: var(--ed-space-5);
+                       margin: 0; display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.prose a { color: var(--ed-text-link); text-underline-offset: 2px; }
+.prose strong { color: var(--ed-text); font-weight: var(--ed-weight-semibold); }
+.prose code { font-family: var(--ed-font-id); font-size: 0.9em;
+              background: var(--ed-surface-id); color: var(--ed-text-id);
+              padding: 2px 6px; border-radius: 4px; }
+.prose hr { border: 0; border-top: 1px solid var(--ed-border-subtle); margin: var(--ed-space-10) 0; }
+.prose table { width: 100%; border-collapse: collapse; font-size: var(--ed-text-md); }
+.prose th { text-align: left; font-size: var(--ed-text-2xs); letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--ed-text-muted);
+            font-family: var(--ed-font-id); padding: 0 var(--ed-space-3) var(--ed-space-2) 0;
+            border-bottom: 1px solid var(--ed-border); }
+.prose td { padding: var(--ed-space-3) var(--ed-space-3) var(--ed-space-3) 0;
+            border-bottom: 1px solid var(--ed-border-subtle);
+            color: var(--ed-text-secondary); vertical-align: top; }
+.prose td code { white-space: nowrap; }
+
+/* ---- callout --------------------------------------------------------- */
+.callout {
+  display: grid; grid-template-columns: auto 1fr; gap: var(--ed-space-4);
+  padding: var(--ed-space-5); border: 1px solid var(--ed-border);
+  border-left: 3px solid var(--ed-brand); border-radius: var(--ed-radius-card);
+  background: var(--ed-surface);
+}
+.callout__k { font-family: var(--ed-font-id); font-size: var(--ed-text-2xs);
+              font-weight: var(--ed-weight-bold); letter-spacing: 0.1em;
+              color: var(--ed-brand); white-space: nowrap; padding-top: 3px; }
+.callout p { margin: 0; }
+
+/* ---- live example ---------------------------------------------------- */
+.example { margin: var(--ed-space-6) 0 0; border: 1px solid var(--ed-border);
+           border-radius: var(--ed-radius-card); overflow: hidden; background: var(--ed-surface); }
+.example__preview {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--ed-gap-inline);
+  padding: var(--ed-space-7) var(--ed-space-6); background: var(--ed-canvas);
+}
+.example__error {
+  margin: 0; padding: var(--ed-space-3) var(--ed-space-4);
+  font-family: var(--ed-font-id); font-size: var(--ed-text-sm);
+  background: var(--ed-danger-subtle); color: var(--ed-danger-text);
+  border-top: 1px solid var(--ed-danger-border); white-space: pre-wrap;
+}
+.example__code { position: relative; border-top: 1px solid var(--ed-border-subtle); }
+.example__code pre { margin: 0; padding: var(--ed-space-4) var(--ed-space-5);
+                     overflow-x: auto; background: var(--ed-surface-sunken); }
+.example__code code { font-family: var(--ed-font-id); font-size: var(--ed-text-sm);
+                      line-height: var(--ed-leading-relaxed); color: var(--ed-text-secondary);
+                      background: none; padding: 0; }
+.example__copy {
+  position: absolute; top: var(--ed-space-2); right: var(--ed-space-2);
+  font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-ui);
+  padding: 6px 11px; border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-control); background: var(--ed-surface);
+  color: var(--ed-text-secondary); cursor: pointer;
+}
+.example__copy:hover { color: var(--ed-text); border-color: var(--ed-border-strong); }
+.example__copy:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
+.example__caption { margin: var(--ed-space-2) 0 0; padding: 0 var(--ed-space-1);
+                    font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
