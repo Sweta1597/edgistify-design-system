@@ -1,0 +1,135 @@
+export const metadata = {
+  title: 'Input',
+  description: 'Fields that own their label, their hint and their error — and announce them.',
+};
+
+<div className="prose">
+
+# Input
+
+<div className="lede">
+A field is a label, a control, a hint and an error that all know about each other.
+Wiring those together by hand is where accessibility quietly goes missing, so
+`Field` does it: it generates the id, points the label at the control, and lists the
+hint and error in `aria-describedby`.
+</div>
+
+## Field owns the wiring
+
+You do not pass an id. `Field` makes one, gives it to the control, and connects
+everything to it. The only way to get this wrong is to not use `Field`.
+
+<InputDemo code={`
+<div style={{ display: 'grid', gap: 'var(--ed-space-4)', width: '100%', maxWidth: 380 }}>
+  <Field label="Warehouse" hint="Where this rule applies.">
+    <Select>
+      <option>BLR-01 Bommanahalli</option>
+      <option>DEL-02 Bhiwandi</option>
+      <option>MUM-04 Panvel</option>
+    </Select>
+  </Field>
+
+  <Field label="Rule name" required>
+    <Input placeholder="e.g. FMCG shelf life" />
+  </Field>
+
+  <Field label="Notes" hint="Shown to the picker on the handheld.">
+    <Textarea rows={3} placeholder="Optional" />
+  </Field>
+</div>
+`} />
+
+## aria-invalid drives the error look
+
+The red border is drawn **from** `aria-invalid`, not beside it. Pass an `error` to
+`Field` and it sets the attribute, wires the message into `aria-describedby`, and the
+styling follows. A field cannot look wrong while announcing that it is fine.
+
+<InputDemo code={`
+<div style={{ width: '100%', maxWidth: 380 }}>
+  <Field label="Minimum days to expiry" error="Must be a whole number of days.">
+    <Input defaultValue="12.5" />
+  </Field>
+</div>
+`} />
+
+## Groups, addons and icons
+
+An addon is a fixed part of the value — a currency, a unit, a domain. An icon is
+decoration or a control. Addons sit inside the field's border so the whole thing reads
+as one control.
+
+<InputDemo code={`
+<div style={{ display: 'grid', gap: 'var(--ed-space-4)', width: '100%', maxWidth: 380 }}>
+  <Field label="Price">
+    <InputGroup>
+      <InputAddon>₹</InputAddon>
+      <Input defaultValue="1,240" />
+      <InputAddon>per case</InputAddon>
+    </InputGroup>
+  </Field>
+
+  <Field label="Search">
+    <InputIcon>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+           strokeLinecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+      </svg>
+      <Input placeholder="Barcode, order or SKU" />
+    </InputIcon>
+  </Field>
+</div>
+`} />
+
+## Checkbox and radio
+
+Both take their label as a prop for the same reason `Field` exists — a label that is
+merely adjacent is not a label. `indeterminate` is a property rather than an attribute,
+so the component sets it on the DOM node for you.
+
+<InputDemo code={`
+<div style={{ display: 'grid', gap: 'var(--ed-space-3)' }}>
+  <Checkbox label="Rule active" defaultChecked hint="Inactive rules are kept but never fire." />
+  <Checkbox label="Select all" indeterminate />
+  <Radio name="shelf" label="Absolute days" defaultChecked />
+  <Radio name="shelf" label="Percent remaining" />
+</div>
+`} />
+
+## Sizes
+
+Four sizes, matched to the control heights. In warehouse mode every one of them grows
+to a gloved target — switch it above and watch.
+
+<InputDemo code={`
+<div style={{ display: 'grid', gap: 'var(--ed-space-3)', width: '100%', maxWidth: 320 }}>
+  <Input size="sm" placeholder="Small" />
+  <Input placeholder="Medium — the default" />
+  <Input size="lg" placeholder="Large" />
+  <Input size="xl" placeholder="Extra large" />
+</div>
+`} />
+
+## Disabled fields keep a readable value
+
+A disabled field still has to be read — often that is the whole point of showing it.
+So the value stays at readable contrast and the *fill, border and cursor* carry the
+disabled state instead. Greying the text out to prove a point is how a form becomes
+unreadable.
+
+<InputDemo code={`
+<div style={{ width: '100%', maxWidth: 380 }}>
+  <Field label="Allocated warehouse" hint="Set by the allocation rule; not editable here.">
+    <Input defaultValue="BLR-01 Bommanahalli" disabled />
+  </Field>
+</div>
+`} />
+
+## Use a native select when you can
+
+The styled `Select` here is a real `<select>`. It is keyboard-complete for free, and on
+a phone it opens the OS picker, which beats anything we can draw. Reach for the
+listbox in the [menu family](/components/menu) only when the list needs searching or an
+option needs more than a line of text.
+
+</div>

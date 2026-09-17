@@ -13,20 +13,20 @@ const GROUPS = [
   {
     label: 'Foundations',
     items: [
-      { href: '/foundations/colour', title: 'Colour', soon: true },
-      { href: '/foundations/type', title: 'Type', soon: true },
-      { href: '/foundations/space', title: 'Space', soon: true },
+      { href: '/foundations/colour', title: 'Colour' },
+      { href: '/foundations/type', title: 'Type' },
+      { href: '/foundations/space', title: 'Space' },
     ],
   },
   {
     label: 'Components',
     items: [
       { href: '/components/button', title: 'Button' },
-      { href: '/components/card', title: 'Card', soon: true },
-      { href: '/components/table', title: 'Table', soon: true },
-      { href: '/components/input', title: 'Input', soon: true },
-      { href: '/components/modal', title: 'Modal', soon: true },
-      { href: '/components/menu', title: 'Menu & Select', soon: true },
+      { href: '/components/card', title: 'Card' },
+      { href: '/components/table', title: 'Table' },
+      { href: '/components/input', title: 'Input' },
+      { href: '/components/modal', title: 'Modal' },
+      { href: '/components/menu', title: 'Menu & Select' },
     ],
   },
 ];

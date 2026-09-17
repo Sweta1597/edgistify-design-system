@@ -44,7 +44,8 @@
     "./react/Popover": {
       "types": "./react/Popover.d.ts",
       "default": "./react/Popover.jsx"
-    }
+    },
+    "./build/contrast-check": "./build/contrast-check.mjs"
   },
   "files": [
     "dist",
@@ -55,10 +56,11 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale",
+    "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale && npm run lint:tokens",
     "check:contrast": "node build/contrast-check.mjs",
     "lint:grid": "node build/grid-lint.mjs",
     "lint:scale": "node build/scale-lint.mjs",
+    "lint:tokens": "node build/token-lint.mjs",
     "build": "node build/gen-dark-auto.mjs",
     "docs:css": "node build/bundle-specimen-css.mjs docs/ds.css"
   },

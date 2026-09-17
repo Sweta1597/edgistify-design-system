@@ -47,9 +47,9 @@ body {
 }
 
 .brand { display: flex; align-items: center; gap: var(--ed-space-2);
-         margin-bottom: var(--ed-space-7); text-decoration: none; color: inherit; }
+         margin-bottom: var(--ed-space-6); text-decoration: none; color: inherit; }
 .brand__mark { width: 26px; height: 26px; border-radius: 7px; background: var(--ed-brand); flex: none; }
-.brand__name { font-family: var(--ed-font-display, var(--ed-font-ui));
+.brand__name { font-family: var(--ed-font-ui);
                font-size: var(--ed-text-lg); font-weight: var(--ed-weight-bold);
                letter-spacing: -0.01em; }
 
@@ -97,10 +97,10 @@ body {
 .seg__btn:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
 
 /* ---- prose ----------------------------------------------------------- */
-.prose { max-width: 46rem; padding: var(--ed-space-9) var(--ed-space-8) var(--ed-space-12); }
+.prose { max-width: 46rem; padding: var(--ed-space-10) var(--ed-space-8) var(--ed-space-12); }
 .prose > * + * { margin-top: var(--ed-space-4); }
 .prose h1 {
-  font-family: var(--ed-font-display, var(--ed-font-ui));
+  font-family: var(--ed-font-ui);
   font-size: var(--ed-text-4xl); font-weight: var(--ed-weight-bold);
   letter-spacing: -0.022em; line-height: var(--ed-leading-tight); margin: 0;
 }
@@ -109,7 +109,7 @@ body {
   letter-spacing: -0.014em; margin-top: var(--ed-space-10); scroll-margin-top: 5rem;
 }
 .prose h3 { font-size: var(--ed-text-lg); font-weight: var(--ed-weight-semibold);
-            margin-top: var(--ed-space-7); }
+            margin-top: var(--ed-space-6); }
 .prose p { color: var(--ed-text-secondary); margin: 0; }
 /* In MDX the lede is a <div> — loose text inside a JSX block becomes its own
    <p>, and a <p> cannot contain another one. Style both shapes. */
@@ -152,7 +152,7 @@ body {
            border-radius: var(--ed-radius-card); overflow: hidden; background: var(--ed-surface); }
 .example__preview {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--ed-gap-inline);
-  padding: var(--ed-space-7) var(--ed-space-6); background: var(--ed-canvas);
+  padding: var(--ed-space-6) var(--ed-space-6); background: var(--ed-canvas);
 }
 .example__error {
   margin: 0; padding: var(--ed-space-3) var(--ed-space-4);
@@ -177,3 +177,57 @@ body {
 .example__copy:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
 .example__caption { margin: var(--ed-space-2) 0 0; padding: 0 var(--ed-space-1);
                     font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+
+/* ---- page meta strip ------------------------------------------------- */
+.meta { display: flex; flex-wrap: wrap; gap: var(--ed-space-6);
+        margin: var(--ed-space-6) 0 0; padding: 0; }
+.meta > div { display: flex; flex-direction: column; gap: 3px; }
+.meta dt { font-family: var(--ed-font-id); font-size: var(--ed-text-2xs);
+           letter-spacing: 0.12em; text-transform: uppercase; color: var(--ed-text-muted); }
+.meta dd { margin: 0; font-family: var(--ed-font-id); font-size: var(--ed-text-base);
+           font-weight: var(--ed-weight-medium); color: var(--ed-text); }
+
+/* ---- colour ramps ---------------------------------------------------- */
+.ramp { margin-top: var(--ed-space-6); }
+.ramp__head { display: flex; align-items: baseline; gap: var(--ed-space-3);
+              margin-bottom: var(--ed-space-2); }
+.ramp__name { font-family: var(--ed-font-id); font-size: var(--ed-text-md);
+              font-weight: var(--ed-weight-semibold); }
+.ramp__role { font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ramp__swatches { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+@media (max-width: 720px) { .ramp__swatches { grid-template-columns: repeat(6, 1fr); } }
+.sw { min-width: 0; }
+.sw__chip { height: 52px; border-radius: 3px; display: flex; align-items: flex-end;
+            justify-content: center; padding-bottom: 5px;
+            font-family: var(--ed-font-id); font-size: var(--ed-text-2xs);
+            font-weight: var(--ed-weight-medium); }
+.sw--key .sw__chip { outline: 2px solid var(--ed-text); outline-offset: -2px; }
+.sw__hex, .sw__cr { display: block; text-align: center; font-family: var(--ed-font-id);
+                    font-size: 8.5px; line-height: 1.5; color: var(--ed-text-muted);
+                    letter-spacing: -0.03em; }
+.sw__cr { color: var(--ed-text-disabled); }
+.sw--key .sw__hex { color: var(--ed-text); font-weight: var(--ed-weight-medium); }
+
+/* ---- type specimens -------------------------------------------------- */
+.scale-row { display: grid; grid-template-columns: 5.5rem 4.5rem 1fr; gap: var(--ed-space-4);
+             align-items: baseline; padding: var(--ed-space-3) 0;
+             border-bottom: 1px solid var(--ed-border-subtle); }
+.scale-row__name, .scale-row__size { font-family: var(--ed-font-id);
+                                     font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.scale-row__sample { min-width: 0; overflow: hidden; text-overflow: ellipsis;
+                     white-space: nowrap; color: var(--ed-text); }
+
+/* ---- space specimens ------------------------------------------------- */
+.spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+             gap: var(--ed-space-4); margin-top: var(--ed-space-5); }
+.spec-cell { border: 1px solid var(--ed-border-subtle); border-radius: var(--ed-radius-card);
+             padding: var(--ed-space-4); background: var(--ed-surface); }
+.spec-cell__bar { background: var(--ed-brand-muted); border-radius: 2px; height: 10px; }
+.spec-cell__name { font-family: var(--ed-font-id); font-size: var(--ed-text-sm);
+                   color: var(--ed-text); margin-top: var(--ed-space-3); display: block; }
+.spec-cell__val { font-family: var(--ed-font-id); font-size: var(--ed-text-2xs);
+                  color: var(--ed-text-muted); }
+.swatch-box { display: flex; align-items: center; justify-content: center;
+              background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle);
+              border: 1px solid var(--ed-border); font-family: var(--ed-font-id);
+              font-size: var(--ed-text-2xs); }

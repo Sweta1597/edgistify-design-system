@@ -1,5 +1,8 @@
-#!/usr/bin/env node
-/* Fails if any documented colour pairing drops below its WCAG target. */
+/* Fails if any documented colour pairing drops below its WCAG target.
+
+   No shebang: this module is imported by the docs site as well as run by
+   npm test, and a shebang cannot be placed in an ESM chunk by a bundler.
+   Every caller invokes it through `node`, so nothing needed it. */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -127,6 +130,34 @@ const PAIRS = [
   // panel. Non-text UI, so 3:1.
   ['--ed-focus','--ed-surface-hover',3,'focused popover row'],
 ];
+/* Every pairing, measured, as data. The docs site imports this so it can
+   state the real numbers rather than carry a copy of them that goes stale —
+   the same reason its examples render the component instead of describing it. */
+export function measure(){
+  const rows=[];
+  for(const [mode,scope] of Object.entries(modes))
+    for(const [from,to,min,why] of PAIRS){
+      const fg=resolve(from,scope), bg=resolve(to,scope);
+      if(!fg||!bg) continue;
+      const ratio=cr(fg,bg);
+      rows.push({ mode, from, to, fg, bg, min, why, ratio, pass: ratio>=min });
+    }
+  return rows;
+}
+
+export const summary = () => {
+  const rows = measure();
+  return { total: rows.length, passing: rows.filter(r=>r.pass).length,
+           modes: [...new Set(rows.map(r=>r.mode))] };
+};
+
+/* Ratio of any two colours, for callers that have hexes rather than tokens. */
+export const contrast = cr;
+
+// --- CLI ---------------------------------------------------------------
+// Only when run directly; importing this module must not print or exit.
+const isCLI = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (isCLI) {
 let fail=0,n=0;
 for(const [mode,scope] of Object.entries(modes)){
   console.log(`\n${mode.toUpperCase()}`);
@@ -139,3 +170,4 @@ for(const [mode,scope] of Object.entries(modes)){
 }
 console.log(`\n${n-fail}/${n} pairings pass`);
 process.exit(fail?1:0);
+}

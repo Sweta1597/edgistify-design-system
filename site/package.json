@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev -p 5190",
-    "build": "next build",
-    "start": "next start -p 5190",
-    "lint": "next lint"
+    "sync": "rm -rf node_modules/@edgistify && npm install --silent",
+    "dev": "npm run sync && next dev -p 5190",
+    "build": "npm run sync && next build",
+    "start": "next start -p 5190"
   },
   "dependencies": {
     "@edgistify/design-system": "file:..",
@@ -20,6 +20,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-live": "^4.1.8",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "server-only": "^0.0.1"
   }
 }

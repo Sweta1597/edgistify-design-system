@@ -9,6 +9,20 @@ versions follow [semver](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- `lint:tokens` — fails on a reference to an `--ed-*` custom property the
+  system never defines. A typo there is silent: CSS drops the whole
+  declaration, so `gap: var(--ed-space-7)` where no such step exists becomes
+  `gap: 0` and a layout quietly collapses. It found three on the docs site the
+  day it was written. A declared fallback is treated as deliberate.
+- `build/contrast-check.mjs` now exports `measure()`, `summary()` and
+  `contrast()`, so the docs site can state measured numbers rather than carry
+  a copy of them. Running it as a CLI is unchanged.
+- `./build/contrast-check` added to the exports map.
+
+### Changed
+- `npm test` now runs four checks: contrast, grid, scale and tokens.
+
 ## [0.1.0] — 2026-09-17
 
 First tagged version. Three foundations, six components, three build-time
