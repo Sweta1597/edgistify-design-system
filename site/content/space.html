@@ -1,0 +1,244 @@
+<div class="wrap">
+<header>
+  <div class="eyebrow"><span class="dot"></span> Edgistify Design System · Foundation 03 of 07</div>
+  <h1>Space</h1>
+  <p class="lede">The grid, the control sizes, the corner radii and the shadows. Where colour and
+  type decided how things look, this decides how big they are and how far apart — which is the
+  difference between a dashboard row and a button someone hits wearing a glove.</p>
+</header>
+
+<section>
+  <div class="sec-head"><h2>The grid bends to the product</h2>
+  <p class="sub">Base unit 4px, with 2px half-steps kept at the small end. A pure 4px grid is
+  tidier on paper, but <strong>887 of the dashboard’s spacing values are half-steps</strong> —
+  2, 6, 10 and 14px. Rounding a quarter of the existing layout to look neat in a spec is the wrong
+  trade. Half-steps are shaded.</p></div>
+  <div class="scale" id="scale">
+  <div class="srow"><span class="tok">--ed-space-0</span>
+  <span class="px">0px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-px</span>
+  <span class="px">1px</span><span></span></div>
+  <div class="srow half"><span class="tok">--ed-space-0-5</span>
+  <span class="px">2px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-1</span>
+  <span class="px">4px</span><span></span></div>
+  <div class="srow half"><span class="tok">--ed-space-1-5</span>
+  <span class="px">6px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-2</span>
+  <span class="px">8px</span><span></span></div>
+  <div class="srow half"><span class="tok">--ed-space-2-5</span>
+  <span class="px">10px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-3</span>
+  <span class="px">12px</span><span></span></div>
+  <div class="srow half"><span class="tok">--ed-space-3-5</span>
+  <span class="px">14px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-4</span>
+  <span class="px">16px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-5</span>
+  <span class="px">20px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-6</span>
+  <span class="px">24px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-8</span>
+  <span class="px">32px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-10</span>
+  <span class="px">40px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-12</span>
+  <span class="px">48px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-16</span>
+  <span class="px">64px</span><span></span></div>
+  <div class="srow"><span class="tok">--ed-space-20</span>
+  <span class="px">80px</span><span></span></div></div>
+  <p class="sub" style="margin-top:14px"><strong>3,315 of 3,319</strong> spacing values in the
+  dashboard already land on this grid. Four don’t.</p>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Semantic spacing</h2>
+  <p class="sub">Components use these, not the raw steps — they’re what warehouse mode moves.
+  Values marked in teal change under <code class="mono">[data-mode="warehouse"]</code>.</p></div>
+  <div class="sem" id="sem">
+  <div class="semcell"><div class="g">Padding</div>
+    <div class="semrow"><span class="n">pad-cell-x</span>
+    <span class="v">12 <em>→14</em></span></div>
+    <div class="semrow"><span class="n">pad-cell-y</span>
+    <span class="v">8 <em>→14</em></span></div>
+    <div class="semrow"><span class="n">pad-control-x</span>
+    <span class="v">16 <em>→20</em></span></div>
+    <div class="semrow"><span class="n">pad-control-y</span>
+    <span class="v">8 <em>→16</em></span></div>
+    <div class="semrow"><span class="n">pad-chip-x</span>
+    <span class="v">10 <em>→12</em></span></div>
+    <div class="semrow"><span class="n">pad-card</span>
+    <span class="v">20</span></div>
+    <div class="semrow"><span class="n">pad-panel</span>
+    <span class="v">24 <em>→20</em></span></div></div>
+  <div class="semcell"><div class="g">Gaps</div>
+    <div class="semrow"><span class="n">gap-inline</span>
+    <span class="v">8 <em>→10</em></span></div>
+    <div class="semrow"><span class="n">gap-tight</span>
+    <span class="v">12 <em>→14</em></span></div>
+    <div class="semrow"><span class="n">gap-stack</span>
+    <span class="v">16</span></div>
+    <div class="semrow"><span class="n">gap-group</span>
+    <span class="v">24 <em>→16</em></span></div>
+    <div class="semrow"><span class="n">gap-section</span>
+    <span class="v">40 <em>→24</em></span></div></div>
+  <div class="semcell"><div class="g">Controls</div>
+    <div class="semrow"><span class="n">control-xs</span>
+    <span class="v">24 <em>→44</em></span></div>
+    <div class="semrow"><span class="n">control-sm</span>
+    <span class="v">28 <em>→48</em></span></div>
+    <div class="semrow"><span class="n">control-md</span>
+    <span class="v">32 <em>→56</em></span></div>
+    <div class="semrow"><span class="n">control-lg</span>
+    <span class="v">36 <em>→60</em></span></div>
+    <div class="semrow"><span class="n">control-xl</span>
+    <span class="v">40 <em>→64</em></span></div>
+    <div class="semrow"><span class="n">target-min</span>
+    <span class="v">24 <em>→44</em></span></div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Targets, and the glove</h2>
+  <p class="sub">WCAG 2.2 AA asks for 24px, AAA for 44px. Both assume a bare fingertip. A gloved
+  one has a wider and less precise contact patch, so on the warehouse floor 44px is the floor
+  rather than the goal: operational controls are 56px and the primary action on a screen is 64px.
+  The picker app today tops out at 48px, and most of its controls are 36–44px.</p></div>
+  <div class="targets" id="targets">
+  <div class="tg"><div class="box" style="width:24px;height:24px"><span class="f"></span></div>
+  <div class="lbl">24px</div><div class="cap">WCAG 2.2 AA floor. Desk pointers.</div></div>
+  <div class="tg"><div class="box" style="width:44px;height:44px"><span class="f"></span></div>
+  <div class="lbl">44px</div><div class="cap">Bare fingertip. Warehouse floor.</div></div>
+  <div class="tg"><div class="box ok" style="width:56px;height:56px"><span class="f"></span></div>
+  <div class="lbl">56px</div><div class="cap">Gloved hand, operational control.</div></div>
+  <div class="tg"><div class="box ok" style="width:64px;height:64px"><span class="f"></span></div>
+  <div class="lbl">64px</div><div class="cap">Gloved hand, primary action.</div></div></div>
+  <div class="note">
+    <span class="k">RULE 03</span>
+    <p><strong>A small control can keep its size and still be easy to hit.</strong>
+    <code class="mono">.ed-target</code> grows the hit area outward with a pseudo-element without
+    changing a single visible pixel — so a 16px icon button in a dense table row still answers to
+    a 24px tap, and 44px in warehouse mode.</p>
+    <p>Visual size and target size are different problems. Don’t solve the second by inflating
+    the first and losing the row density the dashboard exists for.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Icons sit on the grid too</h2>
+  <p class="sub">Lucide draws on a 24px artboard with a 2px stroke, so the rendered stroke is
+  <code class="mono">2 × size ÷ 24</code>. At 13px that lands on 1.08px and at 10px on 0.83px —
+  under one device pixel, which is why small icons in the dashboard look soft. It currently uses
+  <strong>seven sizes between 8 and 15px; 198 of 306 icons are off-grid.</strong> Five sizes,
+  each with a stroke width that keeps the optical weight constant.</p></div>
+  <div class="icons" id="icons">
+  <div class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">14px</div><div class="w">stroke 2.25</div></div>
+  <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">16px</div><div class="w">stroke 2</div></div>
+  <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">20px</div><div class="w">stroke 1.75</div></div>
+  <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">24px</div><div class="w">stroke 1.5</div></div>
+  <div class="ic"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">32px</div><div class="w">stroke 1.5</div></div>
+  <div class="ic bad"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">13px</div><div class="w">renders 1.08px</div></div>
+  <div class="ic bad"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7 12 2l9 5v10l-9 5-9-5z"></path><path d="m3 7 9 5 9-5"></path><path d="M12 12v10"></path></svg>
+    <div class="s">11px</div><div class="w">renders 0.92px</div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Radius by role</h2>
+  <p class="sub">Not by size. A button and a card shouldn’t share a token just because they
+  happen to agree today.</p></div>
+  <div class="radii" id="radii">
+  <div class="rd"><div class="sw" style="border-radius:0px"></div>
+  <div class="n">none · 0px</div><div class="u">table rows, full-bleed</div></div>
+  <div class="rd"><div class="sw" style="border-radius:4px"></div>
+  <div class="n">sharp · 4px</div><div class="u">ID chips, tags</div></div>
+  <div class="rd"><div class="sw" style="border-radius:6px"></div>
+  <div class="n">control · 6px</div><div class="u">buttons, inputs</div></div>
+  <div class="rd"><div class="sw" style="border-radius:8px"></div>
+  <div class="n">card · 8px</div><div class="u">cards, tables</div></div>
+  <div class="rd"><div class="sw" style="border-radius:12px"></div>
+  <div class="n">panel · 12px</div><div class="u">modals, drawers</div></div>
+  <div class="rd"><div class="sw" style="border-radius:999px"></div>
+  <div class="n">pill · full</div><div class="u">status, avatars</div></div></div>
+  <h3 style="font-size:15px;font-weight:600;margin-top:36px">Nesting</h3>
+  <p class="sub" style="margin-bottom:16px">An inner radius equals the outer radius minus the
+  padding between them. Repeat the outer value on the inner box and the curves run parallel
+  instead of concentric — the corners look swollen.</p>
+  <div class="nest">
+    <figure><div class="nestbox"><div class="inner"></div></div>
+      <figcaption>12 − 8 = 4 ✓</figcaption></figure>
+    <figure class="wrong"><div class="nestbox wrong"><div class="inner"></div></div>
+      <figcaption>12 inside 12 ✗</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Elevation</h2>
+  <p class="sub">Four levels, and nothing between. Shadows carry the neutral’s teal cast rather
+  than pure black — a blue-grey shadow over a teal-tinted surface reads as dirt. In dark mode
+  shadows stop working, so elevation is carried by surface lightness with a hairline instead.</p></div>
+  <div class="elevs" id="elevs">
+  <div class="el" style="box-shadow:var(--e1)"><div class="n">elevation-1</div>
+  <div class="u">Card at rest</div></div>
+  <div class="el" style="box-shadow:var(--e2)"><div class="n">elevation-2</div>
+  <div class="u">Dropdown, popover</div></div>
+  <div class="el" style="box-shadow:var(--e3)"><div class="n">elevation-3</div>
+  <div class="u">Modal, drawer</div></div>
+  <div class="el" style="box-shadow:var(--e4)"><div class="n">elevation-4</div>
+  <div class="u">Toast</div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Layers</h2>
+  <p class="sub">Every stacking decision in one place. A bare <code class="mono">z-index: 9999</code>
+  in a component is how a tooltip ends up behind a drawer.</p></div>
+  <div class="layers" id="layers">
+  <div class="ly"><span class="z">0</span><span class="t">--ed-z-base</span><span class="d">Page content</span></div>
+  <div class="ly"><span class="z">100</span><span class="t">--ed-z-sticky</span><span class="d">Sticky table header, toolbar</span></div>
+  <div class="ly"><span class="z">200</span><span class="t">--ed-z-dropdown</span><span class="d">Select, menu, combobox</span></div>
+  <div class="ly"><span class="z">300</span><span class="t">--ed-z-overlay</span><span class="d">Scrim behind a modal</span></div>
+  <div class="ly"><span class="z">400</span><span class="t">--ed-z-modal</span><span class="d">Dialog, drawer, sheet</span></div>
+  <div class="ly"><span class="z">500</span><span class="t">--ed-z-popover</span><span class="d">Popover anchored above a modal</span></div>
+  <div class="ly"><span class="z">600</span><span class="t">--ed-z-toast</span><span class="d">Transient confirmation</span></div>
+  <div class="ly"><span class="z">700</span><span class="t">--ed-z-tooltip</span><span class="d">Always on top</span></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Both at once</h2>
+  <p class="sub">The same card, the same markup. Only the semantic tokens move — targets from
+  32px to 56px, icons from 16 to 24, radius from 6 to 10, and card gaps <em>tighten</em> because
+  screen space is scarcer on a handheld than on a monitor.</p></div>
+  
+  <div class="board" id="board" data-m="desk">
+    <p class="board-note" id="bnote">Dashboard density: 32px controls, 16px icons, 8px vertical
+    cell padding. More rows on screen means fewer scrolls.</p>
+    <div class="bcard">
+      <div class="bhead">
+        <span class="btitle">Pick list · Wave 4471</span>
+        <span class="bchip">2 short</span>
+      </div>
+      <div>
+        <div class="brow"><span class="sku">SKU-4417-BLK-M</span><span class="qty">×&nbsp;4</span></div>
+        <div class="brow"><span class="sku">SKU-9120-WHT-L</span><span class="qty">×&nbsp;102</span></div>
+        <div class="brow"><span class="sku">SKU-0071-GRN-XL</span><span class="qty">×&nbsp;1,240</span></div>
+      </div>
+      <div class="bbtns">
+        <button class="bbtn p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>Confirm pick</button>
+        <button class="bbtn s">Report short</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Generated from <code class="mono">dist/space.css</code>. Audit an app with
+  <code class="mono">node build/grid-lint.mjs &lt;src&gt;</code> — it reports off-grid spacing,
+  radius mapping and every icon whose stroke lands on a fraction of a pixel.
+  Next: <strong>Buttons</strong>, the first component built on all three foundations.</p>
+</footer>
+</div>

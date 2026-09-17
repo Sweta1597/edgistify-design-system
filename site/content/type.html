@@ -1,0 +1,179 @@
+<div class="wrap">
+<header>
+  <div class="eyebrow"><span class="dot"></span> Edgistify Design System · Foundation 02 of 07</div>
+  <h1>Type</h1>
+  <p class="lede">Two families, eleven sizes, and one rule about identifiers. Built for tables at
+  11px and pick lists read at arm’s length — not for a landing page.</p>
+</header>
+
+<section>
+  <div class="sec-head"><h2>Two families</h2>
+  <p class="sub">The old theme declared three — Inter, Plus Jakarta Sans and Instrument Sans — and
+  loaded none of them. Two families that actually load beat three that don’t.</p></div>
+  <div class="fams">
+    <div class="fam">
+      <div class="role">Interface</div>
+      <div class="name">Inter</div>
+      <div class="pkg">@fontsource-variable/inter</div>
+      <p>Drawn for screens at small sizes. The tall x-height and open apertures are what keep a
+      12px table cell readable; its OpenType features give us tabular figures without a second font.</p>
+      <div class="sample">Pending dispatch · 14 orders<br>Warehouse BLR-01</div>
+    </div>
+    <div class="fam">
+      <div class="role">Identifier</div>
+      <div class="name id">JetBrains Mono</div>
+      <div class="pkg">@fontsource-variable/jetbrains-mono</div>
+      <p>Every SKU, order number, bin location, pincode and barcode. Chosen for glyph
+      disambiguation rather than flavour — the fixed width also makes a column of IDs scannable
+      by shape alone.</p>
+      <div class="sample id">SKU-4417-BLK-M<br>ORD-880241 · A-12-03</div>
+    </div>
+  </div>
+
+  <div class="glyph-head">
+    <span class="lbl">The actual reason</span>
+    <span class="hint">— the pairs that get misread when matching a screen to a printed label</span>
+  </div>
+  <div class="glyphs" id="glyphs">
+  <div class="gl"><div class="pair">0O</div><div class="cap">zero / oh</div></div>
+  <div class="gl"><div class="pair">1lI</div><div class="cap">one / ell / eye</div></div>
+  <div class="gl"><div class="pair">5S</div><div class="cap">five / ess</div></div>
+  <div class="gl"><div class="pair">8B</div><div class="cap">eight / bee</div></div>
+  <div class="gl"><div class="pair">2Z</div><div class="cap">two / zed</div></div>
+  <div class="gl"><div class="pair">6G</div><div class="cap">six / gee</div></div>
+  <div class="gl"><div class="pair">rn m</div><div class="cap">r-n / em</div></div><div class="gl"><div class="pair ui">0O 1lI</div><div class="cap"><b>Inter</b> for comparison</div></div></div>
+  <div class="note">
+    <span class="k">RULE 02</span>
+    <p><strong>Every identifier gets <code class="mono">.ed-id</code>.</strong> That carries
+    <code class="mono">slashed-zero</code> and <code class="mono">tabular-nums</code>. A picker
+    holding a carton has to match what is on the screen to what is printed on the label, and a
+    zero that looks like a letter O costs a mis-pick — which costs a return.</p>
+    <p>Identifiers are a <em>role</em>, not a styling choice made per component. The dashboard
+    already reaches for <code class="mono">font-mono</code> 72 times; this just makes it a decision
+    the system made once.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>The scale</h2>
+  <p class="sub">Eleven steps, which is more than usual — deliberately. The old scale jumped
+  10px straight to 14px, so developers reached past it: <strong>1,076 arbitrary sizes in the
+  dashboard alone</strong>, across 15 values including half-pixels. This one is fine-grained
+  where these products actually live (highlighted) and coarse above it.</p></div>
+  <div class="scale" id="scale">
+  <div class="srow dense">
+    <span class="tok">--ed-text-2xs</span><span class="px">10px</span>
+    <span class="demo" style="font-size:10px;font-weight:400;letter-spacing:0;line-height:1.3">Dense table meta, row counters</span>
+  </div>
+  <div class="srow dense">
+    <span class="tok">--ed-text-xs</span><span class="px">11px</span>
+    <span class="demo" style="font-size:11px;font-weight:400;letter-spacing:0;line-height:1.3">Secondary cell text, chip labels</span>
+  </div>
+  <div class="srow dense">
+    <span class="tok">--ed-text-sm</span><span class="px">12px</span>
+    <span class="demo" style="font-size:12px;font-weight:400;letter-spacing:0;line-height:1.3">Table cell default, form labels — the workhorse</span>
+  </div>
+  <div class="srow dense">
+    <span class="tok">--ed-text-md</span><span class="px">13px</span>
+    <span class="demo" style="font-size:13px;font-weight:400;letter-spacing:0;line-height:1.3">Body inside dense panels</span>
+  </div>
+  <div class="srow dense">
+    <span class="tok">--ed-text-base</span><span class="px">14px</span>
+    <span class="demo" style="font-size:14px;font-weight:400;letter-spacing:0;line-height:1.3">Default body, button labels</span>
+  </div>
+  <div class="srow dense">
+    <span class="tok">--ed-text-lg</span><span class="px">16px</span>
+    <span class="demo" style="font-size:16px;font-weight:400;letter-spacing:0;line-height:1.3">Intro text, mobile body</span>
+  </div>
+  <div class="srow">
+    <span class="tok">--ed-text-xl</span><span class="px">18px</span>
+    <span class="demo" style="font-size:18px;font-weight:600;letter-spacing:0;line-height:1.3">Card titles</span>
+  </div>
+  <div class="srow">
+    <span class="tok">--ed-text-2xl</span><span class="px">20px</span>
+    <span class="demo" style="font-size:20px;font-weight:600;letter-spacing:0;line-height:1.3">Section headings</span>
+  </div>
+  <div class="srow">
+    <span class="tok">--ed-text-3xl</span><span class="px">24px</span>
+    <span class="demo" style="font-size:24px;font-weight:700;letter-spacing:-.022em;line-height:1.3">Page titles</span>
+  </div>
+  <div class="srow">
+    <span class="tok">--ed-text-4xl</span><span class="px">30px</span>
+    <span class="demo" style="font-size:30px;font-weight:700;letter-spacing:-.022em;line-height:1.3">KPI figures</span>
+  </div>
+  <div class="srow">
+    <span class="tok">--ed-text-5xl</span><span class="px">40px</span>
+    <span class="demo" style="font-size:40px;font-weight:700;letter-spacing:-.022em;line-height:1.3">Hero metric, scan counters</span>
+  </div></div>
+  <p class="sub" style="margin-top:14px">85% of the 1,518 type declarations across the three apps
+  land on one of these exactly. The rest are half-pixel roundings.</p>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Numbers in columns</h2>
+  <p class="sub">Proportional figures make a column of quantities ragged and slow to compare.
+  Tabular figures are one setting, and every number in a table gets it.</p></div>
+  <div class="numcmp">
+    <div class="numcol">
+      <div class="h bad">Proportional — default</div>
+      <ol><li>1,104</li><li>98,310</li><li>7,441</li><li>11,119</li><li>486</li></ol>
+    </div>
+    <div class="numcol t">
+      <div class="h good">Tabular — .ed-num</div>
+      <ol><li>1,104</li><li>98,310</li><li>7,441</li><li>11,119</li><li>486</li></ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Warehouse raises the floor</h2>
+  <p class="sub">Same tokens, different values. Nothing operational renders below 14px in the
+  picker app, and regular weight steps 400 → 500 because thin strokes vanish under glare. Flip it —
+  the markup below is identical in both.</p></div>
+  
+  <div class="board" id="board" data-m="desk">
+    <p class="board-note" id="bnote">Seller dashboard on a desk monitor. Density is the point —
+    more rows visible means fewer scrolls to find the order someone is asking about.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="k-l">Open orders</div><div class="k-v">1,284</div></div>
+      <div class="kpi"><div class="k-l">SLA at risk</div><div class="k-v">37</div></div>
+      <div class="kpi"><div class="k-l">Fill rate</div><div class="k-v">96.4%</div></div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>SKU</th><th>Bin</th><th class="num">Qty</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="id">SKU-4417-BLK-M</td><td class="id">A-12-03</td><td class="num">4</td><td><span class="st ok"><span class="d"></span>Picked</span></td></tr>
+          <tr><td class="id">SKU-9120-WHT-L</td><td class="id">C-04-11</td><td class="num">102</td><td><span class="st wn"><span class="d"></span>Short</span></td></tr>
+          <tr><td class="id">SKU-2288-NVY-S</td><td class="id">B-21-07</td><td class="num">1</td><td><span class="st bd"><span class="d"></span>Not found</span></td></tr>
+          <tr><td class="id">SKU-0071-GRN-XL</td><td class="id">A-03-19</td><td class="num">1,240</td><td><span class="st ok"><span class="d"></span>Picked</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Composite styles</h2>
+  <p class="sub">Reach for these, not the raw tokens — size, weight, line height and tracking are
+  already decided. <code class="mono">leading-*</code> appears zero times in the dashboard today,
+  which is why line height is currently whatever the browser felt like.</p></div>
+  <div class="styles" id="styles"><div class="sty"><div class="cls">.ed-h1</div>
+    <div class="ex" style="font-size:24px;font-weight:600;letter-spacing:-.022em">Order visibility</div><div class="spec">24 / 600 / 1.2 / −.022em</div></div><div class="sty"><div class="cls">.ed-h3</div>
+    <div class="ex" style="font-size:18px;font-weight:600">Pending dispatch</div><div class="spec">18 / 600 / 1.2</div></div><div class="sty"><div class="cls">.ed-body</div>
+    <div class="ex" style="font-size:14px">Orders fetched from integrated marketplaces.</div><div class="spec">14 / 400 / 1.45</div></div><div class="sty"><div class="cls">.ed-label</div>
+    <div class="ex" style="font-size:12px;font-weight:500">Warehouse</div><div class="spec">12 / 500 / 1.45</div></div><div class="sty"><div class="cls">.ed-caption</div>
+    <div class="ex" style="font-size:11px">Synced 4 minutes ago</div><div class="spec">11 / 400 / 1.35</div></div><div class="sty"><div class="cls">.ed-eyebrow</div>
+    <div class="ex" style="font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase">INVENTORY</div><div class="spec">10 / 500 / .09em / caps</div></div><div class="sty"><div class="cls">.ed-cell</div>
+    <div class="ex" style="font-size:12px">Bengaluru · BLR-01</div><div class="spec">12 / 400 / 1.35</div></div><div class="sty"><div class="cls">.ed-metric</div>
+    <div class="ex" style="font-size:30px;font-weight:700;letter-spacing:-.022em;font-variant-numeric:tabular-nums">1,284</div><div class="spec">30 / 700 / tabular</div></div><div class="sty"><div class="cls">.ed-id</div>
+    <div class="ex" style="font-size:12px;font-weight:500;font-family:" jetbrains="" mono",monospace;font-variant-numeric:slashed-zero="" tabular-nums;letter-spacing:-.01em"="">SKU-4417-BLK-M</div><div class="spec">12 / 500 / mono / slashed-zero</div></div><div class="sty"><div class="cls">.ed-id-strong</div>
+    <div class="ex" style="font-size:14px;font-weight:700;font-family:" jetbrains="" mono",monospace;font-variant-numeric:slashed-zero="" tabular-nums;letter-spacing:-.01em"="">ORD-880241</div><div class="spec">14 / 700 / mono</div></div></div>
+</section>
+
+<footer>
+  <p>Generated from <code>tokens/type.json</code>. Audit any app with
+  <code>npm run lint:scale -- &lt;src&gt;</code>. Next foundation: <strong>Space</strong> —
+  the grid, padding and corner radius these sit on.</p>
+</footer>
+</div>

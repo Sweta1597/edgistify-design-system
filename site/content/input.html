@@ -1,0 +1,185 @@
+<div class="wrap">
+<header>
+  <div class="eyebrow"><span class="dot"></span> Edgistify Design System · Component 04</div>
+  <h1>Input</h1>
+  <p class="lede">154 inputs, 57 checkboxes, 44 selects and 22 radios across the dashboard — and
+  <strong>three separate <code class="mono">inputCls</code> constants</strong> defined in three
+  files, all meaning the same thing and none agreeing. Two of the things this fixes are
+  accessibility, not styling.</p>
+</header>
+
+<section>
+  <div class="sec-head"><h2>The label problem</h2>
+  <p class="sub">The dashboard has <strong>45 standalone <code class="mono">&lt;label&gt;</code>
+  elements and 12 <code class="mono">htmlFor</code> between them</strong>. An unassociated label
+  doesn’t focus its field when clicked and isn’t announced with it. Click both labels below.</p></div>
+  
+  <div class="two">
+    <div class="stage demo-broken">
+      <div class="lbl">Today — label not wired</div>
+      <label>Safety stock</label>
+      <input class="ed-input" type="number" value="120">
+      <p class="cap bad">clicking the label does nothing</p>
+    </div>
+    <div class="stage">
+      <div class="lbl">&lt;Field&gt; — id generated and wired</div>
+      <div class="ed-field">
+        <label class="ed-field__label" for="demo-safety">Safety stock</label>
+        <input class="ed-input" id="demo-safety" type="number" value="120" aria-describedby="demo-safety-hint">
+        <span class="ed-field__hint" id="demo-safety-hint">Units held back from allocation</span>
+      </div>
+      <p class="cap">clicking the label focuses the field</p>
+    </div>
+  </div>
+  <div class="note">
+    <span class="k">RULE 09</span>
+    <p><strong><code class="mono">&lt;Field&gt;</code> owns the id.</strong> It generates one,
+    points the label at it, wires <code class="mono">aria-describedby</code> to the hint and the
+    error, and sets <code class="mono">aria-invalid</code> when an error is present. Getting the
+    association right costs nothing; getting it wrong is no longer possible.</p>
+    <p>The error styling is driven by <code class="mono">aria-invalid</code> rather than a
+    separate class, so what a screen reader announces and what the border shows come from one
+    value — the same rule as <code class="mono">aria-sort</code> on Table.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>States</h2>
+  <p class="sub">Tab through these. <code class="mono">focus:outline-none</code> appears 51 times
+  in the dashboard; here focus is replaced, never removed. Submit the form below to see validation
+  move focus and announce itself.</p></div>
+  <div class="stage"><div class="grid2" id="states"><div class="ed-field"><span class="ed-field__label">Default</span><input class="ed-input" placeholder="Search orders, SKU, customer"></div><div class="ed-field"><span class="ed-field__label">Filled</span><input class="ed-input" value="Nilgiri Stores"></div><div class="ed-field"><span class="ed-field__label">Invalid — aria-invalid drives it</span><input class="ed-input" value="SKU-44" aria-invalid="true" aria-describedby="s-err"><span class="ed-field__error" id="s-err" style="margin-top:6px"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" style="flex:none;margin-top:1px"><circle cx="8" cy="8" r="6.5"></circle><path d="M8 5v3.5M8 11h.01" stroke-linecap="round"></path></svg>Not a valid SKU — expected SKU-nnnn-COL-S</span></div><div class="ed-field"><span class="ed-field__label">Disabled — value stays readable</span><input class="ed-input" value="BLR-01 · Bommanahalli" disabled=""></div><div class="ed-field"><span class="ed-field__label">Read only</span><input class="ed-input" value="ORD-880241" readonly=""></div><div class="ed-field"><span class="ed-field__label">Textarea</span><textarea class="ed-textarea" placeholder="Note for the picker…"></textarea></div></div></div>
+  <div class="stage">
+    <div class="lbl">Live validation</div>
+    <form id="demo-form" novalidate="" style="max-width:420px">
+      <div class="stack">
+        <div class="ed-field">
+          <label class="ed-field__label" for="f-sku">SKU<span class="ed-field__required" aria-hidden="true">*</span></label>
+          <input class="ed-input ed-input--id" id="f-sku" placeholder="SKU-0000-XXX-X" aria-required="true">
+          <span class="ed-field__hint" id="f-sku-hint">Format: SKU-nnnn-COL-S</span>
+        </div>
+        <div class="ed-field">
+          <label class="ed-field__label" for="f-qty">Reorder quantity<span class="ed-field__required" aria-hidden="true">*</span></label>
+          <div class="ed-input-group">
+            <input class="ed-input" id="f-qty" type="number" placeholder="0" aria-required="true">
+            <span class="ed-input-group__addon">units</span>
+          </div>
+        </div>
+        <button class="ed-btn ed-btn--primary" type="submit">Create purchase order</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Prefix, suffix, icon</h2>
+  <p class="sub">Currency and units belong beside the field, not inside the placeholder — a
+  placeholder vanishes the moment someone types, taking the unit with it.</p></div>
+  <div class="stage"><div class="grid2" id="addons">
+ <div class="ed-field"><span class="ed-field__label">Landed cost</span>
+   <div class="ed-input-group"><span class="ed-input-group__addon">₹</span>
+   <input class="ed-input" type="number" value="312"><span class="ed-input-group__addon">per unit</span></div></div>
+ <div class="ed-field"><span class="ed-field__label">Search</span>
+   <div class="ed-input-icon">
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+     <input class="ed-input" placeholder="Search job, order or customer"></div></div>
+ <div class="ed-field"><span class="ed-field__label">Pick window</span>
+   <input class="ed-input" type="date" value="2026-09-17"></div>
+ <div class="ed-field"><span class="ed-field__label">Weight</span>
+   <div class="ed-input-group"><input class="ed-input" type="number" value="2.4">
+   <span class="ed-input-group__addon">kg</span></div></div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Numbers and identifiers</h2>
+  <p class="sub">A quantity field right-aligns with tabular figures so a column of them compares
+  by eye — <strong>none of the dashboard’s 28 number inputs do today</strong>. The spinner is
+  removed: it’s a 12px hit target that changes a stock count by accident.</p></div>
+  <div class="stage"><div class="grid3" id="numeric">
+ <div class="ed-field"><span class="ed-field__label">On hand</span><input class="ed-input" type="number" value="1240"></div>
+ <div class="ed-field"><span class="ed-field__label">Reserved</span><input class="ed-input" type="number" value="98"></div>
+ <div class="ed-field"><span class="ed-field__label">SKU</span><input class="ed-input ed-input--id" value="SKU-0071-GRN-XL"></div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Checkbox, radio, select</h2>
+  <p class="sub">Drawn rather than left native, because the table’s select-all needs a real
+  indeterminate state and the control has to reach 44px in warehouse mode. Tick some rows.</p></div>
+  <div class="two">
+    <div class="stage">
+      <div class="lbl">Indeterminate — “some”, not “all”</div>
+      <label class="ed-check" style="border-bottom:1px solid var(--ed-border-subtle);padding-bottom:10px;margin-bottom:10px;width:100%">
+        <input type="checkbox" class="ed-checkbox" id="chk-all">
+        <span class="ed-check__text"><strong>Select all lines</strong></span>
+      </label>
+      <div class="stack" id="chk-rows" style="gap:2px">
+ <label class="ed-check"><input type="checkbox" class="ed-checkbox" data-line="">
+ <span class="ed-check__text"><span class="mono" style="font-variant-numeric:slashed-zero">SKU-4417-BLK-M</span>
+ <span class="ed-check__hint">4 units</span></span></label>
+ <label class="ed-check"><input type="checkbox" class="ed-checkbox" data-line="">
+ <span class="ed-check__text"><span class="mono" style="font-variant-numeric:slashed-zero">SKU-9120-WHT-L</span>
+ <span class="ed-check__hint">102 units</span></span></label>
+ <label class="ed-check"><input type="checkbox" class="ed-checkbox" data-line="">
+ <span class="ed-check__text"><span class="mono" style="font-variant-numeric:slashed-zero">SKU-2288-NVY-S</span>
+ <span class="ed-check__hint">1 unit</span></span></label>
+ <label class="ed-check"><input type="checkbox" class="ed-checkbox" data-line="">
+ <span class="ed-check__text"><span class="mono" style="font-variant-numeric:slashed-zero">SKU-0071-GRN-XL</span>
+ <span class="ed-check__hint">1,240 units</span></span></label></div>
+    </div>
+    <div class="stage">
+      <div class="lbl">Radio and select</div>
+      <div class="stack">
+        <div class="stack" style="gap:2px" role="radiogroup" aria-label="Allocation strategy">
+          <label class="ed-check"><input type="radio" name="alloc" class="ed-radio" checked="">
+            <span class="ed-check__text">FEFO<span class="ed-check__hint">First expiry, first out</span></span></label>
+          <label class="ed-check"><input type="radio" name="alloc" class="ed-radio">
+            <span class="ed-check__text">FIFO<span class="ed-check__hint">First in, first out</span></span></label>
+          <label class="ed-check"><input type="radio" name="alloc" class="ed-radio" disabled="">
+            <span class="ed-check__text">Nearest warehouse<span class="ed-check__hint">Needs multi-node routing</span></span></label>
+        </div>
+        <div class="ed-field">
+          <label class="ed-field__label" for="f-wh">Warehouse</label>
+          <select class="ed-select" id="f-wh">
+            <option>BLR-01 · Bommanahalli</option>
+            <option>BLR-02 · Nelamangala</option>
+            <option>HYD-01 · Medchal</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>API</h2></div>
+  <pre><span class="k">import</span> { Field, Input, Select, Checkbox, InputGroup, InputAddon }
+  <span class="k">from</span> '@edgistify/design-system/react/Input';
+<span class="k">import</span> '@edgistify/design-system/input.css';
+
+<span class="c">// Field generates the id and wires label + hint + error + aria-invalid</span>
+&lt;<span class="k">Field</span> label="Safety stock" hint="Units held back" error={errors.safety} required&gt;
+  &lt;<span class="k">Input</span> type="number" value={v} onChange={onChange} /&gt;
+&lt;/<span class="k">Field</span>&gt;
+
+&lt;<span class="k">Field</span> label="Landed cost"&gt;
+  &lt;<span class="k">InputGroup</span>&gt;
+    &lt;<span class="k">InputAddon</span>&gt;₹&lt;/<span class="k">InputAddon</span>&gt;
+    &lt;<span class="k">Input</span> type="number" /&gt;
+    &lt;<span class="k">InputAddon</span>&gt;per unit&lt;/<span class="k">InputAddon</span>&gt;
+  &lt;/<span class="k">InputGroup</span>&gt;
+&lt;/<span class="k">Field</span>&gt;
+
+<span class="c">// the checkbox wraps its own label — no id needed at all</span>
+&lt;<span class="k">Checkbox</span> label="Encode in barcode" hint="Adds ~4mm to the label" /&gt;
+&lt;<span class="k">Checkbox</span> indeterminate={some &amp;&amp; !all} checked={all} onChange={toggleAll} /&gt;</pre>
+</section>
+
+<footer>
+  <p>Contrast now covers <strong>177 pairings</strong>. Three failed on the first run: the invalid
+  border was unreadable on a dark surface (2.20:1) — the same mistake I made on card accents — and
+  disabled field text sat at 1.97:1.</p>
+  <p style="margin-top:10px">WCAG exempts inactive controls from contrast, but a locked settings
+  field whose value you cannot read is useless, so disabled fields keep a readable value and take
+  their cue from the fill, the border and the cursor instead.</p>
+</footer>
+</div>

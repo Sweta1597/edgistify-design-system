@@ -1,0 +1,285 @@
+<div class="wrap">
+<header>
+  <div class="eyebrow"><span class="dot"></span> Edgistify Design System · Component 03</div>
+  <h1>Table</h1>
+  <p class="lede">The dashboard has 45 tables, eleven different header treatments, and
+  <strong>two sticky headers</strong>. Row hover appears exactly once. Those aren’t styling
+  inconsistencies — they’re usability defects, so this component makes the right thing the
+  default and the exception opt-in.</p>
+</header>
+
+<section>
+  <div class="sec-head"><h2>Sticky by default</h2>
+  <p class="sub">A 200-row order list whose header scrolls away makes every column a guess. Scroll
+  inside the box — the head stays, the footer totals stay, and the SKU column keeps its identity.
+  Pass <code class="mono">staticHead</code> for the rare table short enough not to need it.</p></div>
+  
+  <div class="ed-card">
+    <div class="ed-card__header ed-card__header--ruled">
+      <div class="ed-card__heading">
+        <h3 class="ed-card__title">Open orders</h3>
+        <p class="ed-card__subtitle">BLR-01 · updated 4 min ago</p>
+      </div>
+      <div class="ed-card__actions">
+        <button class="ed-btn ed-btn--ghost ed-btn--xs">Export</button>
+      </div>
+    </div>
+    <div class="ed-card__body ed-card__body--bleed">
+      <div class="ed-table-wrap" style="max-height:340px">
+        <table class="ed-table" id="t-sticky">
+          <thead><tr>
+            <th class="ed-th--sortable" aria-sort="none"><button type="button" data-sort="id">Order</button></th>
+            <th class="ed-th--sortable" aria-sort="ascending"><button type="button" data-sort="sku">SKU</button></th>
+            <th>Customer</th>
+            <th class="ed-th--sortable ed-th--num" aria-sort="none"><button type="button" data-sort="qty">Qty</button></th>
+            <th class="ed-th--sortable ed-th--num" aria-sort="none"><button type="button" data-sort="tat">TAT</button></th>
+            <th>Status</th>
+          </tr></thead>
+          <tbody id="tb-sticky"><tr class="ed-tr--danger"><td class="ed-td--id">ORD-880241</td><td class="ed-td--id">SKU-4417-BLK-M</td>
+  <td>Aarti Menon</td><td class="ed-td--num">4</td>
+  <td class="ed-td--num">18.4h</td><td><span class="pill bd">SLA breach</span></td></tr><tr class=""><td class="ed-td--id">ORD-880242</td><td class="ed-td--id">SKU-9120-WHT-L</td>
+  <td>Nilgiri Stores</td><td class="ed-td--num">102</td>
+  <td class="ed-td--num">6.1h</td><td><span class="pill ok">Picked</span></td></tr><tr class="ed-tr--warning"><td class="ed-td--id">ORD-880243</td><td class="ed-td--id">SKU-2288-NVY-S</td>
+  <td>TechDepot Pvt Ltd</td><td class="ed-td--num">1</td>
+  <td class="ed-td--num">2.0h</td><td><span class="pill wn">Short</span></td></tr><tr class=""><td class="ed-td--id">ORD-880244</td><td class="ed-td--id">SKU-0071-GRN-XL</td>
+  <td>Vasanth &amp; Co</td><td class="ed-td--num">1,240</td>
+  <td class="ed-td--num">9.8h</td><td><span class="pill ok">Picked</span></td></tr><tr class=""><td class="ed-td--id">ORD-880245</td><td class="ed-td--id">SKU-5510-RED-M</td>
+  <td>Kiran's Kitchen</td><td class="ed-td--num">18</td>
+  <td class="ed-td--num">11.2h</td><td><span class="pill ok">Packed</span></td></tr><tr class="ed-tr--danger"><td class="ed-td--id">ORD-880246</td><td class="ed-td--id">SKU-3390-BLU-L</td>
+  <td>Metro Retail</td><td class="ed-td--num">7</td>
+  <td class="ed-td--num">21.5h</td><td><span class="pill bd">SLA breach</span></td></tr><tr class=""><td class="ed-td--id">ORD-880247</td><td class="ed-td--id">SKU-1102-BLK-S</td>
+  <td>Anand Traders</td><td class="ed-td--num">56</td>
+  <td class="ed-td--num">4.4h</td><td><span class="pill ok">Picked</span></td></tr><tr class="ed-tr--warning"><td class="ed-td--id">ORD-880248</td><td class="ed-td--id">SKU-7741-WHT-M</td>
+  <td>Coastal Foods</td><td class="ed-td--num">3</td>
+  <td class="ed-td--num">7.9h</td><td><span class="pill wn">Short</span></td></tr><tr class=""><td class="ed-td--id">ORD-880249</td><td class="ed-td--id">SKU-6620-GRY-XL</td>
+  <td>Lakeview Mart</td><td class="ed-td--num">412</td>
+  <td class="ed-td--num">13.0h</td><td><span class="pill ok">Packed</span></td></tr><tr class="ed-tr--warning"><td class="ed-td--id">ORD-880250</td><td class="ed-td--id">SKU-8834-NVY-M</td>
+  <td>Deccan Supply</td><td class="ed-td--num">9</td>
+  <td class="ed-td--num">16.7h</td><td><span class="pill wn">Ageing</span></td></tr></tbody>
+          <tfoot><tr>
+            <td colspan="3">28 orders</td>
+            <td class="ed-td--num">3,914</td>
+            <td class="ed-td--num">14.2h</td>
+            <td></td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="note">
+    <span class="k">RULE 08</span>
+    <p><strong>Sorting is drawn from <code class="mono">aria-sort</code>, not from a separate
+    prop.</strong> The arrow and the announced state come from one value, so a screen reader and
+    a sighted user can never be told different things about the same column.</p>
+    <p>None of the dashboard’s 45 tables can be sorted today. Click a header above — that is the
+    whole API: pass <code class="mono">onSort</code> and the header becomes a real button.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Cell roles</h2>
+  <p class="sub">A cell says what kind of thing it holds; the system decides how that looks. The
+  dashboard already reaches for <code class="mono">font-mono</code> on 13 SKU cells by instinct —
+  this makes it a decision the system made once.</p></div>
+  <div class="roles" id="roles"><div class="role"><div class="n">&lt;Td id&gt;</div><div class="d">SKU, order number, bin, pincode. Mono with a slashed zero, so 0 and O can never be confused against a printed label.</div></div><div class="role"><div class="n">&lt;Td num&gt;</div><div class="d">Right-aligned and tabular. A column of quantities you cannot compare by eye is a column you read twice.</div></div><div class="role"><div class="n">&lt;Td strong&gt;</div><div class="d">The one column carrying the row’s meaning.</div></div><div class="role"><div class="n">&lt;Td muted&gt;</div><div class="d">Secondary detail — timestamps, source, notes.</div></div><div class="role"><div class="n">&lt;Td top&gt;</div><div class="d">Top-aligned for cells whose neighbours wrap.</div></div><div class="role"><div class="n">&lt;Td actions&gt;</div><div class="d">Shrinks to content, sticks right, stops the row click.</div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Three densities</h2>
+  <p class="sub">The dashboard uses five different vertical paddings — <code class="mono">py-1.5</code>
+  through <code class="mono">py-4</code>. There are three real cases, and
+  <code class="mono">comfortable</code> also switches cells to top alignment because that is what
+  wrapped content needs.</p></div>
+  <div id="densities">
+  <div style="margin-bottom:22px"><div class="lbl">compact · 6px, for mini-tables inside a card</div>
+  <div class="ed-card"><div class="ed-card__body ed-card__body--bleed"><div class="ed-table-wrap">
+  <table class="ed-table ed-table--compact"><thead><tr><th>SKU</th><th>Bin</th><th class="ed-th--num">Qty</th><th>Status</th></tr></thead>
+ <tbody><tr><td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">4</td><td><span class="pill bd">SLA breach</span></td></tr><tr><td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">102</td><td><span class="pill ok">Picked</span></td></tr><tr><td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1</td><td><span class="pill wn">Short</span></td></tr></tbody></table>
+  </div></div></div></div>
+  <div style="margin-bottom:22px"><div class="lbl">default · 8px</div>
+  <div class="ed-card"><div class="ed-card__body ed-card__body--bleed"><div class="ed-table-wrap">
+  <table class="ed-table "><thead><tr><th>SKU</th><th>Bin</th><th class="ed-th--num">Qty</th><th>Status</th></tr></thead>
+ <tbody><tr><td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">4</td><td><span class="pill bd">SLA breach</span></td></tr><tr><td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">102</td><td><span class="pill ok">Picked</span></td></tr><tr><td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1</td><td><span class="pill wn">Short</span></td></tr></tbody></table>
+  </div></div></div></div>
+  <div style="margin-bottom:22px"><div class="lbl">comfortable · 14px, top-aligned</div>
+  <div class="ed-card"><div class="ed-card__body ed-card__body--bleed"><div class="ed-table-wrap">
+  <table class="ed-table ed-table--comfortable"><thead><tr><th>SKU</th><th>Bin</th><th class="ed-th--num">Qty</th><th>Status</th></tr></thead>
+ <tbody><tr><td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">4</td><td><span class="pill bd">SLA breach</span></td></tr><tr><td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">102</td><td><span class="pill ok">Picked</span></td></tr><tr><td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1</td><td><span class="pill wn">Short</span></td></tr></tbody></table>
+  </div></div></div></div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Selection and severity</h2>
+  <p class="sub">A severity stripe rather than a tinted row — a wash of colour behind numbers
+  fights the numbers. Tick a row.</p></div>
+  <div class="ed-card"><div class="ed-card__body ed-card__body--bleed">
+    <div class="ed-table-wrap">
+      <table class="ed-table ed-table--clickable" id="t-select">
+        <thead><tr>
+          <th class="ed-th--select"><input type="checkbox" id="sel-all" aria-label="Select all rows"></th>
+          <th>SKU</th><th>Bin</th><th class="ed-th--num">Short</th><th>Status</th>
+          <th class="ed-th--actions">Actions</th>
+        </tr></thead>
+        <tbody id="tb-select">
+  <tr class="ed-tr--danger">
+    <td class="ed-td--select"><input type="checkbox" aria-label="Select SKU-4417-BLK-M"></td>
+    <td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-12-03</td>
+    <td class="ed-td--num">4</td><td><span class="pill bd">SLA breach</span></td>
+    <td class="ed-td--actions"><button class="ed-btn ed-btn--ghost ed-btn--xs">Open</button></td>
+  </tr>
+  <tr class="">
+    <td class="ed-td--select"><input type="checkbox" aria-label="Select SKU-9120-WHT-L"></td>
+    <td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">C-04-11</td>
+    <td class="ed-td--num">102</td><td><span class="pill ok">Picked</span></td>
+    <td class="ed-td--actions"><button class="ed-btn ed-btn--ghost ed-btn--xs">Open</button></td>
+  </tr>
+  <tr class="ed-tr--warning">
+    <td class="ed-td--select"><input type="checkbox" aria-label="Select SKU-2288-NVY-S"></td>
+    <td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">B-21-07</td>
+    <td class="ed-td--num">1</td><td><span class="pill wn">Short</span></td>
+    <td class="ed-td--actions"><button class="ed-btn ed-btn--ghost ed-btn--xs">Open</button></td>
+  </tr>
+  <tr class="">
+    <td class="ed-td--select"><input type="checkbox" aria-label="Select SKU-0071-GRN-XL"></td>
+    <td class="ed-td--id">SKU-0071-GRN-XL</td><td class="ed-td--id">A-03-19</td>
+    <td class="ed-td--num">1240</td><td><span class="pill ok">Picked</span></td>
+    <td class="ed-td--actions"><button class="ed-btn ed-btn--ghost ed-btn--xs">Open</button></td>
+  </tr>
+  <tr class="">
+    <td class="ed-td--select"><input type="checkbox" aria-label="Select SKU-5510-RED-M"></td>
+    <td class="ed-td--id">SKU-5510-RED-M</td><td class="ed-td--id">D-08-02</td>
+    <td class="ed-td--num">18</td><td><span class="pill ok">Packed</span></td>
+    <td class="ed-td--actions"><button class="ed-btn ed-btn--ghost ed-btn--xs">Open</button></td>
+  </tr></tbody>
+      </table>
+    </div>
+  </div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Wide tables pin their first column</h2>
+  <p class="sub">Scroll this sideways. Without a pinned identifier the row loses its name halfway
+  across, and you are reading numbers that belong to nothing. Two of the dashboard’s tables are
+  over 1,080px wide.</p></div>
+  <div class="ed-card"><div class="ed-card__body ed-card__body--bleed">
+    <div class="ed-table-wrap">
+      <table class="ed-table ed-table--compact ed-table--pin-first" style="min-width:980px" id="t-wide"><thead><tr><th class="">SKU</th><th class="">Bin</th><th class="">Batch</th><th class="ed-th--num">MRP</th><th class="ed-th--num">Landed</th><th class="ed-th--num">On hand</th><th class="ed-th--num">Reserved</th><th class="ed-th--num">Available</th><th class="ed-th--num">Ageing</th><th class="ed-th--num">Last count</th></tr></thead>
+  <tbody><tr>
+   <td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-10-03</td><td class="ed-td--id">B-2600</td>
+   <td class="ed-td--num">₹499</td><td class="ed-td--num">₹312</td>
+   <td class="ed-td--num">12</td><td class="ed-td--num">4</td>
+   <td class="ed-td--num">8</td><td class="ed-td--num">12d</td>
+   <td class="ed-td--num">01 Sep</td></tr><tr>
+   <td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">A-11-03</td><td class="ed-td--id">B-2601</td>
+   <td class="ed-td--num">₹629</td><td class="ed-td--num">₹410</td>
+   <td class="ed-td--num">306</td><td class="ed-td--num">102</td>
+   <td class="ed-td--num">204</td><td class="ed-td--num">19d</td>
+   <td class="ed-td--num">02 Sep</td></tr><tr>
+   <td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">A-12-03</td><td class="ed-td--id">B-2602</td>
+   <td class="ed-td--num">₹759</td><td class="ed-td--num">₹508</td>
+   <td class="ed-td--num">3</td><td class="ed-td--num">1</td>
+   <td class="ed-td--num">2</td><td class="ed-td--num">26d</td>
+   <td class="ed-td--num">03 Sep</td></tr><tr>
+   <td class="ed-td--id">SKU-0071-GRN-XL</td><td class="ed-td--id">A-13-03</td><td class="ed-td--id">B-2603</td>
+   <td class="ed-td--num">₹889</td><td class="ed-td--num">₹606</td>
+   <td class="ed-td--num">3,720</td><td class="ed-td--num">1240</td>
+   <td class="ed-td--num">2,480</td><td class="ed-td--num">33d</td>
+   <td class="ed-td--num">04 Sep</td></tr><tr>
+   <td class="ed-td--id">SKU-5510-RED-M</td><td class="ed-td--id">A-14-03</td><td class="ed-td--id">B-2604</td>
+   <td class="ed-td--num">₹1,019</td><td class="ed-td--num">₹704</td>
+   <td class="ed-td--num">54</td><td class="ed-td--num">18</td>
+   <td class="ed-td--num">36</td><td class="ed-td--num">40d</td>
+   <td class="ed-td--num">05 Sep</td></tr><tr>
+   <td class="ed-td--id">SKU-3390-BLU-L</td><td class="ed-td--id">A-15-03</td><td class="ed-td--id">B-2605</td>
+   <td class="ed-td--num">₹1,149</td><td class="ed-td--num">₹802</td>
+   <td class="ed-td--num">21</td><td class="ed-td--num">7</td>
+   <td class="ed-td--num">14</td><td class="ed-td--num">47d</td>
+   <td class="ed-td--num">06 Sep</td></tr></tbody></table>
+    </div>
+  </div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Zebra or hairlines — never both</h2>
+  <p class="sub">Striping and a divider do the same job. Doing both makes a dense table look like
+  corduroy, so <code class="mono">zebra</code> removes the row borders when you turn it on.</p></div>
+  <div class="two">
+    <div><div class="lbl">Hairlines · default</div>
+      <div class="ed-card"><div class="ed-card__body ed-card__body--bleed">
+        <div class="ed-table-wrap"><table class="ed-table ed-table--compact" id="t-hair"><thead><tr><th>SKU</th><th>Bin</th><th class="ed-th--num">Qty</th><th>Status</th></tr></thead>
+ <tbody><tr><td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">4</td><td><span class="pill bd">SLA breach</span></td></tr><tr><td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">102</td><td><span class="pill ok">Picked</span></td></tr><tr><td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1</td><td><span class="pill wn">Short</span></td></tr><tr><td class="ed-td--id">SKU-0071-GRN-XL</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1,240</td><td><span class="pill ok">Picked</span></td></tr></tbody></table></div>
+      </div></div>
+    </div>
+    <div><div class="lbl">Zebra</div>
+      <div class="ed-card"><div class="ed-card__body ed-card__body--bleed">
+        <div class="ed-table-wrap"><table class="ed-table ed-table--compact ed-table--zebra" id="t-zebra"><thead><tr><th>SKU</th><th>Bin</th><th class="ed-th--num">Qty</th><th>Status</th></tr></thead>
+ <tbody><tr><td class="ed-td--id">SKU-4417-BLK-M</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">4</td><td><span class="pill bd">SLA breach</span></td></tr><tr><td class="ed-td--id">SKU-9120-WHT-L</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">102</td><td><span class="pill ok">Picked</span></td></tr><tr><td class="ed-td--id">SKU-2288-NVY-S</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1</td><td><span class="pill wn">Short</span></td></tr><tr><td class="ed-td--id">SKU-0071-GRN-XL</td><td class="ed-td--id">A-12-03</td>
+ <td class="ed-td--num">1,240</td><td><span class="pill ok">Picked</span></td></tr></tbody></table></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Empty</h2>
+  <p class="sub">Two empty states exist across 15,000 lines of dashboard. A filtered table that
+  returns nothing should say so, and say what to do about it.</p></div>
+  <div class="ed-card" style="max-width:560px"><div class="ed-card__body ed-card__body--bleed">
+    <div class="ed-table-wrap"><table class="ed-table">
+      <thead><tr><th>SKU</th><th>Bin</th><th class="ed-th--num">Qty</th></tr></thead>
+      <tbody><tr><td colspan="3" class="ed-table__empty">
+        <span class="ed-table__empty-title">No orders match these filters</span>
+        Try widening the date range, or clear the channel filter.
+      </td></tr></tbody>
+    </table></div>
+  </div></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>API</h2></div>
+  <pre><span class="k">import</span> { Table, TableWrap, THead, TBody, Tr, Th, Td }
+  <span class="k">from</span> '@edgistify/design-system/react/Table';
+<span class="k">import</span> '@edgistify/design-system/table.css';
+
+&lt;<span class="k">TableWrap</span> maxHeight={340}&gt;
+  &lt;<span class="k">Table</span> density="compact" clickable&gt;
+    &lt;<span class="k">THead</span>&gt;&lt;<span class="k">Tr</span>&gt;
+      &lt;<span class="k">Th</span> sort={dir} onSort={() =&gt; sortBy('sku')}&gt;SKU&lt;/<span class="k">Th</span>&gt;
+      &lt;<span class="k">Th</span> num&gt;Qty&lt;/<span class="k">Th</span>&gt;
+      &lt;<span class="k">Th</span> actions&gt;&lt;/<span class="k">Th</span>&gt;
+    &lt;/<span class="k">Tr</span>&gt;&lt;/<span class="k">THead</span>&gt;
+    &lt;<span class="k">TBody</span>&gt;
+      &lt;<span class="k">Tr</span> severity="danger" onClick={open}&gt;
+        &lt;<span class="k">Td</span> id&gt;SKU-4417-BLK-M&lt;/<span class="k">Td</span>&gt;   <span class="c">// mono, slashed zero</span>
+        &lt;<span class="k">Td</span> num&gt;1,240&lt;/<span class="k">Td</span>&gt;            <span class="c">// right, tabular</span>
+        &lt;<span class="k">Td</span> actions&gt;…&lt;/<span class="k">Td</span>&gt;
+      &lt;/<span class="k">Tr</span>&gt;
+    &lt;/<span class="k">TBody</span>&gt;
+  &lt;/<span class="k">Table</span>&gt;
+&lt;/<span class="k">TableWrap</span>&gt;</pre>
+</section>
+
+<footer>
+  <p>Every table on this page runs the shipped CSS from <code class="mono">ds.css</code>.
+  Contrast now covers <strong>150 pairings</strong> — the nine new ones include SKU text on a
+  hovered row and cell text on a selected row, which are easy to get wrong and passed first time.</p>
+  <p style="margin-top:10px">Still missing for the dashboard: <strong>Input</strong> (154),
+  <strong>Checkbox</strong> (57), <strong>Select</strong> (44), <strong>Modal</strong> (19).</p>
+</footer>
+</div>
