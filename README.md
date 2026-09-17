@@ -5,14 +5,71 @@ support docs (5173), support admin (5175).
 
 ## Install
 
+The package is installed straight from this repo at a **tag**, so an app
+upgrades when someone decides to, not whenever `main` moves:
+
+```json
+"@edgistify/design-system": "github:Sweta1597/edgistify-design-system#v0.1.0"
 ```
-npm i @edgistify/design-system   # or: "file:../../edgistify-design-system"
+
+```bash
+npm install
 ```
+
+You need read access to this repo and an SSH key on your GitHub account —
+npm clones it the same way `git clone` would. To take a new version, bump the
+tag in `package.json`, run `npm install`, and read [CHANGELOG.md](CHANGELOG.md)
+for what changed.
+
+Import the stylesheets **before** Tailwind's own layers, so utility classes can
+still win where an app needs them to:
 
 ```css
 @import "@edgistify/design-system/primitives.css";
 @import "@edgistify/design-system/semantic.css";
+@import "@edgistify/design-system/type.css";
+@import "@edgistify/design-system/space.css";
+/* then the components you use */
+@import "@edgistify/design-system/button.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
+
+Self-host the fonts — warehouse wifi is not a good place to discover a CDN
+dependency:
+
+```bash
+npm i @fontsource-variable/inter @fontsource-variable/jetbrains-mono
+```
+
+```js
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+```
+
+## Working on the design system
+
+```bash
+npm test          # 296 contrast pairings + grid + scale lints
+npm run build     # regenerate dist/dark-auto.css from semantic.css
+```
+
+`npm test` is what CI runs on every pull request. All three checks exit
+non-zero on failure, which is the point: the rules live in code rather than in
+somebody's memory. If you change `dist/semantic.css`, run `npm run build` and
+commit the result — CI fails if the generated file is stale.
+
+To develop against an app without publishing a tag, point the app at your
+working copy temporarily:
+
+```bash
+npm pkg set dependencies.@edgistify/design-system="file:../../edgistify-design-system"
+npm install
+```
+
+Just don't commit that — it only resolves on your machine.
 
 ## The two layers
 
