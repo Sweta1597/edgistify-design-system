@@ -1,0 +1,709 @@
+/* Edgistify Design System — marketing
+   ------------------------------------------------------------------
+   The brand and marketing layer: the public website, landing pages,
+   campaign pages and anything the marketing team ships to people who
+   are NOT logged in. Same tokens, same fonts, same rules about teal —
+   read at arm's length on a phone rather than at a desk in a dashboard.
+
+   It is a SCOPE, not a mode. Wrap the page in `.ed-mk` and three things
+   happen:
+
+     1. The type scale steps up to reading sizes (16px body, not 14).
+     2. Controls grow to touch sizes (44px buttons, not 32).
+     3. A small set of marketing-only tokens becomes available:
+        display type, section rhythm, container widths, the dark band.
+
+   Every product component still works inside it — a Button, a Badge,
+   a Card — because they read the same tokens, which the scope re-tunes.
+   The scope is what lets one Button.jsx serve a warehouse scanner at
+   56px and a landing page at 44px without a second component.
+
+   RULE 01 STILL APPLIES. Teal is the brand, not a status. On a marketing
+   page it appears in exactly three places: the wordmark's dot, ONE brand
+   button per viewport, and the accent on the dark band. Everywhere else
+   the page is ink and white, which is what makes the teal visible.
+
+   RULE 05 — NO PLACEHOLDER FACTS. A number, a logo or a city that is not
+   verified renders as a `.ed-mk-pending` slot, never as an invented
+   figure. The website hides pending slots in production; the docs keep
+   them visible so the gap is seen. (See marketing/Pending in react/.)
+   ------------------------------------------------------------------ */
+
+/* ==================================================================
+   1. THE SCOPE — reading scale, touch controls, marketing tokens
+   ================================================================== */
+.ed-mk {
+  /* type: reading sizes. Each step +2 on the product scale, the same
+     move warehouse mode makes and for the same reason — distance. */
+  --ed-text-2xs:  12px;
+  --ed-text-xs:   13px;
+  --ed-text-sm:   14px;
+  --ed-text-md:   15px;
+  --ed-text-base: 16px;
+  --ed-text-lg:   18px;
+  --ed-text-xl:   20px;
+  --ed-text-2xl:  24px;
+  --ed-text-3xl:  30px;
+  --ed-text-4xl:  40px;
+  --ed-text-5xl:  48px;
+
+  /* controls: touch targets. 44px is the WCAG 2.5.8 / Apple minimum. */
+  --ed-control-xs:  32px;
+  --ed-control-sm:  36px;
+  --ed-control-md:  44px;
+  --ed-control-lg:  48px;
+  --ed-control-xl:  56px;
+  --ed-target-min:  44px;
+  --ed-pad-control-x: 20px;
+  --ed-pad-chip-x:    12px;
+  --ed-pad-chip-y:     6px;
+  --ed-radius-control: 8px;
+
+  /* ---- display type: fluid, capped. A 56px headline on a phone is
+     three words a line; the clamp lands at 36 there. --------------- */
+  --ed-mk-text-display: clamp(2.25rem, 1.5rem + 2.4vw, 3.25rem);  /* 36 → 52 */
+  --ed-mk-text-h1:      clamp(2rem,    1.45rem + 1.9vw, 2.75rem);  /* 32 → 44 */
+  --ed-mk-text-h2:      clamp(1.625rem, 1.3rem + 1.15vw, 2.25rem); /* 26 → 36 */
+  --ed-mk-text-h3:      clamp(1.25rem, 1.15rem + 0.35vw, 1.5rem);  /* 20 → 24 */
+  --ed-mk-text-lede:    clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);  /* 17 → 20 */
+  --ed-mk-leading-display: 1.06;
+  --ed-mk-leading-heading: 1.15;
+  --ed-mk-measure: 62ch;           /* prose never wider than this */
+  --ed-mk-measure-narrow: 44ch;    /* headlines */
+
+  /* ---- rhythm ------------------------------------------------- */
+  --ed-mk-container:        1200px;
+  --ed-mk-container-narrow:  760px;
+  --ed-mk-gutter:  clamp(16px, 4vw, 40px);
+  --ed-mk-section: clamp(56px, 5vw + 32px, 112px);   /* vertical, per section */
+  --ed-mk-block:   clamp(32px, 3vw + 16px, 56px);    /* head → body inside a section */
+
+  /* ---- the dark band --------------------------------------------
+     Ink in both themes. It is the one surface where teal is used as
+     an accent at rest, because at 10:1 on ink teal-300 reads as light
+     rather than as a status. Never put a status badge on the band. */
+  --ed-mk-band-surface:        var(--ed-ink);
+  --ed-mk-band-surface-raised: var(--ed-neutral-900);
+  --ed-mk-band-border:         var(--ed-neutral-800);
+  --ed-mk-band-text:           var(--ed-white);
+  --ed-mk-band-text-muted:     var(--ed-neutral-300);
+  --ed-mk-band-accent:         var(--ed-teal-300);
+
+  /* ---- motion ---------------------------------------------------- */
+  --ed-mk-ease: cubic-bezier(.2,.7,.2,1);
+  --ed-mk-dur:  .18s;
+
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  line-height: var(--ed-leading-normal);
+  color: var(--ed-text);
+  background: var(--ed-surface);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv05' 1, 'cv11' 1;
+}
+.ed-mk *, .ed-mk *::before, .ed-mk *::after { box-sizing: border-box; }
+.ed-mk :focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .ed-mk { --ed-mk-dur: 0s; } }
+
+/* Links in prose are ink with an underline, not teal. Teal links on a
+   page with teal buttons make everything look clickable. */
+/* :where() keeps this at zero specificity, so it is a default that any
+   component — a Button rendered as <a>, a chip, a menu item — overrides
+   without a fight. (Without it, `.ed-mk a` beat `.ed-btn--primary` and the
+   header's call to action rendered ink on ink.) */
+:where(.ed-mk a) { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+:where(.ed-mk a:hover) { color: var(--ed-text-link); }
+
+/* ==================================================================
+   2. TYPE
+   ================================================================== */
+.ed-mk-display, .ed-mk-h1, .ed-mk-h2, .ed-mk-h3, .ed-mk-h4 {
+  margin: 0;
+  color: var(--ed-text);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.ed-mk-display {
+  font: var(--ed-weight-bold) var(--ed-mk-text-display)/var(--ed-mk-leading-display) var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-tight);
+  max-width: var(--ed-mk-measure-narrow);
+}
+.ed-mk-h1 {
+  font: var(--ed-weight-bold) var(--ed-mk-text-h1)/var(--ed-mk-leading-heading) var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-tight);
+  max-width: var(--ed-mk-measure-narrow);
+}
+.ed-mk-h2 {
+  font: var(--ed-weight-semibold) var(--ed-mk-text-h2)/var(--ed-mk-leading-heading) var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-tight);
+  max-width: 30ch;
+}
+.ed-mk-h3 {
+  font: var(--ed-weight-semibold) var(--ed-mk-text-h3)/var(--ed-leading-tight) var(--ed-font-ui);
+  letter-spacing: -0.012em;
+}
+.ed-mk-h4 { font: var(--ed-weight-semibold) var(--ed-text-lg)/var(--ed-leading-tight) var(--ed-font-ui); }
+
+/* The one teal word in a headline: the thing we want remembered. */
+.ed-mk-display em, .ed-mk-h1 em, .ed-mk-h2 em { font-style: normal; color: var(--ed-text-link); }
+
+.ed-mk-lede {
+  margin: 0;
+  font: var(--ed-weight-regular) var(--ed-mk-text-lede)/var(--ed-leading-relaxed) var(--ed-font-ui);
+  color: var(--ed-text-secondary);
+  max-width: var(--ed-mk-measure);
+  text-wrap: pretty;
+}
+.ed-mk-body { margin: 0; font-size: var(--ed-text-base); line-height: var(--ed-leading-relaxed);
+              color: var(--ed-text-secondary); max-width: var(--ed-mk-measure); text-wrap: pretty; }
+.ed-mk-caption { margin: 0; font-size: var(--ed-text-sm); line-height: var(--ed-leading-normal); color: var(--ed-text-muted); }
+.ed-mk-eyebrow {
+  margin: 0 0 var(--ed-space-3);
+  display: inline-flex; align-items: center; gap: var(--ed-space-2);
+  font: var(--ed-weight-semibold) var(--ed-text-xs)/var(--ed-leading-none) var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ed-text-muted);
+}
+.ed-mk-eyebrow::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ed-brand); flex: none;
+}
+.ed-mk-eyebrow--plain::before { display: none; }
+
+/* A run of prose: paragraphs, lists. Reading measure, relaxed leading. */
+.ed-mk-prose { max-width: var(--ed-mk-measure); color: var(--ed-text-secondary);
+               font-size: var(--ed-text-base); line-height: var(--ed-leading-relaxed); }
+.ed-mk-prose > * + * { margin-top: var(--ed-space-4); }
+.ed-mk-prose strong { color: var(--ed-text); font-weight: var(--ed-weight-semibold); }
+.ed-mk-prose ul { padding-left: 1.2em; }
+
+/* ==================================================================
+   3. LAYOUT — container, section, grid, split
+   ================================================================== */
+.ed-mk-container {
+  width: 100%;
+  max-width: calc(var(--ed-mk-container) + var(--ed-mk-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--ed-mk-gutter);
+}
+.ed-mk-container--narrow { max-width: calc(var(--ed-mk-container-narrow) + var(--ed-mk-gutter) * 2); }
+
+.ed-mk-section { padding-block: var(--ed-mk-section); position: relative; }
+.ed-mk-section--tight { padding-block: calc(var(--ed-mk-section) * .6); }
+.ed-mk-section--flush-top { padding-top: 0; }
+.ed-mk-section--tint { background: var(--ed-canvas); }
+.ed-mk-section--ruled { border-top: 1px solid var(--ed-border-subtle); }
+
+/* The dark band. Roles are re-mapped in scope, so a Button, a Badge or
+   a Card dropped onto it comes out right without a "dark" prop. This
+   is the same trick as dark mode, applied to one region. */
+.ed-mk-section--band, .ed-mk-band {
+  background: var(--ed-mk-band-surface);
+  color: var(--ed-mk-band-text);
+  --ed-canvas:            var(--ed-mk-band-surface);
+  --ed-surface:           var(--ed-mk-band-surface-raised);
+  --ed-surface-raised:    var(--ed-neutral-800);
+  --ed-surface-sunken:    var(--ed-neutral-950);
+  --ed-text:              var(--ed-mk-band-text);
+  --ed-text-secondary:    var(--ed-neutral-200);
+  --ed-text-muted:        var(--ed-mk-band-text-muted);
+  --ed-text-link:         var(--ed-mk-band-accent);
+  --ed-border:            var(--ed-mk-band-border);
+  --ed-border-subtle:     var(--ed-neutral-900);
+  --ed-border-strong:     var(--ed-neutral-600);
+  --ed-focus:             var(--ed-mk-band-accent);
+  --ed-primary-surface:   var(--ed-white);
+  --ed-primary-hover:     var(--ed-neutral-100);
+  --ed-primary-active:    var(--ed-neutral-200);
+  --ed-on-primary:        var(--ed-ink);
+  --ed-secondary-surface: var(--ed-neutral-800);
+  --ed-secondary-hover:   var(--ed-neutral-700);
+  --ed-on-secondary:      var(--ed-white);
+  --ed-icon-accent:       var(--ed-mk-band-accent);
+  --ed-elevation-1: none;
+}
+.ed-mk-section--band .ed-mk-eyebrow { color: var(--ed-mk-band-accent); }
+.ed-mk-section--band .ed-mk-eyebrow::before { background: var(--ed-mk-band-accent); }
+
+/* Section head: eyebrow, heading, sub. Left-aligned by default —
+   centred heads only for the CTA band, where there is nothing beside them. */
+.ed-mk-section__head { margin-bottom: var(--ed-mk-block); display: flex; flex-direction: column; gap: var(--ed-space-3); }
+.ed-mk-section__head--center { align-items: center; text-align: center; }
+.ed-mk-section__head--center .ed-mk-h2, .ed-mk-section__head--center .ed-mk-lede { margin-inline: auto; }
+.ed-mk-section__head--row { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: var(--ed-space-6); flex-wrap: wrap; }
+
+.ed-mk-grid { display: grid; gap: var(--ed-gap-group); grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); }
+.ed-mk-grid--2 { --cols: 2; }
+.ed-mk-grid--3 { --cols: 3; }
+.ed-mk-grid--4 { --cols: 4; }
+@media (max-width: 1024px) { .ed-mk-grid--4 { --cols: 2; } .ed-mk-grid--3 { --cols: 2; } }
+@media (max-width: 640px)  { .ed-mk-grid { --cols: 1; } }
+
+/* Two columns that become one. `--split` sets the ratio. */
+.ed-mk-split { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center;
+               grid-template-columns: var(--split, minmax(0, 1.05fr) minmax(0, 1fr)); }
+.ed-mk-split--top { align-items: start; }
+@media (max-width: 900px) { .ed-mk-split { grid-template-columns: minmax(0, 1fr); } }
+
+.ed-mk-actions { display: flex; flex-wrap: wrap; gap: var(--ed-gap-tight); align-items: center; }
+.ed-mk-actions--center { justify-content: center; }
+@media (max-width: 480px) { .ed-mk-actions > .ed-btn { width: 100%; } }
+
+/* ==================================================================
+   4. THE TILE — the marketing card
+   ------------------------------------------------------------------
+   Not .ed-card. A product card carries elevation, a header slot and a
+   footer slot because it holds a table or a form. A tile holds one
+   idea: a heading, three lines and a link. Flat, roomy, bordered. */
+.ed-mk-tile {
+  display: flex; flex-direction: column; gap: var(--ed-space-3);
+  padding: clamp(20px, 2.4vw, 28px);
+  background: var(--ed-surface);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-panel);
+  color: var(--ed-text);
+  min-width: 0;
+  position: relative;
+  transition: border-color var(--ed-mk-dur) var(--ed-mk-ease), background-color var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-tile--tint { background: var(--ed-canvas); }
+.ed-mk-tile--link:hover, .ed-mk-tile--link:focus-within { border-color: var(--ed-border-strong); }
+.ed-mk-tile__icon { width: 40px; height: 40px; display: grid; place-items: center;
+                    border-radius: var(--ed-radius-card); background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle); }
+.ed-mk-tile__icon > svg { width: var(--ed-icon-md); height: var(--ed-icon-md); }
+.ed-mk-tile__title { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-xl)/var(--ed-leading-tight) var(--ed-font-ui); letter-spacing: -0.01em; }
+.ed-mk-tile__body { margin: 0; color: var(--ed-text-secondary); line-height: var(--ed-leading-relaxed); font-size: var(--ed-text-base); text-wrap: pretty; }
+.ed-mk-tile__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--ed-space-2);
+                    color: var(--ed-text-secondary); font-size: var(--ed-text-md); }
+.ed-mk-tile__list li { display: flex; gap: var(--ed-space-2); align-items: flex-start; }
+.ed-mk-tile__list li::before { content: ''; flex: none; width: 6px; height: 6px; border-radius: 50%; margin-top: .55em; background: var(--ed-brand); }
+.ed-mk-tile__foot { margin-top: auto; padding-top: var(--ed-space-3); display: flex; flex-wrap: wrap; gap: var(--ed-space-3); align-items: center; justify-content: space-between; }
+
+/* The text link with an arrow — the tertiary action on every tile. */
+.ed-mk-more {
+  display: inline-flex; align-items: center; gap: var(--ed-space-1);
+  font-weight: var(--ed-weight-semibold); font-size: var(--ed-text-md);
+  color: var(--ed-text); text-decoration: none;
+}
+.ed-mk-more::after { content: '→'; transition: translate var(--ed-mk-dur) var(--ed-mk-ease); }
+.ed-mk-more:hover { color: var(--ed-text-link); }
+.ed-mk-more:hover::after { translate: 3px 0; }
+/* Stretches a tile's whole face into the link's hit area. */
+.ed-mk-more--cover::before { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+
+/* Numbered tiles: steps, ranked reasons. */
+.ed-mk-tile__num { font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-id); color: var(--ed-text-muted); letter-spacing: .04em; }
+
+/* ==================================================================
+   5. CHIP — a selectable or linking pill (categories, channels, industries)
+   ================================================================== */
+.ed-mk-chip {
+  display: inline-flex; align-items: center; gap: var(--ed-space-2);
+  min-height: var(--ed-control-sm);
+  padding: var(--ed-pad-chip-y) var(--ed-space-4);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-pill);
+  background: var(--ed-surface);
+  color: var(--ed-text-secondary);
+  font: var(--ed-weight-medium) var(--ed-text-md)/1.2 var(--ed-font-ui);
+  cursor: pointer; text-decoration: none; user-select: none;
+  transition: background-color var(--ed-mk-dur), border-color var(--ed-mk-dur), color var(--ed-mk-dur);
+}
+.ed-mk-chip:hover { border-color: var(--ed-border-strong); color: var(--ed-text); }
+/* Selected is ink, not teal: a row of teal chips would out-shout the one brand button. */
+.ed-mk-chip[aria-pressed="true"], .ed-mk-chip[aria-current] {
+  background: var(--ed-primary-surface); border-color: var(--ed-primary-surface); color: var(--ed-on-primary);
+}
+.ed-mk-chip[aria-pressed="true"]::before { content: '✓'; font-size: .85em; }
+.ed-mk-chips { display: flex; flex-wrap: wrap; gap: var(--ed-space-2); }
+
+/* ==================================================================
+   6. PENDING — the honest placeholder (RULE 05)
+   ================================================================== */
+.ed-mk-pending {
+  display: inline-flex; align-items: center; gap: var(--ed-space-2);
+  padding: 2px var(--ed-space-2);
+  border: 1px dashed var(--ed-warning-border);
+  border-radius: var(--ed-radius-sharp);
+  background: var(--ed-warning-subtle);
+  color: var(--ed-warning-text);
+  font: var(--ed-weight-medium) var(--ed-text-xs)/1.3 var(--ed-font-ui);
+  vertical-align: middle;
+}
+.ed-mk-pending__dots { font-family: var(--ed-font-id); letter-spacing: .1em; color: var(--ed-text-muted); }
+.ed-mk-section--band .ed-mk-pending { background: transparent; color: var(--ed-amber-300); border-color: var(--ed-amber-600); }
+
+/* ==================================================================
+   7. WORDMARK
+   ------------------------------------------------------------------
+   Lowercase "edgistify" in the UI face, bold, tight, with a teal full
+   stop. The dot is the mark: it is the one place the brand colour
+   appears at rest on a light page. Never letter-space it, never
+   colour the word itself. */
+.ed-mk-wordmark {
+  display: inline-flex; align-items: baseline;
+  font: var(--ed-weight-bold) var(--ed-text-2xl)/1 var(--ed-font-ui);
+  letter-spacing: -0.03em;
+  color: var(--ed-text); text-decoration: none;
+}
+.ed-mk-wordmark::after { content: '.'; color: var(--ed-brand); }
+.ed-mk-wordmark--lg { font-size: var(--ed-text-3xl); }
+.ed-mk-wordmark--sm { font-size: var(--ed-text-xl); }
+
+/* ==================================================================
+   8. UTILITY BAR + HEADER + MEGA MENU + DRAWER
+   ================================================================== */
+.ed-mk-utility {
+  background: var(--ed-canvas);
+  border-bottom: 1px solid var(--ed-border-subtle);
+  font-size: var(--ed-text-xs);
+  color: var(--ed-text-muted);
+}
+.ed-mk-utility__in { display: flex; justify-content: flex-end; gap: var(--ed-space-5); min-height: 32px; align-items: center; }
+.ed-mk-utility a { text-decoration: none; color: inherit; }
+.ed-mk-utility a:hover { color: var(--ed-text); }
+
+.ed-mk-header {
+  position: sticky; top: 0; z-index: var(--ed-z-sticky);
+  background: color-mix(in srgb, var(--ed-surface) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--ed-border-subtle);
+}
+.ed-mk-header__in { display: flex; align-items: center; gap: var(--ed-space-6); min-height: 68px; }
+.ed-mk-header__nav { display: flex; align-items: center; gap: var(--ed-space-1); margin-left: var(--ed-space-4); }
+.ed-mk-header__spacer { flex: 1; }
+.ed-mk-header__actions { display: flex; align-items: center; gap: var(--ed-space-3); }
+
+/* Top-level items: link or disclosure button, identical at rest. */
+.ed-mk-navitem { position: relative; }
+.ed-mk-navitem__trigger {
+  display: inline-flex; align-items: center; gap: var(--ed-space-1);
+  height: var(--ed-control-sm); padding-inline: var(--ed-space-3);
+  border: 0; background: transparent; border-radius: var(--ed-radius-control);
+  font: var(--ed-weight-medium) var(--ed-text-md)/1 var(--ed-font-ui);
+  color: var(--ed-text-secondary); text-decoration: none; cursor: pointer;
+}
+.ed-mk-navitem__trigger:hover, .ed-mk-navitem__trigger[aria-expanded="true"] { background: var(--ed-secondary-surface); color: var(--ed-text); }
+.ed-mk-navitem__trigger > svg { width: 14px; height: 14px; transition: rotate var(--ed-mk-dur); }
+.ed-mk-navitem__trigger[aria-expanded="true"] > svg { rotate: 180deg; }
+
+/* The panel: one column per group, each row a title and a one-line
+   outcome. Wide enough to read, never wider than the viewport. */
+.ed-mk-menu {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  min-width: 300px; max-width: min(92vw, 880px);
+  padding: var(--ed-space-3);
+  background: var(--ed-surface-raised);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-panel);
+  box-shadow: var(--ed-elevation-3);
+  display: none; z-index: var(--ed-z-dropdown);
+}
+.ed-mk-menu[data-open="true"] { display: block; }
+.ed-mk-menu--cols { display: none; grid-template-columns: repeat(var(--cols, 2), minmax(220px, 1fr)); gap: var(--ed-space-2); }
+.ed-mk-menu--cols[data-open="true"] { display: grid; }
+.ed-mk-menu__group { padding: var(--ed-space-2); min-width: 0; }
+.ed-mk-menu__label { margin: 0 var(--ed-space-3) var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui);
+                     letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-menu__item {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: var(--ed-space-2) var(--ed-space-3);
+  border-radius: var(--ed-radius-card);
+  text-decoration: none; color: var(--ed-text);
+}
+.ed-mk-menu__item:hover { background: var(--ed-surface-hover); color: var(--ed-text); }
+.ed-mk-menu__item b { font-weight: var(--ed-weight-semibold); font-size: var(--ed-text-md); display: flex; align-items: center; gap: var(--ed-space-2); }
+.ed-mk-menu__item span { font-size: var(--ed-text-xs); color: var(--ed-text-muted); line-height: 1.35; }
+.ed-mk-menu__item--plain { padding-block: 6px; }
+.ed-mk-menu__all { margin-top: var(--ed-space-1); padding: var(--ed-space-2) var(--ed-space-3); }
+
+/* Hamburger + drawer, below 1024px. */
+.ed-mk-burger { display: none; }
+@media (max-width: 1023px) {
+  .ed-mk-header__nav, .ed-mk-header__actions .ed-mk-header__secondary { display: none; }
+  .ed-mk-burger { display: inline-flex; }
+}
+.ed-mk-drawer {
+  position: fixed; inset: 0; z-index: var(--ed-z-modal);
+  background: var(--ed-surface); overflow-y: auto;
+  padding: var(--ed-space-4) var(--ed-mk-gutter) var(--ed-space-10);
+  display: none;
+}
+.ed-mk-drawer[data-open="true"] { display: block; }
+.ed-mk-drawer__bar { display: flex; align-items: center; justify-content: space-between; min-height: 68px; }
+.ed-mk-drawer__group { padding-block: var(--ed-space-4); border-top: 1px solid var(--ed-border-subtle); }
+.ed-mk-drawer__group h4 { margin: 0 0 var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui);
+                          letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-drawer__group a { display: block; padding: var(--ed-space-2) 0; text-decoration: none; font-size: var(--ed-text-lg); font-weight: var(--ed-weight-medium); }
+.ed-mk-drawer__cta { display: flex; flex-direction: column; gap: var(--ed-space-3); padding-top: var(--ed-space-5); }
+
+/* ==================================================================
+   9. FOOTER
+   ================================================================== */
+.ed-mk-footer { background: var(--ed-canvas); border-top: 1px solid var(--ed-border-subtle); padding-block: var(--ed-space-16) var(--ed-space-8); font-size: var(--ed-text-md); }
+.ed-mk-footer__grid { display: grid; gap: var(--ed-space-10) var(--ed-space-8); grid-template-columns: minmax(0, 1.6fr) repeat(var(--cols, 5), minmax(0, 1fr)); }
+@media (max-width: 1024px) { .ed-mk-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ed-mk-footer__brand { grid-column: 1 / -1; } }
+@media (max-width: 560px)  { .ed-mk-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ed-mk-footer__brand p { margin: var(--ed-space-4) 0 0; max-width: 40ch; color: var(--ed-text-secondary); line-height: var(--ed-leading-relaxed); }
+.ed-mk-footer__col h4 { margin: 0 0 var(--ed-space-3); font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui);
+                        letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-footer__col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.ed-mk-footer__col a { text-decoration: none; color: var(--ed-text-secondary); }
+.ed-mk-footer__col a:hover { color: var(--ed-text); }
+.ed-mk-footer__col .ed-badge { margin-left: var(--ed-space-1); }
+.ed-mk-footer__legal { margin-top: var(--ed-space-12); padding-top: var(--ed-space-5); border-top: 1px solid var(--ed-border-subtle);
+                       display: flex; flex-wrap: wrap; gap: var(--ed-space-3) var(--ed-space-6); align-items: flex-start; justify-content: space-between;
+                       font-size: var(--ed-text-xs); color: var(--ed-text-muted); }
+.ed-mk-footer__legal address { font-style: normal; line-height: 1.5; max-width: 48ch; }
+.ed-mk-footer__legal a { color: inherit; }
+.ed-mk-footer__links { display: flex; flex-wrap: wrap; gap: var(--ed-space-4); }
+
+/* ==================================================================
+   10. HERO
+   ================================================================== */
+.ed-mk-hero { padding-block: clamp(40px, 5vw, 80px) var(--ed-mk-section); }
+.ed-mk-hero__copy { display: flex; flex-direction: column; gap: var(--ed-space-6); min-width: 0; }
+.ed-mk-hero__copy .ed-mk-lede { max-width: 52ch; }
+.ed-mk-hero__aside { min-width: 0; }
+.ed-mk-hero__note { font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+
+/* ==================================================================
+   11. CONFIGURATOR — "Find your setup. Two answers, no forms."
+   ================================================================== */
+.ed-mk-config {
+  display: flex; flex-direction: column; gap: var(--ed-space-5);
+  padding: clamp(18px, 2.2vw, 24px);
+  background: var(--ed-canvas);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-panel);
+}
+.ed-mk-config__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--ed-space-3); flex-wrap: wrap; }
+.ed-mk-config__title { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-lg)/1.2 var(--ed-font-ui); }
+.ed-mk-config__hint { font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ed-mk-config__q { display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.ed-mk-config__label { font: var(--ed-weight-medium) var(--ed-text-md)/1.3 var(--ed-font-ui); color: var(--ed-text); display: flex; gap: var(--ed-space-2); align-items: baseline; }
+.ed-mk-config__label small { font-weight: var(--ed-weight-regular); color: var(--ed-text-muted); font-size: var(--ed-text-xs); }
+/* The native select, dressed. It stays native: a custom dropdown on a
+   phone is worse than the one the OS already ships. */
+.ed-mk-select {
+  appearance: none; -webkit-appearance: none; width: 100%;
+  height: var(--ed-control-md); padding: 0 var(--ed-space-10) 0 var(--ed-space-4);
+  border: 1px solid var(--ed-border); border-radius: var(--ed-radius-control);
+  background: var(--ed-surface) no-repeat right 14px center / 12px
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23575c5b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  color: var(--ed-text); font: var(--ed-weight-medium) var(--ed-text-base)/1 var(--ed-font-ui); cursor: pointer;
+}
+.ed-mk-select:hover { border-color: var(--ed-border-strong); }
+.ed-mk-select:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; border-color: var(--ed-focus); }
+
+/* ==================================================================
+   12. LIVE FLOW — "watch one order move through the system"
+   ------------------------------------------------------------------
+   A window with a sequence of events. Each row is a source pill, a line
+   of text and a status. In the hero it is a still; on the section of
+   its own the rows step in one at a time (CSS only, reduced-motion
+   aware). No video, no GIF: that is the LCP the current site pays for. */
+.ed-mk-flow {
+  background: var(--ed-mk-band-surface); color: var(--ed-mk-band-text);
+  border: 1px solid var(--ed-mk-band-border); border-radius: var(--ed-radius-panel);
+  overflow: hidden; box-shadow: var(--ed-elevation-3);
+  font-size: var(--ed-text-sm);
+}
+.ed-mk-flow__bar { display: flex; align-items: center; gap: var(--ed-space-3); padding: var(--ed-space-3) var(--ed-space-4);
+                   border-bottom: 1px solid var(--ed-mk-band-border); color: var(--ed-mk-band-text-muted); font-size: var(--ed-text-xs); }
+.ed-mk-flow__bar b { color: var(--ed-mk-band-text); font-weight: var(--ed-weight-semibold); }
+.ed-mk-flow__live { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--ed-mk-band-accent); font-weight: var(--ed-weight-medium); }
+.ed-mk-flow__live::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 25%, transparent); }
+.ed-mk-flow__body { display: flex; flex-direction: column; }
+.ed-mk-flow__ev {
+  display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; gap: var(--ed-space-3); align-items: center;
+  padding: var(--ed-space-3) var(--ed-space-4); border-bottom: 1px solid var(--ed-neutral-900);
+}
+.ed-mk-flow__ev:last-child { border-bottom: 0; }
+.ed-mk-flow__src { font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-id); letter-spacing: .04em; text-transform: uppercase;
+                   padding: 5px 8px; border-radius: var(--ed-radius-sharp); background: var(--ed-neutral-800); color: var(--ed-neutral-100); text-align: center; }
+.ed-mk-flow__src--sys { background: var(--ed-teal-900); color: var(--ed-mk-band-accent); }
+.ed-mk-flow__tx { color: var(--ed-mk-band-text-muted); line-height: 1.35; min-width: 0; }
+.ed-mk-flow__tx b { color: var(--ed-mk-band-text); font-weight: var(--ed-weight-semibold); }
+.ed-mk-flow__st { font: var(--ed-weight-medium) var(--ed-text-2xs)/1 var(--ed-font-id); color: var(--ed-mk-band-accent); white-space: nowrap; }
+.ed-mk-flow__note { padding: var(--ed-space-2) var(--ed-space-4) var(--ed-space-3); font-size: var(--ed-text-2xs); color: var(--ed-neutral-500); }
+@media (max-width: 480px) { .ed-mk-flow__ev { grid-template-columns: 64px minmax(0,1fr); } .ed-mk-flow__st { grid-column: 2; } }
+
+/* Stepped reveal. Each row waits its turn, then the whole thing holds. */
+.ed-mk-flow--animate .ed-mk-flow__ev { opacity: 0; translate: 0 6px; animation: ed-mk-flow-in .5s var(--ed-mk-ease) forwards; animation-delay: calc(var(--i, 0) * .9s + .3s); }
+@keyframes ed-mk-flow-in { to { opacity: 1; translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .ed-mk-flow--animate .ed-mk-flow__ev { animation: none; opacity: 1; translate: none; } }
+
+/* ==================================================================
+   13. SETUP RESULT — what the configurator returns
+   ================================================================== */
+.ed-mk-setup { display: flex; flex-direction: column; gap: var(--ed-space-4); padding: clamp(18px, 2.2vw, 24px);
+               background: var(--ed-surface); border: 1px solid var(--ed-border); border-radius: var(--ed-radius-panel); box-shadow: var(--ed-elevation-2); }
+.ed-mk-setup__k { font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); margin: 0 0 var(--ed-space-2); }
+.ed-mk-setup__title { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-xl)/1.2 var(--ed-font-ui); letter-spacing: -0.01em; }
+.ed-mk-setup__svc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.ed-mk-setup__svc li { display: grid; grid-template-columns: auto 1fr; gap: var(--ed-space-3); align-items: baseline; padding: var(--ed-space-2) 0; border-top: 1px solid var(--ed-border-subtle); font-size: var(--ed-text-md); color: var(--ed-text-secondary); }
+.ed-mk-setup__svc li:first-child { border-top: 0; }
+.ed-mk-setup__svc b { color: var(--ed-text); font-weight: var(--ed-weight-semibold); white-space: nowrap; }
+.ed-mk-setup__notes { margin: 0; padding-left: 1.1em; color: var(--ed-text-secondary); font-size: var(--ed-text-md); line-height: 1.5; display: flex; flex-direction: column; gap: 4px; }
+.ed-mk-setup__proof { padding: var(--ed-space-3) var(--ed-space-4); background: var(--ed-canvas); border-radius: var(--ed-radius-card); font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ed-mk-setup__foot { display: flex; flex-wrap: wrap; gap: var(--ed-space-3); align-items: center; font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ed-mk-setup__foot .ed-btn--link { font-size: inherit; }
+
+/* ==================================================================
+   14. PROOF STRIP — logos, three stats, press
+   ================================================================== */
+.ed-mk-proof { display: flex; flex-direction: column; gap: var(--ed-space-8); }
+.ed-mk-logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--ed-space-4); align-items: center; }
+.ed-mk-logo { height: 44px; display: grid; place-items: center; border-radius: var(--ed-radius-card); color: var(--ed-text-muted); }
+.ed-mk-logo img, .ed-mk-logo svg { max-height: 28px; max-width: 120px; width: auto; filter: grayscale(1); opacity: .8; }
+.ed-mk-logo--empty { border: 1px dashed var(--ed-border); font: var(--ed-weight-medium) var(--ed-text-2xs)/1 var(--ed-font-id); letter-spacing: .06em; text-transform: uppercase; }
+.ed-mk-stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--ed-space-6); }
+@media (max-width: 640px) { .ed-mk-stats { grid-template-columns: 1fr; gap: var(--ed-space-4); } }
+.ed-mk-stat { display: flex; flex-direction: column; gap: var(--ed-space-1); padding-left: var(--ed-space-4); border-left: 2px solid var(--ed-brand); }
+.ed-mk-stat__num { font: var(--ed-weight-bold) var(--ed-text-4xl)/1.05 var(--ed-font-ui); letter-spacing: var(--ed-tracking-tight); font-variant-numeric: tabular-nums; color: var(--ed-text); }
+.ed-mk-stat__cap { font-size: var(--ed-text-md); color: var(--ed-text-muted); }
+.ed-mk-press { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ed-space-3) var(--ed-space-6); font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ed-mk-press__l { font-weight: var(--ed-weight-medium); }
+.ed-mk-press a { font-weight: var(--ed-weight-semibold); color: var(--ed-text-secondary); text-decoration: none; }
+.ed-mk-press a:hover { color: var(--ed-text); }
+
+/* ==================================================================
+   15. SERVICES STACK — five cards on the EdgeOS band
+   ------------------------------------------------------------------
+   The one-system claim, made literal: the service tiles sit ON the
+   platform. The band is the dark surface; the EdgeAPEX strip runs
+   along its top edge. */
+.ed-mk-stack { display: flex; flex-direction: column; gap: 0; }
+.ed-mk-stack__services { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--ed-gap-group); position: relative; z-index: 1;
+                         padding-bottom: var(--ed-space-8); }
+.ed-mk-stack__services > * { grid-column: span 2; }
+/* 3 + 2: the last two centre under the first three. */
+.ed-mk-stack__services > :nth-child(4) { grid-column: 2 / span 2; }
+.ed-mk-stack__services > :nth-child(5) { grid-column: 4 / span 2; }
+@media (max-width: 1024px) {
+  .ed-mk-stack__services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ed-mk-stack__services > *, .ed-mk-stack__services > :nth-child(4), .ed-mk-stack__services > :nth-child(5) { grid-column: auto; }
+}
+@media (max-width: 640px) { .ed-mk-stack__services { grid-template-columns: minmax(0, 1fr); } }
+
+.ed-mk-service[data-recommended="true"] { border-color: var(--ed-brand); box-shadow: 0 0 0 1px var(--ed-brand); }
+.ed-mk-service[data-dim="true"] { opacity: .62; }
+.ed-mk-service__tag { position: absolute; top: -12px; left: var(--ed-space-5); }
+
+/* The platform band under the cards, pulled up so the cards overlap it. */
+.ed-mk-platform {
+  margin-top: calc(var(--ed-space-8) * -1);
+  padding: calc(var(--ed-space-8) + var(--ed-space-6)) clamp(20px, 3vw, 40px) clamp(24px, 3vw, 40px);
+  border-radius: var(--ed-radius-panel);
+  position: relative;
+}
+.ed-mk-platform__apex {
+  position: absolute; inset: 0 0 auto 0; height: 4px;
+  background: linear-gradient(90deg, var(--ed-teal-700), var(--ed-mk-band-accent) 45%, var(--ed-teal-700));
+  border-radius: var(--ed-radius-panel) var(--ed-radius-panel) 0 0;
+}
+.ed-mk-platform__in { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+@media (max-width: 900px) { .ed-mk-platform__in { grid-template-columns: minmax(0,1fr); } }
+.ed-mk-platform__title { display: flex; align-items: center; gap: var(--ed-space-3); margin: 0 0 var(--ed-space-2); }
+.ed-mk-platform__title .ed-mk-h3 { color: var(--ed-mk-band-text); }
+.ed-mk-platform__mods { display: flex; flex-wrap: wrap; gap: var(--ed-space-2); margin-top: var(--ed-space-4); }
+.ed-mk-platform__mod { display: inline-flex; flex-direction: column; gap: 2px; padding: var(--ed-space-2) var(--ed-space-3);
+                       border: 1px solid var(--ed-mk-band-border); border-radius: var(--ed-radius-card); background: var(--ed-mk-band-surface-raised); min-width: 140px; }
+.ed-mk-platform__mod b { font: var(--ed-weight-semibold) var(--ed-text-sm)/1.2 var(--ed-font-ui); color: var(--ed-mk-band-text); }
+.ed-mk-platform__mod span { font-size: var(--ed-text-xs); color: var(--ed-mk-band-text-muted); }
+.ed-mk-platform__apexcard { padding: var(--ed-space-5); border: 1px solid var(--ed-mk-band-border); border-radius: var(--ed-radius-card); background: var(--ed-mk-band-surface-raised); }
+.ed-mk-platform__apexcard .ed-mk-eyebrow { color: var(--ed-mk-band-accent); }
+.ed-mk-platform__apexcard .ed-mk-eyebrow::before { background: var(--ed-mk-band-accent); }
+.ed-mk-platform__apexcard p { margin: 0 0 var(--ed-space-3); color: var(--ed-mk-band-text-muted); line-height: var(--ed-leading-relaxed); }
+.ed-mk-platform__apexcard p b { color: var(--ed-mk-band-text); font-weight: var(--ed-weight-semibold); }
+
+/* ==================================================================
+   16. LOOP DIAGRAM — open loop vs closed loop
+   ================================================================== */
+.ed-mk-loop { display: grid; gap: var(--ed-space-4); }
+.ed-mk-loop__row { display: flex; flex-direction: column; gap: var(--ed-space-2); padding: var(--ed-space-5); border-radius: var(--ed-radius-panel); border: 1px solid var(--ed-border); background: var(--ed-surface); }
+.ed-mk-loop__row--closed { border-color: var(--ed-brand); background: var(--ed-brand-subtle); }
+.ed-mk-loop__who { font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-loop__row--closed .ed-mk-loop__who { color: var(--ed-on-brand-subtle); }
+.ed-mk-loop__chain { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-lg)/1 var(--ed-font-ui); }
+.ed-mk-loop__chain span { padding: var(--ed-space-2) var(--ed-space-3); border-radius: var(--ed-radius-control); background: var(--ed-surface-sunken); }
+.ed-mk-loop__row--closed .ed-mk-loop__chain span { background: var(--ed-surface); border: 1px solid var(--ed-brand-muted); }
+.ed-mk-loop__chain i { font-style: normal; color: var(--ed-text-muted); }
+.ed-mk-loop__back { font-size: var(--ed-text-sm); color: var(--ed-on-brand-subtle); display: flex; gap: var(--ed-space-2); align-items: center; }
+.ed-mk-loop__stop { font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+
+/* ==================================================================
+   17. DEFINITION BLOCK — the passage AI engines quote
+   ================================================================== */
+.ed-mk-definition { padding: clamp(20px, 2.5vw, 32px); border-left: 3px solid var(--ed-brand); background: var(--ed-canvas); border-radius: 0 var(--ed-radius-panel) var(--ed-radius-panel) 0; }
+.ed-mk-definition h3 { margin: 0 0 var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-xl)/1.25 var(--ed-font-ui); }
+.ed-mk-definition p { margin: 0; font-size: var(--ed-text-lg); line-height: var(--ed-leading-relaxed); color: var(--ed-text-secondary); max-width: 66ch; }
+
+/* ==================================================================
+   18. RESULT CARD — one metric, one line, one link
+   ================================================================== */
+.ed-mk-result .ed-mk-result__who { font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ed-mk-result__num { font: var(--ed-weight-bold) var(--ed-text-5xl)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-tight); font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: var(--ed-space-3); }
+.ed-mk-video { display: grid; place-items: center; aspect-ratio: 16 / 9; border-radius: var(--ed-radius-panel); background: var(--ed-mk-band-surface); color: var(--ed-mk-band-text-muted); text-align: center; padding: var(--ed-space-6); }
+.ed-mk-video__play { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--ed-brand); color: var(--ed-on-brand); margin-bottom: var(--ed-space-4); }
+.ed-mk-video__play svg { width: 22px; height: 22px; margin-left: 3px; }
+
+/* ==================================================================
+   19. NETWORK — map for people, list for crawlers
+   ================================================================== */
+.ed-mk-network__map { aspect-ratio: 4 / 3; border-radius: var(--ed-radius-panel); border: 1px solid var(--ed-border); background:
+  radial-gradient(circle at 30% 40%, var(--ed-brand-muted), transparent 22%),
+  radial-gradient(circle at 62% 30%, var(--ed-brand-muted), transparent 18%),
+  radial-gradient(circle at 55% 68%, var(--ed-brand-muted), transparent 20%),
+  var(--ed-canvas); display: grid; place-items: center; color: var(--ed-text-muted); font-size: var(--ed-text-sm); }
+.ed-mk-network__list { columns: 2; column-gap: var(--ed-space-8); margin: 0; padding: 0; list-style: none; font-size: var(--ed-text-md); }
+.ed-mk-network__list li { break-inside: avoid; display: flex; justify-content: space-between; gap: var(--ed-space-3); padding: var(--ed-space-2) 0; border-bottom: 1px solid var(--ed-border-subtle); }
+.ed-mk-network__list li span:last-child { color: var(--ed-text-muted); font-family: var(--ed-font-id); font-size: var(--ed-text-sm); }
+
+/* ==================================================================
+   20. STEPS — Diagnose → Design → Transition → Operate
+   ================================================================== */
+.ed-mk-steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: var(--ed-gap-group); counter-reset: step; list-style: none; margin: 0; padding: 0; }
+@media (max-width: 900px) { .ed-mk-steps { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 520px) { .ed-mk-steps { grid-template-columns: minmax(0,1fr); } }
+.ed-mk-step { display: flex; flex-direction: column; gap: var(--ed-space-2); padding-top: var(--ed-space-4); border-top: 2px solid var(--ed-border); position: relative; }
+.ed-mk-step::before { counter-increment: step; content: counter(step, decimal-leading-zero); font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-id); color: var(--ed-text-link); letter-spacing: .04em; }
+.ed-mk-step h3 { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-xl)/1.2 var(--ed-font-ui); }
+.ed-mk-step p { margin: 0; color: var(--ed-text-secondary); line-height: var(--ed-leading-relaxed); font-size: var(--ed-text-md); }
+.ed-mk-step small { color: var(--ed-text-muted); font-size: var(--ed-text-xs); }
+
+/* ==================================================================
+   21. PRICING — three models, one rule
+   ================================================================== */
+.ed-mk-price__for { font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-price__rule { margin-top: var(--ed-space-6); padding: var(--ed-space-4) var(--ed-space-5); border-radius: var(--ed-radius-card); background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle); font-weight: var(--ed-weight-medium); display: flex; gap: var(--ed-space-3); align-items: center; }
+
+/* ==================================================================
+   22. FAQ — visible, native, no JS
+   ================================================================== */
+.ed-mk-faq { border-top: 1px solid var(--ed-border); }
+.ed-mk-faq__item { border-bottom: 1px solid var(--ed-border); }
+.ed-mk-faq__q { display: flex; justify-content: space-between; align-items: center; gap: var(--ed-space-4); padding: var(--ed-space-5) 0; cursor: pointer; list-style: none;
+                font: var(--ed-weight-semibold) var(--ed-text-lg)/1.3 var(--ed-font-ui); color: var(--ed-text); }
+.ed-mk-faq__q::-webkit-details-marker { display: none; }
+.ed-mk-faq__q::after { content: '+'; flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--ed-secondary-surface); font-weight: var(--ed-weight-regular); transition: rotate var(--ed-mk-dur); }
+.ed-mk-faq__item[open] .ed-mk-faq__q::after { rotate: 45deg; }
+.ed-mk-faq__a { padding: 0 0 var(--ed-space-6); color: var(--ed-text-secondary); line-height: var(--ed-leading-relaxed); max-width: var(--ed-mk-measure); }
+.ed-mk-faq__a p { margin: 0; }
+.ed-mk-faq__a p + p { margin-top: var(--ed-space-3); }
+
+/* ==================================================================
+   23. CTA BAND + THREE DOORS
+   ================================================================== */
+.ed-mk-cta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-6); }
+.ed-mk-cta .ed-mk-h2 { max-width: 24ch; margin-inline: auto; font-size: var(--ed-mk-text-h1); }
+.ed-mk-cta .ed-mk-lede { margin-inline: auto; }
+.ed-mk-doors { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--ed-gap-group); }
+@media (max-width: 800px) { .ed-mk-doors { grid-template-columns: minmax(0,1fr); } }
+.ed-mk-door { display: flex; flex-direction: column; gap: var(--ed-space-2); padding: var(--ed-space-5) var(--ed-space-6); border: 1px solid var(--ed-border); border-radius: var(--ed-radius-panel); text-decoration: none; color: var(--ed-text); background: var(--ed-surface); position: relative; }
+.ed-mk-door:hover { border-color: var(--ed-border-strong); color: var(--ed-text); }
+.ed-mk-door__k { font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-door b { font: var(--ed-weight-semibold) var(--ed-text-lg)/1.3 var(--ed-font-ui); }
+.ed-mk-door span { color: var(--ed-text-secondary); font-size: var(--ed-text-md); }

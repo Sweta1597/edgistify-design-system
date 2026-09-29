@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+  <path class="body" fill="currentColor" d="M200-760h280v400H120v-320q0-80 80-80ZM120-320h760v80H120ZM280-280q80 0 80 80q0 80-80 80q-80 0-80-80q0-80 80-80ZM680-280q80 0 80 80q0 80-80 80q-80 0-80-80q0-80 80-80Z"/>
+  <path class="accent" fill="var(--ed-icon-accent, #008277)" d="M520-560h160q40 0 80 40l120 120v40H520Z"/>
+</svg>
