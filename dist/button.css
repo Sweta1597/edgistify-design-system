@@ -54,12 +54,15 @@
 /* Hover darkens; it does not fade. The dashboard's hover:opacity-90 washes
    the label out with the fill and looks muddy over a tinted row. */
 
+/* Dark neutral, not teal. The primary marks "this commits the form"; teal
+   marks "this is Edgistify". Conflating them spent the brand on every
+   submit button, which is how a brand colour stops meaning anything. */
 .ed-btn--primary {
-  background: var(--ed-action);
-  color: var(--ed-on-action);
+  background: var(--ed-primary-surface);
+  color: var(--ed-on-primary);
 }
-.ed-btn--primary:hover  { background: var(--ed-action-hover); }
-.ed-btn--primary:active { background: var(--ed-action-active); }
+.ed-btn--primary:hover  { background: var(--ed-primary-hover); }
+.ed-btn--primary:active { background: var(--ed-primary-active); }
 
 /* Full-strength #00a699 with dark ink — 6.10:1.
    ONE per screen, at most. See RULE 04. */
@@ -70,20 +73,26 @@
 .ed-btn--brand:hover  { background: var(--ed-teal-400); }
 .ed-btn--brand:active { background: var(--ed-teal-600); color: var(--ed-white); }
 
+/* A filled grey rather than a bordered white. Beside a solid dark primary a
+   bordered button reads as the weaker of two outlines; filled, the pair
+   reads as two weights of the same thing. */
 .ed-btn--secondary {
-  background: var(--ed-surface);
-  color: var(--ed-text-secondary);
-  border-color: var(--ed-border);
+  background: var(--ed-secondary-surface);
+  color: var(--ed-on-secondary);
+  border-color: transparent;
 }
-.ed-btn--secondary:hover  { background: var(--ed-surface-hover); border-color: var(--ed-border-strong); }
-.ed-btn--secondary:active { background: var(--ed-surface-active); }
+.ed-btn--secondary:hover  { background: var(--ed-secondary-hover); }
+.ed-btn--secondary:active { background: var(--ed-secondary-hover); }
 
+/* Neutral too. With a neutral primary, a teal ghost would be the most
+   brand-coloured thing on the screen while being the least important — the
+   hierarchy inverted. */
 .ed-btn--ghost {
   background: transparent;
-  color: var(--ed-action);
+  color: var(--ed-text-secondary);
 }
-.ed-btn--ghost:hover  { background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle); }
-.ed-btn--ghost:active { background: var(--ed-brand-muted);  color: var(--ed-action-active); }
+.ed-btn--ghost:hover  { background: var(--ed-secondary-surface); color: var(--ed-text); }
+.ed-btn--ghost:active { background: var(--ed-secondary-hover);   color: var(--ed-text); }
 
 .ed-btn--danger {
   background: var(--ed-danger-solid);

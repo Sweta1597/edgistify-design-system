@@ -213,3 +213,110 @@
   font-size: var(--ed-text-base);
   margin-bottom: 4px;
 }
+
+/* ---- managed columns: pin and reorder --------------------------------- */
+/* The second kind of table. The first is fixed: somebody decided the column
+   order and it is the same for everyone. This one lets the person reading it
+   pin the columns they need in view and drag the rest into the order they
+   think in. Everything else — density, zebra, severity, sticky head — is the
+   same table underneath.
+
+   The offsets cannot live here. Which columns are pinned changes at runtime,
+   so `left` is computed and set inline by useColumns(); this file only says
+   what a pinned cell looks like once it has one. */
+
+.ed-table--managed th { position: relative; }
+
+.ed-table__colctl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ed-space-0-5);
+  margin-inline-start: var(--ed-space-1);
+  vertical-align: middle;
+}
+
+/* Quiet until wanted. A pin and a grip on all twelve headers at once is a
+   toolbar, not a table — but a PINNED column keeps its pin visible, because
+   that one is state rather than an offer. */
+.ed-table__colbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ed-icon-md);
+  height: var(--ed-icon-md);
+  padding: 0;
+  border: 0;
+  border-radius: var(--ed-radius-sharp);
+  background: transparent;
+  color: var(--ed-text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .12s ease, background-color .12s ease, color .12s ease;
+}
+@media (prefers-reduced-motion: reduce) { .ed-table__colbtn { transition: none; } }
+
+.ed-table th:hover .ed-table__colbtn,
+.ed-table th:focus-within .ed-table__colbtn,
+.ed-table__colbtn[aria-pressed="true"] { opacity: 1; }
+
+.ed-table__colbtn:hover { background: var(--ed-surface-active); color: var(--ed-text); }
+.ed-table__colbtn:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--ed-focus);
+  outline-offset: -2px;
+}
+/* Pinned is a colour change, not a second drawing: the stroke turns teal
+   and the glyph stays exactly the same shape. One drawing cannot drift from
+   the other when there is only one. */
+.ed-table__colbtn[aria-pressed="true"] { color: var(--ed-action); }
+.ed-table__colbtn[aria-pressed="true"]:hover { color: var(--ed-action-hover); }
+.ed-table__colbtn > svg { width: var(--ed-icon-xs); height: var(--ed-icon-xs); }
+
+/* The grip is grabbable with a pointer AND walkable with the arrow keys.
+   Drag alone would be a keyboard trap — WCAG 2.1.1 — and it is the failure
+   mode every reorderable table ships with. */
+.ed-table__colbtn--grip { cursor: grab; }
+.ed-table__colbtn--grip:active { cursor: grabbing; }
+
+/* ---- pinned cells ------------------------------------------------------ */
+.ed-table--managed [data-pinned] {
+  position: sticky;
+  z-index: 1;
+  background: var(--ed-surface);
+}
+.ed-table--managed thead [data-pinned] {
+  background: var(--ed-surface-sunken);
+  z-index: calc(var(--ed-z-sticky) + 1);
+}
+.ed-table--managed tbody tr:hover [data-pinned] { background: var(--ed-surface-hover); }
+.ed-table--managed tbody tr.ed-tr--selected [data-pinned] { background: var(--ed-brand-subtle); }
+
+/* Only the LAST pinned column carries the edge. A rule after every pinned
+   column turns the frozen block into a little table of its own. */
+.ed-table--managed [data-pinned="last"]::after {
+  content: '';
+  position: absolute;
+  inset: 0 -1px 0 auto;
+  width: 1px;
+  background: var(--ed-border-strong);
+}
+
+/* ---- dragging ---------------------------------------------------------- */
+.ed-table--managed th[data-dragging="true"] { opacity: .4; }
+.ed-table--managed th[data-dropbefore="true"]::before,
+.ed-table--managed th[data-dropafter="true"]::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  width: 2px;
+  background: var(--ed-action);
+}
+.ed-table--managed th[data-dropbefore="true"]::before { inset-inline-start: -1px; }
+.ed-table--managed th[data-dropafter="true"]::before  { inset-inline-end: -1px; }
+
+/* A column being carried by the keyboard says so, because there is no cursor
+   to say it. */
+.ed-table--managed th[data-grabbed="true"] {
+  background: var(--ed-brand-subtle);
+  box-shadow: inset 0 0 0 2px var(--ed-action);
+}

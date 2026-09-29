@@ -1,7 +1,7 @@
 {
   "name": "@edgistify/design-system",
-  "version": "0.1.0",
-  "description": "Edgistify design system \u2014 one visual language for the seller dashboard, warehouse apps and support docs.",
+  "version": "0.10.0",
+  "description": "Edgistify design system — one visual language for the seller dashboard, warehouse apps and support docs.",
   "type": "module",
   "exports": {
     "./primitives.css": "./dist/primitives.css",
@@ -45,24 +45,69 @@
       "types": "./react/Popover.d.ts",
       "default": "./react/Popover.jsx"
     },
-    "./build/contrast-check": "./build/contrast-check.mjs"
+    "./build/contrast-check": "./build/contrast-check.mjs",
+    "./badge.css": "./dist/badge.css",
+    "./react/Badge": {
+      "types": "./react/Badge.d.ts",
+      "default": "./react/Badge.jsx"
+    },
+    "./tooltip.css": "./dist/tooltip.css",
+    "./react/Tooltip": {
+      "types": "./react/Tooltip.d.ts",
+      "default": "./react/Tooltip.jsx"
+    },
+    "./nav.css": "./dist/nav.css",
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./tokens/resolved": "./tokens/resolved.json",
+    "./react/Icon": {
+      "types": "./react/Icon.d.ts",
+      "default": "./react/Icon.jsx"
+    },
+    "./icons": {
+      "types": "./icons/index.d.ts",
+      "default": "./icons/index.js"
+    },
+    "./icons/manifest": "./icons/manifest.json",
+    "./icons/svg/*": "./icons/svg/*",
+    "./icon.css": "./dist/icon.css",
+    "./react/useColumns": {
+      "default": "./react/useColumns.jsx"
+    },
+    "./marketing.css": "./dist/marketing.css",
+    "./react/marketing": {
+      "types": "./react/marketing/index.d.ts",
+      "default": "./react/marketing/index.jsx"
+    },
+    "./react/marketing/Header": {
+      "types": "./react/marketing/Header.d.ts",
+      "default": "./react/marketing/Header.jsx"
+    }
   },
   "files": [
     "dist",
     "tokens",
     "build",
     "react",
+    "icons",
     "README.md",
     "CHANGELOG.md"
   ],
   "scripts": {
-    "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale && npm run lint:tokens",
+    "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale && npm run lint:tokens && npm run lint:tokens-fresh && npm run lint:icons",
     "check:contrast": "node build/contrast-check.mjs",
     "lint:grid": "node build/grid-lint.mjs",
     "lint:scale": "node build/scale-lint.mjs",
     "lint:tokens": "node build/token-lint.mjs",
-    "build": "node build/gen-dark-auto.mjs",
-    "docs:css": "node build/bundle-specimen-css.mjs docs/ds.css"
+    "build": "node build/gen-dark-auto.mjs && node build/gen-tokens.mjs && node build/icons-build.mjs",
+    "docs:css": "node build/bundle-specimen-css.mjs docs/ds.css",
+    "gen:tokens": "node build/gen-tokens.mjs",
+    "lint:tokens-fresh": "node build/lint-tokens-fresh.mjs",
+    "lint:icons": "node build/icons-lint.mjs",
+    "icons:seed": "node build/icons-seed.mjs",
+    "icons:build": "node build/icons-build.mjs"
   },
   "peerDependencies": {
     "react": ">=18"

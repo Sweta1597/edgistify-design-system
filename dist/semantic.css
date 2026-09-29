@@ -53,6 +53,89 @@
   --ed-text-id-strong:  var(--ed-teal-700);     /* the ID you scanned  */
   --ed-surface-id:      var(--ed-neutral-100);  /* chip behind an ID   */
 
+  /* ---- tooltip: inverted relative to whatever it floats over ----
+     A tooltip is not a surface in the product, it is a label ABOUT
+     one. It flips with the theme so it always reads as an overlay
+     rather than as another panel that happens to be nearby.        */
+  --ed-tooltip-surface: var(--ed-neutral-900);
+  --ed-tooltip-text:    var(--ed-white);
+
+  /* ---- icon accent ----------------------------------------------
+     Two-colour icons carry a body (currentColor, so it follows the
+     text) and ONE accent. No single teal survives every surface an
+     icon lands on: teal-600 is 4.71:1 on white but 1.89:1 on the nav's
+     selected panel; teal-300 is 8.11:1 on the nav but 1.85:1 on white.
+     So the accent is a role that flips, and the components below
+     redefine it. On a brand-coloured fill it collapses to the body —
+     nothing teal reads on teal.                                     */
+  --ed-icon-accent: var(--ed-teal-600);
+
+  /* ---- navigation chrome ----------------------------------------
+     The one surface that does not follow the page: dark in every mode.
+     The ground is NEUTRAL so that the selected highlight can read as
+     teal — a teal highlight on a teal ground is not a highlight.
+     Selection is a white filled icon on a neutral panel, with the
+     icon's teal accent carrying the brand. The panel is neutral on
+     purpose: a brand-coloured panel cannot host a brand-coloured
+     accent — teal-500 is 2.93:1 on teal-800 and 3.04:1 on neutral-800.
+     The panel is a supporting signal, not the accessible one: at
+     1.69:1 against the ground it is deliberately quiet. The filled
+     icon and the heavier label are what carry the state.            */
+  --ed-nav-surface:          var(--ed-neutral-950);
+  --ed-nav-surface-hover:    var(--ed-neutral-900);
+  --ed-nav-selected-surface: var(--ed-neutral-800); /* neutral, so the ACCENT can be brand */
+  --ed-nav-text:             var(--ed-white);      /* 15.02:1  unselected   */
+  --ed-nav-text-muted:       var(--ed-neutral-200);/*  9.80:1  groups, subs */
+  --ed-nav-selected-text:    var(--ed-white);      /*  8.89:1  on the panel */
+  /* The ring is NEUTRAL, not teal. A teal ring around a teal accent is
+     two brand colours from one ramp touching: teal-300 against teal-400
+     separated at 1.28:1, so a focused selected item lost its accent into
+     its own outline. White clears the ground at 15.02:1 and the panel at
+     9.24:1, and is 2.38:1 from the accent it surrounds.               */
+  --ed-nav-focus:            var(--ed-white);
+  --ed-nav-border:           var(--ed-neutral-800);
+
+  /* ---- navigation chrome, LIGHT variant -------------------------
+     A white rail with a GREYER panel — the opposite direction to the
+     dark variant, where the panel lifts. On light chrome a lift barely
+     registers: white on neutral-100 separates at 1.26:1. Going the
+     other way, neutral-200 on white reaches 1.53:1, which is where the
+     dark variant sits (1.63:1). Hover sits between the two at
+     neutral-50, so hover and selected stay distinct.
+     A white ground does not separate itself from a neutral-50 canvas
+     (1.12:1), so this variant carries a border where the dark one
+     needs none.                                                      */
+  --ed-nav-light-surface:          var(--ed-white);
+  --ed-nav-light-surface-hover:    var(--ed-neutral-50);
+  --ed-nav-light-selected-surface: var(--ed-neutral-200);
+  --ed-nav-light-text:             var(--ed-neutral-950); /* 15.02:1 */
+  --ed-nav-light-text-muted:       var(--ed-neutral-700); /*  6.80:1 */
+  --ed-nav-light-selected-text:    var(--ed-neutral-950); /*  9.80:1 on the panel */
+  --ed-nav-light-focus:            var(--ed-ink);          /* 18.54:1 */
+  /* teal-600 rather than teal-700: lighter, and 3.94:1 clear of the ink
+     ring. It is 3.07:1 on the panel — past the 3:1 a graphic part needs,
+     but the tightest pair in the nav. */
+  --ed-nav-light-accent:           var(--ed-teal-600);    /*  3.07:1 on panel */
+  --ed-nav-light-border:           var(--ed-neutral-200);
+
+  /* ---- navigation chrome, SOFT variant --------------------------
+     A grey rail with a white selected pill. White on neutral-100 is
+     only 1.26:1 — far too little to read as a state on contrast alone.
+     The pill carries elevation-1 instead, and the shadow supplies the
+     edge the contrast cannot. This is the one place in the system where
+     a state leans on a shadow rather than a value, and it is deliberate:
+     the alternative is a darker pill, which this variant exists not to
+     have.                                                            */
+  --ed-nav-soft-surface:          var(--ed-neutral-100);
+  --ed-nav-soft-surface-hover:    var(--ed-neutral-200);
+  --ed-nav-soft-selected-surface: var(--ed-white);
+  --ed-nav-soft-text:             var(--ed-neutral-950); /* 11.96:1 */
+  --ed-nav-soft-text-muted:       var(--ed-neutral-700); /*  5.41:1 */
+  --ed-nav-soft-group:            var(--ed-neutral-800); /*  7.35:1 */
+  --ed-nav-soft-selected-text:    var(--ed-neutral-950); /* 15.02:1 */
+  --ed-nav-soft-focus:            var(--ed-ink);         /* 14.76:1 */
+  --ed-nav-soft-accent:           var(--ed-teal-600);    /*  4.71:1 on the pill */
+
   /* ---- borders ------------------------------------------------- */
   --ed-border-subtle:   var(--ed-neutral-100);  /* table row dividers  */
   --ed-border:          var(--ed-neutral-200);  /* cards, inputs       */
@@ -68,6 +151,21 @@
   /* Brand-coloured text ON a brand tint. --ed-action fails there (4.24:1 on
      -subtle, 3.82:1 on -muted), so anything drawn on those uses this instead. */
   --ed-on-brand-subtle: var(--ed-teal-700);
+
+  /* ---- commit actions: a NEUTRAL primary ------------------------
+     The highest-emphasis button is dark neutral, not teal. That is a
+     deliberate trade: teal stops marking every submit and goes back to
+     marking identity, so the one brand button on a screen means
+     something again. --ed-action stays teal and keeps its other jobs —
+     input focus, the checkbox fill, the selected menu row — which are
+     brand moments rather than commit moments.                       */
+  --ed-primary-surface:   var(--ed-neutral-950); /* 15.02:1 under white */
+  --ed-primary-hover:     var(--ed-ink);         /* 18.54:1 */
+  --ed-primary-active:    var(--ed-ink);
+  --ed-on-primary:        var(--ed-white);
+  --ed-secondary-surface: var(--ed-neutral-100); /* 11.96:1 */
+  --ed-secondary-hover:   var(--ed-neutral-200); /*  9.80:1 */
+  --ed-on-secondary:      var(--ed-neutral-950);
 
   /* ---- primary action (white text safe: 4.71:1) ---------------- */
   --ed-action:          var(--ed-teal-600);     /* #008277             */
@@ -209,6 +307,27 @@
   --ed-info-text:          var(--ed-blue-300);
   --ed-info-on-surface:    var(--ed-blue-300);
   --ed-info-solid:         var(--ed-blue-500);
+  /* The chrome steps down with the product, so the sidebar stays the
+     darker plane rather than becoming lighter than the page beside it. */
+  /* A near-black button on a dark page is invisible, so the primary
+     inverts rather than darkening further. */
+  --ed-primary-surface:   var(--ed-neutral-25);  /* 17.76:1 under ink */
+  --ed-primary-hover:     var(--ed-white);
+  --ed-primary-active:    var(--ed-neutral-200);
+  --ed-on-primary:        var(--ed-ink);
+  --ed-secondary-surface: var(--ed-neutral-800); /*  9.24:1 */
+  --ed-secondary-hover:   var(--ed-neutral-700); /*  6.80:1 */
+  --ed-on-secondary:      var(--ed-white);
+
+  --ed-icon-accent: var(--ed-teal-400);
+
+  --ed-nav-surface:          var(--ed-ink);
+  --ed-nav-surface-hover:    var(--ed-neutral-950);
+
+  /* Inverted again: a light chip over a dark product. */
+  --ed-tooltip-surface: var(--ed-neutral-100);
+  --ed-tooltip-text:    var(--ed-neutral-950);
+
   --ed-on-success:         var(--ed-ink);
   --ed-on-warning:         var(--ed-ink);
   --ed-on-danger:          var(--ed-white);

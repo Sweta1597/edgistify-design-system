@@ -88,6 +88,17 @@
     --ed-info-text:          var(--ed-blue-300);
     --ed-info-on-surface:    var(--ed-blue-300);
     --ed-info-solid:         var(--ed-blue-500);
+    /* The chrome steps down with the product, so the sidebar stays the
+       darker plane rather than becoming lighter than the page beside it. */
+    --ed-icon-accent: var(--ed-teal-400);
+
+    --ed-nav-surface:          var(--ed-ink);
+    --ed-nav-surface-hover:    var(--ed-neutral-950);
+
+    /* Inverted again: a light chip over a dark product. */
+    --ed-tooltip-surface: var(--ed-neutral-100);
+    --ed-tooltip-text:    var(--ed-neutral-950);
+
     --ed-on-success:         var(--ed-ink);
     --ed-on-warning:         var(--ed-ink);
     --ed-on-danger:          var(--ed-white);

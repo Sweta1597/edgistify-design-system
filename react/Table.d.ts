@@ -20,6 +20,8 @@ export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> 
   pinFirst?: boolean;
   /** Opts out of the sticky header. */
   staticHead?: boolean;
+  /** Reader-managed columns: pin and reorder. Wins over pinFirst. */
+  managed?: boolean;
 }
 export declare const Table: React.FC<TableProps> & {
   Wrap: typeof TableWrap; Head: typeof THead; Body: typeof TBody; Foot: typeof TFoot;
@@ -42,6 +44,10 @@ export interface ThProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   sort?: SortDirection;
   /** Providing this makes the header a real button. */
   onSort?: () => void;
+  /** Pin toggle, from useColumns().pinProps(id). */
+  pin?: ColumnControlProps;
+  /** Reorder grip, from useColumns().gripProps(id). Keyboard-first. */
+  grip?: ColumnControlProps;
 }
 export declare function Th(p: ThProps): JSX.Element;
 
@@ -56,3 +62,6 @@ export declare const Td: React.FC<TdProps>;
 
 export interface TableEmptyProps { colSpan: number; title?: React.ReactNode; children?: React.ReactNode }
 export declare const TableEmpty: React.FC<TableEmptyProps>;
+
+/** Prop bags from useColumns(); spread straight onto <Th>. */
+export interface ColumnControlProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}

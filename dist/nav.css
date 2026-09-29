@@ -1,0 +1,397 @@
+/* Edgistify Design System — nav (sidebar chrome)
+   ------------------------------------------------------------------
+   The one surface that does not follow the page. It is dark in every
+   mode, and that is a requirement rather than a preference: the
+   selected item is marked with TEAL, and teal cannot mark anything on
+   a teal ground.
+
+   The dashboard ships bg-edg-primary today, which is teal-600. On it:
+     teal-500 (the config calls this "sidebarActive")   1.55:1
+     teal-300                                           2.54:1
+     white                                              4.71:1  <- only pass
+   and the unselected state, text-white/70, measures 3.12:1 — it clears
+   the 3:1 for an icon but not the 4.5:1 a label needs. Six further
+   uses at 60% opacity and below fail both.
+
+   At teal-900 the same palette has room: white 11.86:1, muted
+   neutral-200 7.74:1, selected teal-300 6.41:1.
+
+   SELECTION IS A WHITE FILLED ICON ON A NEUTRAL PANEL.
+   The panel is deliberately quiet — 1.69:1 against the ground — so it
+   cannot be the accessible signal, and is not asked to be. The FILLED
+   icon and the heavier label carry the state; the panel is what makes
+   it findable at a glance. That division matters, because some icons
+   have no filled variant at all (in Material Symbols `apartment` and
+   `bar_chart` are byte-identical across the FILL axis) and on those
+   the weight and the panel are all there is.
+
+   Sub-items have no icon, so they get a dot instead — the same idea in
+   the only shape available at that depth.
+   ------------------------------------------------------------------ */
+
+.ed-nav {
+  display: flex;
+  flex-direction: column;
+  background: var(--ed-nav-surface);
+  color: var(--ed-nav-text);
+  padding: var(--ed-space-3) var(--ed-space-2);
+  /* The chrome is dark whatever the page is, so tell the UA that much:
+     a scrollbar in here should come up dark even in light mode. */
+  color-scheme: dark;
+}
+
+/* ---- group label -------------------------------------------------- */
+/* Quiet enough to be scenery. A nav of twenty items needs the grouping;
+   it does not need the grouping to compete with the items. */
+.ed-nav__group {
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-2xs);
+  font-weight: var(--ed-weight-semibold);
+  letter-spacing: var(--ed-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ed-nav-text-muted);
+  padding: var(--ed-space-5) var(--ed-space-3) var(--ed-space-2);
+}
+.ed-nav__group:first-child { padding-top: var(--ed-space-2); }
+
+/* ---- item ---------------------------------------------------------- */
+/* 24px icon + 12px block padding = a 48px row. The icon size is the one
+   the space foundation already nominates for nav; the height follows from
+   it rather than being picked. Rows are separated by space, not by rules:
+   a divider every 48px turns a nav into a table. */
+.ed-nav__item {
+  display: flex;
+  align-items: center;
+  gap: var(--ed-space-3);
+  width: 100%;
+  padding: var(--ed-space-3) var(--ed-space-3);
+  margin-block-end: var(--ed-space-0-5);
+  border: 0;
+  border-radius: var(--ed-radius-control);
+  background: transparent;
+  color: var(--ed-nav-text);
+
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-lg);
+  font-weight: var(--ed-weight-medium);
+  line-height: var(--ed-leading-none);
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .12s ease, color .12s ease;
+}
+@media (prefers-reduced-motion: reduce) { .ed-nav__item { transition: none; } }
+
+.ed-nav__item:hover { background: var(--ed-nav-surface-hover); }
+
+/* Focus is never removed, only replaced. The page's --ed-focus is teal-600,
+   2.52:1 on this chrome — invisible. The ring is the nav's own selected
+   colour instead, 6.41:1, well past the 3:1 a ring needs. */
+.ed-nav__item:focus-visible {
+  outline: 2px solid var(--ed-nav-focus);
+  outline-offset: -2px;
+}
+
+/* ---- selected ------------------------------------------------------ */
+/* A parent holding the current page stays selected too, so the trail from
+   section to page is unbroken when the group is collapsed.
+   It carries data-within rather than aria-current: aria-current names ONE
+   thing, the page you are actually on, and a screen reader announcing two
+   "current" items is worse than announcing none. */
+.ed-nav__item[aria-current],
+.ed-nav__item[data-within="true"] {
+  background: var(--ed-nav-selected-surface);
+  color: var(--ed-nav-selected-text);
+  font-weight: var(--ed-weight-semibold);
+}
+/* Hover must not erase the selection. A selected item that turns into
+   the hover colour looks deselected for as long as the pointer is on it. */
+.ed-nav__item[aria-current]:hover,
+.ed-nav__item[data-within="true"]:hover { background: var(--ed-neutral-700); }
+
+/* The icon swaps drawing, not just colour — the filled variant is a
+   different glyph, supplied by the app. This only sizes it.
+   24px is --ed-icon-lg, which the space foundation nominates for nav. */
+.ed-nav__icon {
+  width: var(--ed-icon-lg);
+  height: var(--ed-icon-lg);
+  flex: none;
+}
+
+.ed-nav__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- expandable ---------------------------------------------------- */
+/* A solid triangle, not a stroked chevron: at 16px a 2px stroke and a
+   fill read as two different icon languages sitting next to each other.
+   It rotates rather than swapping glyph, so there is one drawing. */
+.ed-nav__caret {
+  width: var(--ed-icon-sm);
+  height: var(--ed-icon-sm);
+  flex: none;
+  opacity: .75;
+  transition: rotate .12s ease;
+}
+.ed-nav__item[aria-expanded="true"] .ed-nav__caret { rotate: 90deg; }
+@media (prefers-reduced-motion: reduce) { .ed-nav__caret { transition: none; } }
+
+/* ---- children ------------------------------------------------------ */
+/* Indented to sit under the parent's LABEL, not under its icon — the
+   alignment is what says "these belong to that". No icons of their own:
+   a second column of icons at this depth reads as a second nav. */
+.ed-nav__sub { display: flex; flex-direction: column; }
+.ed-nav__sub .ed-nav__item {
+  position: relative;
+  padding-inline-start: calc(var(--ed-space-3) + var(--ed-icon-lg) + var(--ed-space-3));
+  font-size: var(--ed-text-base);
+  font-weight: var(--ed-weight-regular);
+  color: var(--ed-nav-text-muted);
+}
+.ed-nav__sub .ed-nav__item:hover { color: var(--ed-nav-text); }
+.ed-nav__sub .ed-nav__item[aria-current] {
+  background: var(--ed-nav-selected-surface);
+  color: var(--ed-nav-selected-text);
+  font-weight: var(--ed-weight-medium);
+}
+
+/* A sub-item has no icon to fill, so the dot is its filled state, in the
+   accent colour. It sits in the gutter the parent's icon occupies, so the
+   column still lines up. */
+.ed-nav__sub .ed-nav__item::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(var(--ed-space-3) + var(--ed-icon-lg) / 2);
+  translate: -50% 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  /* Teal, like the icon accent it stands in for — the dot IS the sub-item's
+     filled state, so it should carry the same colour the fill would. */
+  background: var(--ed-icon-accent);
+  opacity: 0;
+}
+.ed-nav__sub .ed-nav__item[aria-current]::before { opacity: 1; }
+
+/* ---- collapsed ----------------------------------------------------- */
+.ed-nav--collapsed .ed-nav__label,
+.ed-nav--collapsed .ed-nav__caret,
+.ed-nav--collapsed .ed-nav__group,
+.ed-nav--collapsed .ed-nav__sub { display: none; }
+.ed-nav--collapsed .ed-nav__item { justify-content: center; padding-inline: 0; }
+
+/* ---- two-colour icons in the nav ----------------------------------- */
+/* The accent flips with the ground it lands on, because no single teal
+   clears them all. On the neutral selected panel it can hold a saturated
+   brand teal — which is the entire reason that panel is neutral. */
+.ed-nav { --ed-icon-accent: var(--ed-teal-300); }
+.ed-nav__item[aria-current],
+.ed-nav__item[data-within="true"] { --ed-icon-accent: var(--ed-teal-400); }
+
+/* ---- light variant -------------------------------------------------- */
+/* Same component, light chrome. Only the palette changes: every rule above
+   reads the roles, so nothing else is restated. */
+.ed-nav--light {
+  --ed-nav-surface:          var(--ed-nav-light-surface);
+  --ed-nav-surface-hover:    var(--ed-nav-light-surface-hover);
+  --ed-nav-selected-surface: var(--ed-nav-light-selected-surface);
+  --ed-nav-text:             var(--ed-nav-light-text);
+  --ed-nav-text-muted:       var(--ed-nav-light-text-muted);
+  --ed-nav-selected-text:    var(--ed-nav-light-selected-text);
+  --ed-nav-focus:            var(--ed-nav-light-focus);
+  --ed-icon-accent:          var(--ed-nav-light-accent);
+  color-scheme: light;
+  /* A white rail is 1.12:1 against a neutral-50 canvas — it needs an edge,
+     which the dark variant does not. */
+  border-inline-end: 1px solid var(--ed-nav-light-border);
+}
+/* One accent value for the whole light variant: teal-700 is 6.56:1 on the
+   white ground and 4.28:1 on the grey panel, so it does not need to change. */
+.ed-nav--light .ed-nav__item[aria-current],
+.ed-nav--light .ed-nav__item[data-within="true"] {
+  --ed-icon-accent: var(--ed-nav-light-accent);
+}
+/* Selected is the darkest of the three; hover sits between it and the
+   ground, so hovering a selected row deepens rather than erasing it. */
+.ed-nav--light .ed-nav__item[aria-current]:hover,
+.ed-nav--light .ed-nav__item[data-within="true"]:hover {
+  background: var(--ed-neutral-300);
+}
+
+/* A light rail beside a dark page is glare, not contrast. In dark mode the
+   light variant steps back to dark chrome rather than staying bright. */
+[data-theme="dark"] .ed-nav--light {
+  --ed-nav-surface:          var(--ed-neutral-900);
+  --ed-nav-surface-hover:    var(--ed-neutral-800);
+  --ed-nav-selected-surface: var(--ed-neutral-700);
+  --ed-nav-text:             var(--ed-white);
+  --ed-nav-text-muted:       var(--ed-neutral-200);
+  --ed-nav-selected-text:    var(--ed-white);
+  --ed-nav-focus:            var(--ed-teal-300);
+  --ed-icon-accent:          var(--ed-teal-300);
+  color-scheme: dark;
+}
+
+/* ---- soft variant --------------------------------------------------- */
+/* A grey rail with a white selected pill, ~20px icons, groups that carry
+   their own disclosure. Items lose their caret: when selecting a parent is
+   what reveals its children, a caret on every row states something the row
+   already does. */
+.ed-nav--soft {
+  --ed-nav-surface:          var(--ed-nav-soft-surface);
+  --ed-nav-surface-hover:    var(--ed-nav-soft-surface-hover);
+  --ed-nav-selected-surface: var(--ed-nav-soft-selected-surface);
+  --ed-nav-text:             var(--ed-nav-soft-text);
+  --ed-nav-text-muted:       var(--ed-nav-soft-text-muted);
+  --ed-nav-selected-text:    var(--ed-nav-soft-selected-text);
+  --ed-nav-focus:            var(--ed-nav-soft-focus);
+  --ed-icon-accent:          var(--ed-nav-soft-accent);
+  color-scheme: light;
+  padding-inline: var(--ed-space-2);
+}
+
+/* The pill is 1.26:1 against the rail. The shadow is what makes it a state. */
+.ed-nav--soft .ed-nav__item[aria-current],
+.ed-nav--soft .ed-nav__item[data-within="true"] {
+  box-shadow: var(--ed-elevation-1);
+}
+.ed-nav--soft .ed-nav__item[aria-current]:hover,
+.ed-nav--soft .ed-nav__item[data-within="true"]:hover {
+  background: var(--ed-nav-soft-selected-surface);
+  box-shadow: var(--ed-elevation-2);
+}
+
+/* Smaller icons, and rows packed tight so a group reads as one block. */
+.ed-nav--soft .ed-nav__icon { width: var(--ed-icon-md); height: var(--ed-icon-md); }
+/* 3px, not 0. A section and its current page can both hold a pill now, and
+   the two rows touch — with only a shadow and no border, they would read as
+   one tall rectangle. Three pixels of rail between them is enough to keep
+   them separate while the group still reads as one block. */
+.ed-nav--soft .ed-nav__item {
+  margin-block-end: 3px;
+  padding-block: var(--ed-space-2-5);
+  font-size: var(--ed-text-base);
+}
+
+/* The gap between groups does the work the dividers would. Tight inside a
+   group, generous between them — that contrast is the grouping. */
+.ed-nav--soft .ed-nav__group {
+  display: flex;
+  align-items: center;
+  gap: var(--ed-space-1);
+  padding: var(--ed-space-8) var(--ed-space-3) var(--ed-space-2);
+  font-size: var(--ed-text-base);
+  font-weight: var(--ed-weight-medium);
+  letter-spacing: var(--ed-tracking-normal);
+  text-transform: none;
+  color: var(--ed-nav-soft-group);
+}
+.ed-nav--soft .ed-nav__group:first-child { padding-top: var(--ed-space-2); }
+
+/* The mark beside a group name is NOT a control yet. It is the affordance
+   for a popup that does not exist, so it is aria-hidden and carries no
+   handler — a caret that looks clickable and does nothing is worse than no
+   caret, and a button that does nothing is worse still, because a keyboard
+   user lands on it.
+
+   WHEN THE POPUP IS BUILT: this becomes a real <button> with
+   aria-haspopup="menu" and aria-expanded, and the group name moves inside
+   it. Until then it stays scenery.
+
+   It points right and does not rotate: rotation would mean an open/closed
+   state, and there is no state here. */
+.ed-nav__group-caret {
+  width: var(--ed-icon-xs);
+  height: var(--ed-icon-xs);
+  flex: none;
+  opacity: .55;
+}
+
+/* The shared sub indent is built on a 24px icon. This variant uses 20, so
+   the children would sit 4px right of the parent's label. */
+.ed-nav--soft .ed-nav__sub .ed-nav__item {
+  padding-inline-start: calc(var(--ed-space-3) + var(--ed-icon-md) + var(--ed-space-3));
+}
+.ed-nav--soft .ed-nav__sub .ed-nav__item::before {
+  inset-inline-start: calc(var(--ed-space-3) + var(--ed-icon-md) / 2);
+}
+
+/* No caret on items here. */
+.ed-nav--soft .ed-nav__caret { display: none; }
+
+/* A selected sub-item takes the pill too, so the current page is marked the
+   same way wherever it sits in the tree. Its dot stays: the pill says "this
+   row", the dot says "and it is a page, not a section". */
+.ed-nav--soft .ed-nav__sub .ed-nav__item[aria-current] {
+  background: var(--ed-nav-soft-selected-surface);
+  box-shadow: var(--ed-elevation-1);
+  color: var(--ed-nav-soft-selected-text);
+  font-weight: var(--ed-weight-semibold);
+}
+
+/* ---- soft, collapsed: a labelled rail --------------------------------- */
+/* Icon-only is cheaper in pixels and more expensive in everything else: it
+   asks the reader to remember what nine glyphs mean, and a tooltip only
+   answers on a pointer. Stacking a tiny caps label under the icon costs
+   about 30px of width and removes the guessing.
+
+   The label is the item's accessible name either way — collapsing a nav
+   should not make it unnameable. */
+/* 96px is measured, not chosen: below it the longest single word in this
+   nav — DASHBOARD, at 10px uppercase with wide tracking — is wider than the
+   box and clips mid-word. Warehouse takes --ed-text-2xs from 10px to 12px,
+   so the floor moves with it. */
+.ed-nav--soft.ed-nav--collapsed { min-width: 96px; }
+[data-mode="warehouse"] .ed-nav--soft.ed-nav--collapsed { min-width: 112px; }
+
+.ed-nav--soft.ed-nav--collapsed .ed-nav__item {
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--ed-space-1);
+  padding: var(--ed-space-2) var(--ed-space-1);
+}
+.ed-nav--soft.ed-nav--collapsed .ed-nav__label {
+  display: block;
+  flex: none;
+  max-width: 100%;
+  font-size: var(--ed-text-2xs);
+  font-weight: var(--ed-weight-semibold);
+  letter-spacing: var(--ed-tracking-wide);
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+
+  /* Two lines, then ellipsis. "B2C Outward" and "Master Edit" both need the
+     second line; nothing in this nav needs a third, and allowing one would
+     let a long label set the rail's height for every item. */
+  white-space: normal;
+  /* If the rail is forced narrower than the floor anyway, a long word breaks
+     rather than being clipped. Ugly beats silently wrong: a clipped label
+     looks like a shorter label, and nobody goes looking for the rest. */
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* The group heading returns as a rule rather than a word. Its text would
+   not survive this width, but the grouping still has to be visible or the
+   rail becomes one undifferentiated column of nine. */
+.ed-nav--soft.ed-nav--collapsed .ed-nav__group {
+  display: block;
+  padding: var(--ed-space-4) var(--ed-space-2) var(--ed-space-2);
+  font-size: 0;            /* the label goes, the space and rule stay */
+  border-block-start: 1px solid var(--ed-nav-soft-surface-hover);
+  margin-block-start: var(--ed-space-2);
+}
+.ed-nav--soft.ed-nav--collapsed .ed-nav__group:first-child {
+  border-block-start: 0;
+  margin-block-start: 0;
+  padding-block-start: var(--ed-space-1);
+}
+.ed-nav--soft.ed-nav--collapsed .ed-nav__group-caret { display: none; }

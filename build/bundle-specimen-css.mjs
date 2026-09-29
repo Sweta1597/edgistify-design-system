@@ -4,7 +4,7 @@
    Run: node build/bundle-specimen-css.mjs <out-path>                     */
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const ORDER = ['primitives','semantic','type','space','button','card','table','input','modal','menu'];
+const ORDER = ['primitives','semantic','type','space','button','card','table','input','modal','menu','badge','tooltip','nav'];
 const out = process.argv[2];
 if (!out) { console.error('usage: node build/bundle-specimen-css.mjs <out-path>'); process.exit(1); }
 

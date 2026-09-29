@@ -1,0 +1,221 @@
+/* Edgistify Design System — badge
+   ------------------------------------------------------------------
+   A short, non-interactive label: order status, sync state, a count,
+   a plan name. Consumes the status roles from the colour foundation
+   (--ed-*-surface / -border / -on-surface) and the chip padding the
+   space foundation already reserved (--ed-pad-chip-x, "badge, pill,
+   status"). Warehouse mode is therefore free twice over: the padding
+   grows to 12/6px and the status tint turns into a solid block.
+
+   Replaces 140 status-colour class strings across 30 files. Those
+   strings reach for 12 different hue families — slate, emerald, amber,
+   rose, blue, violet, orange, purple, green, sky, indigo, brand —
+   where this system defines four statuses and a neutral.
+
+   ON HUES: violet/indigo/purple showed up because four maps needed to
+   separate workflow STAGES (Picked, Packed, Assembly) that are not
+   statuses at all, and 'Delivered' needed to outrank 'Dispatched'.
+   Neither needs a new hue. Rank is the --strong modifier; a stage is
+   a different LABEL, not a different colour. Adding a hue per stage
+   means a picker must memorise a palette to read a pick list.
+
+   RULE 01 APPLIES HERE. There is a --brand tone and it is never a
+   status. It marks something as ours: a plan name, an Edgistify-
+   fulfilled order. It must never mean "done", "ok" or "in stock".
+   ------------------------------------------------------------------ */
+
+.ed-badge {
+  /* box */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ed-space-1);
+  padding: var(--ed-pad-chip-y) var(--ed-pad-chip-x);
+  border: 1px solid transparent;
+  border-radius: var(--ed-radius-pill);
+  max-width: 100%;
+
+  /* type */
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-sm);
+  font-weight: var(--ed-weight-semibold);
+  line-height: var(--ed-leading-none);
+  white-space: nowrap;
+
+  /* A badge is a label, not a control. It does not answer to the mouse. */
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* A long label truncates rather than stretching the row it sits in.
+   The full text stays reachable through the element's accessible name. */
+.ed-badge > .ed-badge__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Icons track the badge's own type size, and never eat a click. */
+.ed-badge > svg {
+  width: var(--ed-icon-xs);
+  height: var(--ed-icon-xs);
+  flex: none;
+  pointer-events: none;
+}
+
+/* ---- tones ------------------------------------------------------- */
+/* Default emphasis: a tint on a light canvas, already measured at
+   4.5:1 against its own -on-surface in all four modes. In warehouse
+   these same tokens resolve to a solid block, so nothing here changes. */
+
+.ed-badge--neutral {
+  background: var(--ed-surface-sunken);
+  color: var(--ed-text-secondary);
+  border-color: var(--ed-border);
+}
+.ed-badge--success {
+  background: var(--ed-success-surface);
+  color: var(--ed-success-on-surface);
+  border-color: var(--ed-success-border);
+}
+.ed-badge--warning {
+  background: var(--ed-warning-surface);
+  color: var(--ed-warning-on-surface);
+  border-color: var(--ed-warning-border);
+}
+.ed-badge--danger {
+  background: var(--ed-danger-surface);
+  color: var(--ed-danger-on-surface);
+  border-color: var(--ed-danger-border);
+}
+.ed-badge--info {
+  background: var(--ed-info-surface);
+  color: var(--ed-info-on-surface);
+  border-color: var(--ed-info-border);
+}
+/* Identity, never state. See RULE 01 and the header note. */
+.ed-badge--brand {
+  background: var(--ed-brand-subtle);
+  color: var(--ed-on-brand-subtle);
+  border-color: var(--ed-brand-muted);
+}
+
+/* ---- emphasis ---------------------------------------------------- */
+/* --strong is how one status outranks another of the SAME kind:
+   Delivered over Dispatched, a hard sync error over a soft one.
+   It is not a second palette. If two badges in a column both need
+   --strong, the column is encoding something that wants a column. */
+
+.ed-badge--strong.ed-badge--success { background: var(--ed-success-solid); color: var(--ed-on-success); border-color: transparent; }
+.ed-badge--strong.ed-badge--warning { background: var(--ed-warning-solid); color: var(--ed-on-warning); border-color: transparent; }
+.ed-badge--strong.ed-badge--danger  { background: var(--ed-danger-solid);  color: var(--ed-on-danger);  border-color: transparent; }
+.ed-badge--strong.ed-badge--info    { background: var(--ed-info-solid);    color: var(--ed-on-info);    border-color: transparent; }
+.ed-badge--strong.ed-badge--brand   { background: var(--ed-brand);         color: var(--ed-on-brand);   border-color: transparent; }
+.ed-badge--strong.ed-badge--neutral { background: var(--ed-neutral-700);   color: var(--ed-white);      border-color: transparent; }
+
+/* ---- outline ----------------------------------------------------- */
+/* No fill at all. For a badge sitting ON a tinted row, where a second
+   tint stacks into mud. Status colour on a neutral surface is exactly
+   what --ed-*-text is for — it does not flip with the surface. */
+.ed-badge--outline { background: transparent; }
+.ed-badge--outline.ed-badge--neutral { color: var(--ed-text-secondary); border-color: var(--ed-border-strong); }
+.ed-badge--outline.ed-badge--success { color: var(--ed-success-text); border-color: var(--ed-success-border); }
+.ed-badge--outline.ed-badge--warning { color: var(--ed-warning-text); border-color: var(--ed-warning-border); }
+.ed-badge--outline.ed-badge--danger  { color: var(--ed-danger-text);  border-color: var(--ed-danger-border); }
+.ed-badge--outline.ed-badge--info    { color: var(--ed-info-text);    border-color: var(--ed-info-border); }
+.ed-badge--outline.ed-badge--brand   { color: var(--ed-on-brand-subtle); border-color: var(--ed-brand); }
+
+/* ---- dot --------------------------------------------------------- */
+/* A live/paused indicator reads faster than the word does, but colour
+   alone is not the message — the dot always accompanies a label. */
+.ed-badge__dot {
+  width: .5em;
+  height: .5em;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---- sizes ------------------------------------------------------- */
+.ed-badge--sm { font-size: var(--ed-text-2xs); padding: var(--ed-space-0-5) var(--ed-space-2); gap: var(--ed-space-0-5); }
+.ed-badge--lg { font-size: var(--ed-text-base); padding: var(--ed-space-1-5) var(--ed-space-3); }
+.ed-badge--sm > svg { width: var(--ed-icon-xs); height: var(--ed-icon-xs); }
+.ed-badge--lg > svg { width: var(--ed-icon-sm); height: var(--ed-icon-sm); }
+
+/* ---- count ------------------------------------------------------- */
+/* A number on a nav item or a tab. Circular until two digits, then it
+   becomes a pill rather than an oval squeezing the digits. */
+.ed-badge--count {
+  min-width: 1.5em;
+  padding: 0 .4em;
+  height: 1.5em;
+  justify-content: center;
+  border-radius: var(--ed-radius-pill);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--ed-text-2xs);
+}
+
+/* ---- removable (tag) --------------------------------------------- */
+/* The only interactive badge: a filter the user applied and can drop.
+   The X is a real <button> so it is reachable by keyboard and carries
+   its own name ("Remove <label>") — an icon is not a name. */
+.ed-badge--removable { padding-inline-end: var(--ed-space-1); }
+
+.ed-badge__remove {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: .7;
+  transition: opacity .12s ease, background-color .12s ease;
+}
+.ed-badge__remove:hover { opacity: 1; background: rgb(0 0 0 / .12); }
+.ed-badge__remove:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 1px;
+  opacity: 1;
+}
+.ed-badge__remove > svg { width: 100%; height: 100%; pointer-events: none; }
+
+/* Grows the hit area to the minimum target without moving a pixel —
+   in warehouse mode that is 44px around a 14px glyph. */
+.ed-badge__remove::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  width: max(100%, var(--ed-target-min));
+  height: max(100%, var(--ed-target-min));
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-badge__remove { transition: none; }
+}
+
+/* ---- groups ------------------------------------------------------ */
+.ed-badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ed-gap-tight);
+}
+
+/* ---- rank, in warehouse mode ------------------------------------- */
+/* In warehouse the plain tint is ALREADY a solid block, so --strong
+   would land on the very same colour and rank would quietly disappear
+   — and rank is the whole reason it exists: Delivered over Dispatched,
+   Packed over Picked. It steps to the deep end of the ramp instead, so
+   the two stay two things under a sodium lamp. White throughout; the
+   amber block flips from ink-on-amber-500 to white-on-amber-800. */
+[data-mode="warehouse"] .ed-badge--strong.ed-badge--success { background: var(--ed-green-800);   color: var(--ed-white); }
+[data-mode="warehouse"] .ed-badge--strong.ed-badge--info    { background: var(--ed-blue-800);    color: var(--ed-white); }
+[data-mode="warehouse"] .ed-badge--strong.ed-badge--danger  { background: var(--ed-red-800);     color: var(--ed-white); }
+[data-mode="warehouse"] .ed-badge--strong.ed-badge--warning { background: var(--ed-amber-800);   color: var(--ed-white); }
+[data-mode="warehouse"] .ed-badge--strong.ed-badge--neutral { background: var(--ed-neutral-900); color: var(--ed-white); }

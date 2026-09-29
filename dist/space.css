@@ -215,3 +215,15 @@
 .ed-icon-md { width: var(--ed-icon-md); height: var(--ed-icon-md); stroke-width: var(--ed-icon-stroke-md); }
 .ed-icon-lg { width: var(--ed-icon-lg); height: var(--ed-icon-lg); stroke-width: var(--ed-icon-stroke-lg); }
 .ed-icon-xl { width: var(--ed-icon-xl); height: var(--ed-icon-xl); stroke-width: var(--ed-icon-stroke-xl); }
+
+/* A wrapper so the size can be set once, on a span, without touching the
+   icon inside it. The SVG fills the box; the box is what carries the token.
+   `stroke-width` is inherited by the child, and CSS beats the presentation
+   attribute an icon library writes, so no child needs editing. */
+.ed-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+.ed-icon > svg { width: 100%; height: 100%; display: block; }
