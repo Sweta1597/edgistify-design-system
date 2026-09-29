@@ -1,0 +1,11 @@
+{
+  "$families": {
+    "ui": { "stack": "'Inter Variable', Inter, system-ui, sans-serif", "package": "@fontsource-variable/inter" },
+    "id": { "stack": "'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace", "package": "@fontsource-variable/jetbrains-mono" }
+  },
+  "size":    { "2xs":10, "xs":11, "sm":12, "md":13, "base":14, "lg":16, "xl":18, "2xl":20, "3xl":24, "4xl":30, "5xl":40 },
+  "sizeWarehouse": { "2xs":12, "xs":13, "sm":14, "md":15, "base":16, "lg":18, "xl":20, "2xl":22, "3xl":26, "4xl":34, "5xl":46 },
+  "leading": { "none":1, "tight":1.2, "snug":1.35, "normal":1.45, "relaxed":1.65 },
+  "weight":  { "regular":400, "medium":500, "semibold":600, "bold":700 },
+  "tracking":{ "tight":"-0.022em", "snug":"-0.01em", "normal":"0", "wide":"0.09em" }
+}

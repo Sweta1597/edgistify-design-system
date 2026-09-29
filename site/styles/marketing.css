@@ -1,0 +1,22 @@
+/* Docs-only chrome for the marketing pages. The components themselves are
+   styled by the package; this only makes the live previews behave like a
+   page rather than like a row of buttons. */
+.mk-demo .example__preview { display: block; padding: 0; background: var(--ed-surface); }
+.mk-demo .example__preview > div { width: 100%; }
+.mk-demo .example__code, .mk-demo .example__code code, .mk-demo .example__copy { font-size: var(--ed-text-sm); }
+.mk-demo .example__caption { font-size: var(--ed-text-sm); }
+.mk-demo + .mk-demo { margin-top: var(--ed-space-6); }
+
+/* Type specimen rows on the Brand page */
+.mk-scale { display: grid; gap: var(--ed-space-5); }
+.mk-scale__row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--ed-space-6); align-items: baseline; padding-bottom: var(--ed-space-5); border-bottom: 1px solid var(--ed-border-subtle); }
+.mk-scale__meta { font: 500 12px/1.5 var(--ed-font-id); color: var(--ed-text-muted); }
+.mk-scale__meta b { display: block; color: var(--ed-text-link); font-weight: 500; }
+@media (max-width: 720px) { .mk-scale__row { grid-template-columns: minmax(0,1fr); gap: var(--ed-space-2); } }
+
+/* Three places for teal */
+.mk-three { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--ed-space-4); }
+@media (max-width: 720px) { .mk-three { grid-template-columns: minmax(0,1fr); } }
+.mk-three > div { padding: var(--ed-space-5); border: 1px solid var(--ed-border); border-radius: var(--ed-radius-panel); background: var(--ed-surface); display: flex; flex-direction: column; gap: var(--ed-space-3); }
+.mk-three .k { font: 600 11px/1 var(--ed-font-ui); letter-spacing: .09em; text-transform: uppercase; color: var(--ed-text-muted); }
+.mk-three p { margin: 0; font-size: 14px; color: var(--ed-text-secondary); line-height: 1.5; }

@@ -1,0 +1,190 @@
+
+.doc{
+  /* Tell the UA we are light, so scrollbars and any native control
+     come up light too — a dark OS renders them dark otherwise. */
+  color-scheme: light;
+  --t25:#f9fbfa;--t50:#ebf5f3;--t100:#c5f0e9;--t200:#87e4d8;--t300:#5ad1c3;--t400:#2ebbae;
+  --t500:#00a699;--t600:#008277;--t700:#076961;--t800:#0f534c;--t900:#103e39;--t950:#0d2c29;
+  --n25:#fafafa;--n50:#f2f2f2;--n100:#e3e6e5;--n200:#ccd2d1;--n300:#b5bbba;--n400:#9fa6a4;
+  --n500:#8b9190;--n600:#6c7170;--n700:#575c5b;--n800:#454848;--n900:#333636;--n950:#252727;
+  --ink:#0f1417;
+
+  --bg:var(--n25); --panel:#ffffff; --line:var(--n200); --line-soft:var(--n100);
+  --fg:var(--n950); --fg2:var(--n700); --fg3:var(--n600);
+  --accent:var(--t600); --brand:var(--t500);
+  --shadow:0 1px 2px rgb(15 20 23/.05), 0 8px 24px -12px rgb(15 20 23/.12);
+}
+[data-theme="dark"] .doc{
+  color-scheme: dark;
+  --bg:#1a1c1c; --panel:var(--n950); --line:#3d4140; --line-soft:#313433;
+  --fg:var(--n25); --fg2:var(--n200); --fg3:var(--n400);
+  --accent:var(--t300); --brand:var(--t400);
+  --shadow:0 1px 2px rgb(0 0 0/.4), 0 8px 24px -12px rgb(0 0 0/.6);
+}/* Warehouse is an ADDED mode, not a third theme — it composes with light
+   or dark. Borders and secondary text step up so nothing on the page
+   depends on a subtle grey seen through glare. */
+
+[data-mode="warehouse"] .doc{
+  --line:var(--n300); --line-soft:var(--n200); --fg3:var(--n800);
+}
+[data-theme="dark"][data-mode="warehouse"] .doc{
+  --line:var(--n600); --line-soft:var(--n700); --fg3:var(--n200);
+}
+.doc *{box-sizing:border-box}
+.doc{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:400 15px/1.6 Inter,system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.doc .wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:0 96px}
+.doc h1, .doc h2, .doc h3{font-family:"Inter Tight",Inter,system-ui,sans-serif;text-wrap:balance;margin:0}
+.doc code, .doc .mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-variant-ligatures:none}/* ---------- masthead ---------- */
+
+.doc header{padding-block:56px 40px;border-bottom:1px solid var(--line)}
+.doc .eyebrow{
+  font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--fg3);display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-wrap:wrap;
+}
+.doc .eyebrow .dot{width:10px;height:10px;border-radius:50%;background:#00a699;flex:none}
+.doc h1{font-size:clamp(30px,5.2vw,46px);font-weight:700;letter-spacing:-.022em;line-height:1.08}
+.doc .lede{margin:16px 0 0;max-width:62ch;color:var(--fg2);font-size:16.5px}
+.doc .meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px}
+.doc .meta div{display:flex;flex-direction:column;gap:3px}
+.doc .meta dt{font:500 10.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3)}
+.doc .meta dd{margin:0;font:500 15px/1.3 "JetBrains Mono",monospace;color:var(--fg)}
+.doc section{padding-block:52px;border-bottom:1px solid var(--line-soft)}
+.doc section:last-of-type{border-bottom:0}
+.doc h2{font-size:23px;font-weight:600;letter-spacing:-.015em}
+.doc .sub{margin:8px 0 0;color:var(--fg2);max-width:64ch;font-size:15px}
+.doc .sec-head{margin-bottom:30px}/* ---------- the rule ---------- */
+
+.doc .rule{
+  margin-top:34px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;
+  padding:22px 24px;border:1px solid var(--line);border-left:3px solid #00a699;
+  border-radius:3px;background:var(--panel);
+}
+.doc .rule .k{font:700 11px/1 "JetBrains Mono",monospace;letter-spacing:.1em;color:#00a699;padding-top:4px;white-space:nowrap}
+.doc .rule p{margin:0;color:var(--fg2);max-width:60ch;font-size:14.5px}
+.doc .rule strong{color:var(--fg);font-weight:600}/* ---------- ramps ---------- */
+
+.doc .ramp{margin-bottom:26px}
+.doc .ramp-head{display:flex;align-items:baseline;gap:12px;margin-bottom:9px}
+.doc .ramp-name{font:600 13px/1 "JetBrains Mono",monospace;letter-spacing:.04em}
+.doc .ramp-role{font-size:12.5px;color:var(--fg3)}
+.doc .swatches{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.doc .sw{position:relative;border-radius:2px;overflow:hidden;min-width:0}
+.doc .sw .chip{height:52px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px}
+.doc .sw .step{font:500 9.5px/1 "JetBrains Mono",monospace}
+.doc .sw .hex{
+  display:block;font:400 8.5px/1.5 "JetBrains Mono",monospace;color:var(--fg3);
+  text-align:center;padding-top:4px;letter-spacing:-.03em;
+}
+.doc .sw.key .chip{outline:2px solid var(--fg);outline-offset:-2px}
+.doc .sw.key .hex{color:var(--fg);font-weight:500}
+@media(max-width:780px){
+.doc .swatches{grid-template-columns:repeat(6,1fr)}
+.doc .sw .chip{height:44px}
+}/* ---------- specimen board ---------- */
+/* the board renders the SYSTEM's own tokens, driven by the same two
+   attributes the products set: data-theme and data-mode on <html> */
+
+.doc .board{
+  margin-top:18px;padding:26px;border:1px solid var(--line);border-radius:4px;
+  --s-canvas:var(--n50);--s-surface:#fff;--s-sunken:var(--n100);
+  --s-text:var(--n950);--s-text2:var(--n800);--s-muted:var(--n700);
+  --s-border:var(--n200);--s-border-soft:var(--n100);--s-strong:var(--n500);
+  --s-action:var(--t600);--s-on-action:#fff;--s-brand:var(--t500);--s-on-brand:var(--ink);
+  --s-id:var(--n800);--s-id-strong:var(--t700);--s-id-bg:var(--n100);
+  --s-ok-bg:#edf5ed;--s-ok-bd:#8cea93;--s-ok-fg:#146d26;
+  --s-warn-bg:#f5f2ed;--s-warn-bd:#edcb94;--s-warn-fg:#775304;
+  --s-bad-bg:#f5f1f1;--s-bad-bd:#edc6c0;--s-bad-fg:#a91315;
+  background:var(--s-canvas);color:var(--s-text);
+}
+[data-theme="dark"] .doc .board{
+  --s-canvas:var(--n950);--s-surface:var(--n900);--s-sunken:#0b0d0d;
+  --s-text:var(--n25);--s-text2:var(--n200);--s-muted:var(--n300);
+  --s-border:var(--n700);--s-border-soft:var(--n800);--s-strong:var(--n500);
+  --s-action:var(--t400);--s-on-action:var(--ink);--s-brand:var(--t400);
+  --s-id:var(--n200);--s-id-strong:var(--t300);--s-id-bg:var(--n800);
+  --s-ok-bg:#0f2e13;--s-ok-bd:#155620;--s-ok-fg:#61d76f;
+  --s-warn-bg:#32240a;--s-warn-bd:#5e420b;--s-warn-fg:#e6b050;
+  --s-bad-bg:#47110e;--s-bad-bd:#851614;--s-bad-fg:#f0a399;
+}
+[data-mode="warehouse"] .doc .board{
+  --s-muted:var(--n800);--s-border:var(--n300);--s-border-soft:var(--n200);
+  --s-id:var(--n950);--s-id-bg:var(--n200);
+  --s-ok-bg:#13872e;--s-ok-bd:#146d26;--s-ok-fg:#fff;
+  --s-warn-bg:#bc8400;--s-warn-bd:#775304;--s-warn-fg:var(--ink);
+  --s-bad-bg:#d10f18;--s-bad-bd:#851614;--s-bad-fg:#fff;
+}/* Dark + warehouse. The block above says "louder" in absolute greys,
+   which only reads as louder on a light canvas — on dark it inverts and
+   goes silent. Louder has to mean "further from the surface", so here it
+   moves toward the light end of the ramp. The status blocks stay solid:
+   they are vivid at both ends. */
+
+[data-theme="dark"][data-mode="warehouse"] .doc .board{
+  --s-muted:var(--n200);--s-border:var(--n600);--s-border-soft:var(--n700);
+  --s-strong:var(--n300);--s-id:var(--n25);--s-id-bg:var(--n700);
+}
+.doc .board-note{
+  margin:0 0 20px;font:400 12.5px/1.55 Inter,sans-serif;color:var(--s-muted);max-width:60ch;
+}
+.doc .specimens{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:22px}
+.doc .spec>h3{
+  font:500 10.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--s-muted);margin-bottom:11px;
+}
+.doc .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.doc .btn{
+  font:500 13px/1 Inter,sans-serif;padding:10px 16px;border-radius:6px;border:1px solid transparent;cursor:pointer;
+}
+.doc .btn.primary{background:var(--s-action);color:var(--s-on-action)}
+.doc .btn.secondary{background:var(--s-surface);color:var(--s-text2);border-color:var(--s-border)}
+.doc .btn.ghost{background:transparent;color:var(--s-action)}
+.doc .btn:focus-visible{outline:2px solid var(--s-action);outline-offset:2px}
+.doc .pill{
+  display:inline-flex;align-items:center;gap:6px;font:500 12px/1 Inter,sans-serif;
+  padding:5px 10px;border-radius:999px;border:1px solid;
+}
+.doc .pill.ok{background:var(--s-ok-bg);border-color:var(--s-ok-bd);color:var(--s-ok-fg)}
+.doc .pill.warn{background:var(--s-warn-bg);border-color:var(--s-warn-bd);color:var(--s-warn-fg)}
+.doc .pill.bad{background:var(--s-bad-bg);border-color:var(--s-bad-bd);color:var(--s-bad-fg)}
+.doc .pill .d{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.doc .idchip{
+  font:500 12.5px/1 "JetBrains Mono",monospace;background:var(--s-id-bg);color:var(--s-id);
+  padding:5px 8px;border-radius:3px;letter-spacing:-.01em;
+}
+.doc .idstrong{font:700 13px/1 "JetBrains Mono",monospace;color:var(--s-id-strong);letter-spacing:-.01em}
+.doc .picklist{border:1px solid var(--s-border);border-radius:5px;background:var(--s-surface);overflow:hidden}
+.doc .pick{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;
+  border-bottom:1px solid var(--s-border-soft);
+}
+.doc .pick:last-child{border-bottom:0}
+.doc .pick .sku{font:500 12.5px/1 "JetBrains Mono",monospace;color:var(--s-id);flex:1;min-width:0}
+.doc .pick .bin{font:400 11.5px/1 "JetBrains Mono",monospace;color:var(--s-muted)}
+.doc .pick .qty{font:600 13px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:var(--s-text)}/* ---------- roles table ---------- */
+
+.doc .tbl-wrap{overflow-x:auto;margin-top:8px}
+.doc table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+.doc th{
+  text-align:left;font:500 10.5px/1 "JetBrains Mono",monospace;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--fg3);padding:0 14px 10px 0;border-bottom:1px solid var(--line);
+}
+.doc td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.doc td.tok{font:500 12.5px/1.4 "JetBrains Mono",monospace;color:var(--fg);white-space:nowrap}
+.doc td.val{font:400 12px/1.4 "JetBrains Mono",monospace;color:var(--fg3);white-space:nowrap}
+.doc td.use{color:var(--fg2);font-size:13.5px}
+.doc .cr{font:500 12px/1 "JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+.doc .cr.pass{color:var(--t600)}
+[data-theme="dark"] .doc .cr.pass{color:var(--t300)}
+.doc .inv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px;border-radius:4px;overflow:hidden}
+.doc .inv>div{background:var(--panel);padding:20px}
+.doc .inv .big{font:700 26px/1 "JetBrains Mono",monospace;letter-spacing:-.03em;color:var(--fg)}
+.doc .inv .lbl{font:500 10.5px/1 "JetBrains Mono",monospace;letter-spacing:.11em;text-transform:uppercase;color:var(--fg3);margin:11px 0 7px}
+.doc .inv p{margin:0;font-size:13.5px;color:var(--fg2);line-height:1.5}
+.doc footer{padding-top:44px;color:var(--fg3);font-size:13px}
+.doc footer code{background:var(--n100);padding:2px 6px;border-radius:3px;color:var(--fg2);font-size:12px}
+[data-theme="dark"] .doc footer code{background:var(--n900)}
+@media(prefers-reduced-motion:reduce){
+.doc *{transition:none!important;animation:none!important}}

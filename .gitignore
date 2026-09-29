@@ -1,0 +1,20 @@
+node_modules/
+.DS_Store
+*.log
+npm-debug.log*
+.npmrc
+# ...but the site's is build config, not credentials: without install-links
+# the package cannot be resolved from a fresh clone.
+!site/.npmrc
+.env
+.env.*
+
+# Next.js docs site
+site/.next/
+site/out/
+site/.vercel/
+site/next-env.d.ts
+
+# Next generates these for AI agents on each dev run
+site/AGENTS.md
+site/CLAUDE.md

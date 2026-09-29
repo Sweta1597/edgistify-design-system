@@ -1,0 +1,92 @@
+/* Edgistify Design System — tooltip
+   ------------------------------------------------------------------
+   A short label for a control that cannot show one: an icon button,
+   a truncated cell, an abbreviation.
+
+   REPLACES THE NATIVE title ATTRIBUTE, which the products use in 17
+   places and which is worse than it looks:
+     · it never appears on a touch screen — the picker app is touch
+       only, so every one of those labels is invisible there
+     · ~1s delay, OS-styled, unreadable at warehouse distance
+     · it cannot be styled, positioned, or kept open
+     · VoiceOver announces it inconsistently, and it is silently
+       ignored when the element already has an accessible name
+
+   WHAT A TOOLTIP IS NOT. It is not a place to put information the
+   user needs. It vanishes, it cannot be reached on a handheld, and
+   it cannot hold a link or a button. If it matters, put it on the
+   page. A tooltip only ever RESTATES something already implied by
+   the control it labels.
+
+   WCAG 1.4.13 (content on hover or focus) is built in, not optional:
+   dismissible with Escape, hoverable (the pointer can travel into it
+   without it disappearing), and persistent until the user leaves.
+   ------------------------------------------------------------------ */
+
+.ed-tooltip {
+  /* In the top layer via popover, so there is no z-index to pick.
+     Positioned by script; margin:0 undoes the UA's centring. */
+  position: absolute;
+  margin: 0;
+  inset: auto;
+  padding: var(--ed-space-1-5) var(--ed-space-2-5);
+  max-width: 18rem;
+  border: 0;
+  border-radius: var(--ed-radius-control);
+
+  background: var(--ed-tooltip-surface);
+  color: var(--ed-tooltip-text);
+  box-shadow: var(--ed-elevation-2);
+
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-sm);
+  font-weight: var(--ed-weight-medium);
+  line-height: var(--ed-leading-snug);
+  text-align: start;
+
+  /* The tooltip itself never takes the pointer away from the control,
+     but it MUST stay hoverable — 1.4.13. The component keeps it open
+     while the pointer is inside; this only stops it stealing clicks. */
+  pointer-events: none;
+}
+
+/* Identifiers keep the mono face here too — a tooltip showing a full
+   SKU is still showing a SKU. */
+.ed-tooltip--id {
+  font-family: var(--ed-font-id);
+  font-size: var(--ed-text-md);
+}
+
+/* The arrow is a rotated square clipped by the bubble's own edge.
+   Script sets --ed-tt-arrow-x so it points at the control even when
+   the bubble has been pushed sideways to stay on screen. */
+.ed-tooltip::after {
+  content: '';
+  position: absolute;
+  left: var(--ed-tt-arrow-x, 50%);
+  width: 8px;
+  height: 8px;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: inherit;
+}
+.ed-tooltip[data-side="top"]::after    { bottom: -4px; }
+.ed-tooltip[data-side="bottom"]::after { top: -4px; }
+
+/* Fades in only after it has been placed, so it never appears at 0,0
+   and slides. :popover-open is the browser's own open state. */
+.ed-tooltip:popover-open {
+  animation: ed-tt-in .1s ease-out both;
+}
+@keyframes ed-tt-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .ed-tooltip:popover-open { animation: none; }
+}
+
+/* Warehouse: gloves, glare, two-second glances. Bigger, and further
+   from the control so a thumb does not cover it. */
+[data-mode="warehouse"] .ed-tooltip {
+  padding: var(--ed-space-2) var(--ed-space-3);
+  font-size: var(--ed-text-md);
+  box-shadow: var(--ed-elevation-3);
+}

@@ -1,0 +1,220 @@
+<div class="wrap">
+<header>
+  <div class="eyebrow"><span class="dot"></span> Edgistify Design System · Component 02</div>
+  <h1>Card</h1>
+  <p class="lede">Composable by slot, not driven by props — because the dashboard already has a
+  <code class="mono">&lt;Card title subtitle action&gt;</code> used 48 times and
+  <strong>bypassed by 101 inline card divs</strong>. That is an API problem, not a discipline one.</p>
+</header>
+
+<section>
+  <div class="sec-head"><h2>Why the old one gets bypassed</h2>
+  <p class="sub">A card with fixed <code class="mono">title/subtitle/action</code> props and a
+  permanent <code class="mono">p-4</code> cannot express a full-bleed table, a clickable tile, a
+  modal shell or a card inside a card. So people write a div — and the radius drifts:
+  <code class="mono">rounded-lg</code>, <code class="mono">rounded-xl</code>,
+  <code class="mono">rounded-2xl</code> and <code class="mono">rounded-md</code> all appear
+  meaning “card”. Slots fix it. Nothing is required except the container.</p></div>
+  <div class="anat">
+    <div class="slots" id="slots"><div class="slot"><span class="n">.ed-card</span><span class="d">The container. Surface, border, radius, elevation-1.</span></div><div class="slot"><span class="n">__header</span><span class="d">Title block and actions, side by side. `ruled` adds a rule — only when the body bleeds.</span></div><div class="slot"><span class="n">__title / __subtitle</span><span class="d">Semibold 14 and muted 11. The subtitle is optional.</span></div><div class="slot"><span class="n">__actions</span><span class="d">Buttons in the header. Stays flush right as the title wraps.</span></div><div class="slot"><span class="n">__body</span><span class="d">Padded content, stacked with --ed-gap-stack.</span></div><div class="slot"><span class="n">__bleed</span><span class="d">Escapes the body padding so a table reaches the edges.</span></div><div class="slot"><span class="n">__footer</span><span class="d">Sunken tray, actions right-aligned. `spread` pushes them apart.</span></div><div class="slot"><span class="n">__divider</span><span class="d">A rule that spans the full card width from inside the body.</span></div><div class="slot"><span class="n">__link</span><span class="d">Stretches one real link across the card. See RULE 06.</span></div></div>
+    <div class="ed-card">
+      <div class="ed-card__header">
+        <div class="ed-card__heading">
+          <h3 class="ed-card__title">Pick list</h3>
+          <p class="ed-card__subtitle">Wave 4471 · BLR-01</p>
+        </div>
+        <div class="ed-card__actions">
+          <button class="ed-btn ed-btn--ghost ed-btn--xs">Export</button>
+        </div>
+      </div>
+      <div class="ed-card__body">
+        <p style="margin:0;font-size:var(--ed-text-md);color:var(--ed-text-secondary);line-height:1.5">
+          28 lines across 6 aisles. Two SKUs are short and need a supervisor override before the
+          wave can close.</p>
+      </div>
+      <div class="ed-card__footer">
+        <button class="ed-btn ed-btn--secondary ed-btn--sm">Reassign</button>
+        <button class="ed-btn ed-btn--primary ed-btn--sm">Close wave</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Variants</h2>
+  <p class="sub">Switch modes — the cards take their padding, radius and elevation from tokens,
+  so warehouse costs them nothing.</p></div>
+  
+  <div class="stage">
+    <div class="lbl">default · flat · raised · dense · interactive</div>
+    <div class="ed-card-grid" id="variants">
+ <div class="ed-card"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">default</h3><p class="ed-card__subtitle">surface + border + elevation-1</p></div></div></div>
+ <div class="ed-card ed-card--flat"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">flat</h3><p class="ed-card__subtitle">no shadow — for a card inside a card</p></div></div></div>
+ <div class="ed-card ed-card--raised"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">raised</h3><p class="ed-card__subtitle">elevation-2 — floating or emphasised</p></div></div></div>
+ <div class="ed-card ed-card--dense"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">dense</h3><p class="ed-card__subtitle">tighter padding for dashboard grids</p></div></div></div>
+ <div class="ed-card ed-card--interactive"><div class="ed-card__body"><div class="ed-card__heading">
+   <h3 class="ed-card__title"><a class="ed-card__link" href="#variants">interactive</a></h3>
+   <p class="ed-card__subtitle">hover, then tab to it</p></div></div></div></div>
+  </div>
+  <div class="stage">
+    <div class="lbl">Accent stripe · status at a glance down a column</div>
+    <div class="ed-card-grid" id="accents"><div class="ed-card ed-card--accent-danger ed-card--dense"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">SLA breached</h3><p class="ed-card__subtitle">Order ORD-880241 · 4h over</p></div></div></div><div class="ed-card ed-card--accent-warning ed-card--dense"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">Short pick</h3><p class="ed-card__subtitle">2 SKUs need override</p></div></div></div><div class="ed-card ed-card--accent-success ed-card--dense"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">Wave closed</h3><p class="ed-card__subtitle">28 lines · 0 discrepancies</p></div></div></div><div class="ed-card ed-card--accent-info ed-card--dense"><div class="ed-card__body"><div class="ed-card__heading">
+  <h3 class="ed-card__title">Sync scheduled</h3><p class="ed-card__subtitle">Marketplace pull at 18:00</p></div></div></div></div>
+  </div>
+  <div class="note">
+    <span class="k">RULE 06</span>
+    <div><p><strong>A clickable card still needs one real link inside it.</strong>
+    <code class="mono">&lt;CardLink&gt;</code> stretches across the whole card with a pseudo-element,
+    so the card is clickable while the link keeps the accessible name and the card’s text stays
+    selectable. A <code class="mono">div</code> with an <code class="mono">onClick</code> is
+    invisible to a screen reader and cannot be tabbed to.</p>
+    <p>Tab into the interactive card above — the focus ring lands on the card, not on a
+    nested box.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Bleed</h2>
+  <p class="sub">A table, chart or image reaching the card’s edges. This is what the 15
+  <code class="mono">overflow-hidden</code> card divs in the dashboard were working around.</p></div>
+  <div class="stage">
+    <div class="lbl">Header ruled · body bleeds · footer</div>
+    <div class="ed-card" style="max-width:640px">
+      <div class="ed-card__header ed-card__header--ruled">
+        <div class="ed-card__heading">
+          <h3 class="ed-card__title">Short picks</h3>
+          <p class="ed-card__subtitle">Needs supervisor override</p>
+        </div>
+        <div class="ed-card__actions"><span class="pill w">2 open</span></div>
+      </div>
+      <div class="ed-card__body ed-card__body--bleed">
+        <table class="tbl">
+          <thead><tr><th>SKU</th><th>Bin</th><th class="n">Short</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="id">SKU-9120-WHT-L</td><td class="id">C-04-11</td><td class="n">6</td><td><span class="pill w">Short</span></td></tr>
+            <tr><td class="id">SKU-2288-NVY-S</td><td class="id">B-21-07</td><td class="n">1</td><td><span class="pill d">Not found</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ed-card__footer ed-card__footer--start">
+        <span style="font-size:var(--ed-text-xs);color:var(--ed-text-muted)">Updated 4 min ago</span>
+        <button class="ed-btn ed-btn--primary ed-btn--sm">Request override</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Stat tiles</h2>
+  <p class="sub">Lead with big numbers only when the figures are the point of the view. A row of
+  them above content that does not need them is decoration.</p></div>
+  <div class="stage">
+    <div class="lbl">Direction is the arrow · sentiment is the colour</div>
+    <div class="ed-card-grid" id="stats"><div class="ed-card ed-card--dense"><div class="ed-card__body">
+   <div class="ed-card__heading">
+     <span class="ed-card__label">Open orders</span>
+     <span class="ed-card__metric">1,284</span>
+     <span class="ed-card__delta ed-card__delta--flat">
+       <span aria-hidden="true">↑</span>2.1%</span>
+   </div></div></div><div class="ed-card ed-card--dense"><div class="ed-card__body">
+   <div class="ed-card__heading">
+     <span class="ed-card__label">Fill rate</span>
+     <span class="ed-card__metric">96.4%</span>
+     <span class="ed-card__delta ed-card__delta--good">
+       <span aria-hidden="true">↑</span>0.8%</span>
+   </div></div></div><div class="ed-card ed-card--dense"><div class="ed-card__body">
+   <div class="ed-card__heading">
+     <span class="ed-card__label">Returns</span>
+     <span class="ed-card__metric">312</span>
+     <span class="ed-card__delta ed-card__delta--bad">
+       <span aria-hidden="true">↑</span>8.4%</span>
+   </div></div></div><div class="ed-card ed-card--dense"><div class="ed-card__body">
+   <div class="ed-card__heading">
+     <span class="ed-card__label">Avg TAT</span>
+     <span class="ed-card__metric">14.2h</span>
+     <span class="ed-card__delta ed-card__delta--good">
+       <span aria-hidden="true">↓</span>1.1h</span>
+   </div></div></div></div>
+  </div>
+  <div class="note">
+    <span class="k">RULE 07</span>
+    <p><strong>An arrow is not a sentiment.</strong> Returns rising is bad news; fill rate rising
+    is good news; both point up. <code class="mono">direction</code> draws the arrow and
+    <code class="mono">sentiment</code> picks the colour, because only the caller knows which way
+    is good for that particular number.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Not everything is a card</h2>
+  <p class="sub">Border, fill, radius and shadow each announce “separate object”. Spend them on
+  the one thing that needs lifting. The same three rows, twice.</p></div>
+  <div class="two">
+    <div>
+      <div class="ed-card">
+        <div class="ed-card__header"><div class="ed-card__heading">
+          <h3 class="ed-card__title">Aisle A</h3></div></div>
+        <div class="ed-card__body" style="gap:0">
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--ed-border-subtle)">
+            <span class="mono" style="font-size:var(--ed-text-sm)">SKU-4417-BLK-M</span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--ed-text-sm)">4</span></div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--ed-border-subtle)">
+            <span class="mono" style="font-size:var(--ed-text-sm)">SKU-9120-WHT-L</span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--ed-text-sm)">102</span></div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0">
+            <span class="mono" style="font-size:var(--ed-text-sm)">SKU-0071-GRN-XL</span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--ed-text-sm)">1,240</span></div>
+        </div>
+      </div>
+      <p class="cap">one card, rows divided by a hairline</p>
+    </div>
+    <div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="ed-card"><div class="ed-card__body" style="flex-direction:row;justify-content:space-between">
+          <span class="mono" style="font-size:var(--ed-text-sm)">SKU-4417-BLK-M</span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--ed-text-sm)">4</span></div></div>
+        <div class="ed-card"><div class="ed-card__body" style="flex-direction:row;justify-content:space-between">
+          <span class="mono" style="font-size:var(--ed-text-sm)">SKU-9120-WHT-L</span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--ed-text-sm)">102</span></div></div>
+        <div class="ed-card"><div class="ed-card__body" style="flex-direction:row;justify-content:space-between">
+          <span class="mono" style="font-size:var(--ed-text-sm)">SKU-0071-GRN-XL</span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--ed-text-sm)">1,240</span></div></div>
+      </div>
+      <p class="cap bad">every row a card — three borders, three shadows, no hierarchy</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>API</h2></div>
+  <pre><span class="k">import</span> { Card, CardHeader, CardBody, CardBleed, CardFooter, CardStat }
+  <span class="k">from</span> '@edgistify/design-system/react/Card';
+<span class="k">import</span> '@edgistify/design-system/card.css';
+
+&lt;<span class="k">Card</span>&gt;
+  &lt;<span class="k">CardHeader</span> title="Short picks" subtitle="Needs override" ruled
+                actions={&lt;Button size="xs" variant="ghost"&gt;Export&lt;/Button&gt;} /&gt;
+  &lt;<span class="k">CardBody</span> bleed&gt;&lt;table …/&gt;&lt;/<span class="k">CardBody</span>&gt;
+  &lt;<span class="k">CardFooter</span>&gt;&lt;Button size="sm"&gt;Request override&lt;/Button&gt;&lt;/<span class="k">CardFooter</span>&gt;
+&lt;/<span class="k">Card</span>&gt;
+
+<span class="c">// clickable — CardLink carries the accessible name</span>
+&lt;<span class="k">Card</span> interactive accent="warning"&gt;
+  &lt;<span class="k">CardBody</span>&gt;&lt;<span class="k">CardLink</span> href="/waves/4471"&gt;Wave 4471&lt;/<span class="k">CardLink</span>&gt;&lt;/<span class="k">CardBody</span>&gt;
+&lt;/<span class="k">Card</span>&gt;
+
+<span class="c">// arrow and colour are separate decisions</span>
+&lt;<span class="k">CardStat</span> label="Returns" value="312" delta="8.4%" direction="up" sentiment="bad" /&gt;</pre>
+</section>
+
+<footer>
+  <p>Every specimen on this page runs the real shipped CSS — <code class="mono">ds.css</code> here
+  is <code class="mono">primitives + semantic + type + space + button + card</code>,
+  concatenated unmodified.</p>
+  <p style="margin-top:10px">Building this exposed a flaw in the colour layer: warehouse mode
+  repurposed <code class="mono">--ed-danger-surface</code> as a solid fill, which silently broke
+  every quiet control that used it as a tint. Status now has six distinct roles and the check
+  covers <strong>123 pairings</strong>. Next: <strong>popups</strong>.</p>
+</footer>
+</div>

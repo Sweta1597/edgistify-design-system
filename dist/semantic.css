@@ -1,0 +1,394 @@
+/* Edgistify Design System — semantic colour
+   ------------------------------------------------------------------
+   LIGHT IS THE DEFAULT. Every product ships light; the bare :root block
+   below is the real one. Dark and warehouse are ADDED MODES, reached only
+   by an explicit attribute the app sets — never inherited from the
+   operating system, because a picker on a phone with dark mode on has not
+   asked for a dark warehouse app.
+
+       <html>                          light   (the product)
+       <html data-theme="dark">        dark
+       <html data-mode="warehouse">    warehouse
+       both attributes                 compose
+   ------------------------------------------------------------------
+   Apps NEVER reference primitives (--ed-teal-500) directly.
+   They reference roles (--ed-action). That is what makes retheming,
+   dark mode and warehouse mode possible without touching components.
+
+   THE ONE RULE ABOUT TEAL
+   Teal is the brand. It is NOT a status colour.
+   Teal must never mean "success", "done", "ok" or "in stock" —
+   it sits 39deg from our success green and warehouse staff reading
+   fast under glare will confuse them. Success is always green.
+   Teal means: this is Edgistify, and this is the thing to click.
+   ------------------------------------------------------------------ */
+
+:root {
+  /* Tell the UA we are light, so the parts we do NOT paint — scrollbars,
+     the native select's own popup, date and colour pickers, the canvas
+     behind an unstyled element — come up light too. Without this a dark
+     OS renders those dark inside our light product. */
+  color-scheme: light;
+
+  /* ---- surfaces ------------------------------------------------ */
+  --ed-canvas:          var(--ed-neutral-50);   /* app background      */
+  --ed-surface:         var(--ed-white);        /* cards, tables, rows */
+  --ed-surface-raised:  var(--ed-white);        /* popovers, modals    */
+  --ed-surface-sunken:  var(--ed-neutral-100);  /* wells, code, inset  */
+  --ed-surface-hover:   var(--ed-neutral-50);
+  --ed-surface-active:  var(--ed-neutral-100);
+  --ed-scrim:           rgb(15 20 23 / 0.45);   /* behind modals       */
+
+  /* ---- content ------------------------------------------------- */
+  --ed-text:            var(--ed-neutral-950);  /* 15.0:1  headings/body */
+  --ed-text-secondary:  var(--ed-neutral-800);  /*  9.2:1  labels        */
+  --ed-text-muted:      var(--ed-neutral-700);  /*  6.8:1  captions      */
+  --ed-text-disabled:   var(--ed-neutral-400);  /*  2.5:1  non-text only */
+  --ed-text-inverse:    var(--ed-white);
+  --ed-text-link:       var(--ed-teal-600);
+
+  /* ---- identifiers: SKU, order ID, pincode, barcode ------------ */
+  /* A distinct role, not a font choice made per-component.         */
+  --ed-text-id:         var(--ed-neutral-800);
+  --ed-text-id-strong:  var(--ed-teal-700);     /* the ID you scanned  */
+  --ed-surface-id:      var(--ed-neutral-100);  /* chip behind an ID   */
+
+  /* ---- tooltip: inverted relative to whatever it floats over ----
+     A tooltip is not a surface in the product, it is a label ABOUT
+     one. It flips with the theme so it always reads as an overlay
+     rather than as another panel that happens to be nearby.        */
+  --ed-tooltip-surface: var(--ed-neutral-900);
+  --ed-tooltip-text:    var(--ed-white);
+
+  /* ---- icon accent ----------------------------------------------
+     Two-colour icons carry a body (currentColor, so it follows the
+     text) and ONE accent. No single teal survives every surface an
+     icon lands on: teal-600 is 4.71:1 on white but 1.89:1 on the nav's
+     selected panel; teal-300 is 8.11:1 on the nav but 1.85:1 on white.
+     So the accent is a role that flips, and the components below
+     redefine it. On a brand-coloured fill it collapses to the body —
+     nothing teal reads on teal.                                     */
+  --ed-icon-accent: var(--ed-teal-600);
+
+  /* ---- navigation chrome ----------------------------------------
+     The one surface that does not follow the page: dark in every mode.
+     The ground is NEUTRAL so that the selected highlight can read as
+     teal — a teal highlight on a teal ground is not a highlight.
+     Selection is a white filled icon on a neutral panel, with the
+     icon's teal accent carrying the brand. The panel is neutral on
+     purpose: a brand-coloured panel cannot host a brand-coloured
+     accent — teal-500 is 2.93:1 on teal-800 and 3.04:1 on neutral-800.
+     The panel is a supporting signal, not the accessible one: at
+     1.69:1 against the ground it is deliberately quiet. The filled
+     icon and the heavier label are what carry the state.            */
+  --ed-nav-surface:          var(--ed-neutral-950);
+  --ed-nav-surface-hover:    var(--ed-neutral-900);
+  --ed-nav-selected-surface: var(--ed-neutral-800); /* neutral, so the ACCENT can be brand */
+  --ed-nav-text:             var(--ed-white);      /* 15.02:1  unselected   */
+  --ed-nav-text-muted:       var(--ed-neutral-200);/*  9.80:1  groups, subs */
+  --ed-nav-selected-text:    var(--ed-white);      /*  8.89:1  on the panel */
+  /* The ring is NEUTRAL, not teal. A teal ring around a teal accent is
+     two brand colours from one ramp touching: teal-300 against teal-400
+     separated at 1.28:1, so a focused selected item lost its accent into
+     its own outline. White clears the ground at 15.02:1 and the panel at
+     9.24:1, and is 2.38:1 from the accent it surrounds.               */
+  --ed-nav-focus:            var(--ed-white);
+  --ed-nav-border:           var(--ed-neutral-800);
+
+  /* ---- navigation chrome, LIGHT variant -------------------------
+     A white rail with a GREYER panel — the opposite direction to the
+     dark variant, where the panel lifts. On light chrome a lift barely
+     registers: white on neutral-100 separates at 1.26:1. Going the
+     other way, neutral-200 on white reaches 1.53:1, which is where the
+     dark variant sits (1.63:1). Hover sits between the two at
+     neutral-50, so hover and selected stay distinct.
+     A white ground does not separate itself from a neutral-50 canvas
+     (1.12:1), so this variant carries a border where the dark one
+     needs none.                                                      */
+  --ed-nav-light-surface:          var(--ed-white);
+  --ed-nav-light-surface-hover:    var(--ed-neutral-50);
+  --ed-nav-light-selected-surface: var(--ed-neutral-200);
+  --ed-nav-light-text:             var(--ed-neutral-950); /* 15.02:1 */
+  --ed-nav-light-text-muted:       var(--ed-neutral-700); /*  6.80:1 */
+  --ed-nav-light-selected-text:    var(--ed-neutral-950); /*  9.80:1 on the panel */
+  --ed-nav-light-focus:            var(--ed-ink);          /* 18.54:1 */
+  /* teal-600 rather than teal-700: lighter, and 3.94:1 clear of the ink
+     ring. It is 3.07:1 on the panel — past the 3:1 a graphic part needs,
+     but the tightest pair in the nav. */
+  --ed-nav-light-accent:           var(--ed-teal-600);    /*  3.07:1 on panel */
+  --ed-nav-light-border:           var(--ed-neutral-200);
+
+  /* ---- navigation chrome, SOFT variant --------------------------
+     A grey rail with a white selected pill. White on neutral-100 is
+     only 1.26:1 — far too little to read as a state on contrast alone.
+     The pill carries elevation-1 instead, and the shadow supplies the
+     edge the contrast cannot. This is the one place in the system where
+     a state leans on a shadow rather than a value, and it is deliberate:
+     the alternative is a darker pill, which this variant exists not to
+     have.                                                            */
+  --ed-nav-soft-surface:          var(--ed-neutral-100);
+  --ed-nav-soft-surface-hover:    var(--ed-neutral-200);
+  --ed-nav-soft-selected-surface: var(--ed-white);
+  --ed-nav-soft-text:             var(--ed-neutral-950); /* 11.96:1 */
+  --ed-nav-soft-text-muted:       var(--ed-neutral-700); /*  5.41:1 */
+  --ed-nav-soft-group:            var(--ed-neutral-800); /*  7.35:1 */
+  --ed-nav-soft-selected-text:    var(--ed-neutral-950); /* 15.02:1 */
+  --ed-nav-soft-focus:            var(--ed-ink);         /* 14.76:1 */
+  --ed-nav-soft-accent:           var(--ed-teal-600);    /*  4.71:1 on the pill */
+
+  /* ---- borders ------------------------------------------------- */
+  --ed-border-subtle:   var(--ed-neutral-100);  /* table row dividers  */
+  --ed-border:          var(--ed-neutral-200);  /* cards, inputs       */
+  --ed-border-strong:   var(--ed-neutral-500);  /* emphasis, dividers  */
+  --ed-focus:           var(--ed-teal-600);     /* focus ring          */
+  --ed-focus-offset:    var(--ed-white);
+
+  /* ---- brand --------------------------------------------------- */
+  --ed-brand:           var(--ed-teal-500);     /* #00a699 IDENTITY    */
+  --ed-brand-subtle:    var(--ed-teal-50);
+  --ed-brand-muted:     var(--ed-teal-100);
+  --ed-on-brand:        var(--ed-ink);          /* 6.10:1 dark on teal */
+  /* Brand-coloured text ON a brand tint. --ed-action fails there (4.24:1 on
+     -subtle, 3.82:1 on -muted), so anything drawn on those uses this instead. */
+  --ed-on-brand-subtle: var(--ed-teal-700);
+
+  /* ---- commit actions: a NEUTRAL primary ------------------------
+     The highest-emphasis button is dark neutral, not teal. That is a
+     deliberate trade: teal stops marking every submit and goes back to
+     marking identity, so the one brand button on a screen means
+     something again. --ed-action stays teal and keeps its other jobs —
+     input focus, the checkbox fill, the selected menu row — which are
+     brand moments rather than commit moments.                       */
+  --ed-primary-surface:   var(--ed-neutral-950); /* 15.02:1 under white */
+  --ed-primary-hover:     var(--ed-ink);         /* 18.54:1 */
+  --ed-primary-active:    var(--ed-ink);
+  --ed-on-primary:        var(--ed-white);
+  --ed-secondary-surface: var(--ed-neutral-100); /* 11.96:1 */
+  --ed-secondary-hover:   var(--ed-neutral-200); /*  9.80:1 */
+  --ed-on-secondary:      var(--ed-neutral-950);
+
+  /* ---- primary action (white text safe: 4.71:1) ---------------- */
+  --ed-action:          var(--ed-teal-600);     /* #008277             */
+  --ed-action-hover:    var(--ed-teal-700);
+  --ed-action-active:   var(--ed-teal-800);
+  --ed-on-action:       var(--ed-white);
+
+  /* ---- status: four roles per status --------------------------- */
+  /* -surface = tinted bg | -border | -text = on surface | -solid = fill */
+
+  /* ---- chart series: hue-separated, colourblind-checked -------- */
+  --ed-chart-1: var(--ed-teal-500);
+  --ed-chart-2: var(--ed-blue-500);
+  --ed-chart-3: var(--ed-amber-500);
+  --ed-chart-4: var(--ed-red-500);
+  --ed-chart-5: var(--ed-green-600);
+  --ed-chart-6: var(--ed-teal-800);
+
+  /* ---- status ---------------------------------------------------
+     -subtle/-muted  always a light tint; quiet controls hover on these
+     -surface/-border  the chip; becomes a solid block in warehouse mode
+     -text           status colour on a NEUTRAL surface; never flips
+     -on-surface     text on the chip, whatever the chip currently is
+     -solid/-on-     a filled badge
+     ---------------------------------------------------------------- */
+  --ed-success-subtle:     var(--ed-green-50);
+  --ed-success-muted:      var(--ed-green-100);
+  --ed-success-surface:    var(--ed-green-50);
+  --ed-success-border:     var(--ed-green-200);
+  --ed-success-text:       var(--ed-green-700);
+  --ed-success-on-surface: var(--ed-green-700);
+  --ed-success-solid:      var(--ed-green-600);
+
+  --ed-warning-subtle:     var(--ed-amber-50);
+  --ed-warning-muted:      var(--ed-amber-100);
+  --ed-warning-surface:    var(--ed-amber-50);
+  --ed-warning-border:     var(--ed-amber-200);
+  --ed-warning-text:       var(--ed-amber-700);
+  --ed-warning-on-surface: var(--ed-amber-700);
+  --ed-warning-solid:      var(--ed-amber-600);
+
+  --ed-danger-subtle:      var(--ed-red-50);
+  --ed-danger-muted:       var(--ed-red-100);
+  --ed-danger-surface:     var(--ed-red-50);
+  --ed-danger-border:      var(--ed-red-200);
+  --ed-danger-text:        var(--ed-red-700);
+  --ed-danger-on-surface:  var(--ed-red-700);
+  --ed-danger-solid:       var(--ed-red-600);
+
+  --ed-info-subtle:        var(--ed-blue-50);
+  --ed-info-muted:         var(--ed-blue-100);
+  --ed-info-surface:       var(--ed-blue-50);
+  --ed-info-border:        var(--ed-blue-200);
+  --ed-info-text:          var(--ed-blue-700);
+  --ed-info-on-surface:    var(--ed-blue-700);
+  --ed-info-solid:         var(--ed-blue-600);
+  --ed-on-success:         var(--ed-white);
+  --ed-on-warning:         var(--ed-white);
+  --ed-on-danger:          var(--ed-white);
+  --ed-on-info:            var(--ed-white);
+}
+
+/* ==================================================================
+   DARK — for the warehouse floor at night and low-light aisles
+   ================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ed-canvas:          var(--ed-neutral-950);
+  --ed-surface:         var(--ed-neutral-900);
+  --ed-surface-raised:  var(--ed-neutral-800);
+  --ed-surface-sunken:  #0b0d0d;
+  --ed-surface-hover:   var(--ed-neutral-800);
+  --ed-surface-active:  var(--ed-neutral-700);
+  --ed-scrim:           rgb(0 0 0 / 0.65);
+
+  --ed-text:            var(--ed-neutral-25);
+  --ed-text-secondary:  var(--ed-neutral-200);
+  --ed-text-muted:      var(--ed-neutral-300);  /* 4.7:1 even on a raised surface */
+  --ed-text-disabled:   var(--ed-neutral-600);
+  --ed-text-inverse:    var(--ed-ink);
+  --ed-text-link:       var(--ed-teal-300);
+
+  --ed-text-id:         var(--ed-neutral-200);
+  --ed-text-id-strong:  var(--ed-teal-300);
+  --ed-surface-id:      var(--ed-neutral-800);
+
+  --ed-border-subtle:   var(--ed-neutral-800);
+  --ed-border:          var(--ed-neutral-700);
+  --ed-border-strong:   var(--ed-neutral-400);  /* 3.7:1 even on a raised surface */
+  --ed-focus:           var(--ed-teal-400);
+  --ed-focus-offset:    var(--ed-neutral-950);
+
+  --ed-brand:           var(--ed-teal-400);
+  --ed-brand-subtle:    var(--ed-teal-950);
+  --ed-brand-muted:     var(--ed-teal-900);
+  --ed-on-brand:        var(--ed-ink);
+  --ed-on-brand-subtle: var(--ed-teal-300);
+
+  /* on dark, the light end of the ramp carries the action */
+  --ed-action:          var(--ed-teal-400);
+  --ed-action-hover:    var(--ed-teal-300);
+  --ed-action-active:   var(--ed-teal-200);
+  --ed-on-action:       var(--ed-ink);
+
+  --ed-chart-1: var(--ed-teal-400);
+  --ed-chart-2: var(--ed-blue-400);
+  --ed-chart-3: var(--ed-amber-300);
+  --ed-chart-4: var(--ed-red-400);
+  --ed-chart-5: var(--ed-green-400);
+  --ed-chart-6: var(--ed-teal-200);
+  --ed-success-subtle:     var(--ed-green-950);
+  --ed-success-muted:      var(--ed-green-900);
+  --ed-success-surface:    var(--ed-green-950);
+  --ed-success-border:     var(--ed-green-800);
+  --ed-success-text:       var(--ed-green-300);
+  --ed-success-on-surface: var(--ed-green-300);
+  --ed-success-solid:      var(--ed-green-500);
+
+  --ed-warning-subtle:     var(--ed-amber-950);
+  --ed-warning-muted:      var(--ed-amber-900);
+  --ed-warning-surface:    var(--ed-amber-950);
+  --ed-warning-border:     var(--ed-amber-800);
+  --ed-warning-text:       var(--ed-amber-300);
+  --ed-warning-on-surface: var(--ed-amber-300);
+  --ed-warning-solid:      var(--ed-amber-400);
+
+  --ed-danger-subtle:      var(--ed-red-950);
+  --ed-danger-muted:       var(--ed-red-900);
+  --ed-danger-surface:     var(--ed-red-950);
+  --ed-danger-border:      var(--ed-red-800);
+  --ed-danger-text:        var(--ed-red-300);
+  --ed-danger-on-surface:  var(--ed-red-300);
+  --ed-danger-solid:       var(--ed-red-600);
+
+  --ed-info-subtle:        var(--ed-blue-950);
+  --ed-info-muted:         var(--ed-blue-900);
+  --ed-info-surface:       var(--ed-blue-950);
+  --ed-info-border:        var(--ed-blue-800);
+  --ed-info-text:          var(--ed-blue-300);
+  --ed-info-on-surface:    var(--ed-blue-300);
+  --ed-info-solid:         var(--ed-blue-500);
+  /* The chrome steps down with the product, so the sidebar stays the
+     darker plane rather than becoming lighter than the page beside it. */
+  /* A near-black button on a dark page is invisible, so the primary
+     inverts rather than darkening further. */
+  --ed-primary-surface:   var(--ed-neutral-25);  /* 17.76:1 under ink */
+  --ed-primary-hover:     var(--ed-white);
+  --ed-primary-active:    var(--ed-neutral-200);
+  --ed-on-primary:        var(--ed-ink);
+  --ed-secondary-surface: var(--ed-neutral-800); /*  9.24:1 */
+  --ed-secondary-hover:   var(--ed-neutral-700); /*  6.80:1 */
+  --ed-on-secondary:      var(--ed-white);
+
+  --ed-icon-accent: var(--ed-teal-400);
+
+  --ed-nav-surface:          var(--ed-ink);
+  --ed-nav-surface-hover:    var(--ed-neutral-950);
+
+  /* Inverted again: a light chip over a dark product. */
+  --ed-tooltip-surface: var(--ed-neutral-100);
+  --ed-tooltip-text:    var(--ed-neutral-950);
+
+  --ed-on-success:         var(--ed-ink);
+  --ed-on-warning:         var(--ed-ink);
+  --ed-on-danger:          var(--ed-white);
+  --ed-on-info:            var(--ed-ink);
+}
+
+/* ==================================================================
+   WAREHOUSE — same palette, louder.
+   Not a second brand. Glare, motion, gloves, 2-second glances.
+   Status stops being a tint and becomes a solid block; borders and
+   muted text step up so nothing depends on a subtle grey.
+   Apply on <html data-mode="warehouse"> (picker app, scanner screens).
+   ================================================================== */
+[data-mode="warehouse"] {
+  --ed-text-muted:      var(--ed-neutral-800);   /* 9.2:1 */
+  --ed-text-disabled:   var(--ed-neutral-500);
+  --ed-border-subtle:   var(--ed-neutral-200);
+  --ed-border:          var(--ed-neutral-300);
+  --ed-border-strong:   var(--ed-neutral-500);
+
+  --ed-text-id:         var(--ed-neutral-950);
+  --ed-surface-id:      var(--ed-neutral-200);
+
+  /* status reads as a filled block, not a tint */
+  --ed-success-surface:    var(--ed-green-600);
+  --ed-success-border:     var(--ed-green-700);
+  --ed-success-on-surface: var(--ed-white);
+
+  --ed-warning-surface:    var(--ed-amber-500);
+  --ed-warning-border:     var(--ed-amber-700);
+  --ed-warning-on-surface: var(--ed-ink);
+
+  --ed-danger-surface:     var(--ed-red-600);
+  --ed-danger-border:      var(--ed-red-800);
+  --ed-danger-on-surface:  var(--ed-white);
+
+  --ed-info-surface:       var(--ed-blue-600);
+  --ed-info-border:        var(--ed-blue-800);
+  --ed-info-on-surface:    var(--ed-white);
+
+}
+
+/* ==================================================================
+   DARK + WAREHOUSE — the night shift.
+   The two attributes compose, so this state is real: a picker on a
+   dark screen in a warehouse carries both. The block above says
+   "louder" in absolute greys, which only reads as louder on a light
+   canvas — on dark it inverts and goes silent. Muted text landed at
+   #454848 on a #454848 surface: 1.00:1, invisible.
+   Louder has to mean "further from the surface", so here it moves
+   toward the light end of the ramp instead of the dark one.
+   The status blocks above are vivid at both ends and carry over.
+   ================================================================== */
+[data-theme="dark"][data-mode="warehouse"] {
+  --ed-text-muted:      var(--ed-neutral-200);   /* was neutral-300 */
+  --ed-text-disabled:   var(--ed-neutral-500);
+
+  --ed-border-subtle:   var(--ed-neutral-700);
+  --ed-border:          var(--ed-neutral-600);
+  --ed-border-strong:   var(--ed-neutral-300);
+
+  --ed-text-id:         var(--ed-neutral-25);
+  --ed-surface-id:      var(--ed-neutral-700);
+}

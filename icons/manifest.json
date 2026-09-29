@@ -1,0 +1,2518 @@
+{
+  "grid": 960,
+  "live": 800,
+  "materialRef": "bd8cb85bd4bad964fe6918f79665bb40c3a8efef",
+  "icons": [
+    {
+      "name": "alert-circle",
+      "category": "status",
+      "lucide": "AlertCircle",
+      "material": "error",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "alert-triangle"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "4aa4e63dd7a9",
+      "seedHash": "4aa4e63dd7a9"
+    },
+    {
+      "name": "alert-triangle",
+      "category": "status",
+      "lucide": "AlertTriangle",
+      "material": "warning",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "alert-circle"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "9fd007c0db26",
+      "seedHash": "9fd007c0db26"
+    },
+    {
+      "name": "arrow-down",
+      "category": "navigation",
+      "lucide": "ArrowDown",
+      "material": "arrow_downward",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "6c4642435cd4",
+      "seedHash": "6c4642435cd4"
+    },
+    {
+      "name": "arrow-left",
+      "category": "navigation",
+      "lucide": "ArrowLeft",
+      "material": "arrow_back",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "4d7248540fcf",
+      "seedHash": "4d7248540fcf"
+    },
+    {
+      "name": "arrow-left-right",
+      "category": "navigation",
+      "lucide": "ArrowLeftRight",
+      "material": "swap_horiz",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "2823bfa91bc8",
+      "seedHash": "2823bfa91bc8"
+    },
+    {
+      "name": "arrow-right",
+      "category": "navigation",
+      "lucide": "ArrowRight",
+      "material": "arrow_forward",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "632c337baf96",
+      "seedHash": "632c337baf96"
+    },
+    {
+      "name": "arrow-up",
+      "category": "navigation",
+      "lucide": "ArrowUp",
+      "material": "arrow_upward",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "c06b7d0fe963",
+      "seedHash": "c06b7d0fe963"
+    },
+    {
+      "name": "arrow-up-down",
+      "category": "navigation",
+      "lucide": "ArrowUpDown",
+      "material": "swap_vert",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "b69007ac493a",
+      "seedHash": "b69007ac493a"
+    },
+    {
+      "name": "ban",
+      "category": "status",
+      "lucide": "Ban",
+      "material": "block",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "93f87fe6cb44",
+      "seedHash": "93f87fe6cb44"
+    },
+    {
+      "name": "bar-chart",
+      "category": "documents",
+      "lucide": "BarChart3",
+      "material": "bar_chart",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "notes": "Material bar_chart is fill-identical, as the brief warns.",
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": true
+      },
+      "accentFirst": false,
+      "hash": "84752bd7cd4a",
+      "seedHash": "79164039ca16"
+    },
+    {
+      "name": "battery-full",
+      "category": "devices",
+      "lucide": "BatteryFull",
+      "material": "battery_full",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "7a77447f8a95",
+      "seedHash": "7a77447f8a95"
+    },
+    {
+      "name": "bell",
+      "category": "status",
+      "lucide": "Bell",
+      "material": "notifications",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "0161f1581c37",
+      "seedHash": "0161f1581c37"
+    },
+    {
+      "name": "blocks",
+      "category": "logistics",
+      "lucide": "Blocks",
+      "material": "widgets",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "8e8033d84c01",
+      "seedHash": "ce932aa94340"
+    },
+    {
+      "name": "book-open",
+      "category": "documents",
+      "lucide": "BookOpen",
+      "material": "menu_book",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 3,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "a111b09039b7",
+      "seedHash": "10864d9b8e88"
+    },
+    {
+      "name": "box",
+      "category": "logistics",
+      "lucide": "Box",
+      "material": "package_2",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [
+        "package",
+        "boxes",
+        "inventory"
+      ],
+      "notes": "Seed is a front-on carton like package; judge the pair at 14px.",
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "edd9072b9601",
+      "seedHash": "6d8073e2bd19"
+    },
+    {
+      "name": "boxes",
+      "category": "logistics",
+      "lucide": "Boxes",
+      "material": "pallet",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "package",
+        "box",
+        "inventory"
+      ],
+      "notes": "Seed mapping uncertain; alternatives stacks, deployed_code.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "b86f28020527",
+      "seedHash": "b86f28020527"
+    },
+    {
+      "name": "building",
+      "category": "logistics",
+      "lucide": "Building2",
+      "material": "apartment",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "notes": "Material apartment is fill-identical: selection gets no fill change.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "d9d65c673648",
+      "seedHash": "d9d65c673648"
+    },
+    {
+      "name": "calendar-clock",
+      "category": "status",
+      "lucide": "CalendarClock",
+      "material": "calendar_clock",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "dbf6cd2ec949",
+      "seedHash": "dbf6cd2ec949"
+    },
+    {
+      "name": "check",
+      "category": "actions",
+      "lucide": "Check",
+      "material": "check",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [
+        "check-circle"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "f9c4aac5a8b2",
+      "seedHash": "f9c4aac5a8b2"
+    },
+    {
+      "name": "check-circle",
+      "category": "status",
+      "lucide": "CheckCircle2",
+      "material": "check_circle",
+      "status": "drawn",
+      "hasAccent": false,
+      "nearPairs": [
+        "check"
+      ],
+      "notes": "No accent on purpose: a teal disc would be 90% of the drawing, and teal must never read as a status (brief rule 7).",
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "bc9594870c6f",
+      "seedHash": "e99d655f5b49"
+    },
+    {
+      "name": "chevron-down",
+      "category": "navigation",
+      "lucide": "ChevronDown",
+      "material": "keyboard_arrow_down",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "6b99407f8a9d",
+      "seedHash": "6b99407f8a9d"
+    },
+    {
+      "name": "chevron-left",
+      "category": "navigation",
+      "lucide": "ChevronLeft",
+      "material": "chevron_left",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "086201856b8e",
+      "seedHash": "086201856b8e"
+    },
+    {
+      "name": "chevron-right",
+      "category": "navigation",
+      "lucide": "ChevronRight",
+      "material": "chevron_right",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "cabdf26a9127",
+      "seedHash": "cabdf26a9127"
+    },
+    {
+      "name": "clipboard-check",
+      "category": "documents",
+      "lucide": "ClipboardCheck",
+      "material": "assignment_turned_in",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "2291602c7c96",
+      "seedHash": "2291602c7c96"
+    },
+    {
+      "name": "clipboard-list",
+      "category": "documents",
+      "lucide": "ClipboardList",
+      "material": "assignment",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "f1faa8b0f078",
+      "seedHash": "f1faa8b0f078"
+    },
+    {
+      "name": "clock",
+      "category": "status",
+      "lucide": "Clock",
+      "material": "schedule",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "70bf744924dd",
+      "seedHash": "70bf744924dd"
+    },
+    {
+      "name": "copy",
+      "category": "actions",
+      "lucide": "Copy",
+      "material": "content_copy",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "fc1cb6d3db87",
+      "seedHash": "fc1cb6d3db87"
+    },
+    {
+      "name": "dashboard",
+      "category": "navigation",
+      "lucide": "LayoutDashboard",
+      "material": "dashboard",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "notes": "Listed in the brief; not imported by any app today.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "28120685a635",
+      "seedHash": "28120685a635"
+    },
+    {
+      "name": "download",
+      "category": "actions",
+      "lucide": "Download",
+      "material": "download",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "4edf9df909ee",
+      "seedHash": "4edf9df909ee"
+    },
+    {
+      "name": "external-link",
+      "category": "navigation",
+      "lucide": "ExternalLink",
+      "material": "open_in_new",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "ffb6057444f8",
+      "seedHash": "ffb6057444f8"
+    },
+    {
+      "name": "eye",
+      "category": "documents",
+      "lucide": "Eye",
+      "material": "visibility",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "848c347c1b5d",
+      "seedHash": "848c347c1b5d"
+    },
+    {
+      "name": "file-spreadsheet",
+      "category": "documents",
+      "lucide": "FileSpreadsheet",
+      "material": "csv",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "notes": "Seed mapping uncertain; alternatives table_view, lab_profile.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "30d48490eada",
+      "seedHash": "30d48490eada"
+    },
+    {
+      "name": "file-text",
+      "category": "documents",
+      "lucide": "FileText",
+      "material": "description",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "cd50087ca38f",
+      "seedHash": "cd50087ca38f"
+    },
+    {
+      "name": "filter",
+      "category": "actions",
+      "lucide": "Filter",
+      "material": "filter_alt",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "8e2f4054242e",
+      "seedHash": "8e2f4054242e"
+    },
+    {
+      "name": "grip-vertical",
+      "category": "navigation",
+      "lucide": "GripVertical",
+      "material": "drag_indicator",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "5eb8429e018a",
+      "seedHash": "5eb8429e018a"
+    },
+    {
+      "name": "hand",
+      "category": "actions",
+      "lucide": "Hand",
+      "material": "back_hand",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "ddfc73917475",
+      "seedHash": "ddfc73917475"
+    },
+    {
+      "name": "home",
+      "category": "navigation",
+      "lucide": "Home",
+      "material": "home",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "deb5d9192e07",
+      "seedHash": "697756238e29"
+    },
+    {
+      "name": "info",
+      "category": "status",
+      "lucide": "Info",
+      "material": "info",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "d723c5b32ccb",
+      "seedHash": "d723c5b32ccb"
+    },
+    {
+      "name": "inventory",
+      "category": "logistics",
+      "lucide": null,
+      "material": null,
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [
+        "package",
+        "box",
+        "boxes"
+      ],
+      "notes": "Custom: a rack with two shelves and a carton on top. Replaces the shelf-bars drawing used in the nav preview.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "ce6c6e9f7e21"
+    },
+    {
+      "name": "keyboard",
+      "category": "devices",
+      "lucide": "Keyboard",
+      "material": "keyboard",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "5bbc6649c33e",
+      "seedHash": "5bbc6649c33e"
+    },
+    {
+      "name": "layers",
+      "category": "logistics",
+      "lucide": "Layers",
+      "material": "layers",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "194046628040",
+      "seedHash": "194046628040"
+    },
+    {
+      "name": "list-checks",
+      "category": "documents",
+      "lucide": "ListChecks",
+      "material": "checklist",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "5fb7e09cbedb",
+      "seedHash": "5fb7e09cbedb"
+    },
+    {
+      "name": "list-ordered",
+      "category": "documents",
+      "lucide": "ListOrdered",
+      "material": "format_list_numbered",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "dbaa81bf7bc3",
+      "seedHash": "dbaa81bf7bc3"
+    },
+    {
+      "name": "loader",
+      "category": "status",
+      "lucide": "Loader2",
+      "material": "progress_activity",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "79beefde9223",
+      "seedHash": "79beefde9223"
+    },
+    {
+      "name": "lock",
+      "category": "status",
+      "lucide": "Lock",
+      "material": "lock",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "b22ee3d4065b",
+      "seedHash": "b22ee3d4065b"
+    },
+    {
+      "name": "log-out",
+      "category": "documents",
+      "lucide": "LogOut",
+      "material": "logout",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "233302dba8a3",
+      "seedHash": "233302dba8a3"
+    },
+    {
+      "name": "map-pin",
+      "category": "documents",
+      "lucide": "MapPin",
+      "material": "location_on",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "53f5ad0e521f",
+      "seedHash": "53f5ad0e521f"
+    },
+    {
+      "name": "minus",
+      "category": "actions",
+      "lucide": "Minus",
+      "material": "remove",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "fae4825c322f",
+      "seedHash": "fae4825c322f"
+    },
+    {
+      "name": "more-vertical",
+      "category": "navigation",
+      "lucide": "MoreVertical",
+      "material": "more_vert",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "a4fbf6ef8876",
+      "seedHash": "a4fbf6ef8876"
+    },
+    {
+      "name": "navigation",
+      "category": "navigation",
+      "lucide": "Navigation",
+      "material": "navigation",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "b7894adc5b02",
+      "seedHash": "b7894adc5b02"
+    },
+    {
+      "name": "package",
+      "category": "logistics",
+      "lucide": "Package",
+      "material": "inventory_2",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [
+        "box",
+        "boxes",
+        "inventory"
+      ],
+      "version": 3,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "926a4301e91f",
+      "seedHash": "ce4a2fec2751"
+    },
+    {
+      "name": "package-check",
+      "category": "logistics",
+      "lucide": "PackageCheck",
+      "material": "orders",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "truck"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "a9aee969a929",
+      "seedHash": "a9aee969a929"
+    },
+    {
+      "name": "package-plus",
+      "category": "logistics",
+      "lucide": "PackagePlus",
+      "material": "box_add",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "3a1cfd856eee",
+      "seedHash": "3a1cfd856eee"
+    },
+    {
+      "name": "panel-left-close",
+      "category": "navigation",
+      "lucide": "PanelLeftClose",
+      "material": "left_panel_close",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "621dabd113c9",
+      "seedHash": "621dabd113c9"
+    },
+    {
+      "name": "panel-left-open",
+      "category": "navigation",
+      "lucide": "PanelLeftOpen",
+      "material": "left_panel_open",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "8c6bd8e00ce2",
+      "seedHash": "8c6bd8e00ce2"
+    },
+    {
+      "name": "pencil",
+      "category": "actions",
+      "lucide": "Pencil",
+      "material": "edit",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "6a7d4ccb1cea",
+      "seedHash": "6a7d4ccb1cea"
+    },
+    {
+      "name": "pin",
+      "category": "actions",
+      "lucide": "Pin",
+      "material": "push_pin",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "pin-off"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "48ba75378460",
+      "seedHash": "48ba75378460"
+    },
+    {
+      "name": "pin-off",
+      "category": "actions",
+      "lucide": "PinOff",
+      "material": "keep_off",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "pin"
+      ],
+      "notes": "Seed mapping uncertain; push_pin has no off variant.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "2181dd1c08c1",
+      "seedHash": "2181dd1c08c1"
+    },
+    {
+      "name": "play",
+      "category": "actions",
+      "lucide": "Play",
+      "material": "play_arrow",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "0b353b45097c",
+      "seedHash": "0b353b45097c"
+    },
+    {
+      "name": "play-circle",
+      "category": "actions",
+      "lucide": "PlayCircle",
+      "material": "play_circle",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "69ef82bc0069",
+      "seedHash": "69ef82bc0069"
+    },
+    {
+      "name": "plug",
+      "category": "devices",
+      "lucide": "Plug",
+      "material": "power",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "78035f5c289a",
+      "seedHash": "78035f5c289a"
+    },
+    {
+      "name": "plus",
+      "category": "actions",
+      "lucide": "Plus",
+      "material": "add",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "66a9cb386224",
+      "seedHash": "66a9cb386224"
+    },
+    {
+      "name": "printer",
+      "category": "devices",
+      "lucide": "Printer",
+      "material": "print",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "4642fee1b107",
+      "seedHash": "4642fee1b107"
+    },
+    {
+      "name": "refresh",
+      "category": "actions",
+      "lucide": "RefreshCw",
+      "material": "refresh",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "notes": "Seed mapping uncertain; lucide is a two-arrow cycle (alternatives sync, autorenew).",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "3d77de0e69ce",
+      "seedHash": "3d77de0e69ce"
+    },
+    {
+      "name": "repeat",
+      "category": "logistics",
+      "lucide": "Repeat",
+      "material": "repeat",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "8a1562bbf678",
+      "seedHash": "8a1562bbf678"
+    },
+    {
+      "name": "rotate-ccw",
+      "category": "logistics",
+      "lucide": "RotateCcw",
+      "material": "replay",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "f862a1c978eb",
+      "seedHash": "f862a1c978eb"
+    },
+    {
+      "name": "save",
+      "category": "actions",
+      "lucide": "Save",
+      "material": "save",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "00c06d514530",
+      "seedHash": "00c06d514530"
+    },
+    {
+      "name": "scan-line",
+      "category": "devices",
+      "lucide": "ScanLine",
+      "material": "barcode_scanner",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": true
+      },
+      "accentFirst": false,
+      "hash": "718f0f48e78b",
+      "seedHash": "77fac881343c"
+    },
+    {
+      "name": "scissors",
+      "category": "logistics",
+      "lucide": "Scissors",
+      "material": "content_cut",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "6b22f6bda98c",
+      "seedHash": "6b22f6bda98c"
+    },
+    {
+      "name": "search",
+      "category": "actions",
+      "lucide": "Search",
+      "material": "search",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "76d242fa8d86",
+      "seedHash": "76d242fa8d86"
+    },
+    {
+      "name": "send",
+      "category": "actions",
+      "lucide": "Send",
+      "material": "send",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "6e62424d12bd",
+      "seedHash": "6e62424d12bd"
+    },
+    {
+      "name": "settings",
+      "category": "actions",
+      "lucide": "Settings",
+      "material": "settings",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "711c96b9ad57",
+      "seedHash": "711c96b9ad57"
+    },
+    {
+      "name": "settings-2",
+      "category": "actions",
+      "lucide": "Settings2",
+      "material": "instant_mix",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "notes": "Seed mapping uncertain.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "ea63a4973b32",
+      "seedHash": "ea63a4973b32"
+    },
+    {
+      "name": "shield",
+      "category": "status",
+      "lucide": "Shield",
+      "material": "shield",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "shield-alert",
+        "shield-check",
+        "shield-off"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "5b7799da3614",
+      "seedHash": "5b7799da3614"
+    },
+    {
+      "name": "shield-alert",
+      "category": "status",
+      "lucide": "ShieldAlert",
+      "material": "gpp_maybe",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "shield",
+        "shield-check",
+        "shield-off"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "d0c5d7f0ae5f",
+      "seedHash": "d0c5d7f0ae5f"
+    },
+    {
+      "name": "shield-check",
+      "category": "status",
+      "lucide": "ShieldCheck",
+      "material": "verified_user",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "shield",
+        "shield-alert",
+        "shield-off"
+      ],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "45260f69e318",
+      "seedHash": "45260f69e318"
+    },
+    {
+      "name": "shield-off",
+      "category": "status",
+      "lucide": "ShieldOff",
+      "material": "remove_moderator",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [
+        "shield",
+        "shield-alert",
+        "shield-check"
+      ],
+      "notes": "Seed mapping uncertain; alternative gpp_bad.",
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "8b6e64f236fe",
+      "seedHash": "8b6e64f236fe"
+    },
+    {
+      "name": "shopping-bag",
+      "category": "logistics",
+      "lucide": "ShoppingBag",
+      "material": "shopping_bag",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "4249f99ba737",
+      "seedHash": "4249f99ba737"
+    },
+    {
+      "name": "shopping-cart",
+      "category": "logistics",
+      "lucide": "ShoppingCart",
+      "material": "shopping_cart",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "dbc5449686ce",
+      "seedHash": "d45f5b1f2dbb"
+    },
+    {
+      "name": "signal-high",
+      "category": "devices",
+      "lucide": "SignalHigh",
+      "material": "signal_cellular_alt",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "918d1e7ac80a",
+      "seedHash": "918d1e7ac80a"
+    },
+    {
+      "name": "sliders",
+      "category": "actions",
+      "lucide": "Sliders",
+      "material": "tune",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "44b598d00db8",
+      "seedHash": "44b598d00db8"
+    },
+    {
+      "name": "sparkles",
+      "category": "actions",
+      "lucide": "Sparkles",
+      "material": "auto_awesome",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "5568354deb6c",
+      "seedHash": "5568354deb6c"
+    },
+    {
+      "name": "split",
+      "category": "logistics",
+      "lucide": "Split",
+      "material": "call_split",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "56db5d33e366",
+      "seedHash": "56db5d33e366"
+    },
+    {
+      "name": "star",
+      "category": "status",
+      "lucide": "Star",
+      "material": "star",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "2a1b9ed631fa",
+      "seedHash": "2a1b9ed631fa"
+    },
+    {
+      "name": "store",
+      "category": "logistics",
+      "lucide": "Store",
+      "material": "storefront",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "b5636e8f8d02",
+      "seedHash": "ecea2fd14dfe"
+    },
+    {
+      "name": "thumbs-down",
+      "category": "status",
+      "lucide": "ThumbsDown",
+      "material": "thumb_down",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "587ac0d6c526",
+      "seedHash": "587ac0d6c526"
+    },
+    {
+      "name": "thumbs-up",
+      "category": "status",
+      "lucide": "ThumbsUp",
+      "material": "thumb_up",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "fca20110ae9b",
+      "seedHash": "fca20110ae9b"
+    },
+    {
+      "name": "trash",
+      "category": "actions",
+      "lucide": "Trash2",
+      "material": "delete",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "11acd46339b8",
+      "seedHash": "11acd46339b8"
+    },
+    {
+      "name": "trending-up",
+      "category": "status",
+      "lucide": "TrendingUp",
+      "material": "trending_up",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "9cf4f8d96753",
+      "seedHash": "9cf4f8d96753"
+    },
+    {
+      "name": "truck",
+      "category": "logistics",
+      "lucide": "Truck",
+      "material": "local_shipping",
+      "status": "drawn",
+      "hasAccent": true,
+      "nearPairs": [
+        "package-check"
+      ],
+      "version": 2,
+      "since": "0.5.0",
+      "updated": "0.4.0",
+      "sizes": [
+        24
+      ],
+      "fillIdentical": {
+        "24": false
+      },
+      "accentFirst": false,
+      "hash": "5fdb4beefad6",
+      "seedHash": "db2d6c925cf7"
+    },
+    {
+      "name": "undo",
+      "category": "logistics",
+      "lucide": "Undo2",
+      "material": "undo",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "341a96a36080",
+      "seedHash": "341a96a36080"
+    },
+    {
+      "name": "upload",
+      "category": "actions",
+      "lucide": "Upload",
+      "material": "upload",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "ff390d83a23c",
+      "seedHash": "ff390d83a23c"
+    },
+    {
+      "name": "user",
+      "category": "documents",
+      "lucide": "User",
+      "material": "person",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "2acf41a2fddf",
+      "seedHash": "2acf41a2fddf"
+    },
+    {
+      "name": "users",
+      "category": "documents",
+      "lucide": "Users",
+      "material": "group",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "32a4e1b5a096",
+      "seedHash": "32a4e1b5a096"
+    },
+    {
+      "name": "wand",
+      "category": "actions",
+      "lucide": "Wand2",
+      "material": "auto_fix",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "c61e8bde0fa8",
+      "seedHash": "c61e8bde0fa8"
+    },
+    {
+      "name": "warehouse",
+      "category": "logistics",
+      "lucide": "Warehouse",
+      "material": "warehouse",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "0da5c1bdf8b4",
+      "seedHash": "0da5c1bdf8b4"
+    },
+    {
+      "name": "wifi",
+      "category": "devices",
+      "lucide": "Wifi",
+      "material": "wifi",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "580d8c5a820c",
+      "seedHash": "580d8c5a820c"
+    },
+    {
+      "name": "x",
+      "category": "actions",
+      "lucide": "X",
+      "material": "close",
+      "status": "seed",
+      "hasAccent": false,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": true,
+        "24": true,
+        "48": true
+      },
+      "accentFirst": false,
+      "hash": "f60ca33cabba",
+      "seedHash": "f60ca33cabba"
+    },
+    {
+      "name": "x-circle",
+      "category": "status",
+      "lucide": "XCircle",
+      "material": "cancel",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "e1aedb7a6ff1",
+      "seedHash": "e1aedb7a6ff1"
+    },
+    {
+      "name": "zap",
+      "category": "actions",
+      "lucide": "Zap",
+      "material": "bolt",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.5.0",
+      "updated": "0.5.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "bcf3b1376418",
+      "seedHash": "bcf3b1376418"
+    }
+  ]
+}

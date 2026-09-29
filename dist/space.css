@@ -1,0 +1,229 @@
+/* Edgistify Design System — space, size, radius, elevation
+   ------------------------------------------------------------------
+   Base unit 4px, with 2px half-steps kept at the small end because the
+   apps genuinely need them: 887 of the dashboard's spacing values are
+   half-steps (2, 6, 10, 14px). A pure 4px grid would round a quarter of
+   the existing layout, so the grid bends to the product rather than the
+   other way round.
+
+   Raw steps exist so layouts can be built. Component spacing should come
+   from the SEMANTIC tokens below — those are what warehouse mode moves.
+   ------------------------------------------------------------------ */
+
+:root {
+  /* ---- raw scale ----------------------------------------------- */
+  --ed-space-0:    0;
+  --ed-space-px:   1px;
+  --ed-space-0-5:  2px;
+  --ed-space-1:    4px;
+  --ed-space-1-5:  6px;
+  --ed-space-2:    8px;
+  --ed-space-2-5: 10px;
+  --ed-space-3:   12px;
+  --ed-space-3-5: 14px;
+  --ed-space-4:   16px;
+  --ed-space-5:   20px;
+  --ed-space-6:   24px;
+  --ed-space-8:   32px;
+  --ed-space-10:  40px;
+  --ed-space-12:  48px;
+  --ed-space-16:  64px;
+  --ed-space-20:  80px;
+
+  /* ---- semantic spacing ---------------------------------------- */
+  /* Component padding and gaps. These move with mode; raw steps do not. */
+  --ed-pad-cell-x:    12px;   /* table cell horizontal      */
+  --ed-pad-cell-y:     8px;   /* table cell vertical        */
+  --ed-pad-control-x: 16px;   /* button, input              */
+  --ed-pad-control-y:  8px;
+  --ed-pad-chip-x:    10px;   /* badge, pill, status        */
+  --ed-pad-chip-y:     4px;
+  --ed-pad-card:      20px;   /* card interior              */
+  --ed-pad-card-sm:   14px;   /* dense card, list card      */
+  --ed-pad-panel:     24px;   /* modal, drawer, sheet       */
+
+  --ed-gap-inline:     8px;   /* icon to label, chips in a row   */
+  --ed-gap-tight:     12px;   /* fields in a row, dense stack    */
+  --ed-gap-stack:     16px;   /* blocks within a card            */
+  --ed-gap-group:     24px;   /* cards in a grid                 */
+  --ed-gap-section:   40px;   /* major page sections             */
+
+  /* ---- control sizing ------------------------------------------ */
+  /* Heights, not paddings — a row of controls must share a baseline. */
+  --ed-control-xs:  24px;     /* icon-only in a dense table row  */
+  --ed-control-sm:  28px;
+  --ed-control-md:  32px;     /* dashboard default               */
+  --ed-control-lg:  36px;
+  --ed-control-xl:  40px;     /* primary page action             */
+
+  /* Smallest thing a pointer is asked to hit. WCAG 2.2 AA (2.5.8)
+     requires 24px; AAA (2.5.5) asks for 44px. Desk pointers get the
+     AA floor with spacing around small controls. */
+  --ed-target-min:  24px;
+
+  /* ---- icons ---------------------------------------------------- */
+  /* Lucide draws on a 24px grid with a 2px stroke. Size it at 13px and
+     the stroke lands on 1.08px — a blurry half-pixel on any non-retina
+     screen. The dashboard currently uses seven sizes between 10 and 16.
+     Stay on these five, and drop stroke-width as the icon grows so the
+     optical weight stays constant. */
+  --ed-icon-xs: 14px;  /* --ed-icon-xs-stroke  2.25 */
+  --ed-icon-sm: 16px;  /* stroke 2    — UI default   */
+  --ed-icon-md: 20px;  /* stroke 1.75 — buttons      */
+  --ed-icon-lg: 24px;  /* stroke 1.5  — nav, headers */
+  --ed-icon-xl: 32px;  /* stroke 1.5  — empty states */
+  --ed-icon-stroke-xs: 2.25;
+  --ed-icon-stroke-sm: 2;
+  --ed-icon-stroke-md: 1.75;
+  --ed-icon-stroke-lg: 1.5;
+  --ed-icon-stroke-xl: 1.5;
+
+  /* ---- radius --------------------------------------------------- */
+  /* By role, not by size. A button and a card should not share a token
+     just because they happen to agree today. */
+  --ed-radius-none:     0;
+  --ed-radius-sharp:    4px;    /* ID chips, tags, inline code      */
+  --ed-radius-control:  6px;    /* buttons, inputs, selects         */
+  --ed-radius-card:     8px;    /* cards, table containers          */
+  --ed-radius-panel:   12px;    /* modals, drawers, sheets          */
+  --ed-radius-pill:   999px;    /* status pills, avatars            */
+
+  /* Nesting rule: an inner radius equals its outer radius minus the
+     padding between them, or the corners look wrong. A 12px panel with
+     8px padding holds a 4px inner radius, not another 12px one. */
+  --ed-radius-nested-panel: calc(var(--ed-radius-panel) - var(--ed-space-2));
+  --ed-radius-nested-card:  calc(var(--ed-radius-card)  - var(--ed-space-1));
+
+  /* ---- elevation ------------------------------------------------ */
+  /* Shadows carry the neutral's teal cast rather than pure black —
+     a grey-blue shadow over a teal-tinted surface reads as dirt. */
+  --ed-shadow-color: 190 12% 8%;
+  --ed-elevation-0: none;
+  --ed-elevation-1:
+    0 1px 2px  hsl(var(--ed-shadow-color) / .06),
+    0 1px 3px  hsl(var(--ed-shadow-color) / .04);
+  --ed-elevation-2:
+    0 2px 4px  hsl(var(--ed-shadow-color) / .06),
+    0 4px 12px -2px hsl(var(--ed-shadow-color) / .08);
+  --ed-elevation-3:
+    0 4px 8px  hsl(var(--ed-shadow-color) / .07),
+    0 12px 28px -6px hsl(var(--ed-shadow-color) / .14);
+  --ed-elevation-4:
+    0 8px 16px hsl(var(--ed-shadow-color) / .08),
+    0 24px 48px -12px hsl(var(--ed-shadow-color) / .20);
+
+  /* ---- layers ---------------------------------------------------- */
+  /* Every stacking decision in one place. Never write a bare z-index. */
+  --ed-z-base:        0;
+  --ed-z-sticky:    100;   /* sticky table header, toolbar     */
+  --ed-z-dropdown:  200;   /* select, menu, combobox           */
+  --ed-z-overlay:   300;   /* scrim behind a modal             */
+  --ed-z-modal:     400;   /* dialog, drawer, sheet            */
+  --ed-z-popover:   500;   /* popover anchored above a modal   */
+  --ed-z-toast:     600;   /* transient confirmation           */
+  --ed-z-tooltip:   700;   /* always on top                    */
+}
+
+/* ==================================================================
+   DARK — shadows stop working on a dark ground, so elevation is
+   carried by surface lightness instead, with a hairline to catch the
+   edge. See --ed-surface-raised in semantic.css.
+   ================================================================== */
+[data-theme="dark"] {
+  --ed-shadow-color: 190 30% 2%;
+  --ed-elevation-1: 0 1px 2px hsl(var(--ed-shadow-color) / .5);
+  --ed-elevation-2: 0 2px 6px hsl(var(--ed-shadow-color) / .55);
+  --ed-elevation-3: 0 8px 24px -4px hsl(var(--ed-shadow-color) / .65);
+  --ed-elevation-4: 0 16px 40px -8px hsl(var(--ed-shadow-color) / .75);
+}
+
+/* ==================================================================
+   WAREHOUSE — the hand is wearing a glove.
+   A gloved fingertip has a wider, less precise contact patch than a
+   bare one, so the AAA 44px target is a floor here, not a goal.
+   Operational controls are 56px, the primary action on a screen is 64px,
+   and nothing tappable is smaller than 44px.
+   Padding grows with the targets; the raw scale does not move.
+   ================================================================== */
+[data-mode="warehouse"] {
+  --ed-control-xs:  44px;
+  --ed-control-sm:  48px;
+  --ed-control-md:  56px;
+  --ed-control-lg:  60px;
+  --ed-control-xl:  64px;
+  --ed-target-min:  44px;
+
+  --ed-pad-cell-x:    14px;
+  --ed-pad-cell-y:    14px;
+  --ed-pad-control-x: 20px;
+  --ed-pad-control-y: 16px;
+  --ed-pad-chip-x:    12px;
+  --ed-pad-chip-y:     6px;
+  --ed-pad-card:      20px;
+  --ed-pad-card-sm:   16px;
+  --ed-pad-panel:     20px;
+
+  --ed-gap-inline:    10px;
+  --ed-gap-tight:     14px;
+  --ed-gap-stack:     16px;
+  --ed-gap-group:     16px;   /* tighter: screen real estate is scarce */
+  --ed-gap-section:   24px;
+
+  /* fingers need a bigger hit area, and bigger things want more radius */
+  --ed-radius-control: 10px;
+  --ed-radius-card:    12px;
+  --ed-radius-panel:   16px;
+
+  --ed-icon-xs: 18px;
+  --ed-icon-sm: 20px;
+  --ed-icon-md: 24px;
+  --ed-icon-lg: 28px;
+  --ed-icon-xl: 40px;
+}
+
+/* ==================================================================
+   HELPERS
+   ================================================================== */
+
+/* Guarantees the minimum target without changing visual size — the hit
+   area grows outward from the control. Put this on any small icon button. */
+.ed-target {
+  position: relative;
+}
+.ed-target::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  min-width: var(--ed-target-min);
+  min-height: var(--ed-target-min);
+  width: 100%;
+  height: 100%;
+}
+
+.ed-stack   { display: flex; flex-direction: column; gap: var(--ed-gap-stack); }
+.ed-row     { display: flex; align-items: center; gap: var(--ed-gap-inline); }
+.ed-grid    { display: grid; gap: var(--ed-gap-group); }
+.ed-section { display: flex; flex-direction: column; gap: var(--ed-gap-section); }
+
+/* Icon size utilities. Set width/height in CSS rather than on the <svg> element
+   so the size follows [data-mode="warehouse"] — an icon library's `size` prop is
+   a number baked at render time and cannot. Stroke width travels with it, so the
+   optical weight holds as the icon grows. */
+.ed-icon-xs { width: var(--ed-icon-xs); height: var(--ed-icon-xs); stroke-width: var(--ed-icon-stroke-xs); }
+.ed-icon-sm { width: var(--ed-icon-sm); height: var(--ed-icon-sm); stroke-width: var(--ed-icon-stroke-sm); }
+.ed-icon-md { width: var(--ed-icon-md); height: var(--ed-icon-md); stroke-width: var(--ed-icon-stroke-md); }
+.ed-icon-lg { width: var(--ed-icon-lg); height: var(--ed-icon-lg); stroke-width: var(--ed-icon-stroke-lg); }
+.ed-icon-xl { width: var(--ed-icon-xl); height: var(--ed-icon-xl); stroke-width: var(--ed-icon-stroke-xl); }
+
+/* A wrapper so the size can be set once, on a span, without touching the
+   icon inside it. The SVG fills the box; the box is what carries the token.
+   `stroke-width` is inherited by the child, and CSS beats the presentation
+   attribute an icon library writes, so no child needs editing. */
+.ed-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+.ed-icon > svg { width: 100%; height: 100%; display: block; }

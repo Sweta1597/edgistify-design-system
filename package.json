@@ -1,0 +1,127 @@
+{
+  "name": "@edgistify/design-system",
+  "version": "0.10.0",
+  "description": "Edgistify design system — one visual language for the seller dashboard, warehouse apps and support docs.",
+  "type": "module",
+  "exports": {
+    "./primitives.css": "./dist/primitives.css",
+    "./semantic.css": "./dist/semantic.css",
+    "./type.css": "./dist/type.css",
+    "./space.css": "./dist/space.css",
+    "./tokens/color": "./tokens/color.json",
+    "./tokens/type": "./tokens/type.json",
+    "./button.css": "./dist/button.css",
+    "./react/Button": {
+      "types": "./react/Button.d.ts",
+      "default": "./react/Button.jsx"
+    },
+    "./card.css": "./dist/card.css",
+    "./react/Card": {
+      "types": "./react/Card.d.ts",
+      "default": "./react/Card.jsx"
+    },
+    "./dark-auto.css": "./dist/dark-auto.css",
+    "./table.css": "./dist/table.css",
+    "./react/Table": {
+      "types": "./react/Table.d.ts",
+      "default": "./react/Table.jsx"
+    },
+    "./input.css": "./dist/input.css",
+    "./react/Input": {
+      "types": "./react/Input.d.ts",
+      "default": "./react/Input.jsx"
+    },
+    "./modal.css": "./dist/modal.css",
+    "./react/Modal": {
+      "types": "./react/Modal.d.ts",
+      "default": "./react/Modal.jsx"
+    },
+    "./menu.css": "./dist/menu.css",
+    "./react/Menu": {
+      "types": "./react/Menu.d.ts",
+      "default": "./react/Menu.jsx"
+    },
+    "./react/Popover": {
+      "types": "./react/Popover.d.ts",
+      "default": "./react/Popover.jsx"
+    },
+    "./build/contrast-check": "./build/contrast-check.mjs",
+    "./badge.css": "./dist/badge.css",
+    "./react/Badge": {
+      "types": "./react/Badge.d.ts",
+      "default": "./react/Badge.jsx"
+    },
+    "./tooltip.css": "./dist/tooltip.css",
+    "./react/Tooltip": {
+      "types": "./react/Tooltip.d.ts",
+      "default": "./react/Tooltip.jsx"
+    },
+    "./nav.css": "./dist/nav.css",
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./tokens/resolved": "./tokens/resolved.json",
+    "./react/Icon": {
+      "types": "./react/Icon.d.ts",
+      "default": "./react/Icon.jsx"
+    },
+    "./icons": {
+      "types": "./icons/index.d.ts",
+      "default": "./icons/index.js"
+    },
+    "./icons/manifest": "./icons/manifest.json",
+    "./icons/svg/*": "./icons/svg/*",
+    "./icon.css": "./dist/icon.css",
+    "./react/useColumns": {
+      "default": "./react/useColumns.jsx"
+    },
+    "./marketing.css": "./dist/marketing.css",
+    "./react/marketing": {
+      "types": "./react/marketing/index.d.ts",
+      "default": "./react/marketing/index.jsx"
+    },
+    "./react/marketing/Header": {
+      "types": "./react/marketing/Header.d.ts",
+      "default": "./react/marketing/Header.jsx"
+    }
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "build",
+    "react",
+    "icons",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale && npm run lint:tokens && npm run lint:tokens-fresh && npm run lint:icons",
+    "check:contrast": "node build/contrast-check.mjs",
+    "lint:grid": "node build/grid-lint.mjs",
+    "lint:scale": "node build/scale-lint.mjs",
+    "lint:tokens": "node build/token-lint.mjs",
+    "build": "node build/gen-dark-auto.mjs && node build/gen-tokens.mjs && node build/icons-build.mjs",
+    "docs:css": "node build/bundle-specimen-css.mjs docs/ds.css",
+    "gen:tokens": "node build/gen-tokens.mjs",
+    "lint:tokens-fresh": "node build/lint-tokens-fresh.mjs",
+    "lint:icons": "node build/icons-lint.mjs",
+    "icons:seed": "node build/icons-seed.mjs",
+    "icons:build": "node build/icons-build.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "license": "UNLICENSED",
+  "sideEffects": [
+    "*.css"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

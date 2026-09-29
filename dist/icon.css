@@ -1,0 +1,26 @@
+/* Icon — the two-colour icon library. react/Icon renders it; the raw
+   files live in icons/svg. Drawing rules are in docs/icon-brief.md.
+   -------------------------------------------------------------------
+   Size comes from the .ed-icon-{xs..xl} utilities in space.css, which
+   warehouse mode already scales. This file adds only what those do not
+   say: how the <svg> itself sits in a line, and where the accent goes
+   when the ground is the brand colour.                                */
+
+svg.ed-icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: -0.125em;   /* sits on the text baseline, not above it */
+}
+
+/* ---- the accent on a brand-coloured ground --------------------------- */
+/* --ed-icon-accent is a role, not a hex, because no single teal survives
+   every surface: teal-600 is 4.71:1 on white and 1.89:1 on a teal panel.
+   The page and the nav set the role for their grounds. On a brand or
+   solid-status fill nothing teal reads on teal, so the accent collapses
+   to the body colour and the icon becomes one colour, which is correct:
+   an icon on a primary button is a label, not a selection. */
+.ed-btn--primary,
+.ed-btn--brand,
+.ed-btn--danger {
+  --ed-icon-accent: currentColor;
+}

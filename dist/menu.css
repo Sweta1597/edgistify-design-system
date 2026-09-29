@@ -1,0 +1,311 @@
+/* Edgistify Design System — menu, select, multi-select, cascade, tree
+   ------------------------------------------------------------------
+   Five components, one floating panel. They differ in what an item MEANS,
+   not in how the panel behaves:
+
+     Menu          items are ACTIONS       role=menu / menuitem
+     Select        items are ONE VALUE     role=listbox / option
+     MultiSelect   items are MANY VALUES   listbox + aria-multiselectable
+     Cascade       value is a PATH         columns, each a listbox
+     TreeSelect    value is a NODE         role=tree / treeitem
+
+   Every panel is a native popover, so the browser gives the top layer,
+   light dismissal and Escape — the same move as <dialog> for Modal. The
+   dashboard's panels currently sit at z-20, z-30 and z-50 depending on
+   who wrote them; in the top layer there is nothing to sort out.
+
+   WHEN NOT TO USE THESE
+   The dashboard has 44 native selects holding 88 options between them —
+   under three each. A native <select> is better for those: it is smaller,
+   it is keyboard-complete, and on a phone it opens the OS picker, which
+   beats anything we can draw. Reach for Select here when the list is long
+   enough to need searching, or when options need more than a line of text.
+   ------------------------------------------------------------------ */
+
+/* ---- the panel ------------------------------------------------------- */
+.ed-pop {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  inset: auto;
+  /* Never narrower than 12rem, but grow to the trigger when it is wider.
+     The anchor width arrives as a custom property rather than an inline
+     min-width, which would beat this floor and let a small trigger
+     squash the panel. */
+  min-width: max(12rem, var(--ed-pop-anchor-w, 0px));
+  max-width: min(92vw, 28rem);
+  background: var(--ed-surface-raised);
+  color: var(--ed-text);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-card);
+  box-shadow: var(--ed-elevation-3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.ed-pop:not(:popover-open):not(.ed-pop--inline) { display: none; }
+/* The panel takes focus when it opens so the arrow keys have somewhere to
+   start. It is a container, not a control — the ring belongs on the items. */
+.ed-pop:focus { outline: none; }
+.ed-pop::backdrop { background: transparent; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ed-pop:popover-open { animation: ed-pop-in .1s ease-out; }
+}
+@keyframes ed-pop-in { from { opacity: 0; transform: translateY(-4px); } }
+
+.ed-pop__search {
+  flex: none;
+  padding: var(--ed-space-2);
+  border-bottom: 1px solid var(--ed-border-subtle);
+  background: var(--ed-surface-raised);
+}
+
+.ed-pop__list {
+  list-style: none;
+  margin: 0;
+  padding: var(--ed-space-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: 17rem;
+  flex: 1 1 auto;
+}
+
+.ed-pop__item {
+  display: flex;
+  align-items: center;
+  gap: var(--ed-gap-inline);
+  width: 100%;
+  min-height: var(--ed-control-md);
+  padding: 6px var(--ed-space-2);
+  border: 0;
+  border-radius: var(--ed-radius-control);
+  background: none;
+  color: var(--ed-text-secondary);
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  line-height: var(--ed-leading-snug);
+  text-align: left;
+  cursor: pointer;
+  scroll-margin: var(--ed-space-1);
+}
+.ed-pop__item > svg { width: var(--ed-icon-sm); height: var(--ed-icon-sm); flex: none;
+                      color: var(--ed-text-muted); }
+
+/* One highlight, driven by aria-activedescendant. The pointer and the arrow
+   keys must never light up two different rows.
+
+   Menu/Select keep focus on the trigger and point at the row with
+   aria-activedescendant. A plain <Popover> of ordinary buttons moves real
+   focus instead, so :focus-visible has to light the same row the same way
+   — otherwise a keyboard user walking that panel sees nothing at all. */
+.ed-pop__item--active,
+.ed-pop__item:focus-visible,
+.ed-pop__item:hover:not([aria-disabled="true"]) {
+  background: var(--ed-surface-hover);
+  color: var(--ed-text);
+}
+.ed-pop__item--active > svg, .ed-pop__item:hover > svg,
+.ed-pop__item:focus-visible > svg { color: var(--ed-text-secondary); }
+.ed-pop__item:focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: -2px;     /* inside the row, so it never clips at the edge */
+}
+
+.ed-pop__item[aria-selected="true"],
+.ed-pop__item[aria-checked="true"] {
+  color: var(--ed-text);
+  font-weight: var(--ed-weight-medium);
+}
+.ed-pop__item[aria-selected="true"] { background: var(--ed-brand-subtle); }
+.ed-pop__item[aria-selected="true"].ed-pop__item--active { background: var(--ed-brand-muted); }
+
+.ed-pop__item[aria-disabled="true"] { color: var(--ed-text-disabled); cursor: not-allowed; }
+.ed-pop__item--danger { color: var(--ed-danger-text); }
+.ed-pop__item--danger:hover, .ed-pop__item--danger.ed-pop__item--active {
+  background: var(--ed-danger-subtle); color: var(--ed-danger-text);
+}
+.ed-pop__item--danger > svg { color: currentColor; }
+
+.ed-pop__text { flex: 1; min-width: 0; }
+.ed-pop__hint {
+  display: block;
+  font-size: var(--ed-text-xs);
+  color: var(--ed-text-muted);
+  margin-top: 1px;
+}
+/* Keyboard shortcut, count, or the chevron on a cascade parent. */
+.ed-pop__meta {
+  flex: none;
+  font-size: var(--ed-text-xs);
+  color: var(--ed-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.ed-pop__tick { flex: none; width: var(--ed-icon-sm); height: var(--ed-icon-sm);
+                color: var(--ed-action); opacity: 0; }
+.ed-pop__item[aria-selected="true"] .ed-pop__tick { opacity: 1; }
+
+.ed-pop__group-label {
+  padding: var(--ed-space-2) var(--ed-space-2) 4px;
+  font-size: var(--ed-text-2xs);
+  font-weight: var(--ed-weight-medium);
+  letter-spacing: var(--ed-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ed-text-muted);
+}
+.ed-pop__sep { height: 1px; margin: var(--ed-space-1) 0; background: var(--ed-border-subtle); border: 0; }
+
+.ed-pop__empty {
+  padding: var(--ed-space-6) var(--ed-space-3);
+  text-align: center;
+  color: var(--ed-text-muted);
+  font-size: var(--ed-text-md);
+}
+
+.ed-pop__footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ed-gap-inline);
+  padding: var(--ed-space-2);
+  border-top: 1px solid var(--ed-border-subtle);
+  background: var(--ed-surface-sunken);
+}
+
+/* ---- the trigger ------------------------------------------------------ */
+/* Looks and measures like an input, because that is what it stands in for. */
+.ed-combo {
+  display: flex;
+  align-items: center;
+  gap: var(--ed-gap-inline);
+  width: 100%;
+  min-height: var(--ed-control-md);
+  padding-inline: var(--ed-pad-cell-x);
+  background: var(--ed-surface);
+  color: var(--ed-text);
+  border: 1px solid var(--ed-border);
+  border-radius: var(--ed-radius-control);
+  font-family: var(--ed-font-ui);
+  font-size: var(--ed-text-base);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .12s ease;
+}
+@media (prefers-reduced-motion: reduce) { .ed-combo { transition: none; } }
+.ed-combo:hover:not(:disabled) { border-color: var(--ed-border-strong); }
+.ed-combo:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px;
+                          border-color: var(--ed-focus); }
+.ed-combo[aria-expanded="true"] { border-color: var(--ed-focus); }
+.ed-combo:disabled { background: var(--ed-surface-sunken); color: var(--ed-text-muted);
+                     border-color: var(--ed-border-subtle); cursor: not-allowed; }
+.ed-combo[aria-invalid="true"] { border-color: var(--ed-danger-text); }
+
+.ed-combo__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+                   white-space: nowrap; }
+.ed-combo__value--empty { color: var(--ed-text-muted); }
+.ed-combo__chevron { flex: none; width: var(--ed-icon-sm); height: var(--ed-icon-sm);
+                     color: var(--ed-text-muted); transition: rotate .12s ease; }
+.ed-combo[aria-expanded="true"] .ed-combo__chevron { rotate: 180deg; }
+@media (prefers-reduced-motion: reduce) { .ed-combo__chevron { transition: none; } }
+
+/* ---- multi-select tokens ---------------------------------------------- */
+.ed-combo--multi { flex-wrap: wrap; padding-block: 4px; height: auto; }
+.ed-tokens { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; min-width: 0; }
+.ed-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 2px 4px 2px 8px;
+  border-radius: var(--ed-radius-sharp);
+  background: var(--ed-brand-subtle);
+  border: 1px solid var(--ed-brand-muted);
+  color: var(--ed-on-brand-subtle);
+  font-size: var(--ed-text-sm);
+  font-weight: var(--ed-weight-medium);
+}
+.ed-token__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-token__x {
+  flex: none;
+  display: grid;
+  place-content: center;
+  width: 16px; height: 16px;
+  border: 0; border-radius: 3px;
+  background: none; color: inherit; cursor: pointer;
+}
+.ed-token__x:hover { background: var(--ed-brand-muted); }
+.ed-token__x:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 1px; }
+.ed-token__x > svg { width: 12px; height: 12px; }
+/* Past a handful, a count beats a wall of chips. */
+.ed-token--count { background: var(--ed-surface-sunken); border-color: var(--ed-border);
+                   color: var(--ed-text-muted); padding-right: 8px; }
+
+/* ---- multi-select checkbox rows ---------------------------------------- */
+.ed-pop__item .ed-checkbox { pointer-events: none; }   /* the row is the target */
+
+/* ---- cascade ----------------------------------------------------------- */
+/* Columns, because a path is easier to read across than down. */
+.ed-cascade { display: flex; align-items: stretch; min-width: 0; }
+.ed-cascade__col {
+  flex: none;
+  width: 11rem;
+  border-right: 1px solid var(--ed-border-subtle);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ed-cascade__col:last-child { border-right: 0; }
+.ed-cascade__col > .ed-pop__list { max-height: 15rem; }
+.ed-cascade .ed-pop__item--parent > .ed-pop__meta { display: grid; place-content: center; }
+.ed-cascade .ed-pop__item--parent > .ed-pop__meta > svg { width: 14px; height: 14px; }
+/* On a narrow screen the columns become one scrolling row. */
+@media (max-width: 560px) {
+  .ed-cascade { overflow-x: auto; }
+  .ed-cascade__col { width: 9.5rem; }
+}
+
+/* The chosen path, shown above the columns so the answer is readable as a
+   sentence rather than reconstructed from three highlighted rows. */
+.ed-cascade__path {
+  flex: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: var(--ed-space-2);
+  border-bottom: 1px solid var(--ed-border-subtle);
+  font-family: var(--ed-font-id);
+  font-size: var(--ed-text-sm);
+  color: var(--ed-text-secondary);
+}
+.ed-cascade__path b { color: var(--ed-text); font-weight: var(--ed-weight-medium); }
+.ed-cascade__path svg { width: 12px; height: 12px; color: var(--ed-text-muted); }
+
+/* ---- tree --------------------------------------------------------------- */
+.ed-tree { padding: var(--ed-space-1); }
+.ed-tree .ed-pop__item { padding-left: calc(var(--ed-space-2) + var(--level, 0) * 16px); }
+.ed-tree__twisty {
+  flex: none;
+  display: grid;
+  place-content: center;
+  width: 18px; height: 18px;
+  margin-left: -2px;
+  border: 0; border-radius: 3px;
+  background: none; color: var(--ed-text-muted); cursor: pointer;
+}
+.ed-tree__twisty:hover { background: var(--ed-surface-active); color: var(--ed-text); }
+.ed-tree__twisty:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: -1px; }
+.ed-tree__twisty > svg { width: 14px; height: 14px; transition: rotate .12s ease; }
+.ed-tree__item[aria-expanded="true"] .ed-tree__twisty > svg { rotate: 90deg; }
+@media (prefers-reduced-motion: reduce) { .ed-tree__twisty > svg { transition: none; } }
+/* A leaf keeps the twisty's width so labels line up down the level. */
+.ed-tree__spacer { flex: none; width: 18px; margin-left: -2px; }
+
+/* ---- warehouse ---------------------------------------------------------- */
+/* Gloved taps need the rows to be targets, and a phone-width panel beats a
+   floating one. */
+[data-mode="warehouse"] .ed-pop { min-width: min(92vw, 20rem); }
+[data-mode="warehouse"] .ed-pop__item { min-height: var(--ed-control-md); }
+[data-mode="warehouse"] .ed-cascade { overflow-x: auto; }
+[data-mode="warehouse"] .ed-cascade__col { width: 10rem; }
