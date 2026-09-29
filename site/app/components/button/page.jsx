@@ -10,13 +10,13 @@ export const metadata = {
 };
 
 const VARIANTS = [
-  ['primary', 'The one main action on a view. #008277 — passes AA under white text.',
+  ['primary', 'The one main action on a view. Dark neutral #252727 — 15.02:1 under white.',
     <Button key="v"><Icon name="check" />Confirm pick</Button>],
   ['brand', 'Full-strength #00a699 with dark ink. At most one per screen.',
     <Button key="v" variant="brand"><Icon name="scan" />Start pick</Button>],
-  ['secondary', 'Everything alongside the main action. Carries a border, not a fill.',
+  ['secondary', 'Everything alongside the main action. A filled grey, not a border.',
     <Button key="v" variant="secondary">Cancel</Button>],
-  ['ghost', 'Low-emphasis, repeated actions — toolbars, table rows, filters.',
+  ['ghost', 'Low-emphasis, repeated actions — toolbars, table rows, filters. Neutral, like the primary.',
     <Button key="v" variant="ghost"><Icon name="filter" />Filter</Button>],
   ['danger', 'Destructive and standing alone, in a confirmation dialog.',
     <Button key="v" variant="danger"><Icon name="trash" />Delete wave</Button>],
@@ -64,23 +64,35 @@ export default function ButtonPage() {
           <code className="mono">hover:opacity-90</code>, which fades the label along with the fill and turns
           muddy over a tinted row. Hover, press, and tab through these — they are live.</p></div>
           <div className="vgrid" id="variants">
+            {/* .vcell, not .vcard — the latter was never defined, so these cells
+                had no padding and no background and ran to the edge of the grid.
+                The order is the one .vcell styles: name, description, then the
+                demo. .vd carries a min-height so the buttons line up across
+                cells whatever the copy does. */}
             {VARIANTS.map(([name, desc, demo]) => (
-              <div className="vcard" key={name}>
-                <div className="vdemo">{demo}</div>
-                <div className="vname">{name}</div>
-                <div className="vdesc">{desc}</div>
+              <div className="vcell" key={name}>
+                <div className="vn">{name}</div>
+                <div className="vd">{desc}</div>
+                {demo}
               </div>
             ))}
+            {/* Seven variants in a two-column grid leaves an eighth slot, and
+                the grid paints its own background through it as a grey block.
+                A filler cell carries the panel colour instead. */}
+            <div className="vcell" aria-hidden="true" />
           </div>
           <div className="note">
             <span className="k">RULE 04</span>
-            <p><strong>One <code className="mono">brand</code> button per screen, at most.</strong>{' '}
-            <code className="mono">primary</code> is #008277 and does the everyday work.{' '}
+            
+            <div><p><strong>One <code className="mono">brand</code> button per screen, at most.</strong>{' '}
+            <code className="mono">primary</code> is dark neutral and does the everyday work — it marks
+            &ldquo;this commits the form&rdquo;, which is not a brand moment.{' '}
             <code className="mono">brand</code> is full-strength #00a699 with dark ink on it — reserve it for
             the single moment that matters most on a screen: <em>Start pick</em>, <em>Scan</em>,{' '}
             <em>Confirm dispatch</em>.</p>
-            <p>Teal used everywhere stops meaning anything. That is what “use it smartly” has to cash out
-            to in code.</p>
+            <p>Teal used everywhere stops meaning anything. That is what &ldquo;use it smartly&rdquo; has to
+            cash out to in code — and it is why the primary button stopped being teal. A brand colour on
+            every submit button is a brand colour on nothing.</p></div>
           </div>
         </section>
 
@@ -128,11 +140,12 @@ export default function ButtonPage() {
           </div>
           <div className="note">
             <span className="k">RULE 05</span>
-            <p><strong>Anything that hits an API gets <code className="mono">loading</code>.</strong> There is
+            
+            <div><p><strong>Anything that hits an API gets <code className="mono">loading</code>.</strong> There is
             no loading state anywhere in the dashboard today. A picker who taps <em>Confirm pick</em>
             twice because the first tap showed nothing has created a duplicate — and a duplicate in a
             pick confirmation is an inventory discrepancy somebody reconciles by hand later.</p>
-            <p>The spinner also blocks pointer events, so the second tap cannot land even if they are fast.</p>
+            <p>The spinner also blocks pointer events, so the second tap cannot land even if they are fast.</p></div>
           </div>
         </section>
 

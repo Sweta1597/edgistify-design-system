@@ -14,6 +14,7 @@ const GROUPS = [
       { href: '/foundations/colour', title: 'Colour' },
       { href: '/foundations/type', title: 'Type' },
       { href: '/foundations/space', title: 'Space' },
+      { href: '/foundations/icons', title: 'Icons' },
     ],
   },
   {
@@ -25,6 +26,25 @@ const GROUPS = [
       { href: '/components/input', title: 'Input' },
       { href: '/components/modal', title: 'Modal' },
       { href: '/components/menu', title: 'Menu & Select' },
+      { href: '/components/badge', title: 'Badge' },
+      { href: '/components/tooltip', title: 'Tooltip' },
+      { href: '/components/icon', title: 'Icon' },
+    ],
+  },
+  {
+    label: 'Marketing',
+    items: [
+      { href: '/marketing', title: 'Overview & rules' },
+      { href: '/marketing/brand', title: 'Brand' },
+      { href: '/marketing/components', title: 'Components' },
+      { href: '/marketing/landing-page', title: 'Landing page recipe' },
+    ],
+  },
+  {
+    label: 'Decisions',
+    items: [
+      { href: '/compare/icons', title: 'Icons: lucide vs Material' },
+      { href: '/compare/nav', title: 'Nav: filled + teal' },
     ],
   },
 ];

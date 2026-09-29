@@ -49,6 +49,22 @@ import '@fontsource-variable/inter';
 import '@fontsource-variable/jetbrains-mono';
 ```
 
+### Icons
+
+```js
+import { Icon } from '@edgistify/design-system/react/Icon';
+import { Package, ChevronDown } from '@edgistify/design-system/icons';
+
+<Icon icon={Package} />                     // outline, 16px
+<Icon icon={Package} filled size="lg" />    // selected: filled, teal accent, 24px
+```
+
+Import `icon.css` after `button.css`. Every icon the apps use is in
+`icons/`, in two fill states; `icons/manifest.json` says which are drawn to
+`docs/icon-brief.md` and which are still Material Symbols seeds (Apache-2.0,
+see `icons/THIRD_PARTY.md`). To replace one, drop the SVGs into `icons/svg`
+and run `npm run build`; `npm test` checks them against the brief.
+
 ## Working on the design system
 
 ```bash
@@ -655,3 +671,39 @@ effects the second pass sees the dialog already open, skips the lock, and the fi
 cleanup has already released it — a modal on screen over a page that still scrolled. The
 lock is now its own effect keyed on `open`, which is idempotent and also covers unmounting
 while open.
+
+---
+
+# Marketing
+
+The brand and marketing layer: the public website, landing pages, campaign
+pages — everything the marketing team ships to people who are not logged in.
+Same tokens, same fonts, same rule about teal.
+
+```css
+@import "@edgistify/design-system/marketing.css";   /* after the foundations */
+```
+
+```jsx
+import { Section, SectionHead, Tile } from '@edgistify/design-system/react/marketing';
+import { SiteHeader } from '@edgistify/design-system/react/marketing/Header';
+
+<div className="ed-mk">…</div>
+```
+
+`.ed-mk` is a **scope, not a mode**. Inside it the type scale steps up to
+reading sizes (16px body), controls grow to touch sizes (44px) and the
+marketing tokens (`--ed-mk-*`) become available. Every product component
+still works inside it — it reads the same tokens the scope re-tunes.
+
+Three rules that are specific to marketing pages:
+
+- **One brand button per viewport.** `variant="brand"` on the hero action;
+  `primary` (ink) everywhere else.
+- **No placeholder facts.** An unverified number, logo or city renders through
+  `<Pending>`, never as an invented figure.
+- **Teal appears in three places at rest**: the wordmark's dot, that one brand
+  button, and the accent on the dark band. Everything else is ink and white.
+
+The docs site has the full gallery under **Marketing**, and
+`/marketing/landing-page` is the recipe the website's homepage is built from.

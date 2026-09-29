@@ -50,12 +50,13 @@ export default function ModalPage() {
           </div>
           <div className="note">
             <span className="k">RULE 10</span>
-            <p><strong>Open one and press Tab repeatedly.</strong> Focus cycles inside the dialog and
+            
+            <div><p><strong>Open one and press Tab repeatedly.</strong> Focus cycles inside the dialog and
             cannot reach the page behind — not because it is hidden, but because the browser makes
             everything outside the top layer genuinely inert. Escape closes. Focus returns to the button
             that opened it.</p>
             <p>None of that is our code. Hand-rolling a focus trap is a well-known way to get it subtly
-            wrong; the correct move is to stop hand-rolling it.</p>
+            wrong; the correct move is to stop hand-rolling it.</p></div>
           </div>
         </section>
 

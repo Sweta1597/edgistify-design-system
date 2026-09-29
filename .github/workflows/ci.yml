@@ -21,14 +21,15 @@ jobs:
       - name: Contrast, grid, scale and tokens
         run: npm test
 
-      # dist/dark-auto.css is generated from semantic.css. If someone edits
-      # the source and forgets to regenerate, the two drift silently — so
+      # dist/dark-auto.css is generated from semantic.css, and icons/index.js
+      # and the computed half of icons/manifest.json from icons/svg. If someone
+      # edits a source and forgets to regenerate, the two drift silently — so
       # regenerate here and fail if the result differs from what was committed.
       - name: Generated CSS is up to date
         run: |
           npm run build
-          if ! git diff --quiet -- dist/; then
-            echo "::error::dist/ is stale — run 'npm run build' and commit the result."
-            git diff --stat -- dist/
+          if ! git diff --quiet -- dist/ icons/; then
+            echo "::error::dist/ or icons/ is stale — run 'npm run build' and commit the result."
+            git diff --stat -- dist/ icons/
             exit 1
           fi

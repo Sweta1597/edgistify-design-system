@@ -43,13 +43,14 @@ export default function MenuPage() {
           </div>
           <div className="note">
             <span className="k">RULE 12</span>
-            <p><strong>Don’t reach for these when a native <code className="mono">&lt;select&gt;</code> will
+            
+            <div><p><strong>Don’t reach for these when a native <code className="mono">&lt;select&gt;</code> will
             do.</strong> The dashboard has 44 selects holding 88 options between them — under three each.
             Native is smaller, keyboard-complete, and on a phone it opens the OS picker, which beats
             anything we can draw.</p>
             <p>Use <code className="mono">Select</code> here when the list is long enough to need searching,
             or when an option needs more than a line of text. The styled native{' '}
-            <code className="mono">&lt;select&gt;</code> shipped with the input family covers the rest.</p>
+            <code className="mono">&lt;select&gt;</code> shipped with the input family covers the rest.</p></div>
           </div>
         </section>
 

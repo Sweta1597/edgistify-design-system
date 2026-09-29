@@ -10,6 +10,10 @@
 @import '@edgistify/design-system/input.css';
 @import '@edgistify/design-system/modal.css';
 @import '@edgistify/design-system/menu.css';
+@import '@edgistify/design-system/badge.css';
+@import '@edgistify/design-system/tooltip.css';
+@import '@edgistify/design-system/nav.css';
+@import '@edgistify/design-system/marketing.css';
 
 /* ── site chrome ──────────────────────────────────────────────────────
    Written entirely in design-system tokens. There are no raw colours in

@@ -1,0 +1,57 @@
+/* Icon page: contact sheet, near pairs, optical proof. Tokens only. */
+
+.doc .ico-filters {
+  display: flex; flex-wrap: wrap; gap: var(--ed-space-3); align-items: center;
+  margin: var(--ed-space-4) 0;
+}
+.doc .ico-filters .ed-input { width: auto; min-width: 12rem; }
+.doc .ico-count { font: 500 11.5px/1.6 "JetBrains Mono", monospace; color: var(--fg3); margin-inline-start: auto; }
+
+.doc .ico-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: var(--ed-space-3);
+}
+.doc .ico-tile {
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel);
+  padding: var(--ed-space-3); min-width: 0;
+}
+.doc .ico-head {
+  display: flex; align-items: center; gap: var(--ed-space-2); margin-bottom: var(--ed-space-2);
+  font: 500 12px/1.4 "JetBrains Mono", monospace; color: var(--fg);
+}
+.doc .ico-head .ico-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc .ico-head .ico-ver { color: var(--fg3); font-weight: 400; }
+
+/* One row per ground. Each cell is an outline/filled pair at one size,
+   sitting on the ground it has to read on, with the accent role set the
+   way that ground sets it in the product. */
+.doc .ico-row {
+  display: flex; align-items: center; gap: var(--ed-space-3);
+  padding: 8px 10px; border-radius: 6px;
+}
+.doc .ico-row + .ico-row { margin-top: 4px; }
+.doc .ico-row--light { background: #fff; color: var(--ed-neutral-950); --ed-icon-accent: var(--ed-teal-600); border: 1px solid var(--line); }
+.doc .ico-row--dark  { background: var(--ed-neutral-950); color: #fff; --ed-icon-accent: var(--ed-teal-300); }
+.doc .ico-pair { display: flex; align-items: center; gap: 4px; }
+.doc .ico-pair > svg { display: block; }
+.doc .ico-same { font: 400 10.5px/1 "JetBrains Mono", monospace; opacity: .6; margin-inline-start: auto; }
+
+/* Near pairs: 14px only, the size where confusion happens. */
+.doc .ico-pairs { display: flex; flex-direction: column; gap: var(--ed-space-3); }
+.doc .ico-pairgroup { display: grid; grid-template-columns: 10rem 1fr; gap: var(--ed-space-3); align-items: center; }
+.doc .ico-pairgroup .ico-names { font: 400 11.5px/1.5 "JetBrains Mono", monospace; color: var(--fg3); }
+.doc .ico-pairgroup .ico-row { gap: var(--ed-space-4); }
+.doc .ico-pairgroup .ico-row + .ico-row { margin-top: 0; }
+.doc .ico-pairgroup .ico-grounds { display: flex; gap: var(--ed-space-2); flex-wrap: wrap; }
+
+/* Optical sizes: three drawings at one rendered size, so the difference
+   left is the drawing. */
+.doc .ico-opt { display: flex; gap: var(--ed-space-5); flex-wrap: wrap; }
+.doc .ico-opt figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.doc .ico-opt .opt--big > svg { width: 64px; height: 64px; }
+.doc .ico-opt figcaption { font: 400 11px/1 "JetBrains Mono", monospace; color: var(--fg3); }
+
+.doc .ico-rules { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.doc .ico-rules li { display: grid; grid-template-columns: 5.5rem 1fr; gap: var(--ed-space-3); align-items: baseline; }
+.doc .ico-rules .k { font: 500 10.5px/1.6 "JetBrains Mono", monospace; color: var(--fg3); text-transform: uppercase; letter-spacing: .04em; }
