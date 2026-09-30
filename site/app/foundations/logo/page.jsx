@@ -1,7 +1,7 @@
 import '@/styles/doc-shell.css';
 import '@/styles/compare.css';
 import { Logo } from '@edgistify/design-system/react/Logo';
-import { LogoSizes, LogoOnGrounds, ClearSpace, MinSizes } from '@/components/demos/LogoDemo';
+import { LogoSizes, LogoOnGrounds, WordmarkTones, ClearSpace, MinSizes } from '@/components/demos/LogoDemo';
 
 export const metadata = {
   title: 'Logo',
@@ -10,14 +10,17 @@ export const metadata = {
 
 const API = [
   ['variant', '"mark" | "square" | "wordmark"', 'Which artwork. Defaults to the E. monogram.'],
-  ['title', 'string', 'Accessible name. Omit beside a visible "Edgistify" — it is then aria-hidden.'],
+  ['tone', '"teal" | "black" | "white"', 'Wordmark only — it is a raster, so it cannot follow currentColor. The mark ignores it.'],
+  ['title', 'string', 'Accessible name. Omit beside a visible "Edgistify" — the mark is then aria-hidden, the wordmark gets alt="".'],
   ['className', 'string', 'Added to .ed-logo. Use .ed-logo--sm/md/lg/xl to size.'],
 ];
 
 const FILES = [
-  ['brand/edgistify-mark.svg', '50.12 × 48.58', 'The E. monogram. Favicon, avatar, collapsed nav, splash.'],
-  ['brand/edgistify-mark-square.svg', '50.12 × 50.12', 'The same path centred on a square. App icons, tiles.'],
-  ['brand/edgistify-wordmark.svg', '258.29 × 65.23', 'The word. Headers, footers, documents, email.'],
+  ['brand/edgistify-mark.svg', 'SVG · 50.12 × 48.58', 'The E. monogram. Favicon, avatar, collapsed nav, splash.'],
+  ['brand/edgistify-mark-square.svg', 'SVG · 50.12 × 50.12', 'The same path centred on a square. App icons, tiles.'],
+  ['brand/wordmark/…-teal.png', 'PNG · 2800 × 698', 'The word, brand teal. Default.'],
+  ['brand/wordmark/…-black.png', 'PNG · 2800 × 698', 'Ink. Documents, print, anything one-colour.'],
+  ['brand/wordmark/…-white.png', 'PNG · 2800 × 698', 'Knockout. Dark bands, photographs, the dark theme.'],
 ];
 
 export default function LogoPage() {
@@ -27,16 +30,42 @@ export default function LogoPage() {
         <header>
           <div className="eyebrow"><span className="dot" /> Edgistify Design System · Foundation 05</div>
           <h1>Logo</h1>
-          <div className="lede"><strong>One drawing per shape, not one file per colour.</strong> The brand
-          folder shipped the same E three times — teal, white and black — with byte-identical path data and
-          three different fills. Those are three files to keep in step for no gain. Everything here is drawn in
-          <code className="mono"> currentColor</code>, so the mark takes the colour of whatever it sits in.</div>
+          <div className="lede"><strong>The mark is vector and takes its colour from CSS. The wordmark is a
+          raster and ships in three tones.</strong> That split is not a design decision — it is what we have.
+          The current wordmark reached us as a PNG, and until a vector of it exists the two halves of the logo
+          behave differently.</div>
         </header>
+
+        <section>
+          <div className="note note--warn">
+            <span className="k">THE WORDMARK CHANGED, AND WE SHIPPED THE OLD ONE</span>
+            <p>The first version of this page used an SVG wordmark from the 2020 brand folder. The wordmark
+            supplied since — <code className="mono">edgistifylogo.png</code>, October 2024 — is a
+            <strong> different drawing</strong>, not a re-export. Measured letter by letter at matched height,
+            its <em>d</em> is <strong>26% wider</strong> relative to its height; <em>g</em> and <em>y</em> are
+            wider too, and <em>E</em> and <em>f</em> are narrower. The 2020 file is now in
+            <code className="mono"> brand/source/wordmark-2020-superseded.svg</code> and is not shipped.</p>
+          </div>
+          <div className="note note--warn">
+            <span className="k">WE NEED THE VECTOR</span>
+            <p>A 2800px PNG is enough for screens and most print, but it cannot follow
+            <code className="mono"> currentColor</code>, cannot be recoloured beyond the three tones we cut,
+            and cannot be set in a cutting plotter, an embroidery file or a single-colour press. Tracing it
+            would produce a fourth drawing, which is how brands end up with four logos. If the 2024 wordmark
+            exists as AI, EPS or SVG, that file replaces this whole section.</p>
+          </div>
+          <div className="note">
+            <span className="k">AND PROBABLY THE MONOGRAM TOO</span>
+            <p>The <em>E.</em> mark still comes from the 2020 set. Nothing here shows whether it was redrawn
+            alongside the wordmark — worth checking before it goes on anything permanent.</p>
+          </div>
+        </section>
 
         <section>
           <div className="sec-head"><h2>The colour was already ours</h2>
           <p className="sub">The logo is <code className="mono">#00a699</code>. So is
-          <code className="mono"> --ed-teal-500</code>.</p></div>
+          <code className="mono"> --ed-teal-500</code> — and the 2024 PNG is that same flat hex edge to edge,
+          which is how we know the black and white cuts are exact.</p></div>
           <div className="note">
             <span className="k">NO BRAND TOKEN</span>
             <p>There is no separate <code className="mono">--ed-brand-logo</code>, and there should not be.
@@ -68,6 +97,25 @@ export default function LogoPage() {
           <code className="mono"> color</code> on a parent and the artwork follows. There is no knockout
           file, because there does not need to be one.</p></div>
           <LogoOnGrounds />
+          <WordmarkTones />
+          <div className="note note--warn">
+            <span className="k">THE WORDMARK CANNOT DO THIS</span>
+            <p>Everything in the row above is the mark. The wordmark is a raster, so it ignores
+            <code className="mono"> color</code> entirely — pick a file with
+            <code className="mono"> tone</code> instead. Three cuts exist; a fourth needs a new export, which
+            is precisely the cost the vector would remove.</p>
+          </div>
+          <div className="note note--warn">
+            <span className="k">DARK MODE IS YOURS TO HANDLE</span>
+            <p>The mark flips for free — it inherits <code className="mono">color</code>. The wordmark does
+            not: an <code className="mono">&lt;img&gt;</code> has one <code className="mono">src</code>, and a
+            <code className="mono"> &lt;picture&gt;</code> with a
+            <code className="mono"> prefers-color-scheme</code> source cannot see our
+            <code className="mono"> [data-theme]</code> attribute, which is what actually drives the theme
+            here. So pass <code className="mono">tone</code> from wherever you already know the theme. If you
+            would rather not think about it, <strong>teal reads on both</strong> — it is the only cut that
+            does.</p>
+          </div>
           <div className="note">
             <span className="k">ON A PHOTOGRAPH</span>
             <p>The brand ships no outlined variant, so the answer to a busy background is a plate behind the
@@ -78,15 +126,17 @@ export default function LogoPage() {
 
         <section>
           <div className="sec-head"><h2>How small it goes</h2>
-          <p className="sub">Measured by rasterising each shape at 1600px and reading the ink-run histogram
-          back in viewBox units — not copied from a template.</p></div>
+          <p className="sub">The mark&rsquo;s floor is measured — rasterised at 1600px and read back as an
+          ink-run histogram. The wordmark&rsquo;s is a judgement about reading, and the section says which is
+          which.</p></div>
           <MinSizes />
           <div className="note">
             <span className="k">STROKE WEIGHT IS NOT THE LIMIT</span>
-            <p>Which is worth saying, because it is the usual reason a logo has a floor. The wordmark&rsquo;s
-            typical stem is <strong>8.15 units of a 65.23-unit canvas — 12.5% of its height</strong>, and even
-            the 5th percentile is 7.62. A stem that thick only rounds away below 9px tall. The mark is sturdier
-            again at 22%. The floors are about <em>reading</em>, not rendering.</p>
+            <p>Which is worth saying, because it is the usual reason a logo has a floor. The mark&rsquo;s
+            median stem is <strong>10.75 units of a 48.58-unit canvas — 22% of its height</strong>. Nothing
+            that thick rounds away at any size you would use. Its floor is about <em>reading</em>, not
+            rendering. The equivalent histogram was run on the 2020 wordmark and is not quoted here, because
+            re-running it on a PNG would measure the export resolution rather than the drawing.</p>
           </div>
           <div className="note">
             <span className="k">WHY THE MARK SURVIVES BEING SMALL</span>
@@ -127,6 +177,10 @@ export default function LogoPage() {
           <ul className="dont">
             <li><strong>Don&rsquo;t set the wordmark in a font.</strong> It is drawn letterforms. Inter Bold is
             not it, and the marketing layer said otherwise until the brand files arrived.</li>
+            <li><strong>Don&rsquo;t trace the PNG.</strong> An autotrace is a fourth drawing, and it will not
+            match the one on the website. Ask for the vector.</li>
+            <li><strong>Don&rsquo;t use the 2020 SVG.</strong> It is kept in
+            <code className="mono"> brand/source/</code> for reference only. It is a different wordmark.</li>
             <li><strong>Don&rsquo;t add a dot to the word.</strong> The dot belongs to the monogram.
             <code className="mono"> .ed-mk-wordmark::after</code> used to append one; it is gone.</li>
             <li><strong>Don&rsquo;t hard-code the hex.</strong> Set <code className="mono">color</code>, or use
@@ -162,13 +216,13 @@ export default function LogoPage() {
         <section>
           <div className="sec-head"><h2>Still in Drive</h2></div>
           <div className="note">
-            <span className="k">NOT YET SHIPPED</span>
-            <p>The brand folder also holds two lockups that pair the wordmark with a descriptor —
-            <code className="mono"> Asset 13</code> (horizontal, with a hairline rule) and
-            <code className="mono"> Asset 18</code> (stacked). They are not in the package: a lockup fixes the
-            relationship between two pieces of artwork, and that is a brand decision rather than a mechanical
-            one. Squaring the mark was arithmetic and is included; inventing a lockup is not, and would risk
-            contradicting guidance nobody here has seen. Whoever owns brand should add them.</p>
+            <span className="k">NOT SHIPPED</span>
+            <p>The 2020 folder also holds two lockups pairing the wordmark with a descriptor —
+            <code className="mono"> Asset 13</code> (horizontal, hairline rule) and
+            <code className="mono"> Asset 18</code> (stacked). They are not in the package, and now there is a
+            second reason: they are built on the <em>superseded</em> wordmark. Even setting that aside, a
+            lockup fixes the relationship between two pieces of artwork, which is a brand decision rather than
+            a mechanical one. Squaring the mark was arithmetic and is included; inventing a lockup is not.</p>
           </div>
         </section>
       </div>

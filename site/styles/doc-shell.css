@@ -68,3 +68,10 @@
 .doc footer{padding-top:44px;color:var(--fg3);font-size:13px}
 @media(prefers-reduced-motion:reduce){
 .doc *{transition:none!important}}
+
+/* A note that is a problem rather than an aside. Amber rather than the
+   teal key colour, and a left rule, so a reader skimming the headings
+   still catches it. Not red: nothing here is broken, but two of these
+   are blocked on someone sending a file. */
+.doc .note--warn{border-left:3px solid var(--ed-amber-500,#b45309);padding-left:17px}
+.doc .note--warn .k{color:var(--ed-amber-600,#92400e)}

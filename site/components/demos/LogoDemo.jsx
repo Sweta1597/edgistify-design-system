@@ -22,12 +22,13 @@ export function LogoSizes() {
           <div className="vn" style={{ opacity: 0.7 }}>{use}</div>
         </div>
       ))}
-      <div className="vcell">
-        <div className="vd" style={{ color: 'var(--ed-text)' }}>
-          <Logo variant="wordmark" className="ed-logo--lg" />
-        </div>
+      <div className="vcell" style={{ gridColumn: 'span 2' }}>
+        {/* teal, not black: these cells take the page's panel colour, which
+            flips with the theme, and a black raster on a dark panel is
+            invisible. Teal is the one cut that reads on both. */}
+        <div className="vd"><Logo variant="wordmark" tone="teal" className="ed-logo--lg" /></div>
         <div className="vn">wordmark · 40px</div>
-        <div className="vn" style={{ opacity: 0.7 }}>Height-driven, like text</div>
+        <div className="vn" style={{ opacity: 0.7 }}>Height-driven, like text — but a raster, so it takes a tone rather than a colour</div>
       </div>
       <div className="vcell">
         <div className="vd" style={{ color: 'var(--ed-teal-500)' }}>
@@ -47,6 +48,29 @@ const GROUNDS = [
   ['White on ink', { background: 'var(--ed-neutral-950)', color: 'var(--ed-white)' }],
   ['Teal on ink', { background: 'var(--ed-neutral-950)', color: 'var(--ed-teal-400)' }],
 ];
+
+/* The three cuts. Each on the ground it exists for, because a white
+   wordmark on white proves nothing. */
+export function WordmarkTones() {
+  const CUTS = [
+    ['teal', { background: 'var(--ed-white)' }, 'The default. Light pages.'],
+    ['black', { background: 'var(--ed-white)' }, 'One-colour print, documents, signatures.'],
+    ['white', { background: 'var(--ed-neutral-950)' }, 'Dark bands, photographs, dark theme.'],
+  ];
+  return (
+    <div className="vgrid">
+      {CUTS.map(([tone, style, use]) => (
+        <div className="vcell" key={tone} style={{ gridColumn: 'span 2' }}>
+          <div className="vd" style={{ ...style, borderRadius: 8, padding: '22px 16px' }}>
+            <Logo variant="wordmark" tone={tone} style={{ height: 34 }} />
+          </div>
+          <div className="vn"><code className="mono">tone=&quot;{tone}&quot;</code></div>
+          <div className="vn" style={{ opacity: 0.7 }}>{use}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function LogoOnGrounds() {
   return (
@@ -96,7 +120,7 @@ export function MinSizes() {
         <div className="vd" style={{ color: 'var(--ed-text)', display: 'flex', gap: 18, alignItems: 'flex-end', flexWrap: 'wrap' }}>
           {[12, 16, 20, 24, 32].map((h) => (
             <span key={h} style={{ textAlign: 'center' }}>
-              <Logo variant="wordmark" style={{ height: h }} />
+              <Logo variant="wordmark" tone="teal" style={{ height: h }} />
               <span className="vn" style={{ display: 'block', marginTop: 6 }}>{h}px</span>
             </span>
           ))}

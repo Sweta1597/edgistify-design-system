@@ -149,11 +149,14 @@ export const Chips = ({ className = '', ...rest }) => <div className={cx('ed-mk-
    which is a separate piece of artwork.
 
    It now renders the real wordmark. The aria-label stays on the link, and
-   Logo is aria-hidden inside it, so the link is announced once. */
-export const Wordmark = ({ size, as: Tag = 'a', href = '/', className = '', ...rest }) => (
+   Logo carries alt="" inside it, so the link is announced once.
+
+   `tone` exists because the current wordmark is a raster and cannot follow
+   currentColor. Use tone="white" on the dark band. */
+export const Wordmark = ({ size, tone = 'teal', as: Tag = 'a', href = '/', className = '', ...rest }) => (
   <Tag className={cx('ed-mk-wordmark', size && `ed-mk-wordmark--${size}`, className)}
        href={Tag === 'a' ? href : undefined} aria-label="Edgistify home" {...rest}>
-    <Logo variant="wordmark" />
+    <Logo variant="wordmark" tone={tone} />
   </Tag>
 );
 

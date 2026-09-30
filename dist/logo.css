@@ -12,9 +12,13 @@
 .ed-logo {
   /* Height-driven, like text. A logo beside a word should track that
      word's size, and only height can do that — the mark and the wordmark
-     have very different aspect ratios (1.03 and 3.96), so a width-driven
+     have very different aspect ratios (1.03 and 4.01), so a width-driven
      rule would make them wildly different heights side by side. */
   height: 1em;
+  /* `width: auto` on an <img> that carries width/height attributes still
+     resolves to the ATTRIBUTE, not the ratio — the wordmark would come out
+     2800px wide. `!important`-free fix: state the ratio and let width
+     follow it. Harmless on the <svg>, load-bearing on the <img>. */
   width: auto;
   display: inline-block;
   vertical-align: middle;
@@ -22,6 +26,16 @@
      an icon context would otherwise inherit a stroke-width meant for
      20px line icons. */
   stroke: none;
+}
+
+/* The wordmark is an <img>. Its intrinsic box is 2800x698, and the width
+   attribute is there so the browser reserves space before it loads — but
+   that same attribute is what `width: auto` resolves against, so the
+   ratio has to be stated or the logo renders at its full 2800px. */
+.ed-logo--word {
+  aspect-ratio: 2800 / 698;
+  width: auto;
+  object-fit: contain;
 }
 
 /* ---- sizes ---------------------------------------------------------- */
@@ -33,27 +47,24 @@
 .ed-logo--xl { height: 64px; }   /* splash, marketing hero        */
 
 /* ---- minimum sizes -------------------------------------------------- */
-/* Measured by rasterising each shape at 1600px and reading the ink-run
-   histogram back in viewBox units.
+/* MARK — measured. Rasterised at 1600px and read back as an ink-run
+   histogram in viewBox units.
 
-   Stroke rendering turned out NOT to be the limit, which is worth saying
-   because it is the usual reason a logo has a floor. The wordmark's
-   typical stem is 8.15 units of a 65.23-unit canvas — 12.5% of the height
-   — and even the 5th percentile is 7.62. A stem that thick only rounds
-   away below 9px tall. The mark is sturdier still: median stem 10.75 of
-   48.58, or 22%.
+   Stroke rendering is not the limit, which is worth saying because it is
+   the usual reason a logo has a floor: the median stem is 10.75 of 48.58,
+   or 22% of the height. The only feature that can close is the gap between
+   the E and its dot, 7.33 units — 15%, so 2.4px at 16px tall and still
+   plainly a gap. The E has no enclosed counters at all, which is why it
+   survives being small better than most monograms.
 
-   So the floors below are legibility floors, not rendering ones.
+   WORDMARK — the shape is 4.01:1, so 24px tall is 96px wide across nine
+   characters, about 10.7px each. That is where it stops being a word and
+   starts being a texture.
 
-   WORDMARK 24px. The shape is 3.96:1, so 24px tall is 95px wide, and
-   "Edgistify" is nine characters — about 10.5px each. That is the point
-   where it stops being a word and starts being a texture. Nothing breaks
-   below it; it just stops being read.
-
-   MARK 16px. The only feature that can close is the gap between the E and
-   its dot, 7.33 units of 48.58 — 15% of the height, so 2.4px at 16px tall
-   and still plainly a gap. The E itself has no enclosed counters at all,
-   which is why it survives being small better than most monograms. */
+   The wordmark floor is a judgement about reading, not a measurement:
+   the numbers above were taken on the 2020 drawing, and the 2024 one that
+   replaced it is a raster, so the same histogram cannot be run on it
+   without conflating the artwork with its export resolution. */
 .ed-logo--mark-min { min-height: 16px; }
 .ed-logo--word-min { min-height: 24px; }
 
