@@ -340,13 +340,22 @@
    stop. The dot is the mark: it is the one place the brand colour
    appears at rest on a light page. Never letter-space it, never
    colour the word itself. */
+/* The wordmark is ARTWORK, not type. It was set in Inter Bold with a CSS
+   period until the brand files arrived; it now renders brand/edgistify-
+   wordmark.svg through <Logo variant="wordmark">.
+
+   font-size survives as the size lever because .ed-logo is height: 1em —
+   so the three size steps below still work, and still scale with the
+   marketing type scale, without this file knowing the artwork's ratio. */
 .ed-mk-wordmark {
-  display: inline-flex; align-items: baseline;
-  font: var(--ed-weight-bold) var(--ed-text-2xl)/1 var(--ed-font-ui);
-  letter-spacing: -0.03em;
+  display: inline-flex; align-items: center;
+  font-size: var(--ed-text-2xl);
+  line-height: 1;
   color: var(--ed-text); text-decoration: none;
 }
-.ed-mk-wordmark::after { content: '.'; color: var(--ed-brand); }
+/* No ::after. The dot is not part of the word — it belongs to the E.
+   monogram, which is its own asset (<Logo />). Appending one here put a
+   dot on the brand that the brand does not have. */
 .ed-mk-wordmark--lg { font-size: var(--ed-text-3xl); }
 .ed-mk-wordmark--sm { font-size: var(--ed-text-xl); }
 

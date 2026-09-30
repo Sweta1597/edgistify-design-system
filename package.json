@@ -1,6 +1,6 @@
 {
   "name": "@edgistify/design-system",
-  "version": "0.10.4",
+  "version": "0.11.2",
   "description": "Edgistify design system — one visual language for the seller dashboard, warehouse apps and support docs.",
   "type": "module",
   "exports": {
@@ -84,7 +84,15 @@
     "./react/marketing/Header": {
       "types": "./react/marketing/Header.d.ts",
       "default": "./react/marketing/Header.jsx"
-    }
+    },
+    "./logo.css": {
+      "default": "./dist/logo.css"
+    },
+    "./react/Logo": {
+      "types": "./react/Logo.d.ts",
+      "default": "./react/Logo.jsx"
+    },
+    "./brand/*": "./brand/*"
   },
   "files": [
     "dist",
@@ -93,7 +101,8 @@
     "react",
     "icons",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "brand"
   ],
   "scripts": {
     "test": "npm run check:contrast && npm run lint:grid && npm run lint:scale && npm run lint:tokens && npm run lint:tokens-fresh && npm run lint:icons",

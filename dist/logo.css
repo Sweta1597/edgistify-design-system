@@ -1,0 +1,109 @@
+/* Edgistify Design System — logo
+   ------------------------------------------------------------------
+   The mark is #00a699, which is --ed-teal-500 exactly. The colour ramp
+   was built outward from the logo, so there is no separate "brand
+   colour" token to keep in step — the logo IS teal-500 and the palette
+   already knows it.
+
+   Everything here sizes and spaces. Colour comes from the surrounding
+   `color`, because the artwork is drawn in currentColor.
+   ------------------------------------------------------------------ */
+
+.ed-logo {
+  /* Height-driven, like text. A logo beside a word should track that
+     word's size, and only height can do that — the mark and the wordmark
+     have very different aspect ratios (1.03 and 3.96), so a width-driven
+     rule would make them wildly different heights side by side. */
+  height: 1em;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+  /* Nothing in the artwork is stroked, but a consumer dropping it inside
+     an icon context would otherwise inherit a stroke-width meant for
+     20px line icons. */
+  stroke: none;
+}
+
+/* ---- sizes ---------------------------------------------------------- */
+/* Named steps rather than a free height, so two teams do not arrive at
+   17px and 18px. These are the sizes the product actually uses. */
+.ed-logo--sm { height: 20px; }   /* dense headers, table cells */
+.ed-logo--md { height: 28px; }   /* app header, the default       */
+.ed-logo--lg { height: 40px; }   /* auth screens, empty states    */
+.ed-logo--xl { height: 64px; }   /* splash, marketing hero        */
+
+/* ---- minimum sizes -------------------------------------------------- */
+/* Measured by rasterising each shape at 1600px and reading the ink-run
+   histogram back in viewBox units.
+
+   Stroke rendering turned out NOT to be the limit, which is worth saying
+   because it is the usual reason a logo has a floor. The wordmark's
+   typical stem is 8.15 units of a 65.23-unit canvas — 12.5% of the height
+   — and even the 5th percentile is 7.62. A stem that thick only rounds
+   away below 9px tall. The mark is sturdier still: median stem 10.75 of
+   48.58, or 22%.
+
+   So the floors below are legibility floors, not rendering ones.
+
+   WORDMARK 24px. The shape is 3.96:1, so 24px tall is 95px wide, and
+   "Edgistify" is nine characters — about 10.5px each. That is the point
+   where it stops being a word and starts being a texture. Nothing breaks
+   below it; it just stops being read.
+
+   MARK 16px. The only feature that can close is the gap between the E and
+   its dot, 7.33 units of 48.58 — 15% of the height, so 2.4px at 16px tall
+   and still plainly a gap. The E itself has no enclosed counters at all,
+   which is why it survives being small better than most monograms. */
+.ed-logo--mark-min { min-height: 16px; }
+.ed-logo--word-min { min-height: 24px; }
+
+/* ---- clear space ---------------------------------------------------- */
+/* Half the logo's height on every side.
+
+   Driven by --ed-logo-h rather than `em`, and that is the whole trick.
+   `padding: 0.5em` on the wrapper looks like it says "half the logo" but
+   does not: em resolves against the WRAPPER's font-size, which is whatever
+   the page inherited. It measured 6.3px around a 40px logo — a ratio of
+   0.16, not 0.5 — and it silently got worse the larger the logo.
+
+   One variable sets both the artwork's height and the padding, so they
+   cannot drift.
+
+   Padding on a wrapper, not margin on the logo: margin collapses against
+   neighbours and vanishes entirely in a flex row, which is exactly where a
+   header logo lives. */
+.ed-logo-lockup {
+  --ed-logo-h: 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: calc(var(--ed-logo-h) * 0.5);
+}
+/* Inside a lockup the height comes from the variable, so DON'T also add an
+   .ed-logo--* size class — that would set a height the padding knows
+   nothing about and put the ratio back where it started. Use the lockup's
+   own steps instead. */
+.ed-logo-lockup > .ed-logo { height: var(--ed-logo-h); }
+.ed-logo-lockup--sm { --ed-logo-h: 20px; }
+.ed-logo-lockup--md { --ed-logo-h: 28px; }
+.ed-logo-lockup--lg { --ed-logo-h: 40px; }
+.ed-logo-lockup--xl { --ed-logo-h: 64px; }
+
+/* ---- on a photograph or a busy ground ------------------------------- */
+/* The brand ships no outlined or knockout variant, so the answer to a
+   busy background is a plate behind the logo rather than an outline
+   around it. --ed-white and --ed-neutral-950 rather than literal white
+   and black, so it follows the theme. */
+.ed-logo-plate {
+  --ed-logo-h: 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: calc(var(--ed-logo-h) * 0.5);
+  border-radius: var(--ed-radius-control);
+  background: var(--ed-white);
+  color: var(--ed-teal-500);
+}
+.ed-logo-plate > .ed-logo { height: var(--ed-logo-h); }
+[data-theme="dark"] .ed-logo-plate {
+  background: var(--ed-neutral-950);
+  color: var(--ed-teal-400);
+}

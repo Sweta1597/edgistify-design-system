@@ -1,6 +1,7 @@
 import '@/styles/marketing.css';
 import Link from 'next/link';
 import { MarketingDemo } from '@/components/demos/MarketingDemo';
+import { Logo } from '@edgistify/design-system/react/Logo';
 
 export const metadata = {
   title: 'Brand',
@@ -28,11 +29,19 @@ export default function BrandPage() {
       </p>
 
       <h2>Wordmark</h2>
+      <div className="note">
+        <span className="k">CORRECTED</span>
+        <p>This page used to describe the wordmark as lowercase <em>edgistify</em> set in Inter
+        Bold with a teal full stop appended in CSS. That was a stand-in written before the brand
+        files were available, and it was wrong on all three counts. The real wordmark is drawn
+        letterforms, capitalised <em>Edgistify</em>, and carries no dot — the dot belongs to the
+        <em> E.</em> monogram, which is a separate asset. <code className="mono">Wordmark</code> now
+        renders the real artwork. See <a href="/foundations/logo">Logo</a>.</p>
+      </div>
       <p>
-        Lowercase <em>edgistify</em> in the interface face, bold, tight, with a teal full stop.
-        The dot is the mark: it is the one place the brand colour appears at rest on a light
-        page. Never letter-space it, never colour the word, never set it in the mono face.
-        It is text, so it is crisp at every size and costs no request.
+        The drawn wordmark, in <code className="mono">currentColor</code>. Never letter-space it,
+        never redraw it in a font, never add the dot back. It ships as one SVG rather than one
+        file per colour, so it takes the colour of whatever it sits in.
       </p>
       <MarketingDemo code={`
 <div style={{ display: 'flex', gap: 40, alignItems: 'baseline', padding: 32, flexWrap: 'wrap' }}>
@@ -40,7 +49,7 @@ export default function BrandPage() {
   <Wordmark />
   <Wordmark size="sm" />
 </div>
-`} caption="Three sizes. The dot is always --ed-brand." />
+`} caption="Three sizes. font-size drives it, because .ed-logo is height: 1em." />
 
       <h2>Where teal goes</h2>
       <p>
@@ -51,7 +60,7 @@ export default function BrandPage() {
         a display heading), used at most once on a page.
       </p>
       <div className="mk-three">
-        <div><span className="k">01 · The dot</span><div className="ed-mk"><span className="ed-mk-wordmark">edgistify</span></div><p>On the wordmark, in the header and the footer. Always.</p></div>
+        <div><span className="k">01 · The monogram</span><div className="ed-mk"><span className="ed-mk-wordmark" style={{ color: 'var(--ed-brand)' }}><Logo /></span></div><p>The E. mark, in the header and the footer. The wordmark beside it stays ink.</p></div>
         <div><span className="k">02 · One brand button</span><div className="ed-mk"><button className="ed-btn ed-btn--brand">Design My Supply Chain</button></div><p>The hero action. Every other CTA is ink. Rule 04.</p></div>
         <div><span className="k">03 · The band accent</span><div className="ed-mk ed-mk-band" style={{ padding: 16, borderRadius: 8 }}><span className="ed-mk-eyebrow">EdgeAPEX · AI</span></div><p>Eyebrows, links and the EdgeAPEX strip on the dark band, at 10.3:1.</p></div>
       </div>

@@ -13,6 +13,7 @@
 @import '@edgistify/design-system/badge.css';
 @import '@edgistify/design-system/tooltip.css';
 @import '@edgistify/design-system/nav.css';
+@import '@edgistify/design-system/logo.css';
 @import '@edgistify/design-system/marketing.css';
 
 /* ── site chrome ──────────────────────────────────────────────────────
@@ -82,7 +83,10 @@ body {
 
 .brand { display: flex; align-items: center; gap: var(--ed-space-2);
          margin-bottom: var(--ed-space-6); text-decoration: none; color: inherit; }
-.brand__mark { width: 26px; height: 26px; border-radius: 7px; background: var(--ed-brand); flex: none; }
+/* Was a teal rounded square standing in for the logo. It is now the real
+   mark, so the rule sizes and colours rather than draws: no width (the
+   artwork is not square), no radius, no background. */
+.brand__mark { height: 26px; width: auto; color: var(--ed-brand); flex: none; }
 .brand__name { font-family: var(--ed-font-ui);
                font-size: var(--ed-text-lg); font-weight: var(--ed-weight-bold);
                letter-spacing: -0.01em; }

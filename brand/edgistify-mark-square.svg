@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.12 50.12" role="img" aria-labelledby="t d">
+  <title id="t">Edgistify</title>
+  <desc id="d">The Edgistify E monogram on a square canvas.</desc>
+  <!-- Same path as edgistify-mark.svg, centred on the short axis. Squaring
+       is arithmetic, not redrawing: if the mark ever changes, regenerate
+       rather than editing this offset. -->
+  <g transform="translate(0 0.77)">
+    <path fill="currentColor" d="M31.42,47.7V39.4H15.21c-2.23,0-3.78-.36-4.62-1.08s-1.28-2-1.28-3.88h0V27.81H24.12l.67-8.31H9.31V8.31H31.42V0H0V35.11q0,7,3.25,9.81T14.54,47.7H31.42Zm13.27.88c2.23,0,3.7-.36,4.39-1.08s1-2.19,1-4.42S49.76,39.4,49,38.73s-2.12-1.08-4.35-1.08-3.71.35-4.42,1-1.08,2.16-1.08,4.39.36,3.71,1.08,4.42S42.46,48.58,44.69,48.58Z"/>
+  </g>
+</svg>

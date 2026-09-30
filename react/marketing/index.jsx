@@ -1,4 +1,5 @@
 import React from 'react';
+import { Logo } from '../Logo.jsx';
 
 /**
  * Edgistify marketing kit — the brand and marketing layer.
@@ -140,9 +141,20 @@ export const Chips = ({ className = '', ...rest }) => <div className={cx('ed-mk-
 
 /* -------------------------------------------------------------- wordmark */
 
+/* This used to set the word in Inter Bold, lowercase, with a teal period
+   appended by CSS. That was a stand-in built before the brand files were
+   to hand, and it was wrong in three ways: the real wordmark is drawn
+   letterforms rather than Inter, it is capitalised "Edgistify", and it
+   carries no trailing dot at all — the dot belongs to the E. monogram,
+   which is a separate piece of artwork.
+
+   It now renders the real wordmark. The aria-label stays on the link, and
+   Logo is aria-hidden inside it, so the link is announced once. */
 export const Wordmark = ({ size, as: Tag = 'a', href = '/', className = '', ...rest }) => (
   <Tag className={cx('ed-mk-wordmark', size && `ed-mk-wordmark--${size}`, className)}
-       href={Tag === 'a' ? href : undefined} aria-label="Edgistify home" {...rest}>edgistify</Tag>
+       href={Tag === 'a' ? href : undefined} aria-label="Edgistify home" {...rest}>
+    <Logo variant="wordmark" />
+  </Tag>
 );
 
 /* ----------------------------------------------------------- utility bar */

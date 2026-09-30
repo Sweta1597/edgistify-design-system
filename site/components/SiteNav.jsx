@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Logo } from '@edgistify/design-system/react/Logo';
 
 /* One place that knows what exists. `soon` marks a page not written yet —
    saying so beats a nav that quietly omits it. */
@@ -15,6 +16,7 @@ const GROUPS = [
       { href: '/foundations/type', title: 'Type' },
       { href: '/foundations/space', title: 'Space' },
       { href: '/foundations/icons', title: 'Icons' },
+      { href: '/foundations/logo', title: 'Logo' },
     ],
   },
   {
@@ -61,7 +63,9 @@ export function SiteNav() {
     <nav className="sidebar" aria-label="Documentation" data-open={open ? 'true' : 'false'}>
       <div className="sidebar__bar">
         <Link href="/" className="brand">
-          <span className="brand__mark" aria-hidden="true" />
+          {/* The real mark, not the teal square that stood in for it. No
+              title prop: the word beside it already names the link. */}
+          <Logo className="brand__mark" />
           <span className="brand__name">Edgistify</span>
         </Link>
         <button type="button" className="nav-toggle"
