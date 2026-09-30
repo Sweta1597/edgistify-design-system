@@ -1,6 +1,6 @@
 {
   "name": "@edgistify/design-system",
-  "version": "0.10.0",
+  "version": "0.10.4",
   "description": "Edgistify design system — one visual language for the seller dashboard, warehouse apps and support docs.",
   "type": "module",
   "exports": {

@@ -158,15 +158,29 @@ export default function NavComparePage() {
           <div className="nav-pair">
             <figure style={{ maxWidth: 108 }}>
               <NavDemo soft collapsed minHeight={460} />
-              <figcaption>collapsed — a labelled rail</figcaption>
+              <figcaption>collapsed — a labelled rail, 96px</figcaption>
             </figure>
-            <figure style={{ gridColumn: 'span 2' }}>
+            <figure style={{ maxWidth: 140 }}>
+              <NavDemo soft collapsed rail minHeight={460} />
+              <figcaption>collapsed — icon only, 36px</figcaption>
+            </figure>
+            <figure>
               <div className="note" style={{ marginTop: 0 }}>
                 <span className="k">COUNTS</span>
                 <p>Removed. A number beside every other item turns the nav into a dashboard, and the counts
                 were competing with the one thing the nav has to say — which section you are in. If a count
                 genuinely has to live here, it belongs on one item, not six, and it should be a dot rather
                 than a number: at a glance nobody reads &ldquo;42&rdquo;, they read &ldquo;something.&rdquo;</p>
+              </div>
+              <div className="note">
+                <span className="k">WHICH RAIL</span>
+                <p>Both are <code className="mono">ed-nav--collapsed</code>; adding
+                <code className="mono">ed-nav--rail</code> drops the caps label and takes the width from 96px
+                to 36px. The 60px it buys back is real, and so is the cost: nine glyphs the reader has to
+                recognise, with a tooltip the only answer and only on a pointer. Take the rail when the
+                content beside it is genuinely width-starved — a wide table, a map, a split editor — and the
+                labelled one everywhere else. The width is derived from the variant&rsquo;s own icon size, so
+                warehouse mode widens it by itself.</p>
               </div>
             </figure>
           </div>

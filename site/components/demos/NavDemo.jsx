@@ -59,7 +59,7 @@ const TREE = [
   },
 ];
 
-export function NavDemo({ collapsed = false, light = false, soft = false, minHeight = 560 }) {
+export function NavDemo({ collapsed = false, light = false, soft = false, rail = false, minHeight = 560 }) {
   const [current, setCurrent] = useState('Manifests');
   const [open, setOpen] = useState({ 'B2C Outward': true });
 
@@ -68,7 +68,7 @@ export function NavDemo({ collapsed = false, light = false, soft = false, minHei
 
   return (
     <nav
-      className={`ed-nav${collapsed ? ' ed-nav--collapsed' : ''}${light ? ' ed-nav--light' : ''}${soft ? ' ed-nav--soft' : ''}`}
+      className={`ed-nav${collapsed ? ' ed-nav--collapsed' : ''}${light ? ' ed-nav--light' : ''}${soft ? ' ed-nav--soft' : ''}${rail ? ' ed-nav--rail' : ''}`}
       aria-label="Demo"
       style={{ borderRadius: 10, minHeight }}
     >
@@ -76,7 +76,7 @@ export function NavDemo({ collapsed = false, light = false, soft = false, minHei
         <div key={g.group}>
           <div className="ed-nav__group">
             {g.group}
-            {soft && (
+            {soft && !rail && (
               /* Scenery, not a control: this is where a popup trigger will
                  go. aria-hidden so a screen reader is not told about a
                  button that does not exist yet. */

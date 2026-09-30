@@ -178,8 +178,38 @@ for a focus indicator. The pill is white; the keyboard ring is ink.
 </nav>
 ```
 
-Classes: `ed-nav`, `ed-nav--collapsed`, `ed-nav__group`, `ed-nav__item`,
-`ed-nav__icon`, `ed-nav__label`, `ed-nav__caret`, `ed-nav__sub`.
+Classes: `ed-nav`, `ed-nav--collapsed`, `ed-nav--rail`, `ed-nav__group`,
+`ed-nav__item`, `ed-nav__icon`, `ed-nav__label`, `ed-nav__caret`,
+`ed-nav__sub`.
+
+### The two collapsed widths
+
+`ed-nav--collapsed` on the soft variant gives a **labelled rail**: the icon
+with a 10px all-caps label under it, two lines then ellipsis, **96px** wide
+(112px in warehouse mode, where `--ed-text-2xs` steps up to 12px). 96px is
+measured, not picked — below it `DASHBOARD` clips mid-word.
+
+Adding `ed-nav--rail` gives an **icon-only rail** at **36px** on the soft
+variant (40px on the default one, which uses 24px icons): the label is
+clipped rather than removed, so it is still the item's accessible name, and
+the group headings stay as dividing rules. The width is
+`--ed-nav-glyph + --ed-space-2 * 2` — `--ed-nav-glyph` being the variant's
+own icon size — so warehouse mode widens it by itself rather than clipping
+its larger icons.
+
+```html
+<nav class="ed-nav ed-nav--soft ed-nav--collapsed ed-nav--rail"> … </nav>
+```
+
+Two notes for whoever wires this up:
+
+- **Pair the rail with `Tooltip`.** With no visible label, a tooltip is the
+  only naming a sighted pointer user gets — and it is nothing at all for
+  touch. That is the trade being made; the labelled rail exists because it
+  is often not worth 56px.
+- **Do not hide the label with `display:none`.** The CSS clips it instead.
+  Removing it from the accessibility tree turns the rail into nine unnamed
+  buttons.
 
 ### `aria-current` vs `data-within`
 
