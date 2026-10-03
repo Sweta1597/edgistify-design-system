@@ -33,7 +33,18 @@ versions follow [semver](https://semver.org/).
     `LoopDiagram`, `Definition`, `ResultCard`, `VideoPlaceholder`, `Network`,
     `Steps`, `PricingCard`/`PricingRule`, `Faq` (native `<details>`, no JS),
     `CtaBand`, `Doors`, `Footer`, and `SiteHeader` (disclosure mega-menus and
-    a drawer; the only client component).
+    a drawer; the only client component). `SiteHeader` takes `tone="ink"` for
+    the dark header: bar and panels are ink, the wordmark stays teal. Hovering a
+    top-level item dims its siblings rather than painting a pill behind it;
+    hovering a menu item turns its name teal and its description white. Menus open on hover with a mouse and on click with anything else. The
+    panel is full width: three quarters sub-menu (one column per group, an
+    icon and a name per item), one quarter related content (`aside`: a card
+    and a list), and a footer strip carrying the `lead` link (a waving hand, a
+    sentence, an arrow that grows its tail on hover) and optionally `footer`
+    links. The sub-menu sets the panel's height; the aside fits inside it,
+    its card fixed and its list scrolling. The aside's label sits on the
+    same line as the group labels. Its `links` show a small white title
+    over a grey line; on hover the title turns teal and the line white.
   - **RULE 05 — no placeholder facts.** `<Pending>` renders a dashed slot
     where a number, logo or city is not yet verified. `StatStrip`,
     `ResultCard`, `Network` and `Press` all route unverified values through
@@ -43,6 +54,90 @@ versions follow [semver](https://semver.org/).
   - **One brand button per viewport.** `variant="brand"` on the hero action
     only; `primary` (ink) everywhere else. RULE 04, restated for a page that
     scrolls.
+  - **Announcement bar** (`react/marketing/Announcement`): the one-line strip
+    above the header — newsletter, report, event, offer. Three formats in
+    one component (whole-line link, text + link, text + button), three tones
+    (ink, brand, tint), a close button on every bar remembered per `id`,
+    and an `end` slot at the right edge for a small text button (Login).
+  - **Prompt** (`react/marketing/Prompt`): the requirement composer — a
+    large text field, a website-URL field bottom left, attach and voice
+    buttons bottom right, one submit (or `submit={false}` for Enter only) —
+    with `.ed-mk-glow` for the dark, lit backdrop and `WaveMesh`, a teal
+    wireframe wave surface drawn as deterministic inline SVG, for the dark,
+    lit backdrop behind it. The "describe it in your own words" first touch.
+  - **Explorer** (`Explorer`, `ExplorerNav`, `ExplorerPanel`, `FeatureCard`):
+    a side list and panels — one quarter areas, three quarters content as
+    feature cards, either one chosen panel or all of them stacked in a
+    stream with the list highlighting as you scroll. The Services page is
+    built on it.
+  - **ShowcaseCard**: image on top, title and a line below; as a link it
+    lifts on hover, an arrow appears beside the title and a teal light on
+    its edge follows the cursor (`spotlight` pointer handler). `ExplorerPanel` takes `eyebrow` and `cols={3}`.
+  - `Footer` takes `tone="ink"` for pages that are dark to the bottom.
+  - **Hero `variant="bento"`**: copy on the left, a `Bento` on the right.
+    Headline, lede and call to action sit as one group at the vertical
+    middle of the bento's height. Spacing steps 1n, 2n, 3n: headline to
+    lede, lede to call to action, call to action to the logo marquee.
+    The bento meets the header and bleeds to the window's right edge
+    (full width on phones); its blocks have square corners.
+  - **Bento** (`Bento`, `BentoTile`, `BentoHub`, `BentoOrbit`): three
+    blocks stacked vertically, 1 : 2 : 1, the middle one the hub with the
+    mark. One set of rings centred on the hub runs behind all three, so
+    they read as connected; arcs travel round the rings and a pulse
+    ripples out. One block is open at a time, at twice the height, the
+    rings sliding with the hub (Shopify's unified-commerce strip, turned
+    vertical). The open block cycles every two seconds (`cycle`, via the
+    client `BentoMotion`); the block under the mouse stays open. On the
+    dark tone the blocks take the page's ink, so the rings, broken by the
+    gaps, are what mark them out. No glow behind the hub or around the
+    mark. The drawing fades out toward the bento's outer edges
+    (`--ed-mk-bento-fade-x`, `--ed-mk-bento-fade-y`) so it melts into the page. `orbit` puts channel tiles on a ring that
+    circles through the bottom block. `tone="dark"` (default) or `"light"`.
+    Motion stops under reduced motion; the hover needs a mouse.
+  - **ExpandOnScroll** (`react/marketing/Expand`, client): a panel that
+    widens from inset sides to full width as it scrolls in, its content
+    rising into place (Freshworks' platform panel). `tone="light"` puts
+    the light roles back inside it for a dark page.
+  - **ShowcaseTabs** (`react/marketing/ShowcaseTabs`, client): tabs over
+    copy · product screen · one figure; the parts enter from the left,
+    below and right on each switch. Arrow keys move between tabs. Each
+    tab can carry an icon in the label's colour; the row centres when it
+    fits and scrolls from the first tab when it does not. The panel's
+    heading stays on one line on wide screens.
+  - **Screen**: a product-screen frame; without `image`, a dashed slot.
+  - **ScrollCards** (`react/marketing/ScrollCards`, client): a pinned
+    stage under the header; the page's scroll moves the cards sideways,
+    first to last, with the front card's copy on the left, then the page
+    scrolls on. Passed cards fade out, the next waits dimmed. A swipe row
+    on phones. `lead` adds space above in multiples of the stage's own
+    top space (lead={1} doubles the gap from the section before).
+  - **SystemCard**: a system drawn as a small product card — icon, name,
+    line, and three capabilities as a tree.
+  - **LoopHalo** (`react/marketing/LoopHalo`, client): Attio's halo — a
+    half circle exactly as wide as the page under a small line and a large
+    title; the section ends at its equator, so the rim meets both page
+    edges and the black runs straight on into the next section. The rim
+    is lit by a conic band of teals at three blurs; scrolling sweeps the
+    glow from the left edge over the crown to the right, completing the
+    halo. `nodes` sit on the rim and light as the glow reaches them;
+    `inner` sits inside the dome. Hairlines and drifting streaks behind.
+  - **RuledColumns**: columns under a small label, each with a hairline on
+    top — title, a line or two, optional link.
+  - **LoopCompare**: open loop against closed loop — muted dashed steps
+    ending at a wall, then teal steps with a drawn return path.
+  - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
+    white; on hover the button goes black with a light-teal label, and a
+    light-teal edge light covers about half the border, centred on the
+    cursor.
+  - **LogoMarquee**: monochrome logos drifting left with faded edges;
+    pauses on hover, still under reduced motion. A logo without `src`
+    shows its name in plain type until the file arrives.
+  - **`.ed-mk-serif`** and `--ed-mk-font-serif`: a serif italic phrase
+    inside an Inter headline (Lora Variable, loaded by the app).
+  - **`ed-btn--pill`** inside `.ed-mk`: a pill-shaped button, for marketing
+    calls to action only. It replaces the
+    utility bar as the first thing on the page; Partners, Careers and Client
+    login move to the footer and the three doors.
   - Docs: a **Marketing** group on the site — overview and rules, brand
     (wordmark, colour, type, voice, claims), the component gallery, and the
     landing-page recipe.

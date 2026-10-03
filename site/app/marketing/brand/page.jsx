@@ -96,12 +96,16 @@ export default function BrandPage() {
     <Button variant="secondary" size="lg">WhatsApp us</Button>
   </Actions>
   <Actions>
+    <Button className="ed-btn--pill">Contact Sales<Icon icon={ArrowRight} size="sm" /></Button>
+    <Button variant="secondary" className="ed-btn--pill">Talk to us</Button>
+  </Actions>
+  <Actions>
     <Button>Book my diagnostic</Button>
     <Button variant="secondary">Copy summary</Button>
     <Button variant="link">Walk a live warehouse →</Button>
   </Actions>
 </div>
-`} caption="Row one is the hero. Row two is every other section." />
+`} caption="Row one is the hero. Row two is every other section. Row three is the pill, a marketing-only option (ed-btn--pill) used for the header's Contact Sales." />
 
       <h2>Voice</h2>
       <table>

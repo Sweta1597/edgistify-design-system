@@ -62,6 +62,9 @@
   /* ---- display type: fluid, capped. A 56px headline on a phone is
      three words a line; the clamp lands at 36 there. --------------- */
   --ed-mk-text-display: clamp(2.25rem, 1.5rem + 2.4vw, 3.25rem);  /* 36 → 52 */
+  /* The second voice for headlines: a serif italic set against Inter.
+     Load 'Lora Variable' (italic axis) in the app; Georgia stands in. */
+  --ed-mk-font-serif: 'Lora Variable', Lora, Georgia, 'Times New Roman', serif;
   --ed-mk-text-h1:      clamp(2rem,    1.45rem + 1.9vw, 2.75rem);  /* 32 → 44 */
   --ed-mk-text-h2:      clamp(1.625rem, 1.3rem + 1.15vw, 2.25rem); /* 26 → 36 */
   --ed-mk-text-h3:      clamp(1.25rem, 1.15rem + 0.35vw, 1.5rem);  /* 20 → 24 */
@@ -114,6 +117,11 @@
 :where(.ed-mk a) { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .18em; }
 :where(.ed-mk a:hover) { color: var(--ed-text-link); }
 
+/* Pill buttons. A marketing option only: the products keep the 8px control
+   radius, but a call to action on a dark header reads better as a pill.
+   Add `ed-btn--pill` beside the variant; nothing else changes. */
+.ed-mk .ed-btn--pill { border-radius: var(--ed-radius-pill); padding-inline: var(--ed-space-6); }
+
 /* ==================================================================
    2. TYPE
    ================================================================== */
@@ -146,6 +154,14 @@
 
 /* The one teal word in a headline: the thing we want remembered. */
 .ed-mk-display em, .ed-mk-h1 em, .ed-mk-h2 em { font-style: normal; color: var(--ed-text-link); }
+/* Two-typeface headline: the words in `.ed-mk-serif` switch to the serif
+   italic, in the headline's own colour. Use it for one phrase, never the
+   whole line. The serif runs small next to Inter, so it is set up a touch. */
+.ed-mk-serif,
+.ed-mk-display em.ed-mk-serif, .ed-mk-h1 em.ed-mk-serif, .ed-mk-h2 em.ed-mk-serif {
+  font-family: var(--ed-mk-font-serif); font-style: italic; font-weight: var(--ed-weight-semibold);
+  font-size: 1.06em; letter-spacing: -0.01em; color: inherit;
+}
 
 .ed-mk-lede {
   margin: 0;
@@ -220,6 +236,9 @@
   --ed-secondary-hover:   var(--ed-neutral-700);
   --ed-on-secondary:      var(--ed-white);
   --ed-icon-accent:       var(--ed-mk-band-accent);
+  --ed-brand-subtle:      var(--ed-teal-900);   /* tile icon plates on the band */
+  --ed-brand-muted:       var(--ed-teal-800);
+  --ed-on-brand-subtle:   var(--ed-teal-300);
   --ed-elevation-1: none;
 }
 .ed-mk-section--band .ed-mk-eyebrow { color: var(--ed-mk-band-accent); }
@@ -360,6 +379,73 @@
 .ed-mk-wordmark--sm { font-size: var(--ed-text-xl); }
 
 /* ==================================================================
+   7b. ANNOUNCEMENT BAR — the strip above the header
+   ------------------------------------------------------------------
+   One line, one link, sitewide. Newsletter, a report, an event, an
+   offer. It replaces the utility bar as the first thing on the page:
+   the non-buyer routes (Partners, Careers, Client login) live in the
+   footer and the three doors instead.
+
+   Three formats, one component:
+     link           the whole line is the link       "Join the newsletter ↗"
+     text + link    a statement, then a link         "…changes. Subscribe →"
+     text + button  a statement, then a small button (offers, events)
+
+   Rules: one bar at a time; one message under ~90 characters; the link
+   says what happens ("Subscribe", "Read the report"), never "Click
+   here"; never a status colour — it is ink, brand or tint. Not sticky:
+   it scrolls away, the header stays. Always closable: the × is on every
+   bar, and the choice is remembered per message id. */
+.ed-mk-announce {
+  position: relative;
+  background: var(--ed-mk-band-surface);
+  color: var(--ed-mk-band-text);
+  font-size: var(--ed-text-sm);
+  line-height: 1.35;
+}
+.ed-mk-announce__in {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: var(--ed-space-1) var(--ed-space-3);
+  min-height: 44px; padding-block: var(--ed-space-2);
+  padding-right: var(--ed-space-12);   /* room for the × */
+  text-align: center;
+}
+.ed-mk-announce__msg { margin: 0; font-weight: var(--ed-weight-medium); }
+.ed-mk-announce__link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--ed-text-link);   /* the band accent on ink, teal-600 on tint */
+  font-weight: var(--ed-weight-semibold); text-decoration: none;
+  text-underline-offset: .2em;
+}
+.ed-mk-announce__link:hover { color: inherit; text-decoration: underline; }
+.ed-mk-announce__link > svg { width: 14px; height: 14px; flex: none; transition: translate var(--ed-mk-dur) var(--ed-mk-ease); }
+.ed-mk-announce__link:hover > svg { translate: 2px 0; }
+.ed-mk-announce__link--external:hover > svg { translate: 2px -2px; }
+/* The right-hand slot: a small text link (Login) and/or the ×. */
+.ed-mk-announce__end {
+  position: absolute; right: var(--ed-mk-gutter); top: 50%; translate: 0 -50%;
+  display: inline-flex; align-items: center; gap: var(--ed-space-2);
+}
+.ed-mk-announce__end .ed-btn { height: 30px; font-size: var(--ed-text-xs); padding-inline: var(--ed-space-2); min-width: 0; color: inherit; }
+.ed-mk-announce__end .ed-btn > svg { width: var(--ed-icon-xs); height: var(--ed-icon-xs); }
+.ed-mk-announce__close {
+  position: static; translate: none;
+  width: 32px; height: 32px; display: grid; place-items: center;
+  border: 0; border-radius: var(--ed-radius-control); background: transparent; color: inherit;
+  cursor: pointer; opacity: .75;
+}
+.ed-mk-announce__close:hover { opacity: 1; background: color-mix(in srgb, currentColor 12%, transparent); }
+.ed-mk-announce__close > svg { width: 14px; height: 14px; }
+.ed-mk-announce--has-end .ed-mk-announce__in { padding-right: 140px; }
+/* tones */
+.ed-mk-announce--brand { background: var(--ed-brand); color: var(--ed-on-brand); }
+.ed-mk-announce--brand .ed-mk-announce__link { color: inherit; }
+.ed-mk-announce--tint  { background: var(--ed-canvas); color: var(--ed-text); border-bottom: 1px solid var(--ed-border-subtle); }
+/* a small button inside: the same Button, at xs */
+.ed-mk-announce .ed-btn { height: 30px; font-size: var(--ed-text-sm); padding-inline: var(--ed-space-3); min-width: 0; }
+@media (max-width: 480px) { .ed-mk-announce { font-size: var(--ed-text-xs); } .ed-mk-announce__in { justify-content: flex-start; text-align: left; } }
+
+/* ==================================================================
    8. UTILITY BAR + HEADER + MEGA MENU + DRAWER
    ================================================================== */
 .ed-mk-utility {
@@ -380,6 +466,23 @@
   border-bottom: 1px solid var(--ed-border-subtle);
 }
 .ed-mk-header__in { display: flex; align-items: center; gap: var(--ed-space-6); min-height: 68px; }
+/* The ink header: the band roles re-mapped, so the triggers, the menu
+   panels, the drawer and the buttons inside all come out dark without a
+   second set of rules. Pair it with the ink announcement bar; the rule
+   between them is the only thing that tells them apart. */
+/* Solid ink, the same as the panels and the strip above it, so the three
+   read as one surface; the blur behind a translucent bar would make the
+   header a fourth shade whenever the page scrolled under it. */
+.ed-mk-header--ink {
+  background: var(--ed-mk-band-surface);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  border-bottom-color: var(--ed-mk-band-border);
+}
+.ed-mk-header--ink .ed-mk-navitem__trigger { color: var(--ed-neutral-200); }
+.ed-mk-header--ink .ed-mk-header__nav .ed-mk-navitem__trigger:hover,
+.ed-mk-header--ink .ed-mk-header__nav .ed-mk-navitem__trigger[aria-expanded="true"] { color: var(--ed-white); }
+.ed-mk-announce.ed-mk-band { border-bottom: 1px solid var(--ed-mk-band-border); }
+
 .ed-mk-header__nav { display: flex; align-items: center; gap: var(--ed-space-1); margin-left: var(--ed-space-4); }
 .ed-mk-header__spacer { flex: 1; }
 .ed-mk-header__actions { display: flex; align-items: center; gap: var(--ed-space-3); }
@@ -393,39 +496,206 @@
   font: var(--ed-weight-medium) var(--ed-text-md)/1 var(--ed-font-ui);
   color: var(--ed-text-secondary); text-decoration: none; cursor: pointer;
 }
-.ed-mk-navitem__trigger:hover, .ed-mk-navitem__trigger[aria-expanded="true"] { background: var(--ed-secondary-surface); color: var(--ed-text); }
+/* The hovered or open item is the only one at full strength; its siblings
+   step back. No pill behind it — the contrast between the one and the rest
+   is the highlight. */
+.ed-mk-header__nav:hover .ed-mk-navitem__trigger,
+.ed-mk-header__nav:has([aria-expanded="true"]) .ed-mk-navitem__trigger { color: var(--ed-mk-menu-dim); }
+.ed-mk-header__nav .ed-mk-navitem__trigger:hover,
+.ed-mk-header__nav .ed-mk-navitem__trigger[aria-expanded="true"] { color: var(--ed-text); background: transparent; }
+.ed-mk-header { --ed-mk-menu-dim: var(--ed-neutral-500); }
 .ed-mk-navitem__trigger > svg { width: 14px; height: 14px; transition: rotate var(--ed-mk-dur); }
 .ed-mk-navitem__trigger[aria-expanded="true"] > svg { rotate: 180deg; }
 
-/* The panel: one column per group, each row a title and a one-line
-   outcome. Wide enough to read, never wider than the viewport. */
+/* The panel: full width under the header, like the products menus on
+   Shopify or Stripe. Three quarters of it is the sub-menu — one column per
+   group, an icon and a name per item — and the last quarter is related
+   content: a card and a short list. A footer strip runs under both with
+   the "View all" link and up to three secondary links.
+
+   Anchored to the header, not to the trigger, so it can span the page.
+   The header is sticky, which makes it the containing block. The panel is
+   still a DOM child of its trigger's wrapper, so hover-leave works. */
+.ed-mk-navitem { position: static; }
 .ed-mk-menu {
-  position: absolute; top: calc(100% + 6px); left: 0;
-  min-width: 300px; max-width: min(92vw, 880px);
-  padding: var(--ed-space-3);
+  position: absolute; top: 100%; left: 0; right: 0;
   background: var(--ed-surface-raised);
-  border: 1px solid var(--ed-border);
-  border-radius: var(--ed-radius-panel);
+  border-bottom: 1px solid var(--ed-border);
   box-shadow: var(--ed-elevation-3);
   display: none; z-index: var(--ed-z-dropdown);
 }
 .ed-mk-menu[data-open="true"] { display: block; }
-.ed-mk-menu--cols { display: none; grid-template-columns: repeat(var(--cols, 2), minmax(220px, 1fr)); gap: var(--ed-space-2); }
-.ed-mk-menu--cols[data-open="true"] { display: grid; }
-.ed-mk-menu__group { padding: var(--ed-space-2); min-width: 0; }
-.ed-mk-menu__label { margin: 0 var(--ed-space-3) var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui);
-                     letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-menu__in {
+  display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  padding-block: var(--ed-space-8);
+  align-items: start;
+}
+.ed-mk-menu:not(.ed-mk-menu--aside) .ed-mk-menu__in { grid-template-columns: minmax(0, 1fr); }
+/* The lead: the footer strip's link to the page the menu summarises.
+   No box — a waving hand, the sentence and an arrowhead, all teal. On
+   hover everything turns white, the hand waves, and the arrowhead grows
+   its tail. */
+.ed-mk-menu__lead {
+  display: inline-flex; align-items: center; gap: var(--ed-space-2);
+  margin: 0; padding: 0;
+  color: var(--ed-mk-band-accent); text-decoration: none;
+  font: var(--ed-weight-semibold) var(--ed-text-md)/1.2 var(--ed-font-ui);
+  transition: color var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-menu__lead-hand { width: 20px; height: 20px; flex: none; transform-origin: 70% 90%; }
+.ed-mk-menu__lead-arrow { width: 18px; height: 18px; flex: none; translate: -6px 0; transition: translate var(--ed-mk-dur) var(--ed-mk-ease); }
+.ed-mk-menu__lead-tail { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .22s var(--ed-mk-ease); }
+.ed-mk-menu__lead:hover { color: var(--ed-white); }
+.ed-mk-menu__lead:hover .ed-mk-menu__lead-arrow { translate: 0 0; }
+.ed-mk-menu__lead:hover .ed-mk-menu__lead-tail { stroke-dashoffset: 0; }
+.ed-mk-menu__lead:hover .ed-mk-menu__lead-hand { animation: ed-mk-wave .9s ease-in-out infinite; }
+@keyframes ed-mk-wave { 0%, 100% { rotate: 0deg; } 25% { rotate: 18deg; } 75% { rotate: -12deg; } }
+@media (prefers-reduced-motion: reduce) { .ed-mk-menu__lead:hover .ed-mk-menu__lead-hand { animation: none; } }
+/* On a light header: teal at rest, ink on hover. */
+.ed-mk-header:not(.ed-mk-header--ink) .ed-mk-menu__lead { color: var(--ed-text-link); }
+.ed-mk-header:not(.ed-mk-header--ink) .ed-mk-menu__lead:hover { color: var(--ed-text); }
+.ed-mk-menu__main { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--ed-space-8) var(--ed-space-6); }
+.ed-mk-menu__group { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ed-mk-menu__label {
+  margin: 0 0 var(--ed-space-3); padding-inline: var(--ed-space-2);
+  font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-link);
+}
+/* Icon left, name and one descriptive line to its right. Rows are given
+   room to breathe because the description is what sells the item. */
 .ed-mk-menu__item {
-  display: flex; flex-direction: column; gap: 2px;
-  padding: var(--ed-space-2) var(--ed-space-3);
+  display: flex; align-items: flex-start; gap: var(--ed-space-3);
+  padding: var(--ed-space-2-5) var(--ed-space-2); margin-inline: 0;
   border-radius: var(--ed-radius-card);
   text-decoration: none; color: var(--ed-text);
 }
-.ed-mk-menu__item:hover { background: var(--ed-surface-hover); color: var(--ed-text); }
-.ed-mk-menu__item b { font-weight: var(--ed-weight-semibold); font-size: var(--ed-text-md); display: flex; align-items: center; gap: var(--ed-space-2); }
-.ed-mk-menu__item span { font-size: var(--ed-text-xs); color: var(--ed-text-muted); line-height: 1.35; }
-.ed-mk-menu__item--plain { padding-block: 6px; }
-.ed-mk-menu__all { margin-top: var(--ed-space-1); padding: var(--ed-space-2) var(--ed-space-3); }
+/* Hover: the name turns teal, the description steps up from grey to full
+   text colour, and an arrow appears. Nothing else moves — the other items
+   keep their colour, so the panel stays calm while one row lights up. */
+.ed-mk-menu__item:hover b { color: var(--ed-text-link); }
+.ed-mk-menu__item:hover .ed-mk-menu__text > span { color: var(--ed-text); }
+.ed-mk-menu__item:hover .ed-mk-menu__icon { color: var(--ed-text-link); }
+.ed-mk-menu__item b::after {
+  content: '→'; margin-left: var(--ed-space-1); opacity: 0; translate: -4px 0;
+  transition: opacity var(--ed-mk-dur) var(--ed-mk-ease), translate var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-menu__item:hover b::after { opacity: 1; translate: 0 0; }
+.ed-mk-menu__item b, .ed-mk-menu__text > span, .ed-mk-menu__icon { transition: color var(--ed-mk-dur) var(--ed-mk-ease); }
+.ed-mk-menu__icon { flex: none; width: 22px; height: 22px; display: grid; place-items: center; color: var(--ed-text); margin-top: 1px; }
+.ed-mk-menu__icon > svg, .ed-mk-menu__icon .ed-icon { width: 20px; height: 20px; }
+.ed-mk-menu__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ed-mk-menu__item b { font-weight: var(--ed-weight-medium); font-size: var(--ed-text-md); display: flex; align-items: center; gap: var(--ed-space-2); line-height: 1.3; color: var(--ed-text); }
+/* One line each. The copy is written to fit; if a description still runs
+   long it truncates rather than wrapping, so the rows keep one rhythm. */
+.ed-mk-menu__text > span { font-size: var(--ed-text-xs); color: var(--ed-text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ed-mk-menu__text { min-width: 0; }
+.ed-mk-menu__note { margin: 0; padding: var(--ed-space-2); font-size: var(--ed-text-sm); color: var(--ed-text-muted); }
+.ed-mk-menu__all { margin-top: var(--ed-space-2); padding: var(--ed-space-2); }
+
+/* Related content, the right quarter. */
+/* The sub-menu sets the panel's height; the aside fits inside it. `height: 0`
+   keeps the aside out of the row's sizing, `min-height` then stretches it to
+   the row the sub-menu produced — plus the panel's own padding, which the
+   negative margins reclaim, so the tinted column and its rule run from the
+   top of the panel down to the footer. It also bleeds to the right edge of
+   the viewport, the way the dark column does on Shopify's menu. The card
+   keeps its size; the list takes what is left and scrolls. */
+.ed-mk-menu { overflow: hidden; }
+.ed-mk-menu__aside {
+  --ed-mk-menu-pad: var(--ed-space-8);
+  --ed-mk-menu-bleed: max(var(--ed-mk-gutter), (100vw - var(--ed-mk-container)) / 2);
+  display: flex; flex-direction: column; gap: var(--ed-space-4); min-width: 0;
+  height: 0; min-height: calc(100% + var(--ed-mk-menu-pad) * 2); overflow: hidden;
+  margin-block: calc(var(--ed-mk-menu-pad) * -1);
+  margin-right: calc(var(--ed-mk-menu-bleed) * -1);
+  /* Top padding matches the panel's, so the aside's label sits on the same
+     line as the sub-menu's group labels. */
+  padding: var(--ed-mk-menu-pad) var(--ed-mk-menu-bleed) var(--ed-space-6) clamp(20px, 3vw, 40px);
+  background: var(--ed-canvas);
+  border-left: 1px solid var(--ed-border-subtle);
+}
+.ed-mk-menu__latest { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.ed-mk-menu__latest .ed-mk-menu__label { flex: none; }
+.ed-mk-menu__aside .ed-mk-menu__label { padding-inline: 0; margin-bottom: 0; }
+/* The aside shares the sub-menu's height. When that is short, the card's art
+   strip is what gives way (down to a sliver), the list keeps at least two
+   and a half rows and scrolls; when it is tall, the list grows into the
+   space and the art recovers up to 88px. */
+/* The links at the top of the aside: a small title in the text colour and
+   one grey line under it, the Stripe "More" column. On hover the title
+   turns teal and the line steps up to full text colour, the same as the
+   sub-menu's rows. */
+.ed-mk-menu__links { display: flex; flex-direction: column; gap: var(--ed-space-3); flex: none; }
+.ed-mk-menu__link { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+.ed-mk-menu__link b { font: var(--ed-weight-medium) var(--ed-text-sm)/1.3 var(--ed-font-ui); color: var(--ed-text); }
+.ed-mk-menu__link span { font-size: var(--ed-text-xs); color: var(--ed-text-muted); line-height: 1.4; }
+.ed-mk-menu__link b, .ed-mk-menu__link span { transition: color var(--ed-mk-dur) var(--ed-mk-ease); }
+.ed-mk-menu__link:hover b { color: var(--ed-text-link); }
+.ed-mk-menu__link:hover span { color: var(--ed-text); }
+
+/* The card: a box with the image on top, then title, line and a call to
+   action. Compact, so it fits under the links in a short panel. */
+.ed-mk-menu__card { display: flex; flex-direction: column; text-decoration: none; color: var(--ed-text); flex: none;
+  border: 1px solid var(--ed-border); border-radius: var(--ed-radius-card); background: var(--ed-surface); overflow: hidden; }
+.ed-mk-menu__card-art { display: block; width: 100%; height: 96px; flex: none; border-radius: 0; background:
+  radial-gradient(circle at 70% 30%, var(--ed-brand-muted), transparent 45%), var(--ed-mk-band-surface); }
+.ed-mk-menu__card img { width: 100%; height: 96px; flex: none; object-fit: cover; display: block; }
+.ed-mk-menu__card-body { display: flex; flex-direction: column; gap: var(--ed-space-1); padding: var(--ed-space-3) var(--ed-space-4) var(--ed-space-4); }
+.ed-mk-menu__card b, .ed-mk-menu__card-body > span:not(.ed-mk-menu__card-cta) { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.ed-mk-menu__card b { font-weight: var(--ed-weight-semibold); font-size: var(--ed-text-sm); line-height: 1.3; color: var(--ed-text); -webkit-line-clamp: 2; }
+.ed-mk-menu__card-body > span:not(.ed-mk-menu__card-cta) { font-size: var(--ed-text-xs); color: var(--ed-text-muted); line-height: 1.4; -webkit-line-clamp: 2; }
+.ed-mk-menu__card-cta { display: inline-flex; align-items: center; gap: 2px; margin-top: var(--ed-space-1); font: var(--ed-weight-semibold) var(--ed-text-sm)/1 var(--ed-font-ui); color: var(--ed-text-link); }
+.ed-mk-menu__card-cta > svg { width: 14px; height: 14px; }
+.ed-mk-menu__card:hover .ed-mk-menu__card-cta { text-decoration: underline; text-underline-offset: 3px; }
+.ed-mk-menu__latest { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.ed-mk-menu__latest .ed-mk-menu__label { flex: none; }
+.ed-mk-menu__aside .ed-mk-menu__label { padding-inline: 0; margin-bottom: 0; }
+.ed-mk-menu__list {
+  list-style: none; margin: 0; padding: 0 var(--ed-space-2) var(--ed-space-4) 0;
+  display: flex; flex-direction: column; gap: var(--ed-space-1-5);
+  flex: 1 1 auto; min-height: 48px; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: var(--ed-border-strong) transparent;
+  /* A fade at the bottom says "there is more" better than a scrollbar does. */
+  mask-image: linear-gradient(to bottom, black calc(100% - 20px), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 20px), transparent);
+}
+/* Small and one line each: the list is a set of pointers, not headlines.
+   A long title truncates; the full text is in the link's title. */
+.ed-mk-menu__list a { display: flex; align-items: center; gap: var(--ed-space-2); min-width: 0;
+  font-size: var(--ed-text-xs); font-weight: var(--ed-weight-regular); line-height: 1.4; text-decoration: none; color: var(--ed-text-secondary); }
+.ed-mk-menu__list a > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-mk-menu__list a::before { content: ''; flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--ed-text-muted); }
+.ed-mk-menu__list a:hover { color: var(--ed-text-link); }
+
+/* The footer strip. */
+.ed-mk-menu__foot { background: var(--ed-canvas); border-top: 1px solid var(--ed-border-subtle); }
+/* Thin when it only carries the "Explore" link; it opens up when secondary
+   links are present. */
+.ed-mk-menu__foot-in { display: grid; grid-template-columns: minmax(0, 3fr) repeat(var(--links, 0), minmax(0, 3fr)); gap: var(--ed-space-6); align-items: center; padding-block: var(--ed-space-2); min-height: 44px; }
+.ed-mk-menu__foot-in[style*="--links: 0"], .ed-mk-menu__foot-in[style*="--links:0"] { padding-block: 0; }
+.ed-mk-menu__foot .ed-mk-more { font-size: var(--ed-text-md); }
+.ed-mk-menu__footlink { display: flex; flex-direction: column; gap: 2px; padding-block: var(--ed-space-2); text-decoration: none; color: var(--ed-text); }
+.ed-mk-menu__footlink b { font-weight: var(--ed-weight-medium); font-size: var(--ed-text-md); }
+.ed-mk-menu__footlink span { font-size: var(--ed-text-xs); color: var(--ed-text-muted); }
+.ed-mk-menu__footlink:hover b { color: var(--ed-text-link); }
+
+/* On the ink header the panel is ink too, edge to edge, and the roles it
+   inherits from the band do the rest: white items, teal group labels,
+   neutral-300 descriptions. The footer strip is the same ink, ruled off. */
+.ed-mk-header--ink .ed-mk-menu {
+  background: var(--ed-mk-band-surface);
+  border-bottom-color: var(--ed-mk-band-border);
+  box-shadow: 0 24px 48px -16px rgb(0 0 0 / .6);
+}
+/* The footer strip is the same ink as the panel; a rule above it is the
+   only thing that separates it from the sub-menu. */
+.ed-mk-header--ink .ed-mk-menu__foot { background: var(--ed-mk-band-surface); border-top: 1px solid var(--ed-neutral-700); }
+.ed-mk-header--ink .ed-mk-menu__aside { background: var(--ed-teal-950); border-left-color: var(--ed-teal-900); }
+.ed-mk-header--ink .ed-mk-menu__card { background: var(--ed-ink); border-color: var(--ed-neutral-800); }
+.ed-mk-header--ink .ed-mk-menu__card-cta { color: var(--ed-mk-band-accent); }
+.ed-mk-header--ink .ed-mk-menu__card-art { background: radial-gradient(circle at 70% 30%, var(--ed-teal-800), transparent 50%), var(--ed-teal-900); }
+.ed-mk-header--ink .ed-mk-menu__list a::before { background: var(--ed-teal-600); }
 
 /* Hamburger + drawer, below 1024px. */
 .ed-mk-burger { display: none; }
@@ -450,6 +720,8 @@
 /* ==================================================================
    9. FOOTER
    ================================================================== */
+/* On a dark page the footer is ink too; the band roles do the rest. */
+.ed-mk-footer--ink { --ed-canvas: var(--ed-ink); }
 .ed-mk-footer { background: var(--ed-canvas); border-top: 1px solid var(--ed-border-subtle); padding-block: var(--ed-space-16) var(--ed-space-8); font-size: var(--ed-text-md); }
 .ed-mk-footer__grid { display: grid; gap: var(--ed-space-10) var(--ed-space-8); grid-template-columns: minmax(0, 1.6fr) repeat(var(--cols, 5), minmax(0, 1fr)); }
 @media (max-width: 1024px) { .ed-mk-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ed-mk-footer__brand { grid-column: 1 / -1; } }
@@ -716,3 +988,939 @@
 .ed-mk-door__k { font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
 .ed-mk-door b { font: var(--ed-weight-semibold) var(--ed-text-lg)/1.3 var(--ed-font-ui); }
 .ed-mk-door span { color: var(--ed-text-secondary); font-size: var(--ed-text-md); }
+
+/* ==================================================================
+   24. PROMPT — the requirement composer
+   ------------------------------------------------------------------
+   A brief in a box: a large text field, a website-URL field at the
+   bottom left, attach and voice buttons at the bottom right, and one
+   submit. It is the "describe it in your own words" first touch, on
+   dark, with a hairline gradient border so it reads as the one live
+   thing on the page. Pair it with .ed-mk-glow for the backdrop. */
+.ed-mk-glow {
+  position: relative; isolation: isolate;
+  background:
+    radial-gradient(60% 45% at 50% 0%, rgb(0 166 153 / .22), transparent 70%),
+    linear-gradient(to bottom, var(--ed-ink), var(--ed-neutral-950));
+}
+.ed-mk-glow::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to right, rgb(255 255 255 / .035) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(to bottom, rgb(255 255 255 / .035) 1px, transparent 1px) 0 0 / 56px 56px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+
+.ed-mk-promptwrap { display: flex; flex-direction: column; }
+/* The stage holds the box and, behind it only, an optional backdrop (the
+   wave mesh). The backdrop spans the viewport's width but just the box's
+   height, with a little overshoot so the lines run past the edges. */
+.ed-mk-promptstage { position: relative; }
+.ed-mk-prompt__backdrop {
+  position: absolute; top: -55%; bottom: -55%; left: 50%; width: 100vw; translate: -50% 0;
+  z-index: 0; pointer-events: none; overflow: hidden;
+}
+/* Inside a backdrop the mesh fades in and out over most of its height, so
+   the lines appear to flow in behind the box and out again rather than
+   stopping at an edge. */
+.ed-mk-prompt__backdrop .ed-mk-wave {
+  mask-image: linear-gradient(to bottom, transparent, black 42%, black 58%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 42%, black 58%, transparent);
+}
+.ed-mk-prompt {
+  position: relative; z-index: 1; border-radius: var(--ed-radius-panel);
+  background: var(--ed-ink); border: 1px solid var(--ed-neutral-800);
+}
+.ed-mk-prompt__in {
+  background: var(--ed-ink); border-radius: inherit;
+  padding: var(--ed-space-4) var(--ed-space-4) var(--ed-space-3);
+  display: flex; flex-direction: column; gap: var(--ed-space-3);
+}
+.ed-mk-prompt__text {
+  width: 100%; min-height: 64px; resize: none; border: 0; outline: 0; background: transparent;
+  color: var(--ed-white); font: var(--ed-weight-regular) var(--ed-text-md)/1.5 var(--ed-font-ui);
+  caret-color: var(--ed-teal-300);
+}
+/* The field never draws its own ring; the box's border is the focus state. */
+.ed-mk-prompt__text:focus, .ed-mk-prompt__text:focus-visible { outline: none; box-shadow: none; }
+.ed-mk-prompt__text::placeholder { color: var(--ed-neutral-500); font-weight: 300; font-style: italic; }
+.ed-mk-prompt__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--ed-space-3); flex-wrap: wrap; }
+.ed-mk-prompt__url {
+  display: flex; align-items: center; gap: var(--ed-space-2); flex: 1 1 260px; max-width: 420px;
+  height: 38px; padding-inline: var(--ed-space-3);
+  border: 1px solid var(--ed-neutral-800); border-radius: var(--ed-radius-pill); background: var(--ed-neutral-950);
+  color: var(--ed-neutral-400);
+}
+.ed-mk-prompt__url:focus-within { border-color: var(--ed-teal-600); color: var(--ed-teal-300); }
+.ed-mk-prompt__url > svg { width: var(--ed-icon-sm); height: var(--ed-icon-sm); flex: none; }
+.ed-mk-prompt__url input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ed-white);
+  font: var(--ed-weight-regular) var(--ed-text-sm)/1 var(--ed-font-id); }
+.ed-mk-prompt__url input::placeholder { color: var(--ed-neutral-500); font-family: var(--ed-font-ui); }
+.ed-mk-prompt__tools { display: flex; align-items: center; gap: var(--ed-space-2); margin-left: auto; }
+.ed-mk-prompt__icon {
+  width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--ed-neutral-800); border-radius: 50%; background: var(--ed-neutral-950); color: var(--ed-neutral-200);
+  transition: color var(--ed-mk-dur), border-color var(--ed-mk-dur), background-color var(--ed-mk-dur);
+}
+.ed-mk-prompt__icon > svg { width: var(--ed-icon-sm); height: var(--ed-icon-sm); }
+.ed-mk-prompt__icon:hover { color: var(--ed-teal-300); border-color: var(--ed-teal-700); }
+.ed-mk-prompt__icon[data-on="true"] { background: var(--ed-teal-900); border-color: var(--ed-teal-500); color: var(--ed-teal-300); animation: ed-mk-pulse 1.4s ease-in-out infinite; }
+.ed-mk-prompt__icon:disabled { opacity: .4; cursor: not-allowed; }
+@keyframes ed-mk-pulse { 50% { box-shadow: 0 0 0 6px rgb(0 166 153 / .18); } }
+@media (prefers-reduced-motion: reduce) { .ed-mk-prompt__icon[data-on="true"] { animation: none; } }
+.ed-mk-prompt__submit { height: 38px; padding-inline: var(--ed-space-5); border-radius: var(--ed-radius-pill); }
+.ed-mk-prompt__files { display: flex; flex-wrap: wrap; gap: var(--ed-space-2); }
+.ed-mk-prompt__file { display: inline-flex; align-items: center; gap: var(--ed-space-2); padding: 4px 6px 4px 10px;
+  border: 1px solid var(--ed-neutral-800); border-radius: var(--ed-radius-pill); background: var(--ed-neutral-900);
+  color: var(--ed-neutral-200); font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui); }
+.ed-mk-prompt__file button { border: 0; background: transparent; color: inherit; cursor: pointer; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; }
+.ed-mk-prompt__file button:hover { background: var(--ed-neutral-800); }
+.ed-mk-prompt__file button > svg { width: 12px; height: 12px; }
+.ed-mk-prompt__hint { margin: 0; font-size: var(--ed-text-2xs); color: var(--ed-neutral-500); }
+.ed-mk-prompt__suggest { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ed-space-2); margin-top: var(--ed-space-4); }
+.ed-mk-prompt__suggest .ed-mk-chip { min-height: 32px; padding: 4px var(--ed-space-3); font-size: var(--ed-text-xs); }
+.ed-mk-prompt__suggest .ed-mk-chip { background: transparent; border-color: var(--ed-neutral-800); color: var(--ed-neutral-300); }
+.ed-mk-prompt__suggest .ed-mk-chip:hover { border-color: var(--ed-teal-600); color: var(--ed-white); }
+
+/* The wave mesh sits behind everything in a glow section, under the copy
+   and the composer but above the grid. A vertical fade keeps the lines
+   away from the section's top and bottom edges. */
+.ed-mk-wave {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+  opacity: .9;
+  mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+}
+
+/* The greeting block above a composer: a large, centred greeting and a
+   quiet one-line headline under it. Half a viewport, so what follows peeks. */
+.ed-mk-greet { text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-3); margin-bottom: var(--ed-space-6); }
+.ed-mk-greet__hi { margin: 0; font: var(--ed-weight-semibold) var(--ed-mk-text-h1)/1.1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-tight); color: var(--ed-neutral-400); }
+.ed-mk-greet__line { margin: 0; font: var(--ed-weight-regular) var(--ed-text-lg)/1.4 var(--ed-font-ui); color: var(--ed-white); max-width: 40ch; text-wrap: balance; }
+
+/* ==================================================================
+   25. EXPLORER — a side list and a panel
+   ------------------------------------------------------------------
+   One quarter is a list of areas (sticky on desktop); three quarters is
+   the area's content: a heading, a lede and a grid of feature cards.
+   The Stripe "product areas" pattern. Works on light and on the band. */
+.ed-mk-explorer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+@media (max-width: 900px) { .ed-mk-explorer { grid-template-columns: minmax(0, 1fr); } }
+.ed-mk-explorer__nav { position: sticky; top: 96px; display: flex; flex-direction: column; gap: var(--ed-space-6); }
+@media (max-width: 900px) { .ed-mk-explorer__nav { position: static; flex-direction: row; flex-wrap: wrap; gap: var(--ed-space-4) var(--ed-space-8); } }
+.ed-mk-explorer__group { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ed-mk-explorer__label { margin: 0 0 var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-explorer__item {
+  display: block; width: 100%; text-align: left; padding: var(--ed-space-2) var(--ed-space-3);
+  border: 0; border-left: 2px solid transparent; border-radius: 0 var(--ed-radius-sharp) var(--ed-radius-sharp) 0;
+  background: transparent; color: var(--ed-text-secondary); cursor: pointer; text-decoration: none;
+  font: var(--ed-weight-medium) var(--ed-text-md)/1.3 var(--ed-font-ui);
+  transition: color var(--ed-mk-dur) var(--ed-mk-ease), border-color var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-explorer__item:hover { color: var(--ed-text); }
+.ed-mk-explorer__item[aria-current="true"] { color: var(--ed-text-link); border-left-color: var(--ed-text-link); }
+/* Several panels stacked, one per area, scrolled through with the list
+   fixed beside them. Each panel is an anchor; the header is sticky, so
+   the scroll margin keeps a heading from landing under it. */
+.ed-mk-explorer__stream { min-width: 0; display: flex; flex-direction: column; gap: clamp(64px, 8vw, 120px); }
+.ed-mk-explorer__panel { min-width: 0; display: flex; flex-direction: column; gap: var(--ed-space-6); scroll-margin-top: 100px; }
+.ed-mk-explorer__head { display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.ed-mk-explorer__head .ed-mk-h2 { max-width: 36ch; }
+.ed-mk-explorer__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ed-gap-group); }
+@media (max-width: 640px) { .ed-mk-explorer__grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* A feature card: teal title, a paragraph, and an optional figure well
+   that bleeds to the card's edges. */
+.ed-mk-feature { display: flex; flex-direction: column; border: 1px solid var(--ed-border); border-radius: var(--ed-radius-panel); background: var(--ed-surface); overflow: hidden; min-width: 0; }
+.ed-mk-feature__body { padding: clamp(18px, 2vw, 24px); display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.ed-mk-feature__title { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-lg)/1.3 var(--ed-font-ui); color: var(--ed-text-link); }
+.ed-mk-feature__text { margin: 0; color: var(--ed-text-secondary); line-height: var(--ed-leading-relaxed); font-size: var(--ed-text-base); }
+.ed-mk-feature__figure { margin-top: auto; padding: var(--ed-space-5) var(--ed-space-5) 0; background: var(--ed-canvas); border-top: 1px solid var(--ed-border-subtle); }
+.ed-mk-feature__figure > * { display: block; width: 100%; border-radius: var(--ed-radius-card) var(--ed-radius-card) 0 0; }
+.ed-mk-section--band .ed-mk-feature, .ed-mk-band .ed-mk-feature { background: var(--ed-neutral-900); border-color: var(--ed-neutral-800); }
+.ed-mk-section--band .ed-mk-feature__figure, .ed-mk-band .ed-mk-feature__figure { background: var(--ed-neutral-950); border-top-color: var(--ed-neutral-800); }
+
+/* ---- explorer: the panel head, quieter ------------------------------
+   The service's menu line as the heading, medium weight, with the service
+   name as an eyebrow above it. */
+.ed-mk-explorer__title { margin: 0; font: var(--ed-weight-medium) var(--ed-text-2xl)/1.3 var(--ed-font-ui); letter-spacing: -0.01em; color: var(--ed-text); max-width: 40ch; }
+.ed-mk-explorer__grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1024px) { .ed-mk-explorer__grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px)  { .ed-mk-explorer__grid--3 { grid-template-columns: minmax(0, 1fr); } }
+
+/* ==================================================================
+   26. SHOWCASE CARD — image on top, title and line below, lit on hover
+   ------------------------------------------------------------------
+   Two thirds picture (a square media well), one third words. At rest:
+   ink, grey hairline. On hover: the card lifts a touch, an arrow appears
+   beside the title, and a teal light sits on the edge nearest the cursor
+   and follows it — a radial gradient clipped to a 1px ring, centred on
+   --mx/--my, which the `spotlight` pointer handler writes. No glow. */
+.ed-mk-showcase {
+  position: relative; display: flex; flex-direction: column; min-width: 0;
+  border-radius: var(--ed-radius-panel); border: 1px solid var(--ed-neutral-800);
+  background: var(--ed-ink); color: var(--ed-text); text-decoration: none; overflow: hidden;
+  transition: translate .25s var(--ed-mk-ease);
+}
+.ed-mk-showcase::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), var(--ed-teal-300), rgb(0 166 153 / .55) 35%, transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .25s var(--ed-mk-ease);
+}
+.ed-mk-showcase:hover { translate: 0 -3px; }
+.ed-mk-showcase:hover::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .ed-mk-showcase:hover { translate: none; } }
+.ed-mk-showcase__media { aspect-ratio: 1 / 1; background:
+  radial-gradient(circle at 70% 30%, var(--ed-teal-800), transparent 55%), linear-gradient(160deg, var(--ed-neutral-900), var(--ed-teal-950));
+  border-bottom: 1px solid var(--ed-neutral-800); }
+.ed-mk-showcase__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ed-mk-showcase__body { padding: var(--ed-space-4) var(--ed-space-5) var(--ed-space-5); display: flex; flex-direction: column; gap: var(--ed-space-2); }
+.ed-mk-showcase__title { margin: 0; display: flex; align-items: center; gap: var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-lg)/1.3 var(--ed-font-ui); color: var(--ed-text); }
+.ed-mk-showcase__title > svg { width: 16px; height: 16px; flex: none; color: var(--ed-mk-band-accent); opacity: 0; translate: -6px 0; transition: opacity .2s var(--ed-mk-ease), translate .2s var(--ed-mk-ease); }
+.ed-mk-showcase:hover .ed-mk-showcase__title > svg { opacity: 1; translate: 0 0; }
+.ed-mk-showcase__text { margin: 0; font-size: var(--ed-text-xs); line-height: var(--ed-leading-relaxed); color: var(--ed-text-muted); }
+
+/* ==================================================================
+   27. HERO — bento variant
+   Copy on the left (headline, lede, call to action, moving logos), a
+   bento grid of images on the right. The copy column stretches to the
+   grid's height and the logos sit at its foot.
+   ================================================================== */
+/* The headline, lede and call to action sit as one group at the vertical
+   middle of the column, which is as tall as the bento. Equal flexible rows
+   above and below hold it there; the logos hang in the lower one.
+   Spacing steps up in one unit (n): headline → lede 1n, lede → call to
+   action 2n, call to action → logos 3n. */
+.ed-mk-hero--bento .ed-mk-split { align-items: stretch; }
+/* The bento meets the header and runs to the right edge of the window.
+   The hero loses its top padding; the aside reaches past the container by
+   the distance from the content edge to the window edge. */
+.ed-mk-hero--bento { padding-top: 0; overflow-x: clip; }
+.ed-mk-hero--bento .ed-mk-hero__aside {
+  --ed-mk-bleed: max(var(--ed-mk-gutter), (100vw - var(--ed-mk-container)) / 2);
+  margin-right: calc(var(--ed-mk-bleed) * -1);
+}
+@media (max-width: 900px) {
+  .ed-mk-hero--bento { padding-top: var(--ed-space-8); }
+  .ed-mk-hero--bento .ed-mk-hero__aside { margin-inline: calc(var(--ed-mk-gutter) * -1); }
+}
+.ed-mk-hero--bento .ed-mk-hero__copy {
+  --n: var(--ed-space-6);
+  display: grid; grid-template-rows: minmax(0, 1fr) repeat(3, auto) 1fr;
+  gap: 0;
+}
+.ed-mk-hero--bento .ed-mk-hero__copy::before { content: ''; }
+.ed-mk-hero--bento .ed-mk-hero__copy > .ed-mk-lede    { margin-top: var(--n); }
+.ed-mk-hero--bento .ed-mk-hero__copy > .ed-mk-actions { margin-top: calc(var(--n) * 2); }
+.ed-mk-hero--bento .ed-mk-hero__copy > .ed-mk-marquee { grid-row: -2; align-self: start; margin-top: calc(var(--n) * 3); }
+@media (max-width: 900px) {
+  .ed-mk-hero--bento .ed-mk-hero__copy { display: flex; }
+  .ed-mk-hero--bento .ed-mk-hero__copy::before { content: none; }
+}
+
+/* Bento — three blocks stacked vertically, joined by one set of rings.
+   The Shopify "unified commerce" strip turned on its side:
+
+   · Rows run 1 : 2 : 1 — the middle block is the hub, the mark at the
+     centre of the rings.
+   · Hover the top or bottom block and it grows to 2 while the hub drops to
+     1; the rings slide with the hub so they stay centred on it.
+   · Each block is a window onto the same ring drawing, so the rings read as
+     continuous across the gaps, which stay the page colour.
+   · The rings move: bright arcs travel round them and a pulse ripples out
+     from the hub. No glow: nothing tints the blocks, so the gaps vanish. The bottom block carries an orbit of channel tiles riding
+     one ring.
+
+   How it works: `.ed-mk-bento` is a size container; `__grid` inside it sets
+   its rows from the container height and three registered numbers
+   (--ed-mk-r1/2/3). Those numbers are what hover changes and what
+   transitions, so the rows, the ring centre (--cy), every block's offset
+   (--by) and the orbit radius all move together, frame by frame.
+
+   Tones: `dark` (default) — deep teal blocks, teal rings. `light` — pale teal
+   blocks for a quieter page. */
+@property --ed-mk-r1 { syntax: '<number>'; inherits: true; initial-value: 1; }
+@property --ed-mk-r2 { syntax: '<number>'; inherits: true; initial-value: 2; }
+@property --ed-mk-r3 { syntax: '<number>'; inherits: true; initial-value: 1; }
+
+.ed-mk-bento {
+  --ed-mk-bento-gap: var(--ed-space-4);
+  /* The page's own ink: the blocks have no fill of their own, so only the
+     rings — broken by the gaps — mark them out. */
+  --ed-mk-bento-surface: var(--ed-ink);
+  --ed-mk-bento-ring: var(--ed-teal-500);
+  --ed-mk-bento-ring-hi: var(--ed-teal-200);
+  --ed-mk-bento-ink: var(--ed-teal-100);
+  --ed-mk-bento-ring-alpha: .42;
+  --ed-mk-bento-chip: var(--ed-ink);
+  --ed-mk-bento-chip-border: var(--ed-teal-800);
+  --ed-mk-bento-chip-ink: var(--ed-white);
+  --ed-mk-bento-ease: cubic-bezier(.65, 0, .35, 1);
+  --ed-mk-r1: 1; --ed-mk-r2: 2; --ed-mk-r3: 1;
+
+  container-type: size;
+  position: relative; min-width: 0;
+  height: clamp(480px, 50vw, 680px);
+  /* The rings fade out toward the bento's outer edges instead of stopping
+     at a hard line, so the drawing melts into the page: in from the left,
+     down from the top, up from the bottom. The right edge is the window. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 var(--ed-mk-bento-fade-x, 22%)),
+    linear-gradient(to bottom, transparent, #000 var(--ed-mk-bento-fade-y, 10%), #000 calc(100% - var(--ed-mk-bento-fade-y, 10%)), transparent);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    linear-gradient(to right, transparent, #000 var(--ed-mk-bento-fade-x, 22%)),
+    linear-gradient(to bottom, transparent, #000 var(--ed-mk-bento-fade-y, 10%), #000 calc(100% - var(--ed-mk-bento-fade-y, 10%)), transparent);
+          mask-composite: intersect;
+}
+/* On a phone the bento runs edge to edge: fade both sides. */
+@media (max-width: 900px) {
+  .ed-mk-bento {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+            mask-image:
+      linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+  }
+}
+.ed-mk-bento--light {
+  --ed-mk-bento-surface: var(--ed-teal-50);
+  --ed-mk-bento-ring: var(--ed-teal-300);
+  --ed-mk-bento-ring-hi: var(--ed-teal-500);
+  --ed-mk-bento-ink: var(--ed-teal-800);
+  --ed-mk-bento-ring-alpha: .55;
+  --ed-mk-bento-chip: var(--ed-white);
+  --ed-mk-bento-chip-border: var(--ed-teal-200);
+  --ed-mk-bento-chip-ink: var(--ed-teal-900);
+}
+.ed-mk-bento__grid {
+  --g: var(--ed-mk-bento-gap);
+  --u: calc((100cqh - 2 * var(--g)) / 4);                                   /* one row unit */
+  --cy: calc(var(--u) * (var(--ed-mk-r1) + var(--ed-mk-r2) / 2) + var(--g)); /* hub centre   */
+  --orbit-r: calc(var(--u) * (var(--ed-mk-r2) + var(--ed-mk-r3)) / 2 + var(--g));
+  --ring-d: max(170cqw, 170cqh);
+  height: 100%;
+  display: grid; gap: var(--g);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    calc(var(--u) * var(--ed-mk-r1))
+    calc(var(--u) * var(--ed-mk-r2))
+    calc(var(--u) * var(--ed-mk-r3));
+}
+/* Which block is open: data-open="1" | "2" | "3" (2, the hub, by default).
+   BentoMotion cycles it every two seconds and holds it on the block under
+   the mouse; the rows ease between states. */
+.ed-mk-bento[data-open="1"] { --ed-mk-r1: 2; --ed-mk-r2: 1; --ed-mk-r3: 1; }
+.ed-mk-bento[data-open="3"] { --ed-mk-r1: 1; --ed-mk-r2: 1; --ed-mk-r3: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-mk-bento {
+    transition: --ed-mk-r1 .6s var(--ed-mk-bento-ease), --ed-mk-r2 .6s var(--ed-mk-bento-ease), --ed-mk-r3 .6s var(--ed-mk-bento-ease);
+  }
+}
+
+.ed-mk-bento__tile {
+  position: relative; margin: 0; min-height: 0; min-width: 0; overflow: hidden;
+  border-radius: 0;   /* square blocks: they read as panes of one surface */
+  background: var(--ed-mk-bento-surface); color: var(--ed-mk-bento-ink);
+  display: grid; place-items: center;
+}
+.ed-mk-bento__tile:nth-child(1) { --by: 0px; }
+.ed-mk-bento__tile:nth-child(2) { --by: calc(var(--u) * var(--ed-mk-r1) + var(--g)); }
+.ed-mk-bento__tile:nth-child(3) { --by: calc(var(--u) * (var(--ed-mk-r1) + var(--ed-mk-r2)) + 2 * var(--g)); }
+.ed-mk-bento__tile > :not(.ed-mk-bento__rings):not(.ed-mk-orbit) { position: relative; z-index: 1; }
+.ed-mk-bento__tile > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* The shared ring layer, one per block, aligned to the whole bento. */
+.ed-mk-bento__rings {
+  position: absolute; pointer-events: none;
+  left: 0; top: calc(var(--by) * -1);
+  width: 100cqw; height: 100cqh;
+}
+.ed-mk-bento__track {                  /* the ring the orbit rides */
+  position: absolute; left: 50%; top: var(--cy);
+  width: calc(var(--orbit-r) * 2); height: calc(var(--orbit-r) * 2); translate: -50% -50%;
+  border: 1px solid var(--ed-mk-bento-ring); border-radius: 50%; opacity: calc(var(--ed-mk-bento-ring-alpha) + .15);
+}
+.ed-mk-bento__rings > svg {
+  position: absolute; left: 50%; top: var(--cy);
+  width: var(--ring-d); height: var(--ring-d); translate: -50% -50%;
+  overflow: visible; fill: none;
+}
+.ed-mk-bento__rings circle { stroke: var(--ed-mk-bento-ring); stroke-width: 1; opacity: var(--ed-mk-bento-ring-alpha); vector-effect: non-scaling-stroke; transform-box: view-box; transform-origin: 0 0; }
+/* Arcs travelling round the rings, each at its own pace and direction. */
+.ed-mk-bento__rings circle.is-hi { stroke: var(--ed-mk-bento-ring-hi); stroke-width: 1.5; stroke-linecap: round; opacity: .85; animation: ed-mk-bento-spin var(--t, 24s) linear infinite; }
+.ed-mk-bento__rings circle.is-rev { animation-direction: reverse; }
+/* A pulse rippling out from the hub every few seconds. */
+.ed-mk-bento__rings circle.is-pulse { stroke: var(--ed-mk-bento-ring-hi); opacity: 0; animation: ed-mk-bento-pulse 6s cubic-bezier(.2, .6, .3, 1) infinite; }
+@keyframes ed-mk-bento-spin { from { rotate: var(--a0, 0deg); } to { rotate: calc(var(--a0, 0deg) + 360deg); } }
+@keyframes ed-mk-bento-pulse {
+  0%   { scale: .12; opacity: 0; }
+  10%  { opacity: .7; }
+  100% { scale: 1; opacity: 0; }
+}
+
+/* The hub: the mark in a raised square at the centre of the rings. */
+.ed-mk-bento__hub {
+  width: 76px; height: 76px; display: grid; place-items: center;
+  border-radius: 20px; background: var(--ed-ink);
+  border: 1px solid var(--ed-mk-bento-chip-border);
+}
+.ed-mk-bento--light .ed-mk-bento__hub { background: var(--ed-white); box-shadow: 0 0 0 10px color-mix(in srgb, var(--ed-mk-bento-surface) 60%, transparent), 0 12px 32px -12px rgb(0 82 76 / .35); }
+.ed-mk-bento__hub svg, .ed-mk-bento__hub img { width: 42px; height: 42px; }
+
+/* The orbit: channel tiles riding the track ring round the hub. The layer
+   sits at the hub centre and turns; each tile turns back the same amount
+   so it stays upright. Seen only through the bottom block. */
+.ed-mk-orbit {
+  position: absolute; left: 50%; top: calc(var(--cy) - var(--by)); width: 0; height: 0;
+  animation: ed-mk-bento-spin var(--ed-mk-orbit-dur, 60s) linear infinite reverse;
+  pointer-events: none;
+}
+.ed-mk-orbit__item {
+  position: absolute; left: 0; top: 0;
+  transform: rotate(var(--a)) translateY(var(--orbit-r)) rotate(calc(var(--a) * -1));
+}
+.ed-mk-orbit__chip {
+  display: grid; place-items: center; translate: -50% -50%;
+  min-width: 96px; height: 44px; padding-inline: var(--ed-space-4);
+  border-radius: 12px; background: var(--ed-mk-bento-chip); border: 1px solid var(--ed-mk-bento-chip-border);
+  color: var(--ed-mk-bento-chip-ink); white-space: nowrap;
+  font: var(--ed-weight-bold) var(--ed-text-sm)/1 var(--ed-font-ui); letter-spacing: -0.01em;
+  box-shadow: 0 8px 24px -10px rgb(0 0 0 / .6);
+  animation: ed-mk-bento-spin var(--ed-mk-orbit-dur, 60s) linear infinite;   /* undoes the layer's turn */
+}
+.ed-mk-orbit__chip img { max-height: 22px; max-width: 76px; width: auto; filter: grayscale(1) brightness(0) invert(1); }
+.ed-mk-bento--light .ed-mk-orbit__chip img { filter: grayscale(1) brightness(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-bento__rings circle.is-hi, .ed-mk-orbit, .ed-mk-orbit__chip { animation: none; }
+  .ed-mk-bento__rings circle.is-pulse { display: none; }
+}
+
+/* Text for screen readers only. */
+.ed-mk-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* The empty slot: a small caption saying what belongs in the block. */
+.ed-mk-bento__slot {
+  display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-1-5);
+  padding: var(--ed-space-2) var(--ed-space-3); max-width: 90%; text-align: center;
+  font: var(--ed-weight-medium) var(--ed-text-xs)/1.35 var(--ed-font-ui);
+  background: var(--ed-mk-bento-surface);
+  border: 1px dashed color-mix(in srgb, currentColor 40%, transparent); border-radius: var(--ed-radius-card);
+}
+.ed-mk-bento__slot > svg { width: 18px; height: 18px; flex: none; opacity: .8; }
+.ed-mk-bento__slot small { font: var(--ed-weight-regular) var(--ed-text-2xs)/1 var(--ed-font-id); letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
+@media (max-width: 900px) { .ed-mk-bento { height: clamp(460px, 115vw, 620px); } }
+@media (max-width: 600px) {
+  .ed-mk-bento { --ed-mk-bento-gap: var(--ed-space-3); }
+  .ed-mk-bento__hub { width: 60px; height: 60px; border-radius: 16px; }
+  .ed-mk-bento__hub svg, .ed-mk-bento__hub img { width: 32px; height: 32px; }
+  .ed-mk-orbit__chip { min-width: 80px; height: 38px; font-size: var(--ed-text-xs); }
+}
+
+/* Logo marquee — monochrome logos drifting left in one line, edges faded.
+   Two copies of the row sit side by side so the loop has no seam. Pauses
+   on hover; stands still for reduced motion. Logos should be transparent
+   SVG or PNG: the filter turns every logo solid ink. */
+.ed-mk-marquee { display: flex; flex-direction: column; gap: var(--ed-space-4); min-width: 0; }
+.ed-mk-marquee__label { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-sm)/1.3 var(--ed-font-ui); color: var(--ed-text-muted); }
+.ed-mk-marquee__viewport {
+  overflow: hidden; min-width: 0;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.ed-mk-marquee__track { display: flex; width: max-content; animation: ed-mk-marquee var(--ed-mk-marquee-dur, 40s) linear infinite; }
+.ed-mk-marquee:hover .ed-mk-marquee__track { animation-play-state: paused; }
+.ed-mk-marquee__row { display: flex; align-items: center; gap: var(--ed-space-12); padding-right: var(--ed-space-12); margin: 0; list-style: none; padding-left: 0; }
+.ed-mk-marquee__logo { flex: none; height: 32px; display: grid; place-items: center; }
+.ed-mk-marquee__logo img, .ed-mk-marquee__logo svg {
+  max-height: 28px; max-width: 128px; width: auto; display: block;
+  filter: grayscale(1) brightness(0); opacity: .7; transition: opacity var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-marquee__logo:hover img, .ed-mk-marquee__logo:hover svg { opacity: 1; }
+/* A brand with no logo file yet: its name, set plainly in ink, one style
+   for all so no brand's mark is imitated. */
+.ed-mk-marquee__logo--text {
+  font: var(--ed-weight-bold) var(--ed-text-lg)/1 var(--ed-font-ui); letter-spacing: -0.02em;
+  color: var(--ed-text); opacity: .6; white-space: nowrap; transition: opacity var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-marquee__logo--text:hover { opacity: 1; }
+.ed-mk-marquee__logo--empty {
+  min-width: 96px; padding-inline: var(--ed-space-3);
+  font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-id); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ed-text-muted); border: 1px dashed var(--ed-border); border-radius: var(--ed-radius-card);
+}
+.ed-mk-section--band .ed-mk-marquee__logo img, .ed-mk-section--band .ed-mk-marquee__logo svg { filter: grayscale(1) brightness(0) invert(1); }
+@keyframes ed-mk-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-marquee__track { animation: none; }
+  .ed-mk-marquee__row[aria-hidden] { display: none; }
+}
+
+/* Narrow screens. A long pill label wraps instead of running out of the
+   button; the bento drops to one wide tile over two pairs; the header's
+   pill loses its arrow so it fits beside the menu button. */
+@media (max-width: 600px) {
+  .ed-mk-hero .ed-mk-actions .ed-btn { white-space: normal; height: auto; min-height: 48px; padding-block: var(--ed-space-3); text-align: left; line-height: 1.3; }
+}
+@media (max-width: 480px) {
+  .ed-mk-header__actions .ed-btn--pill { padding-inline: var(--ed-space-4); }
+  .ed-mk-header__actions .ed-btn--pill > .ed-icon, .ed-mk-header__actions .ed-btn--pill > svg { display: none; }
+}
+
+/* ==================================================================
+   28. EXPAND ON SCROLL — a panel that opens out as it arrives
+   The Freshworks platform panel, with light and dark swapped for a dark
+   page. --p (0 → 1) is written by ExpandOnScroll: the side clip closes
+   from --ed-mk-expand-inset to nothing and the content rises 96px into
+   place (it moves, it does not fade). Top corners stay rounded; the bottom runs square into the next
+   section.
+   ================================================================== */
+.ed-mk-expand {
+  --p: 1;
+  --ed-mk-expand-inset: clamp(16px, 8vw, 120px);
+  --ed-mk-expand-radius: 16px;
+  position: relative;
+}
+.ed-mk-expand__panel {
+  clip-path: inset(0 calc((1 - var(--p)) * var(--ed-mk-expand-inset)) round var(--ed-mk-expand-radius) var(--ed-mk-expand-radius) 0 0);
+  padding-block: var(--ed-mk-section);
+  background: var(--ed-canvas); color: var(--ed-text);
+  will-change: clip-path;
+}
+.ed-mk-expand__content { translate: 0 calc((1 - var(--p)) * 96px); }
+/* Light panel on a dark page: put the light roles back inside it. */
+.ed-mk-expand--light {
+  color-scheme: light;
+  --ed-canvas:            var(--ed-neutral-25);
+  --ed-surface:           var(--ed-white);
+  --ed-surface-raised:    var(--ed-white);
+  --ed-surface-sunken:    var(--ed-neutral-100);
+  --ed-text:              var(--ed-neutral-950);
+  --ed-text-secondary:    var(--ed-neutral-800);
+  --ed-text-muted:        var(--ed-neutral-700);
+  --ed-text-link:         var(--ed-teal-600);
+  --ed-border:            var(--ed-neutral-200);
+  --ed-border-subtle:     var(--ed-neutral-100);
+  --ed-border-strong:     var(--ed-neutral-500);
+  --ed-focus:             var(--ed-teal-600);
+  --ed-primary-surface:   var(--ed-neutral-950);
+  --ed-primary-hover:     var(--ed-neutral-800);
+  --ed-primary-active:    var(--ed-neutral-700);
+  --ed-on-primary:        var(--ed-white);
+  --ed-icon-accent:       var(--ed-teal-600);
+  --ed-brand-subtle:      var(--ed-teal-50);
+  --ed-on-brand-subtle:   var(--ed-teal-700);
+}
+.ed-mk-expand--dark .ed-mk-expand__panel { background: var(--ed-ink); color: var(--ed-white); }
+.ed-mk-expand .ed-mk-section__head--center { margin-bottom: var(--ed-space-10); }
+
+/* ==================================================================
+   29. SHOWCASE TABS — tabs over copy · screen · figure
+   ================================================================== */
+.ed-mk-stabs { display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px); }
+.ed-mk-stabs__list {
+  display: flex; gap: var(--ed-space-8);
+  overflow-x: auto; scrollbar-width: none;
+}
+/* Centred when the tabs fit, scrollable from the first tab when they do
+   not (justify-content: center would push the first tabs out of reach). */
+.ed-mk-stabs__list > :first-child { margin-left: auto; }
+.ed-mk-stabs__list > :last-child { margin-right: auto; }
+.ed-mk-stabs__list::-webkit-scrollbar { display: none; }
+.ed-mk-stabs__tab {
+  display: inline-flex; align-items: center; gap: var(--ed-space-2);
+  padding: 0 var(--ed-space-1) var(--ed-space-2); flex: none;
+  background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer;
+  font: var(--ed-weight-regular) var(--ed-text-md)/1.3 var(--ed-font-ui); color: var(--ed-text-muted);
+  transition: color var(--ed-mk-dur) var(--ed-mk-ease), border-color var(--ed-mk-dur) var(--ed-mk-ease);
+  white-space: nowrap;
+}
+.ed-mk-stabs__tab:hover { color: var(--ed-text); }
+.ed-mk-stabs__tab[aria-selected="true"] { color: var(--ed-text); font-weight: var(--ed-weight-semibold); border-bottom-color: var(--ed-text); }
+.ed-mk-stabs__tab:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 4px; border-radius: 2px; }
+.ed-mk-stabs__icon { display: grid; place-items: center; width: 20px; height: 20px; color: currentColor; }   /* follows the label: grey at rest, ink when active */
+.ed-mk-stabs__icon svg { width: 18px; height: 18px; }
+
+.ed-mk-stabs__stage {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 48px); align-items: end;
+}
+.ed-mk-stabs__copy { display: flex; flex-direction: column; gap: var(--ed-space-3); padding-bottom: var(--ed-space-6); animation: ed-mk-from-left .6s var(--ed-mk-ease) both; }
+.ed-mk-stabs__title { margin: 0; font: var(--ed-weight-regular) var(--ed-mk-text-h3)/1.2 var(--ed-mk-font-serif); font-style: italic; color: var(--ed-text); }
+.ed-mk-stabs__body { margin: 0; font-size: var(--ed-text-sm); line-height: 1.55; color: var(--ed-text-secondary); }
+.ed-mk-stabs__link { font: var(--ed-weight-semibold) var(--ed-text-sm)/1 var(--ed-font-ui); color: var(--ed-text-link); text-decoration: none; margin-top: var(--ed-space-1); }
+.ed-mk-stabs__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ed-mk-stabs__media { min-width: 0; animation: ed-mk-from-below .7s var(--ed-mk-ease) both; }
+.ed-mk-stabs__stat { display: flex; flex-direction: column; gap: var(--ed-space-2); align-items: flex-end; text-align: right; padding-bottom: var(--ed-space-6); animation: ed-mk-from-right .6s var(--ed-mk-ease) .05s both; }
+.ed-mk-stabs__num { font: var(--ed-weight-regular) clamp(2.5rem, 1.5rem + 3vw, 4rem)/1 var(--ed-mk-font-serif); color: var(--ed-text); letter-spacing: -0.02em; }
+.ed-mk-stabs__cap { font-size: var(--ed-text-sm); color: var(--ed-text-muted); max-width: 18ch; }
+
+/* The product screen slot: a framed window with a dashed placeholder until
+   the screenshot lands. */
+.ed-mk-screen {
+  aspect-ratio: 16 / 10; border-radius: var(--ed-radius-panel); overflow: hidden;
+  background: var(--ed-surface); border: 1px solid var(--ed-border);
+  box-shadow: 0 30px 60px -30px rgb(15 20 23 / .35), 0 2px 6px rgb(15 20 23 / .06);
+  display: flex; flex-direction: column;
+}
+.ed-mk-screen__bar { display: flex; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--ed-border-subtle); flex: none; }
+.ed-mk-screen__bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--ed-neutral-200); }
+.ed-mk-screen__body { flex: 1; display: grid; place-items: center; margin: var(--ed-space-4); border: 1px dashed var(--ed-border); border-radius: var(--ed-radius-card); color: var(--ed-text-muted); text-align: center; font-size: var(--ed-text-sm); padding: var(--ed-space-4); }
+.ed-mk-screen__body small { display: block; margin-top: var(--ed-space-1); font: var(--ed-weight-regular) var(--ed-text-2xs)/1 var(--ed-font-id); letter-spacing: .06em; text-transform: uppercase; }
+.ed-mk-screen > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+@keyframes ed-mk-from-left  { from { opacity: 0; translate: -24px 0; } }
+@keyframes ed-mk-from-right { from { opacity: 0; translate: 24px 0; } }
+@keyframes ed-mk-from-below { from { opacity: 0; translate: 0 32px; } }
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-stabs__copy, .ed-mk-stabs__media, .ed-mk-stabs__stat { animation: none; }
+}
+@media (max-width: 900px) {
+  .ed-mk-stabs__list { gap: var(--ed-space-6); margin-inline: calc(var(--ed-mk-gutter) * -1); padding-inline: var(--ed-mk-gutter); }
+  .ed-mk-stabs__stage { grid-template-columns: minmax(0, 1fr); }
+  .ed-mk-stabs__media { order: -1; }
+  .ed-mk-stabs__copy, .ed-mk-stabs__stat { padding-bottom: 0; }
+  .ed-mk-stabs__stat { align-items: flex-start; text-align: left; }
+}
+/* The panel's heading runs on one line on a wide screen, scaling with the
+   window so it never needs to wrap; on a narrow one it wraps as usual. */
+.ed-mk-expand__head .ed-mk-h2 { font-size: var(--ed-mk-text-h1); max-width: none; font-weight: var(--ed-weight-semibold); }
+@media (min-width: 901px) {
+  .ed-mk-expand__head .ed-mk-h2 { white-space: nowrap; font-size: min(var(--ed-mk-text-h1), 3.5vw); }
+}
+
+/* ==================================================================
+   30. SCROLL CARDS — a pinned stage whose cards move sideways
+   The wrapper is as tall as the scroll it takes: the stage's own height
+   plus --per of a window per card after the first. The stage sticks under
+   the header (--ed-mk-hscroll-top, measured by ScrollCards); the cards'
+   track moves left as the page scrolls. The copy column lines up with the
+   page container; the cards run out to the window's right edge, the one
+   in front at full strength, the rest dimmed.
+   ================================================================== */
+.ed-mk-hscroll {
+  --ed-mk-hscroll-top: 72px;
+  --ed-mk-hscroll-edge: max(var(--ed-mk-gutter), (100vw - var(--ed-mk-container)) / 2);
+  --ed-mk-hscroll-card: min(560px, 44vw);
+  position: relative;
+  height: calc(100vh - var(--ed-mk-hscroll-top) + (var(--n) - 1) * var(--per) * 100vh);
+  margin-top: var(--ed-mk-hscroll-lead, 0px);
+  overflow-x: clip;
+}
+.ed-mk-hscroll__sticky {
+  position: sticky; top: var(--ed-mk-hscroll-top);
+  height: calc(100vh - var(--ed-mk-hscroll-top));
+  display: flex; flex-direction: column; justify-content: center; gap: clamp(32px, 5vh, 64px);
+}
+.ed-mk-hscroll__head { padding-inline: var(--ed-mk-hscroll-edge); text-align: center; }
+.ed-mk-hscroll__head .ed-mk-h2 { margin-inline: auto; max-width: none; font-size: var(--ed-mk-text-h1); font-weight: var(--ed-weight-semibold); }
+.ed-mk-hscroll__stage {
+  display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px);
+  align-items: center; padding-left: var(--ed-mk-hscroll-edge);
+}
+/* The copy: every item's copy stacked in one cell, the front one shown. */
+.ed-mk-hscroll__copy { display: grid; }
+.ed-mk-hscroll__text {
+  grid-area: 1 / 1; display: flex; flex-direction: column; gap: var(--ed-space-4);
+  opacity: 0; translate: 0 12px; visibility: hidden;
+  transition: opacity .18s var(--ed-mk-ease), translate .18s var(--ed-mk-ease), visibility 0s .18s;
+}
+/* The outgoing copy is gone before the incoming one starts: no overlap. */
+.ed-mk-hscroll__text[data-active] {
+  opacity: 1; translate: 0 0; visibility: visible;
+  transition: opacity .35s var(--ed-mk-ease) .18s, translate .35s var(--ed-mk-ease) .18s, visibility 0s .18s;
+}
+.ed-mk-hscroll__eyebrow { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-sm)/1 var(--ed-font-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--ed-text); }
+.ed-mk-hscroll__title { margin: 0; font: var(--ed-weight-regular) var(--ed-mk-text-h2)/1.15 var(--ed-mk-font-serif); color: var(--ed-text); }
+.ed-mk-hscroll__body { margin: 0; font-size: var(--ed-text-md); line-height: 1.6; color: var(--ed-text-secondary); }
+.ed-mk-hscroll__link { font: var(--ed-weight-semibold) var(--ed-text-sm)/1 var(--ed-font-ui); color: var(--ed-text-link); text-decoration: none; }
+.ed-mk-hscroll__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Cards are clipped at the left edge of their column, so a passing card
+   never slides under the copy; the clip leaves room above and below for
+   shadows and runs out to the window's right edge. */
+.ed-mk-hscroll__viewport { min-width: 0; clip-path: inset(-80px -100vw -100px 0); }
+.ed-mk-hscroll__track { display: flex; gap: clamp(24px, 4vw, 64px); will-change: transform; }
+.ed-mk-hscroll__item {
+  flex: none; width: var(--ed-mk-hscroll-card);
+  opacity: .35; scale: .96; transform-origin: left center;
+  transition: opacity .4s var(--ed-mk-ease), scale .4s var(--ed-mk-ease);
+}
+.ed-mk-hscroll__item[data-active] { opacity: 1; scale: 1; }
+.ed-mk-hscroll__item[data-past] { opacity: 0; }
+.ed-mk-hscroll__caption { display: none; }
+
+@media (max-width: 900px) {
+  .ed-mk-hscroll { height: auto; overflow-x: visible; }
+  .ed-mk-hscroll__sticky { position: static; height: auto; gap: var(--ed-space-8); }
+  .ed-mk-hscroll__head { padding-inline: var(--ed-mk-gutter); }
+  .ed-mk-hscroll__stage { display: block; padding-left: 0; }
+  .ed-mk-hscroll__copy { display: none; }
+  .ed-mk-hscroll__viewport { clip-path: none; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-inline: var(--ed-mk-gutter); scroll-padding-inline: var(--ed-mk-gutter); }
+  .ed-mk-hscroll__viewport::-webkit-scrollbar { display: none; }
+  .ed-mk-hscroll__track { gap: var(--ed-space-4); transform: none !important; }
+  .ed-mk-hscroll__item, .ed-mk-hscroll__item[data-past] { width: 85vw; opacity: 1; scale: 1; scroll-snap-align: start; display: flex; flex-direction: column; gap: var(--ed-space-5); }
+  .ed-mk-hscroll__caption { display: flex; flex-direction: column; gap: var(--ed-space-3); }
+  .ed-mk-hscroll__title { font-size: var(--ed-mk-text-h3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-hscroll__text, .ed-mk-hscroll__item { transition: none; }
+}
+
+/* System card — a small product card: name, line, a tree of three
+   capabilities joined by hairlines. */
+.ed-mk-syscard {
+  display: flex; flex-direction: column; gap: var(--ed-space-3);
+  padding: clamp(20px, 2.4vw, 32px); border-radius: var(--ed-radius-panel);
+  background: var(--ed-surface); border: 1px solid var(--ed-border);
+  box-shadow: 0 30px 60px -30px rgb(15 20 23 / .3), 0 2px 6px rgb(15 20 23 / .05);
+  color: var(--ed-text); aspect-ratio: 1 / 1;
+}
+.ed-mk-syscard__head { display: flex; align-items: center; gap: var(--ed-space-2); font-size: var(--ed-text-lg); }
+.ed-mk-syscard__head b { font-weight: var(--ed-weight-semibold); }
+.ed-mk-syscard__icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: var(--ed-brand-subtle); color: var(--ed-on-brand-subtle); }
+.ed-mk-syscard__icon svg { width: 18px; height: 18px; }
+.ed-mk-syscard__line { margin: 0; font-size: var(--ed-text-md); color: var(--ed-text-secondary); }
+.ed-mk-syscard__bars, .ed-mk-syscard__node > span { display: flex; flex-direction: column; gap: 8px; }
+.ed-mk-syscard__bars i, .ed-mk-syscard__node > span i { display: block; height: 10px; border-radius: 5px; background: var(--ed-neutral-100); }
+.ed-mk-syscard__bars i:first-child { width: 72%; }
+.ed-mk-syscard__bars i:last-child { width: 44%; }
+.ed-mk-syscard__tree { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; position: relative; margin-top: var(--ed-space-2); }
+.ed-mk-syscard__node {
+  position: relative; display: flex; flex-direction: column; gap: var(--ed-space-2);
+  padding: var(--ed-space-3) var(--ed-space-4); min-width: 0;
+  border-radius: var(--ed-radius-card); background: var(--ed-surface); border: 1px solid var(--ed-border-subtle);
+  box-shadow: 0 6px 18px -8px rgb(15 20 23 / .18);
+}
+.ed-mk-syscard__node b { font-size: var(--ed-text-sm); font-weight: var(--ed-weight-semibold); }
+.ed-mk-syscard__node--root { width: 52%; background: var(--ed-teal-50); border-color: var(--ed-teal-100); }
+.ed-mk-syscard__node > span i { width: 60%; }
+.ed-mk-syscard__node > span i + i { width: 40%; }
+.ed-mk-syscard__leaves { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ed-space-6); width: 100%; position: relative; }
+/* Hairlines: down from the root, across, and down into each leaf. */
+.ed-mk-syscard__node--root::after { content: ''; position: absolute; left: 50%; top: 100%; height: 14px; border-left: 1px solid var(--ed-border); }
+.ed-mk-syscard__leaves::before { content: ''; position: absolute; left: 25%; right: 25%; top: -14px; height: 14px; border: 1px solid var(--ed-border); border-bottom: 0; }
+
+/* ==================================================================
+   31. HALO — "The only 3PL with / Closed-loop Fulfilment"
+   Attio's Universal Context section. Back to front: hairline stripes and
+   drifting streaks; a soft outer aura; the rim — the same conic band of
+   colour three times, blurred 10px, 2px and 0.5px — and a dark disc over
+   it, so only a thin glowing edge shows; the heading on top.
+   --p (0 → 1, written by LoopHalo) brings the heading out of a blur; --q
+   (0 → 1, the planet's crown rising from the bottom of the window to its
+   middle) sweeps the rim's glow from the left horizon over the top
+   to the right horizon (a conic mask opening clockwise), completing the
+   halo. The planet is the page's width across; the section ends at its
+   equator, so the rim meets both page edges and the black runs on below.
+   ================================================================== */
+.ed-mk-halo {
+  --p: 1; --q: 1;
+  container-type: inline-size;
+  position: relative; overflow: hidden; isolation: isolate;
+  background: var(--ed-ink); color: var(--ed-white);
+  display: flex; flex-direction: column; align-items: center;
+  padding: clamp(120px, 22vh, 200px) 0 0;
+}
+/* Hairlines every 8px, and a few streaks of light drifting down them. */
+.ed-mk-halo__lines {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: repeating-linear-gradient(to right, rgb(255 255 255 / .035) 0 1px, transparent 1px 8px);
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 75%, transparent);
+}
+.ed-mk-halo__lines i {
+  position: absolute; top: -40%; width: 2px; height: 360px;
+  background: linear-gradient(transparent, rgb(255 255 255 / .35) 50%, transparent);
+  opacity: .5; animation: ed-mk-halo-streak 10s linear infinite;
+}
+@keyframes ed-mk-halo-streak { from { translate: 0 0; } to { translate: 0 calc(100vh + 120%); } }
+
+.ed-mk-halo__copy {
+  position: relative; z-index: 3; text-align: center; padding-inline: var(--ed-mk-gutter);
+  display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-4);
+  filter: blur(calc((1 - var(--p)) * 12px));
+  opacity: calc(var(--p) * 1.2 - .1);
+  translate: 0 calc((1 - var(--p)) * 24px);
+}
+.ed-mk-halo__eyebrow { margin: 0; font: var(--ed-weight-regular) var(--ed-text-md)/1.3 var(--ed-font-ui); color: var(--ed-neutral-400); }
+.ed-mk-halo__title {
+  margin: 0; font: var(--ed-weight-semibold) clamp(2.75rem, 1rem + 6vw, 6.5rem)/1 var(--ed-font-ui);
+  letter-spacing: -0.035em; color: var(--ed-white); text-wrap: balance;
+}
+
+/* The dome: a half circle exactly as wide as the page. The planet is a
+   full circle 100cqw across sitting at the top of the dome; the section
+   ends at its equator, so the rim meets both page edges right there and
+   the lower half is never seen. */
+.ed-mk-halo__dome {
+  position: relative; flex: none;
+  width: 100cqw; height: 50cqw;
+  margin-top: clamp(48px, 9vh, 104px);
+}
+.ed-mk-halo__planet {
+  position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none;
+  width: 100cqw; aspect-ratio: 1;
+}
+.ed-mk-halo__planet > span { position: absolute; border-radius: 50%; }
+/* A soft light ring well outside the rim. */
+.ed-mk-halo__aura {
+  inset: -14%;
+  background: radial-gradient(circle closest-side, transparent 64%, rgb(255 255 255 / .04) 71%, rgb(255 255 255 / .1) 74.5%, rgb(255 255 255 / .12) 75.5%, rgb(255 255 255 / .09) 77.5%, rgb(255 255 255 / .05) 80.5%, rgb(255 255 255 / .02) 86%, transparent 92%);
+  mask-image: linear-gradient(#000 50%, transparent 50%);
+  opacity: var(--q);
+}
+/* The rim's colour: bright at the crown, brand teals down each side.
+   The sweep mask opens clockwise from the left horizon (270°) as --p
+   grows, with a soft 10° leading edge; the second mask fades the rim out
+   toward the sides, as Attio's does. */
+.ed-mk-halo__rim {
+  inset: -3px;
+  background: conic-gradient(from 0deg,
+    var(--ed-teal-50) 0deg, var(--ed-teal-200) 14deg, var(--ed-teal-500) 55deg, var(--ed-teal-800) 110deg,
+    var(--ed-teal-900) 180deg, var(--ed-teal-800) 250deg, var(--ed-teal-400) 305deg, var(--ed-teal-100) 346deg, var(--ed-teal-50) 360deg);
+  -webkit-mask-image:
+    conic-gradient(from 270deg, #000 calc(var(--q) * 180deg), transparent calc(var(--q) * 180deg + 10deg)),
+    conic-gradient(rgb(0 0 0 / .4) 0deg, #000 35deg, #000 325deg, rgb(0 0 0 / .4) 360deg);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    conic-gradient(from 270deg, #000 calc(var(--q) * 180deg), transparent calc(var(--q) * 180deg + 10deg)),
+    conic-gradient(rgb(0 0 0 / .4) 0deg, #000 35deg, #000 325deg, rgb(0 0 0 / .4) 360deg);
+          mask-composite: intersect;
+  filter: blur(.5px);
+}
+.ed-mk-halo__rim--near { filter: blur(2px); opacity: .8; }
+.ed-mk-halo__rim--wide { inset: -4px; filter: blur(12px); opacity: .5; }
+/* The dark body that leaves only the edge lit, with a hairline crown. */
+.ed-mk-halo__disc {
+  inset: 0;
+  background: var(--ed-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(var(--q) * .35));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-halo__lines i { animation: none; }
+}
+/* The loop's stages on the rim, over the crown. Each sits at angle --a
+   (degrees from the top) on the circle; it lights as the sweep passes it
+   — the sweep's edge is at q·180 − 90 degrees. */
+.ed-mk-halo__nodes { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.ed-mk-halo__node {
+  --lit: clamp(0, calc((var(--q) * 180 - 90 - var(--a)) / 8), 1);
+  position: absolute;
+  --k: 1;   /* spread: < 1 pulls the stages toward the crown */
+  left: calc(50cqw + 50cqw * sin(var(--a) * var(--k) * 1deg));
+  top:  calc(50cqw - 50cqw * cos(var(--a) * var(--k) * 1deg));
+  translate: -50% -50%;
+}
+.ed-mk-halo__node span {
+  display: block; padding: 8px 16px; border-radius: var(--ed-radius-pill); white-space: nowrap;
+  font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-id); letter-spacing: .02em;
+  background: var(--ed-ink);
+  border: 1px solid color-mix(in srgb, var(--ed-teal-300) calc(var(--lit) * 100%), var(--ed-neutral-800));
+  color: color-mix(in srgb, var(--ed-white) calc(var(--lit) * 100%), var(--ed-neutral-500));
+  box-shadow: 0 0 calc(var(--lit) * 24px) calc(var(--lit) * -2px) rgb(0 166 153 / .55);
+}
+/* Inside the dome, under the crown: a short label and a line or two. */
+.ed-mk-halo__label { margin: 0; font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-id); letter-spacing: .14em; text-transform: uppercase; color: var(--ed-teal-300); }
+.ed-mk-halo__text { margin: 0; font-size: var(--ed-text-lg); line-height: 1.6; color: var(--ed-neutral-300); text-wrap: pretty; }
+.ed-mk-halo__text b { color: var(--ed-white); font-weight: var(--ed-weight-semibold); }
+.ed-mk-halo__note { display: inline-flex; align-items: center; gap: var(--ed-space-2); margin: 0; font: var(--ed-weight-regular) var(--ed-text-sm)/1 var(--ed-font-id); color: var(--ed-teal-300); }
+.ed-mk-halo__inner {
+  position: absolute; z-index: 2; left: 50%; top: 17cqw; translate: -50% 0;
+  width: min(640px, 70cqw); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-4);
+}
+
+@media (max-width: 700px) {
+  .ed-mk-halo { padding-top: 112px; }
+  .ed-mk-halo__dome { height: auto; min-height: 50cqw; padding-top: calc(50cqw * .62); }
+  .ed-mk-halo__inner { position: relative; left: auto; top: auto; translate: none; width: auto; padding: 0 var(--ed-mk-gutter) var(--ed-space-10); }
+  .ed-mk-halo__node { --k: .8; }
+  .ed-mk-halo__node span { padding: 5px 10px; font-size: 11px; }
+}
+
+/* ==================================================================
+   32. RULED COLUMNS and LOOP COMPARE — the closed-loop story, on black
+   ================================================================== */
+.ed-mk-ruled { display: flex; flex-direction: column; gap: var(--ed-space-6); }
+.ed-mk-ruled__label { margin: 0; font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-id); letter-spacing: .14em; text-transform: uppercase; color: var(--ed-text-muted); }
+.ed-mk-ruled__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
+.ed-mk-ruled__item { display: flex; flex-direction: column; gap: var(--ed-space-3); padding-top: var(--ed-space-6); border-top: 1px solid var(--ed-border); }
+.ed-mk-ruled__title { margin: 0; font: var(--ed-weight-semibold) var(--ed-text-xl)/1.3 var(--ed-font-ui); color: var(--ed-text); }
+.ed-mk-ruled__body { margin: 0; font-size: var(--ed-text-md); line-height: 1.6; color: var(--ed-text-muted); }
+.ed-mk-ruled__link { margin-top: var(--ed-space-1); font: var(--ed-weight-semibold) var(--ed-text-sm)/1 var(--ed-font-ui); color: var(--ed-text-link); text-decoration: none; }
+.ed-mk-ruled__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) { .ed-mk-ruled__grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Open loop: steps in muted dashes, ending at a wall. Closed loop: steps in
+   teal, and a return path drawn under the row from the last step back to
+   the first, arrowhead pointing up into it. */
+.ed-mk-cmp {
+  display: flex; flex-direction: column; gap: var(--ed-space-8);
+  padding: clamp(24px, 3vw, 40px); border-radius: var(--ed-radius-panel);
+  background: color-mix(in srgb, var(--ed-ink) 92%, var(--ed-white)); border: 1px solid var(--ed-neutral-800);
+}
+.ed-mk-cmp__row { display: flex; flex-direction: column; gap: var(--ed-space-3); }
+.ed-mk-cmp__label { margin: 0; font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-id); letter-spacing: .14em; text-transform: uppercase; color: var(--ed-neutral-400); }
+.ed-mk-cmp__chain { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: var(--ed-space-2); }
+.ed-mk-cmp__step { padding: 10px 18px; border-radius: var(--ed-radius-card); font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-id); }
+.ed-mk-cmp__arrow { color: var(--ed-neutral-600); font-size: var(--ed-text-sm); }
+.ed-mk-cmp__note { margin: 0; font: var(--ed-weight-regular) var(--ed-text-sm)/1.4 var(--ed-font-id); color: var(--ed-neutral-500); }
+.ed-mk-cmp__row--open .ed-mk-cmp__step { border: 1px dashed var(--ed-neutral-700); color: var(--ed-neutral-500); }
+.ed-mk-cmp__stop { width: 2px; height: 28px; margin-left: var(--ed-space-2); background: var(--ed-neutral-700); border-radius: 1px; }
+.ed-mk-cmp__row--closed .ed-mk-cmp__step { border: 1px solid var(--ed-teal-700); background: color-mix(in srgb, var(--ed-teal-950) 70%, var(--ed-ink)); color: var(--ed-white); }
+.ed-mk-cmp__row--closed .ed-mk-cmp__arrow { color: var(--ed-teal-400); }
+.ed-mk-cmp__row--closed .ed-mk-cmp__note { color: var(--ed-teal-300); }
+.ed-mk-cmp__chain--loop { padding-bottom: 22px; flex-wrap: nowrap; width: max-content; max-width: 100%; }
+.ed-mk-cmp__chain--loop::after {
+  content: ''; position: absolute; left: 28px; right: 28px; bottom: 0; height: 16px;
+  border: 1px solid var(--ed-teal-400); border-top: 0; border-radius: 0 0 14px 14px;
+}
+.ed-mk-cmp__chain--loop::before {
+  content: ''; position: absolute; left: 24px; bottom: 13px; width: 8px; height: 8px;
+  border-left: 1px solid var(--ed-teal-400); border-top: 1px solid var(--ed-teal-400); rotate: 45deg;
+}
+@media (max-width: 600px) {
+  .ed-mk-cmp__chain--loop { flex-wrap: wrap; width: auto; }
+  .ed-mk-cmp__step { padding: 8px 12px; }
+}
+
+/* The section after the halo: no top padding of its own beyond a breath,
+   since the dome's black runs straight into it. */
+.ed-mk-after-halo { padding-top: clamp(32px, 5vw, 72px); }
+.ed-mk-after-halo .ed-mk-split + .ed-mk-ruled, .ed-mk-after-halo .ed-mk-ruled + .ed-mk-split { margin-top: clamp(80px, 10vw, 140px); }
+.ed-mk-after-halo .ed-mk-stack { gap: var(--ed-space-5); }
+.ed-mk-after-halo .ed-mk-h2 { max-width: 16ch; }
+
+/* ==================================================================
+   33. GLOW BUTTON — teal on white; black on hover with an edge light
+   At rest: white pill, teal label. On hover: the pill goes black, the
+   label light teal, and a light-teal light runs along about half of the
+   border, centred on the cursor (--mx/--my, written by <Spotlight>).
+   ================================================================== */
+.ed-mk-spotlight { display: inline-flex; }
+.ed-mk .ed-btn.ed-btn--glow {
+  position: relative; isolation: isolate;
+  background: var(--ed-white); color: var(--ed-teal-600);
+  border: 1px solid transparent;
+  transition: background-color var(--ed-mk-dur) var(--ed-mk-ease), color var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk .ed-btn.ed-btn--glow::before {
+  content: ''; position: absolute; inset: -1px; z-index: -1; pointer-events: none;
+  border-radius: inherit; padding: 1px;
+  /* About half the border: the light is half the button wide, fading out
+     by 70% of its reach. */
+  background: radial-gradient(ellipse 50% 170% at var(--mx, 50%) var(--my, 50%),
+    var(--ed-teal-100), var(--ed-teal-300) 25%, transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  opacity: 0; transition: opacity var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk .ed-btn.ed-btn--glow:hover, .ed-mk .ed-btn.ed-btn--glow:focus-visible { background: var(--ed-ink); color: var(--ed-teal-300); }
+.ed-mk .ed-btn.ed-btn--glow:hover::before, .ed-mk .ed-btn.ed-btn--glow:focus-visible::before { opacity: 1; }

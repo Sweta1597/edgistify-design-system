@@ -23,6 +23,41 @@ export default function MarketingComponentsPage() {
         from <code>@edgistify/design-system/react/marketing</code>.
       </p>
 
+      <H id="announcement" title="Announcement bar">
+        The one-line strip above the header, sitewide: a newsletter, a report, an event, an offer.
+        Three formats in one component — the whole line is the link, a statement plus a link, or a
+        statement plus a small button — and three tones: ink (default), brand, tint. It replaces the
+        utility bar as the first thing on the page; Partners, Careers and Client login live in the
+        footer and the three doors. One bar at a time, one message under about 90 characters, and
+        the link says what happens: "Subscribe", "Read the report", never "Click here". Every bar has a
+        close button, and the choice is remembered per <code>id</code>, so change the id to show a new
+        message to people who dismissed the last one. The <code>end</code> slot puts a small text button at
+        the right edge; the website uses it for Login, which is why Login is not in the header.
+      </H>
+      <MarketingDemo code={`
+<div style={{ display: 'grid', gap: 16 }}>
+  {/* 1 · link: the whole line is the link — what the website uses */}
+  <Announcement id="demo-1" href="/newsletter">
+    Stay ahead of what's changing in Indian supply chains. Join the Edgistify newsletter
+  </Announcement>
+
+  {/* 2 · text + link, with a Login text button at the right edge */}
+  <Announcement id="demo-2" end={<Button variant="ghost" size="xs" as="a" href="#"><Icon icon={User} size="xs" />Login</Button>}
+    message="Stay ahead of what's changing in Indian supply chains."
+    href="/newsletter" linkLabel="Join the Edgistify newsletter" />
+
+  {/* 3 · text + button, brand tone, for an event or an offer */}
+  <Announcement id="demo-3" tone="brand"
+    message="Open Floor day, Thane · Saturday 18 October. Walk a live warehouse with our ops leads."
+    action={<Button size="xs">Register</Button>} />
+
+  {/* tint tone, external link */}
+  <Announcement id="demo-4" tone="tint" href="https://example.com/report" external>
+    The Fulfilment Index Q3 is out: RTO, appointment adherence and delivery times by pin code
+  </Announcement>
+</div>
+`} caption="Ink is the default and the one the site uses. Brand is for a moment worth the teal — an event, a launch. Tint is for a quiet notice." />
+
       <H id="section" title="Section and SectionHead">
         The unit of a page. <code>tone</code> is default, <code>tint</code> (canvas) or <code>band</code> (ink).
         Every section owns its container; a head is eyebrow, heading and lede, left-aligned unless it is the CTA.
@@ -102,6 +137,89 @@ export default function MarketingComponentsPage() {
   }
 />
 `} />
+
+      <H id="hero-bento" title="Hero, bento variant">
+        The landing hero. Headline, lede, one black call to action and a logo marquee
+        on the left; four image tiles on the right. One phrase of the headline takes
+        the serif italic through <code>.ed-mk-serif</code>. A tile without an image
+        names what belongs in it.
+      </H>
+      <MarketingDemo code={`
+<Hero
+  variant="bento"
+  title={<>AI-Native Supply Chain Partner for <em className="ed-mk-serif">India's Growth Stage Brands</em></>}
+  lede="Edgistify offers AI-driven fulfilment solutions for B2B, B2C and D2C companies across multiple industries."
+  aside={<Bento
+    items={[{ label: 'Interface with cursor' }, {}, {}]}
+    orbit={[{ name: 'Zepto' }, { name: 'Amazon' }, { name: 'Blinkit' }, { name: 'Myntra' }, { name: 'Shopify' }, { name: 'Swiggy' }]}
+  />}
+>
+  <Actions>
+    <Button as="a" href="#" variant="primary" size="lg" className="ed-btn--pill">
+      Let's design the fulfilment setup your brand needs<Icon icon={ArrowRight} size="sm" />
+    </Button>
+  </Actions>
+  <LogoMarquee label="Trusted by brands across India" logos={[{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }, { name: 'F' }]} />
+</Hero>
+`} caption="Three blocks joined by moving rings centred on the mark. Hover the top or bottom block to grow it; the rings follow the hub. Channel tiles orbit through the bottom block. Logos below the call to action drift left; hover pauses them." />
+
+      <H id="expand" title="Expand on scroll and showcase tabs">
+        A light panel on a dark page that widens to full width as it scrolls in, its
+        content rising into place. Inside, tabs over three parts: copy on the left, a
+        product screen in the middle, one figure on the right. Switching tabs replays
+        their entrances. Unverified figures go through Pending.
+      </H>
+      <MarketingDemo code={`
+<div className="ed-mk-band" style={{ paddingBlock: 40 }}>
+  <ExpandOnScroll>
+    <Container>
+      <SectionHead align="center" className="ed-mk-expand__head"
+        title={<>Everything we run, on <em className="ed-mk-serif">one operating system.</em></>} />
+      <ShowcaseTabs tabs={[
+        { label: 'Fulfilment', icon: <Icon icon={Package} size="sm" />, title: 'Pick, pack and dispatch across every channel',
+          body: 'Online orders and B2B POs from one inventory pool.', href: '#', linkLabel: 'Explore Fulfilment',
+          media: <Screen label="EdgeOS · Fulfilment" />, stat: { value: <Pending dots>Confirm</Pending>, caption: 'Headline metric' } },
+        { label: 'Warehousing', icon: <Icon icon={Warehouse} size="sm" />, title: 'Space across our network, close to your buyers',
+          body: 'Multi-city, one inventory view.', href: '#', linkLabel: 'Explore Warehousing',
+          media: <Screen label="EdgeOS · Warehousing" /> },
+      ]} />
+    </Container>
+  </ExpandOnScroll>
+</div>
+`} caption="Scroll the page to see the panel open out. Tabs take arrow keys." />
+
+      <H id="scroll-cards" title="Scroll cards and system card">
+        A pinned stage: while the page scrolls, the cards move sideways from first to
+        last and the copy on the left follows the card in front; then the page scrolls
+        on. Cards that have passed fade out; the next one waits dimmed on the right. On a
+        phone it is a row you swipe, each card with its own copy.
+      </H>
+      <MarketingDemo code={`
+<ScrollCards
+  head={<h2 className="ed-mk-h2">The <em className="ed-mk-serif">Operating System</em></h2>}
+  items={[
+    { eyebrow: 'OMS', title: 'Real-time tracking from purchase to delivery', body: 'One order queue across every channel.',
+      card: <SystemCard icon={<Icon icon={ShoppingCart} size="sm" />} name="Order Management System"
+        line="Real-time tracking from purchase to delivery" nodes={['One order queue', 'Allocation rules', 'Integrations']} /> },
+    { eyebrow: 'WMS', title: 'Precise inventory control and stock optimisation', body: 'Scan-verified at every step.',
+      card: <SystemCard icon={<Icon icon={Boxes} size="sm" />} name="Warehouse Management System"
+        line="Precise inventory control" nodes={['Scan-verified', 'Cycle counts', 'Built for the floor']} /> },
+  ]}
+/>
+`} caption="Scroll the page through it. Each card's tree shows three of the system's capabilities." />
+
+      <H id="loop-halo" title="Halo">
+        A black section: a short line, a large title, and below them a half circle as
+        wide as the page, its rim glowing in teals and meeting both edges where the
+        section ends. As it scrolls in, the title comes out of a blur and the glow
+        sweeps the rim left to right, lighting the stages placed on it. Content can sit
+        inside the dome. RuledColumns and LoopCompare carry the story on below.
+      </H>
+      <MarketingDemo code={`
+<LoopHalo eyebrow="The only 3PL with" title="Closed-loop Fulfilment"
+  nodes={['Decide', 'Execute', 'Measure', 'Learn']}
+  inner={<p className="ed-mk-halo__text"><b>Closed-loop fulfilment</b> is fulfilment in which one company decides, executes, measures and learns from every order.</p>} />
+`} caption="Scroll it into view to see the halo complete. Motion stops under reduced motion." />
 
       <H id="config" title="Configurator">
         "Two answers, no forms." A dressed native select and a row of chips. The logic — which services
@@ -326,33 +444,90 @@ export default function MarketingComponentsPage() {
 </>
 `} />
 
+      <H id="prompt" title="Prompt: the requirement composer">
+        The "describe it in your own words" first touch, for the Services page and any landing page that
+        wants a brief rather than a form. A large text field, the website-URL field at the bottom left,
+        attach and voice buttons at the bottom right, one submit. Enter sends, Shift+Enter makes a new line.
+        The microphone uses the browser's speech recognition where it exists and is disabled, with a reason,
+        where it does not. Pass <code>backdrop={'<WaveMesh />'}</code> for the wireframe wave surface, which renders behind the
+        box only and spans the viewport's width; <code>.ed-mk-glow</code> is still there for a page that wants
+        the lit backdrop across a whole section.
+      </H>
+      <MarketingDemo code={`
+<Section tone="band" style={{ overflowX: 'clip' }}>
+  <div style={{ maxWidth: 760, margin: '0 auto' }}>
+    <div className="ed-mk-greet">
+      <p className="ed-mk-greet__hi">Good evening,</p>
+      <h2 className="ed-mk-greet__line">Let's design the fulfilment setup your brand needs.</h2>
+    </div>
+    <Prompt
+      backdrop={<WaveMesh />}
+      placeholder="Tell us what you sell, where you sell and what's getting in the way. We'll shortlist the services that fit."
+      urlPlaceholder="Paste your website URL"
+      submitLabel="Curate my services"
+      suggestions={['Skincare on Amazon and Blinkit, RTO is killing margin', 'Solar modules, project dispatch to 40 sites', 'Snacks into modern trade DCs against POs']}
+      onSubmit={(s) => alert(JSON.stringify({ text: s.text, url: s.url, files: s.files.length }))}
+    />
+  </div>
+</Section>
+`} caption="Type and press Enter, or click a suggestion. Attach opens the file picker; the files show as removable chips." />
+
       <H id="header" title="Header, utility bar and footer">
         The header is the only client component: disclosure mega-menus, one CTA, a drawer below 1024px.
-        Every menu item is a real link in the HTML whether the menu is open or not.
+        Every menu item is a real link in the HTML whether the menu is open or not. <code>tone="ink"</code> is
+        the dark header the website uses; the panels are ink too and the wordmark stays teal, and it sits
+        under the ink announcement bar with a single rule between them. Menus open on hover with a mouse and
+        on click with touch or keyboard. A panel is full width: three quarters sub-menu (one column per
+        group, an icon and a name per item), one quarter related content (a card and a short list), and
+        a footer strip with the <code>lead</code> link (a waving hand, a sentence and an arrow that grows
+        its tail on hover) and, optionally, a <code>footer</code> with a "View all" link and secondary links. Each item is an icon on the left with the name and
+        one descriptive line to its right; a group with nothing in it yet can carry a <code>note</code>
+        instead of items. On hover an item's name turns teal, its description steps up from grey to white and an arrow
+        appears; the other items keep their colour. The top-level items work the other way, by subtraction: the
+        open one stays white and its siblings dim. The one action is Contact Sales, a pill (<code>ed-btn--pill</code>) with a right arrow;
+        Login lives in the announcement bar above. A top-level item without groups, like About, is a plain
+        link with no caret.
       </H>
       <MarketingDemo code={`
 <div>
-  <UtilityBar links={[{ label: 'Partners', href: '#' }, { label: 'Careers', href: '#' }, { label: 'Client login', href: '#' }]} />
+  <Announcement id="demo-hdr" href="/newsletter" dismissible={false}
+    end={<Button variant="ghost" size="xs" as="a" href="#"><Icon icon={User} size="xs" />Login</Button>}>
+    Stay ahead of what's changing in Indian supply chains. Join the Edgistify newsletter
+  </Announcement>
   <SiteHeader
+    tone="ink"
     nav={[
-      { label: 'Services', groups: [{ items: [
-        { title: 'Fulfilment', desc: 'Pick, pack and dispatch across every channel', href: '#' },
-        { title: 'Warehousing', desc: 'Space across our network, close to your buyers', href: '#' },
-        { title: 'EdgeOS', desc: 'Inventory management, OMS and courier in one system', href: '#', tag: 'OS' },
-      ] }] },
+      { label: 'Services',
+        groups: [
+          { label: 'Fulfilment', items: [
+            { title: 'Warehousing', desc: 'Pan-India storage and efficient inventory management', href: '#', icon: <Icon icon={Warehouse} size="md" /> },
+            { title: 'Last-Mile', desc: 'Speeding final deliveries directly to customers', href: '#', icon: <Icon icon={MapPin} size="md" /> },
+            { title: 'Appointment-Based Delivery', desc: 'Slotted deliveries tailored to customer availability', href: '#', icon: <Icon icon={CalendarClock} size="md" /> },
+          ] },
+          { label: 'Technology', items: [
+            { title: 'Order Management System', desc: 'Real-time order tracking from purchase to delivery', href: '#', icon: <Icon icon={ShoppingCart} size="md" /> },
+            { title: 'Warehouse Management System', desc: 'Precision inventory control and stock optimisation', href: '#', icon: <Icon icon={Boxes} size="md" /> },
+            { title: 'Transport Management System', desc: 'Smarter freight routing and cost-effective dispatch', href: '#', icon: <Icon icon={Navigation} size="md" /> },
+          ] },
+        ],
+        aside: {
+          card: { title: 'Watch one order move through EdgeOS', href: '#' },
+          list: { label: 'Latest', items: [{ title: 'Open Floor day, Thane', href: '#' }, { title: 'Fulfilment Index', href: '#' }, { title: 'Case studies', href: '#' }] },
+        },
+        lead: { label: "Let's design the fulfilment setup your brand needs", href: '#' } },
       { label: 'Solutions', groups: [
         { label: 'By stage', items: [{ title: 'Growing Brands', href: '#' }, { title: 'SMEs', href: '#' }, { title: 'Enterprises', href: '#' }] },
         { label: 'By channel', items: [{ title: 'Marketplaces', href: '#' }, { title: 'Quick commerce', href: '#' }, { title: 'Retail & distributors', href: '#' }] },
       ] },
-      { label: 'About', href: '#' },
-      { label: 'Resources', href: '#' },
+      { label: 'About', groups: [{ items: [{ title: 'Company', href: '#' }, { title: 'Careers', href: '#' }, { title: 'Press', href: '#' }] }] },
+      { label: 'Resources', groups: [{ items: [{ title: 'Insights', href: '#' }, { title: 'Glossary', href: '#' }, { title: 'Support', href: '#' }] }] },
     ]}
-    secondary={<Button variant="ghost" as="a" href="#">Client login</Button>}
-    cta={<Button as="a" href="#">Design My Supply Chain</Button>}
+    secondary={<Button variant="ghost" as="a" href="#">Login</Button>}
+    cta={<Button as="a" href="#">Contact Sales<Icon icon={ArrowRight} size="sm" /></Button>}
   />
-  <div style={{ height: 120 }} />
+  <div style={{ height: 460 }} />
 </div>
-`} caption="Click Services or Solutions. The panel is positioned, so it needs the empty space below to show." />
+`} caption="Hover or click Services. The panel spans the header's width: three quarters sub-menu, one quarter related content, and a footer strip carrying the lead link." />
 
       <MarketingDemo code={`
 <Footer

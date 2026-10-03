@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const SECTIONS = [
-  ['0', 'Utility bar', 'UtilityBar', 'Partners · Careers · Client login. Routes non-buyers away before the sales CTAs.', 'built'],
+  ['0', 'Announcement bar', 'Announcement', 'One line, one link: the newsletter for now; a report, an event or an offer later. Partners, Careers and Client login moved to the footer and the three doors.', 'built'],
   ['1', 'Header', 'SiteHeader', 'Services and Solutions mega-menus (by stage, by industry, by channel), About, Resources, Support, one CTA.', 'built'],
   ['2', 'Hero', 'Hero + ConfigPanel + Flow', 'Headline, lede, the two-question configurator, primary and WhatsApp actions; a still of the EdgeOS flow on the right.', 'built'],
   ['3', 'Trust strip', 'LogoStrip + StatStrip + Press', 'Up to 8 logos, 3 verified stats, "Featured in" with real links.', 'pending: logos, stats, press links'],

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Logo } from '../Logo.jsx';
+import { BentoMotion } from './BentoMotion.jsx';
 
 /**
  * Edgistify marketing kit — the brand and marketing layer.
@@ -174,9 +175,9 @@ export function UtilityBar({ links = [] }) {
 
 /* ------------------------------------------------------------------ hero */
 
-export function Hero({ eyebrow, title, lede, actions, aside, note, children }) {
+export function Hero({ eyebrow, title, lede, actions, aside, note, variant, children }) {
   return (
-    <section className="ed-mk-hero">
+    <section className={cx('ed-mk-hero', variant && `ed-mk-hero--${variant}`)}>
       <Container>
         <Split top ratio="minmax(0, 1.05fr) minmax(0, 1fr)">
           <div className="ed-mk-hero__copy">
@@ -277,6 +278,214 @@ export function SetupCard({ k = 'EdgeOS · Your setup', title, services = [], no
 /* ----------------------------------------------------------------- proof */
 
 /** logos: [{ name, src?, href? }]. A logo with no `src` is a pending slot. */
+/* ---------------------------------------------------------- bento + marquee */
+
+const ImageGlyph = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="9" cy="10" r="1.75" /><path d="m21 16-5-5-9 9" />
+  </svg>
+);
+
+/* Ring radii (viewBox units, -500…500), the arcs that travel round them
+   ([radius, % of the circle, seconds per turn, start angle, reverse]) and
+   the pulse that ripples out from the hub. */
+const RINGS = [70, 120, 180, 250, 330, 420, 500];
+const ARCS = [[120, 16, 18, -40, false], [250, 10, 30, 140, true], [420, 7, 46, 60, false]];
+
+/** The shared ring drawing. Every block carries one, shifted to its own
+ *  place in the bento by CSS, so together they read as one set of rings. */
+function BentoRings() {
+  return (
+    <span className="ed-mk-bento__rings" aria-hidden="true">
+      <span className="ed-mk-bento__track" />
+      <svg viewBox="-500 -500 1000 1000">
+        {RINGS.map((r) => <circle key={r} r={r} />)}
+        {ARCS.map(([r, pct, t, a0, rev]) => (
+          <circle key={`a${r}`} r={r} pathLength="100" strokeDasharray={`${pct} ${100 - pct}`}
+            className={rev ? 'is-hi is-rev' : 'is-hi'} style={{ '--t': `${t}s`, '--a0': `${a0}deg` }} />
+        ))}
+        <circle r="500" className="is-pulse" />
+      </svg>
+    </span>
+  );
+}
+
+/** One bento block. With `image` it shows the image; without, a slot naming
+ *  what belongs there (`label`). `children` replaces both. */
+export function BentoTile({ image, alt = '', label, rings = true, className, children, ...rest }) {
+  return (
+    <figure className={cx('ed-mk-bento__tile', className)} {...rest}>
+      {rings && <BentoRings />}
+      {children ?? (image
+        ? <img src={image} alt={alt} loading="lazy" />
+        : label ? <span className="ed-mk-bento__slot"><ImageGlyph /><span>{label}</span><small>Block</small></span> : null)}
+    </figure>
+  );
+}
+
+/** The mark at the centre of the rings. */
+export function BentoHub({ children }) {
+  return <span className="ed-mk-bento__hub">{children ?? <Logo variant="mark" tone="teal" title="Edgistify" />}</span>;
+}
+
+/** Channel tiles orbiting the hub along one ring, seen through the block
+ *  that holds them. items: [{ name, src? }]; they are spread evenly round
+ *  the ring, repeated to fill `slots`. `duration` is seconds per turn. */
+export function BentoOrbit({ items = [], slots = 12, duration = 60, label = 'Sales channels' }) {
+  if (!items.length) return null;
+  const n = Math.max(items.length, slots);
+  return (
+    <>
+      <span className="ed-mk-orbit" style={{ '--ed-mk-orbit-dur': `${duration}s` }} aria-hidden="true">
+        {Array.from({ length: n }, (_, i) => {
+          const it = items[i % items.length];
+          return (
+            <span key={i} className="ed-mk-orbit__item" style={{ '--a': `${(360 / n) * i}deg` }}>
+              <span className="ed-mk-orbit__chip">{it.src ? <img src={it.src} alt="" /> : it.name}</span>
+            </span>
+          );
+        })}
+      </span>
+      <span className="ed-mk-sr">{label}: {items.map((it) => it.name).join(', ')}</span>
+    </>
+  );
+}
+
+/** Three blocks stacked vertically, joined by rings centred on the middle
+ *  one (the hub). One block is open at a time (twice the height); the
+ *  others give way and the rings follow the hub. items: [top, hub, bottom], each
+ *  { image?, alt?, label?, children? }. The hub shows the mark unless given
+ *  children. `orbit`: [{ name, src? }] channel tiles circling through the
+ *  bottom block. tone: 'dark' (default) or 'light'. `cycle`: ms each block
+ *  stays open in the automatic loop (false to stop it); hover holds a block
+ *  open. */
+export function Bento({ items = [], orbit, tone = 'dark', cycle = 2000, className, ...rest }) {
+  const [top = {}, hub = {}, bottom = {}] = items;
+  return (
+    <div className={cx('ed-mk-bento', tone === 'light' && 'ed-mk-bento--light', className)} data-open="2" {...rest}>
+      {cycle ? <BentoMotion interval={cycle} /> : null}
+      <div className="ed-mk-bento__grid">
+        <BentoTile {...top} />
+        {hub.children || hub.image ? <BentoTile {...hub} /> : <BentoTile {...hub}><BentoHub /></BentoTile>}
+        <BentoTile {...bottom}>
+          {bottom.children}
+          {orbit && <BentoOrbit items={orbit} />}
+          {!bottom.children && !orbit && bottom.label && <span className="ed-mk-bento__slot"><ImageGlyph /><span>{bottom.label}</span><small>Block</small></span>}
+        </BentoTile>
+      </div>
+    </div>
+  );
+}
+
+/** A product-screen frame. With `image` it shows the screenshot; without,
+ *  a dashed slot naming what belongs there. */
+export function Screen({ image, alt = '', label, className, ...rest }) {
+  return (
+    <div className={cx('ed-mk-screen', className)} {...rest}>
+      {image ? <img src={image} alt={alt} loading="lazy" /> : (<>
+        <div className="ed-mk-screen__bar" aria-hidden="true"><i /><i /><i /></div>
+        <div className="ed-mk-screen__body"><span>{label}<small>Screenshot</small></span></div>
+      </>)}
+    </div>
+  );
+}
+
+/** A system at a glance, drawn as a small product card: icon and name, a
+ *  line, and up to three capabilities as a tree — one on top, two below. */
+export function SystemCard({ icon, name, line, nodes = [], className, ...rest }) {
+  const [root, ...leaves] = nodes;
+  return (
+    <div className={cx('ed-mk-syscard', className)} {...rest}>
+      <div className="ed-mk-syscard__head">{icon && <span className="ed-mk-syscard__icon" aria-hidden="true">{icon}</span>}<b>{name}</b></div>
+      {line && <p className="ed-mk-syscard__line">{line}</p>}
+      <span className="ed-mk-syscard__bars" aria-hidden="true"><i /><i /></span>
+      {root && (
+        <div className="ed-mk-syscard__tree">
+          <div className="ed-mk-syscard__node ed-mk-syscard__node--root"><b>{root}</b><span aria-hidden="true"><i /><i /></span></div>
+          {leaves.length > 0 && (
+            <div className="ed-mk-syscard__leaves">
+              {leaves.slice(0, 2).map((l, i) => <div key={i} className="ed-mk-syscard__node"><b>{l}</b><span aria-hidden="true"><i /></span></div>)}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Columns under a small label, each with a hairline on top: a title and
+ *  a line or two. items: [{ title, body, href?, linkLabel? }]. */
+export function RuledColumns({ label, items = [], className, ...rest }) {
+  return (
+    <div className={cx('ed-mk-ruled', className)} {...rest}>
+      {label && <p className="ed-mk-ruled__label">{label}</p>}
+      <div className="ed-mk-ruled__grid">
+        {items.map((it, i) => (
+          <div key={i} className="ed-mk-ruled__item">
+            <h3 className="ed-mk-ruled__title">{it.title}</h3>
+            {it.body && <p className="ed-mk-ruled__body">{it.body}</p>}
+            {it.href && <a className="ed-mk-ruled__link" href={it.href}>{it.linkLabel || 'Learn more'} <span aria-hidden="true">→</span></a>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Open loop against closed loop. open: { label, steps, end }, closed:
+ *  { label, steps, back }. The closed row draws its return path from the
+ *  last step back to the first. */
+export function LoopCompare({ open, closed, className, ...rest }) {
+  const chain = (steps) => steps.map((st, i) => (
+    <React.Fragment key={i}>
+      {i > 0 && <span className="ed-mk-cmp__arrow" aria-hidden="true">→</span>}
+      <span className="ed-mk-cmp__step">{st}</span>
+    </React.Fragment>
+  ));
+  return (
+    <div className={cx('ed-mk-cmp', className)} role="figure" aria-label="Open loop against closed loop" {...rest}>
+      {open && (
+        <div className="ed-mk-cmp__row ed-mk-cmp__row--open">
+          <p className="ed-mk-cmp__label">{open.label}</p>
+          <div className="ed-mk-cmp__chain">{chain(open.steps)}<span className="ed-mk-cmp__stop" aria-hidden="true" /></div>
+          {open.end && <p className="ed-mk-cmp__note">{open.end}</p>}
+        </div>
+      )}
+      {closed && (
+        <div className="ed-mk-cmp__row ed-mk-cmp__row--closed">
+          <p className="ed-mk-cmp__label">{closed.label}</p>
+          <div className="ed-mk-cmp__chain ed-mk-cmp__chain--loop">{chain(closed.steps)}</div>
+          {closed.back && <p className="ed-mk-cmp__note"><span aria-hidden="true">↺</span> {closed.back}</p>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Monochrome logos drifting left. logos: [{ name, src? }]. A logo with no
+ *  `src` shows its name in plain type until the file arrives; with neither,
+ *  a dashed slot. `speed` is seconds per loop. */
+export function LogoMarquee({ label, logos = [], speed = 40, className, ...rest }) {
+  if (!logos.length) return null;
+  const row = (hidden) => (
+    <ul className="ed-mk-marquee__row" aria-hidden={hidden || undefined}>
+      {logos.map((l, i) => (
+        <li key={i} className={cx('ed-mk-marquee__logo', !l.src && (l.name ? 'ed-mk-marquee__logo--text' : 'ed-mk-marquee__logo--empty'))}>
+          {l.src ? <img src={l.src} alt={hidden ? '' : l.name} loading="lazy" height="28" /> : (l.name || 'Logo')}
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <div className={cx('ed-mk-marquee', className)} style={{ '--ed-mk-marquee-dur': `${speed}s` }} {...rest}>
+      {label && <p className="ed-mk-marquee__label">{label}</p>}
+      <div className="ed-mk-marquee__viewport">
+        <div className="ed-mk-marquee__track">{row(false)}{row(true)}</div>
+      </div>
+    </div>
+  );
+}
+
 export function LogoStrip({ logos = [], note }) {
   return (
     <div>
@@ -523,9 +732,10 @@ export function Doors({ doors = [] }) {
  * columns: [{ title, links: [{ label, href, tag? }] }]
  * legal: { legalName, address, phone, email, grievance }
  */
-export function Footer({ description, columns = [], legal, links = [], copyright }) {
+/** `tone`: light (default) | ink — ink for a page that is dark to the bottom. */
+export function Footer({ description, columns = [], legal, links = [], copyright, tone = 'light' }) {
   return (
-    <footer className="ed-mk-footer">
+    <footer className={cx('ed-mk-footer', tone === 'ink' && 'ed-mk-band ed-mk-footer--ink')}>
       <Container>
         <div className="ed-mk-footer__grid" style={{ '--cols': columns.length }}>
           <div className="ed-mk-footer__brand">
@@ -565,4 +775,157 @@ export function Footer({ description, columns = [], legal, links = [], copyright
       </Container>
     </footer>
   );
+}
+
+/* ------------------------------------------------------------- wave mesh */
+
+/**
+ * A wireframe wave surface for the dark, lit backdrop: stacked lines
+ * displaced by the same wave field, so they read as one rippling sheet.
+ * Generated here deterministically (no randomness, so server and client
+ * draw the same thing) and stroked in teal, fading towards the edges.
+ * Drop it as the first child of a `.ed-mk-glow` section.
+ *
+ *   <Section tone="band" className="ed-mk-glow"><WaveMesh />…</Section>
+ */
+export function WaveMesh({ lines = 44, width = 1600, height = 640, className = '', ...rest }) {
+  const step = 32;
+  const paths = [];
+  for (let i = 0; i < lines; i++) {
+    const t = i / (lines - 1);
+    const base = 90 + t * 440;
+    const d = [];
+    for (let x = -step; x <= width + step; x += step) {
+      const rise = 150 * Math.exp(-(((x - 1180) / 260) ** 2)) * (1 - t * 0.45)
+                 + 95 * Math.exp(-(((x - 260) / 300) ** 2)) * (1 - t * 0.3);
+      const y = base
+        + 46 * Math.sin(x / 300 + i * 0.13)
+        + 22 * Math.sin(x / 120 - i * 0.07 + 1.3)
+        - rise;
+      d.push(`${x === -step ? 'M' : 'L'}${x} ${y.toFixed(1)}`);
+    }
+    paths.push(<path key={i} d={d.join(' ')} style={{ opacity: 0.35 + 0.6 * (1 - Math.abs(t - 0.45) * 1.6) }} />);
+  }
+  return (
+    <svg className={cx('ed-mk-wave', className)} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" {...rest}>
+      <defs>
+        <linearGradient id="ed-mk-wave-stroke" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="var(--ed-teal-700)" />
+          <stop offset=".5" stopColor="var(--ed-teal-300)" />
+          <stop offset="1" stopColor="var(--ed-teal-700)" />
+        </linearGradient>
+        <linearGradient id="ed-mk-wave-fade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#000" stopOpacity="0" />
+          <stop offset=".12" stopColor="#fff" stopOpacity="1" />
+          <stop offset=".88" stopColor="#fff" stopOpacity="1" />
+          <stop offset="1" stopColor="#000" stopOpacity="0" />
+        </linearGradient>
+        <mask id="ed-mk-wave-mask"><rect width={width} height={height} fill="url(#ed-mk-wave-fade)" /></mask>
+      </defs>
+      <g fill="none" stroke="url(#ed-mk-wave-stroke)" strokeWidth="1.1" mask="url(#ed-mk-wave-mask)">{paths}</g>
+    </svg>
+  );
+}
+
+/* -------------------------------------------------------------- explorer */
+
+/**
+ * A side list and a panel: one quarter areas, three quarters the chosen
+ * area's content. Selection state belongs to the page; these are the
+ * surfaces.
+ *
+ *   <Explorer>
+ *     <ExplorerNav groups={[{ label, items: [{ id, title }] }]} current={id} onSelect={setId} />
+ *     <ExplorerPanel title lede>
+ *       <FeatureCard title body figure? />
+ *     </ExplorerPanel>
+ *   </Explorer>
+ */
+export const Explorer = ({ className = '', ...rest }) => <div className={cx('ed-mk-explorer', className)} {...rest} />;
+
+export function ExplorerNav({ label, groups = [], current, onSelect, hrefFor }) {
+  return (
+    <nav className="ed-mk-explorer__nav" aria-label={label || 'Areas'}>
+      {groups.map((g, gi) => (
+        <div className="ed-mk-explorer__group" key={gi}>
+          {g.label && <p className="ed-mk-explorer__label">{g.label}</p>}
+          {g.items.map((it) => {
+            const sel = it.id === current;
+            return hrefFor
+              ? <a key={it.id} className="ed-mk-explorer__item" href={hrefFor(it)} aria-current={sel ? 'true' : undefined}
+                   onClick={onSelect ? (e) => { e.preventDefault(); onSelect(it.id); } : undefined}>{it.title}</a>
+              : <button key={it.id} type="button" className="ed-mk-explorer__item" aria-current={sel ? 'true' : undefined}
+                        onClick={() => onSelect?.(it.id)}>{it.title}</button>;
+          })}
+        </div>
+      ))}
+    </nav>
+  );
+}
+
+/** `eyebrow` is the area's name; `title` the line that describes it. `cols`: 2 (default) or 3. */
+export function ExplorerPanel({ eyebrow, title, lede, cols = 2, children, className = '', ...rest }) {
+  return (
+    <div className={cx('ed-mk-explorer__panel', className)} {...rest}>
+      {(eyebrow || title || lede) && (
+        <div className="ed-mk-explorer__head">
+          {eyebrow && <p className="ed-mk-eyebrow">{eyebrow}</p>}
+          {title && <h2 className="ed-mk-explorer__title">{title}</h2>}
+          {lede && <p className="ed-mk-lede">{lede}</p>}
+        </div>
+      )}
+      <div className={cx('ed-mk-explorer__grid', cols === 3 && 'ed-mk-explorer__grid--3')}>{children}</div>
+    </div>
+  );
+}
+
+export function FeatureCard({ title, body, figure, className = '', children, ...rest }) {
+  return (
+    <article className={cx('ed-mk-feature', className)} {...rest}>
+      <div className="ed-mk-feature__body">
+        {title && <h3 className="ed-mk-feature__title">{title}</h3>}
+        {body && <p className="ed-mk-feature__text">{body}</p>}
+        {children}
+      </div>
+      {figure && <div className="ed-mk-feature__figure">{figure}</div>}
+    </article>
+  );
+}
+
+/* ------------------------------------------------------------- showcase */
+
+/**
+ * Image on top (two thirds), title and one line below (one third). A link
+ * when `href` is given: on hover the card lifts, a teal light runs round
+ * its edge and an arrow appears beside the title.
+ */
+export function ShowcaseCard({ title, body, image, alt = '', href, as, className = '', children, ...rest }) {
+  const Tag = as || (href ? 'a' : 'article');
+  return (
+    <Tag className={cx('ed-mk-showcase', className)} href={href} {...rest}>
+      <div className="ed-mk-showcase__media" aria-hidden={image ? undefined : 'true'}>
+        {image && <img src={image} alt={alt} loading="lazy" />}
+      </div>
+      <div className="ed-mk-showcase__body">
+        <h3 className="ed-mk-showcase__title">
+          {title}
+          {href && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>}
+        </h3>
+        {body && <p className="ed-mk-showcase__text">{body}</p>}
+        {children}
+      </div>
+    </Tag>
+  );
+}
+
+/**
+ * Pointer handler for the showcase card's edge light. Writes the cursor's
+ * position into --mx/--my on the card, which the ring's gradient reads.
+ * Pass it from a client component: <ShowcaseCard onPointerMove={spotlight} />
+ */
+export function spotlight(e) {
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+  el.style.setProperty('--my', `${e.clientY - r.top}px`);
 }

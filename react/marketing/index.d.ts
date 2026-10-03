@@ -47,6 +47,8 @@ export declare function UtilityBar(props: { links: { label: string; href: string
 export declare function Hero(props: {
   eyebrow?: React.ReactNode; title: React.ReactNode; lede?: React.ReactNode; actions?: React.ReactNode;
   aside?: React.ReactNode; note?: React.ReactNode; children?: React.ReactNode;
+  /** 'bento': copy column stretches to the aside, a LogoMarquee child sits at its foot. */
+  variant?: 'bento';
 }): JSX.Element;
 export declare function ConfigPanel(props: Div & { title?: React.ReactNode; hint?: React.ReactNode }): JSX.Element;
 export declare function ConfigQuestion(props: { label: React.ReactNode; hint?: React.ReactNode; htmlFor?: string; children?: React.ReactNode }): JSX.Element;
@@ -64,6 +66,21 @@ export declare function SetupCard(props: Div & {
 }): JSX.Element;
 
 /* proof */
+export interface BentoItem { image?: string; alt?: string; label?: React.ReactNode; children?: React.ReactNode }
+export declare function BentoTile(props: React.HTMLAttributes<HTMLElement> & BentoItem & { rings?: boolean }): JSX.Element;
+export declare function BentoHub(props: { children?: React.ReactNode }): JSX.Element;
+export declare function BentoOrbit(props: { items: { name: string; src?: string }[]; slots?: number; duration?: number; label?: string }): JSX.Element | null;
+/** Three blocks stacked vertically, joined by moving rings centred on the middle one. Hover the top or bottom block to grow it. */
+export declare function Bento(props: Div & { items?: BentoItem[]; orbit?: { name: string; src?: string }[]; tone?: 'dark' | 'light'; /** ms per block in the auto loop; false stops it */ cycle?: number | false }): JSX.Element;
+/** A product-screen frame; without `image`, a dashed slot naming the screenshot. */
+export declare function Screen(props: Div & { image?: string; alt?: string; label?: React.ReactNode }): JSX.Element;
+/** A system drawn as a small product card: name, line, up to three capabilities as a tree. */
+export declare function SystemCard(props: Div & { icon?: React.ReactNode; name: React.ReactNode; line?: React.ReactNode; nodes?: React.ReactNode[] }): JSX.Element;
+/** Columns under a small label, each with a hairline on top. */
+export declare function RuledColumns(props: Div & { label?: React.ReactNode; items: { title: React.ReactNode; body?: React.ReactNode; href?: string; linkLabel?: React.ReactNode }[] }): JSX.Element;
+/** Open loop against closed loop; the closed row draws its return path. */
+export declare function LoopCompare(props: Div & { open?: { label: React.ReactNode; steps: React.ReactNode[]; end?: React.ReactNode }; closed?: { label: React.ReactNode; steps: React.ReactNode[]; back?: React.ReactNode } }): JSX.Element;
+export declare function LogoMarquee(props: Div & { label?: React.ReactNode; logos: { name: string; src?: string }[]; speed?: number }): JSX.Element | null;
 export declare function LogoStrip(props: { logos: { name: string; src?: string; href?: string }[]; note?: React.ReactNode }): JSX.Element;
 export declare function StatStrip(props: { stats: { value: React.ReactNode; caption: React.ReactNode; verified?: boolean }[] }): JSX.Element;
 export declare function Press(props: { label?: string; items: { name: string; href?: string }[] }): JSX.Element;
@@ -111,4 +128,29 @@ export declare function Footer(props: {
   legal?: { legalName: string; address: string; phone?: string; email?: string; grievance?: string };
   links?: { label: string; href: string }[];
   copyright?: React.ReactNode;
+  /** light (default) | ink, for a page that is dark to the bottom. */
+  tone?: 'light' | 'ink';
 }): JSX.Element;
+
+/* backdrop */
+/** A wireframe wave surface in teal for a `.ed-mk-glow` section. Deterministic inline SVG. */
+export declare function WaveMesh(props: React.SVGAttributes<SVGSVGElement> & { lines?: number; width?: number; height?: number }): JSX.Element;
+
+/* explorer */
+export declare function Explorer(props: Div): JSX.Element;
+export declare function ExplorerNav(props: {
+  label?: string;
+  groups: { label?: string; items: { id: string; title: string }[] }[];
+  current?: string;
+  onSelect?: (id: string) => void;
+  /** Render items as links (crawlable); onSelect still intercepts the click. */
+  hrefFor?: (item: { id: string; title: string }) => string;
+}): JSX.Element;
+export declare function ExplorerPanel(props: Div & { eyebrow?: React.ReactNode; title?: React.ReactNode; lede?: React.ReactNode; cols?: 2 | 3 }): JSX.Element;
+/** Wrap several ExplorerPanels in a div.ed-mk-explorer__stream to stack them beside a fixed list. */
+export declare function FeatureCard(props: Div & { title?: React.ReactNode; body?: React.ReactNode; figure?: React.ReactNode }): JSX.Element;
+
+/** Image on top, title and a line below; lifts and lights up on hover when it is a link. */
+export declare function ShowcaseCard(props: Div & { title: React.ReactNode; body?: React.ReactNode; image?: string; alt?: string; href?: string }): JSX.Element;
+/** Pointer handler that makes the ShowcaseCard's edge light follow the cursor. */
+export declare function spotlight(e: React.PointerEvent<HTMLElement>): void;

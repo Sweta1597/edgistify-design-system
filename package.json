@@ -1,7 +1,7 @@
 {
   "name": "@edgistify/design-system",
   "version": "0.12.0",
-  "description": "Edgistify design system — one visual language for the seller dashboard, warehouse apps and support docs.",
+  "description": "Edgistify design system \u2014 one visual language for the seller dashboard, warehouse apps and support docs.",
   "type": "module",
   "exports": {
     "./primitives.css": "./dist/primitives.css",
@@ -92,7 +92,35 @@
       "types": "./react/Logo.d.ts",
       "default": "./react/Logo.jsx"
     },
-    "./brand/*": "./brand/*"
+    "./brand/*": "./brand/*",
+    "./react/marketing/Announcement": {
+      "types": "./react/marketing/Announcement.d.ts",
+      "default": "./react/marketing/Announcement.jsx"
+    },
+    "./react/marketing/Prompt": {
+      "types": "./react/marketing/Prompt.d.ts",
+      "default": "./react/marketing/Prompt.jsx"
+    },
+    "./react/marketing/Expand": {
+      "types": "./react/marketing/Expand.d.ts",
+      "default": "./react/marketing/Expand.jsx"
+    },
+    "./react/marketing/ShowcaseTabs": {
+      "types": "./react/marketing/ShowcaseTabs.d.ts",
+      "default": "./react/marketing/ShowcaseTabs.jsx"
+    },
+    "./react/marketing/ScrollCards": {
+      "types": "./react/marketing/ScrollCards.d.ts",
+      "default": "./react/marketing/ScrollCards.jsx"
+    },
+    "./react/marketing/LoopHalo": {
+      "types": "./react/marketing/LoopHalo.d.ts",
+      "default": "./react/marketing/LoopHalo.jsx"
+    },
+    "./react/marketing/Spotlight": {
+      "types": "./react/marketing/Spotlight.d.ts",
+      "default": "./react/marketing/Spotlight.jsx"
+    }
   },
   "files": [
     "dist",
