@@ -465,7 +465,7 @@ export function LoopCompare({ open, closed, className, ...rest }) {
 /** Monochrome logos drifting left. logos: [{ name, src? }]. A logo with no
  *  `src` shows its name in plain type until the file arrives; with neither,
  *  a dashed slot. `speed` is seconds per loop. */
-export function LogoMarquee({ label, logos = [], speed = 40, className, ...rest }) {
+export function LogoMarquee({ label, logos = [], speed = 40, variant, className, ...rest }) {
   if (!logos.length) return null;
   const row = (hidden) => (
     <ul className="ed-mk-marquee__row" aria-hidden={hidden || undefined}>
@@ -477,7 +477,7 @@ export function LogoMarquee({ label, logos = [], speed = 40, className, ...rest 
     </ul>
   );
   return (
-    <div className={cx('ed-mk-marquee', className)} style={{ '--ed-mk-marquee-dur': `${speed}s` }} {...rest}>
+    <div className={cx('ed-mk-marquee', variant && `ed-mk-marquee--${variant}`, className)} style={{ '--ed-mk-marquee-dur': `${speed}s` }} {...rest}>
       {label && <p className="ed-mk-marquee__label">{label}</p>}
       <div className="ed-mk-marquee__viewport">
         <div className="ed-mk-marquee__track">{row(false)}{row(true)}</div>

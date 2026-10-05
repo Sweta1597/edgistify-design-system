@@ -2009,3 +2009,17 @@
 @media (max-width: 520px) {
   .ed-mk-hero--center .ed-mk-actions { flex-direction: column; align-items: stretch; width: 100%; }
 }
+
+/* ==================================================================
+   36. LOGO STRIP — the marquee as Stripe's band
+   Every logo in an equal cell, the row between two hairlines, no fade at
+   the edges and no label: a band that reads as part of the page's frame.
+   In a centred hero it sits at the foot of the first screen.
+   ================================================================== */
+.ed-mk-marquee--strip { gap: 0; border-block: 1px solid var(--ed-border-subtle); }
+.ed-mk-marquee--strip .ed-mk-marquee__viewport { -webkit-mask-image: none; mask-image: none; }
+.ed-mk-marquee--strip .ed-mk-marquee__row { gap: 0; padding-right: 0; }
+.ed-mk-marquee--strip .ed-mk-marquee__logo { width: var(--ed-mk-strip-cell, 172px); height: 72px; }
+.ed-mk-marquee--strip .ed-mk-marquee__logo--text { opacity: .72; font-size: var(--ed-text-lg); }
+.ed-mk-hero--center .ed-mk-hero__copy > .ed-mk-marquee--strip { align-self: end; justify-self: stretch; }
+@media (max-width: 600px) { .ed-mk-marquee--strip { --ed-mk-strip-cell: 136px; } .ed-mk-marquee--strip .ed-mk-marquee__logo { height: 60px; } }

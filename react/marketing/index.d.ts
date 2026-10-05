@@ -84,7 +84,7 @@ export declare function SystemCard(props: Div & { icon?: React.ReactNode; name: 
 export declare function RuledColumns(props: Div & { label?: React.ReactNode; items: { title: React.ReactNode; body?: React.ReactNode; href?: string; linkLabel?: React.ReactNode }[] }): JSX.Element;
 /** Open loop against closed loop; the closed row draws its return path. */
 export declare function LoopCompare(props: Div & { open?: { label: React.ReactNode; steps: React.ReactNode[]; end?: React.ReactNode }; closed?: { label: React.ReactNode; steps: React.ReactNode[]; back?: React.ReactNode } }): JSX.Element;
-export declare function LogoMarquee(props: Div & { label?: React.ReactNode; logos: { name: string; src?: string }[]; speed?: number }): JSX.Element | null;
+export declare function LogoMarquee(props: Div & { label?: React.ReactNode; logos: { name: string; src?: string }[]; speed?: number; /** 'strip': Stripe's band — equal cells between hairlines, no fade, no label */ variant?: 'strip' }): JSX.Element | null;
 export declare function LogoStrip(props: { logos: { name: string; src?: string; href?: string }[]; note?: React.ReactNode }): JSX.Element;
 export declare function StatStrip(props: { stats: { value: React.ReactNode; caption: React.ReactNode; verified?: boolean }[] }): JSX.Element;
 export declare function Press(props: { label?: string; items: { name: string; href?: string }[] }): JSX.Element;

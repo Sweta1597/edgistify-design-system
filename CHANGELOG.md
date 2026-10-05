@@ -140,6 +140,9 @@ versions follow [semver](https://semver.org/).
     the space above the headline is half the centred space.
   - **Compact buttons** (`.ed-btn--compact`, `.ed-btn--line`): 40px tall,
     rounded rather than pill; `--line` is ink with a white edge.
+  - **LogoMarquee `variant="strip"`**: Stripe's logo band — equal cells
+    between hairlines, no edge fade, no label; at the foot of the first
+    screen in a centred hero.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
