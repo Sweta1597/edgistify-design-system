@@ -275,6 +275,93 @@ export function SetupCard({ k = 'EdgeOS · Your setup', title, services = [], no
   );
 }
 
+/* --------------------------------------------------------- setup builder */
+
+/**
+ * The configurator as a section: the questions in a narrow column on the
+ * left (`ask`), the live answer filling the rest (`children`).
+ */
+export function Builder({ ask, children, className = '', ...rest }) {
+  return (
+    <div className={cx('ed-mk-builder', className)} {...rest}>
+      <div className="ed-mk-builder__ask">{ask}</div>
+      <div className="ed-mk-builder__out">{children}</div>
+    </div>
+  );
+}
+
+/** Option boxes, three a row. Label the group with `label` or `labelledBy`. */
+export function Ticks({ label, labelledBy, className = '', children }) {
+  return <div role="group" aria-label={label} aria-labelledby={labelledBy} className={cx('ed-mk-ticks', className)}>{children}</div>;
+}
+
+/** One option box: a real checkbox inside a label that draws the box. */
+export function Tick({ icon, checked, onChange, children, className = '', ...rest }) {
+  return (
+    <label className={cx('ed-mk-tick', className)}>
+      <input type="checkbox" className="ed-mk-tick__input" checked={!!checked} onChange={onChange} {...rest} />
+      {icon && <span className="ed-mk-tick__icon" aria-hidden="true">{icon}</span>}
+      <span className="ed-mk-tick__box" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" /></svg></span>
+      <span className="ed-mk-tick__label">{children}</span>
+    </label>
+  );
+}
+
+/**
+ * The live answer. Every service is listed from the start: `on: true`
+ * lights it, `on: false` dims it, undefined leaves it neutral. `base` is
+ * the system under them all, the full width under the grid.
+ */
+export function SetupBoard({
+  k = 'Your setup', title, empty = false, live = 'Live', servicesLabel = "Services you'd use",
+  services = [], base, noteLabel = 'What matters in your category', note, noteEmpty = false,
+  proof, actions, foot, className = '', ...rest
+}) {
+  return (
+    <section className={cx('ed-mk-board', className)} {...rest}>
+      <header className="ed-mk-board__head">
+        <div className="ed-mk-board__titles">
+          <p className="ed-mk-board__k">{k}</p>
+          <h3 className={cx('ed-mk-board__title', empty && 'is-empty')} aria-live="polite">{title}</h3>
+        </div>
+        {live && <span className="ed-mk-board__live">{live}</span>}
+      </header>
+      <div className="ed-mk-board__block">
+        <p className="ed-mk-board__k">{servicesLabel}</p>
+        <ul className="ed-mk-board__svcs">
+          {services.map((s) => (
+            <li key={s.id || s.name} className={cx('ed-mk-board__svc', s.on === true && 'is-on', s.on === false && 'is-off')}>
+              {s.icon && <span className="ed-mk-board__icon" aria-hidden="true">{s.icon}</span>}
+              <span className="ed-mk-board__name">{s.name}</span>
+              <span className="ed-mk-board__why" key={String(s.why)}>{s.why}</span>
+            </li>
+          ))}
+          {base && (
+            <li className="ed-mk-board__svc ed-mk-board__svc--base">
+              {base.icon && <span className="ed-mk-board__icon" aria-hidden="true">{base.icon}</span>}
+              <span className="ed-mk-board__name">{base.name}{base.tag && <span className="ed-mk-board__tag">{base.tag}</span>}</span>
+              <span className="ed-mk-board__why">{base.why}</span>
+            </li>
+          )}
+        </ul>
+      </div>
+      {note && (
+        <div className="ed-mk-board__block">
+          <p className="ed-mk-board__k">{noteLabel}</p>
+          <p className={cx('ed-mk-board__note', noteEmpty && 'is-empty')} key={String(note)}>{note}</p>
+        </div>
+      )}
+      {proof && <div className="ed-mk-board__proof">{proof}</div>}
+      {(actions || foot) && (
+        <footer className="ed-mk-board__foot">
+          {actions && <Actions>{actions}</Actions>}
+          {foot && <p className="ed-mk-board__aside">{foot}</p>}
+        </footer>
+      )}
+    </section>
+  );
+}
+
 /* ----------------------------------------------------------------- proof */
 
 /** logos: [{ name, src?, href? }]. A logo with no `src` is a pending slot. */

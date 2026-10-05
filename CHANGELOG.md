@@ -144,6 +144,15 @@ versions follow [semver](https://semver.org/).
     rounded rather than pill; `--line` is ink with a white edge.
   - **LogoMarquee `variant="strip"`**: Stripe's logo band — equal cells
     between hairlines, no edge fade, no label.
+  - **Setup builder** (`Builder`, `Ticks`/`Tick`, `SetupBoard`): the
+    configurator as a section. The questions sit in a left column a quarter
+    of the row (never under 20rem, so three option boxes a row keep their
+    labels whole); the board fills the rest. `Tick` is a real checkbox in a
+    box with an icon. `SetupBoard` lists every service from the start —
+    `on` lights one, `on: false` dims it — with the system under them all as
+    a full-width last row, so changing an answer changes the board rather
+    than swapping a card. On the band it sits just off the ink, not on grey,
+    and the native select keeps a dark list.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
