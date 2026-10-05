@@ -1989,7 +1989,7 @@
    .ed-mk-display__sub instead. */
 .ed-mk-hero--solo .ed-mk-display { font-size: var(--ed-mk-text-display); max-width: var(--ed-mk-measure-narrow); }
 .ed-mk-hero--solo .ed-mk-display:has(.ed-mk-display__line) { font-size: clamp(2rem, 4.5vw, 3.25rem); max-width: none; }
-.ed-mk-hero--solo .ed-mk-lede { max-width: 60ch; }
+.ed-mk-hero--solo .ed-mk-lede { max-width: 60ch; font-size: clamp(1rem, 0.96rem + 0.15vw, 1.0625rem); }  /* 16 → 17: quieter than the section ledes */
 .ed-mk-display__line { display: block; }
 .ed-mk-display__sub {
   display: block; margin-top: .28em;

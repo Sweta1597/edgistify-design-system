@@ -139,6 +139,7 @@ versions follow [semver](https://semver.org/).
     lede's element (e.g. `h2`). The one-column hero spans the container
     with a one-line headline; the space above the headline equals the space
     between the actions and the logo strip, and the rest falls below.
+    Its lede is a step quieter than a section lede (16→17px, not 17→20).
   - **Compact buttons** (`.ed-btn--compact`, `.ed-btn--line`): 40px tall,
     rounded rather than pill; `--line` is ink with a white edge.
   - **LogoMarquee `variant="strip"`**: Stripe's logo band — equal cells
