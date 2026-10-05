@@ -899,12 +899,14 @@ export function FeatureCard({ title, body, figure, className = '', children, ...
  * when `href` is given: on hover the card lifts, a teal light runs round
  * its edge and an arrow appears beside the title.
  */
-export function ShowcaseCard({ title, body, image, alt = '', href, as, className = '', children, ...rest }) {
+export function ShowcaseCard({ title, body, image, alt = '', media, href, as, className = '', children, ...rest }) {
   const Tag = as || (href ? 'a' : 'article');
   return (
     <Tag className={cx('ed-mk-showcase', className)} href={href} {...rest}>
-      <div className="ed-mk-showcase__media" aria-hidden={image ? undefined : 'true'}>
-        {image && <img src={image} alt={alt} loading="lazy" />}
+      {/* `media` replaces the image with anything — an illustration, a live
+          figure — on a dark ground. */}
+      <div className={cx('ed-mk-showcase__media', media && 'ed-mk-showcase__media--dark')} aria-hidden={image || media ? undefined : 'true'}>
+        {media ?? (image && <img src={image} alt={alt} loading="lazy" />)}
       </div>
       <div className="ed-mk-showcase__body">
         <h3 className="ed-mk-showcase__title">

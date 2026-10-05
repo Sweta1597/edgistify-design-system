@@ -125,6 +125,8 @@ versions follow [semver](https://semver.org/).
     top — title, a line or two, optional link.
   - **LoopCompare**: open loop against closed loop — muted dashed steps
     ending at a wall, then teal steps with a drawn return path.
+  - **ShowcaseCard `media`**: any node in place of the image — an
+    illustration or a live figure — on a dark ink ground.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

@@ -1176,6 +1176,10 @@
 .ed-mk-showcase__media { aspect-ratio: 1 / 1; background:
   radial-gradient(circle at 70% 30%, var(--ed-teal-800), transparent 55%), linear-gradient(160deg, var(--ed-neutral-900), var(--ed-teal-950));
   border-bottom: 1px solid var(--ed-neutral-800); }
+/* A media slot holding an illustration or a live figure: the card's own
+   ink, so line drawings sit on it with no box of their own. */
+.ed-mk-showcase__media--dark { background: var(--ed-ink); display: grid; place-items: center; }
+.ed-mk-showcase__media--dark > * { width: 100%; }
 .ed-mk-showcase__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ed-mk-showcase__body { padding: var(--ed-space-4) var(--ed-space-5) var(--ed-space-5); display: flex; flex-direction: column; gap: var(--ed-space-2); }
 .ed-mk-showcase__title { margin: 0; display: flex; align-items: center; gap: var(--ed-space-2); font: var(--ed-weight-semibold) var(--ed-text-lg)/1.3 var(--ed-font-ui); color: var(--ed-text); }

@@ -151,6 +151,6 @@ export declare function ExplorerPanel(props: Div & { eyebrow?: React.ReactNode; 
 export declare function FeatureCard(props: Div & { title?: React.ReactNode; body?: React.ReactNode; figure?: React.ReactNode }): JSX.Element;
 
 /** Image on top, title and a line below; lifts and lights up on hover when it is a link. */
-export declare function ShowcaseCard(props: Div & { title: React.ReactNode; body?: React.ReactNode; image?: string; alt?: string; href?: string }): JSX.Element;
+export declare function ShowcaseCard(props: Div & { title: React.ReactNode; body?: React.ReactNode; image?: string; alt?: string; /** Replaces the image with any node (an illustration, a live figure) on a dark ground. */ media?: React.ReactNode; href?: string }): JSX.Element;
 /** Pointer handler that makes the ShowcaseCard's edge light follow the cursor. */
 export declare function spotlight(e: React.PointerEvent<HTMLElement>): void;
