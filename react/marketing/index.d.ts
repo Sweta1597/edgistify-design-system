@@ -49,6 +49,10 @@ export declare function Hero(props: {
   aside?: React.ReactNode; note?: React.ReactNode; children?: React.ReactNode;
   /** 'bento': copy column stretches to the aside, a LogoMarquee child sits at its foot. */
   variant?: 'bento';
+  /** 'center' centres the copy; with no aside the column spans the container. */
+  align?: 'center';
+  /** The lede's element, e.g. 'h2' when it is the page's second heading. Default p. */
+  ledeAs?: keyof JSX.IntrinsicElements;
 }): JSX.Element;
 export declare function ConfigPanel(props: Div & { title?: React.ReactNode; hint?: React.ReactNode }): JSX.Element;
 export declare function ConfigQuestion(props: { label: React.ReactNode; hint?: React.ReactNode; htmlFor?: string; children?: React.ReactNode }): JSX.Element;

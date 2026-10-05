@@ -134,6 +134,12 @@ versions follow [semver](https://semver.org/).
     side. A Hero with no `aside` sets one column of copy, as tall as the
     first screen below the site chrome (`--ed-mk-chrome-h`), with the
     headline group at its vertical middle.
+  - **Hero `align="center"`** centres the copy (one-line headline with an
+    optional smaller `.ed-mk-display__sub` line) and `ledeAs` sets the
+    lede's element (e.g. `h2`). The one-column hero now sits above centre:
+    the space above the headline is half the centred space.
+  - **Compact buttons** (`.ed-btn--compact`, `.ed-btn--line`): 40px tall,
+    rounded rather than pill; `--line` is ink with a white edge.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

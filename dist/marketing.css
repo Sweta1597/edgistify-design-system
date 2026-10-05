@@ -1971,3 +1971,41 @@
   .ed-mk-hero--solo .ed-mk-hero__copy { display: grid; }
   .ed-mk-hero--solo .ed-mk-hero__copy::before { content: ''; }
 }
+
+/* ==================================================================
+   35. CENTRED HERO, and compact action buttons
+   ================================================================== */
+/* The one-column hero sits a little above the middle of the first screen:
+   the space above the headline is half what centring would give it. */
+.ed-mk-hero--solo .ed-mk-hero__copy { grid-template-rows: minmax(0, 1fr) repeat(3, auto) 3fr; }
+
+/* align="center": the copy is centred and spans the container. The headline
+   is one line on anything wider than a phone, scaled with the window; a
+   smaller second line can sit inside it (.ed-mk-display__sub). */
+.ed-mk-hero--center .ed-mk-split { grid-template-columns: minmax(0, 1fr); }
+.ed-mk-hero--center .ed-mk-hero__copy { text-align: center; justify-items: center; }
+.ed-mk-hero--center .ed-mk-display { font-size: clamp(2rem, 4.5vw, 3.25rem); max-width: none; }
+.ed-mk-hero--center .ed-mk-lede { max-width: 60ch; }
+.ed-mk-hero--center .ed-mk-actions { justify-content: center; }
+.ed-mk-hero--center .ed-mk-marquee { justify-self: stretch; }
+.ed-mk-hero--center .ed-mk-marquee__label { text-align: center; }
+.ed-mk-display__line { display: block; }
+.ed-mk-display__sub {
+  display: block; margin-top: .28em;
+  font-size: .5em; font-weight: var(--ed-weight-medium); letter-spacing: -0.015em; line-height: 1.15;
+}
+@media (min-width: 700px) { .ed-mk-hero--center .ed-mk-display__line { white-space: nowrap; } }
+
+/* Compact buttons for an action row: short, rounded corners rather than a
+   pill. --line is the quiet partner: ink, with a white edge and white text. */
+.ed-mk .ed-btn.ed-btn--compact {
+  height: 40px; padding-inline: var(--ed-space-4); border-radius: 10px; gap: var(--ed-space-2);
+  font: var(--ed-weight-semibold) var(--ed-text-sm)/1 var(--ed-font-ui);
+}
+.ed-mk .ed-btn.ed-btn--compact > svg { width: 16px; height: 16px; }
+.ed-mk .ed-btn.ed-btn--line { background: var(--ed-ink); color: var(--ed-white); border: 1px solid var(--ed-white); }
+.ed-mk .ed-btn.ed-btn--line:hover { background: var(--ed-neutral-900); }
+.ed-mk .ed-btn.ed-btn--line:focus-visible { outline: 2px solid var(--ed-teal-300); outline-offset: 2px; }
+@media (max-width: 520px) {
+  .ed-mk-hero--center .ed-mk-actions { flex-direction: column; align-items: stretch; width: 100%; }
+}
