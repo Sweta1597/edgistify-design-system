@@ -1975,26 +1975,28 @@
 /* ==================================================================
    35. CENTRED HERO, and compact action buttons
    ================================================================== */
-/* The one-column hero sits a little above the middle of the first screen:
-   the space above the headline is half what centring would give it. */
-.ed-mk-hero--solo .ed-mk-hero__copy { grid-template-rows: minmax(0, 1fr) repeat(3, auto) 3fr; }
-
-/* align="center": the copy is centred and spans the container. The headline
-   is one line on anything wider than a phone, scaled with the window; a
-   smaller second line can sit inside it (.ed-mk-display__sub). */
-.ed-mk-hero--center .ed-mk-split { grid-template-columns: minmax(0, 1fr); }
-.ed-mk-hero--center .ed-mk-hero__copy { text-align: center; justify-items: center; }
-.ed-mk-hero--center .ed-mk-display { font-size: clamp(2rem, 4.5vw, 3.25rem); max-width: none; }
-.ed-mk-hero--center .ed-mk-lede { max-width: 60ch; }
-.ed-mk-hero--center .ed-mk-actions { justify-content: center; }
-.ed-mk-hero--center .ed-mk-marquee { justify-self: stretch; }
-.ed-mk-hero--center .ed-mk-marquee__label { text-align: center; }
+/* The one-column hero spans the container. Rows down the first screen:
+   space · headline · lede · actions · space · logo strip · space, the three
+   spaces 1 : 1 : 2, so the gap above the headline and the gap between the
+   actions and the strip are the same, and the rest falls below the strip. */
+.ed-mk-hero--solo .ed-mk-split { grid-template-columns: minmax(0, 1fr); }
+.ed-mk-hero--solo .ed-mk-hero__copy { grid-template-rows: minmax(0, 1fr) repeat(3, auto) minmax(0, 1fr) auto minmax(0, 2fr); }
+.ed-mk-hero--solo .ed-mk-hero__copy > .ed-mk-marquee { grid-row: 6; align-self: start; justify-self: stretch; margin-top: 0; padding-top: 0; }
+/* The headline is one line on anything wider than a phone, scaled with the
+   window; a smaller second line can sit inside it (.ed-mk-display__sub). */
+.ed-mk-hero--solo .ed-mk-display { font-size: clamp(2rem, 4.5vw, 3.25rem); max-width: none; }
+.ed-mk-hero--solo .ed-mk-lede { max-width: 60ch; }
 .ed-mk-display__line { display: block; }
 .ed-mk-display__sub {
   display: block; margin-top: .28em;
   font-size: .5em; font-weight: var(--ed-weight-medium); letter-spacing: -0.015em; line-height: 1.15;
 }
-@media (min-width: 700px) { .ed-mk-hero--center .ed-mk-display__line { white-space: nowrap; } }
+@media (min-width: 700px) { .ed-mk-hero--solo .ed-mk-display__line { white-space: nowrap; } }
+
+/* align="center": the same, centred. */
+.ed-mk-hero--center .ed-mk-hero__copy { text-align: center; justify-items: center; }
+.ed-mk-hero--center .ed-mk-actions { justify-content: center; }
+.ed-mk-hero--center .ed-mk-marquee__label { text-align: center; }
 
 /* Compact buttons for an action row: short, rounded corners rather than a
    pill. --line is the quiet partner: ink, with a white edge and white text. */
@@ -2021,5 +2023,4 @@
 .ed-mk-marquee--strip .ed-mk-marquee__row { gap: 0; padding-right: 0; }
 .ed-mk-marquee--strip .ed-mk-marquee__logo { width: var(--ed-mk-strip-cell, 172px); height: 72px; }
 .ed-mk-marquee--strip .ed-mk-marquee__logo--text { opacity: .72; font-size: var(--ed-text-lg); }
-.ed-mk-hero--center .ed-mk-hero__copy > .ed-mk-marquee--strip { align-self: end; justify-self: stretch; }
 @media (max-width: 600px) { .ed-mk-marquee--strip { --ed-mk-strip-cell: 136px; } .ed-mk-marquee--strip .ed-mk-marquee__logo { height: 60px; } }
