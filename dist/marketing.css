@@ -1959,7 +1959,15 @@
 .ed-mk-bento--footer .ed-mk-bento__hub svg, .ed-mk-bento--footer .ed-mk-bento__hub img { width: 26px; height: 26px; }
 .ed-mk-bento--footer .ed-mk-orbit__chip { min-width: 0; height: 24px; padding-inline: var(--ed-space-2); border-radius: 7px; font-size: 10px; }
 
-/* A hero with no aside: one column of copy at a comfortable measure, with
-   room above it now that nothing meets the header. */
-.ed-mk-hero--solo.ed-mk-hero--bento { padding-top: clamp(72px, 12vh, 140px); }
+/* A hero with no aside: one column of copy at a comfortable measure. The
+   column is exactly the first screen below the site chrome (announcement
+   and header, measured by the site into --ed-mk-chrome-h), and its equal
+   flexible rows put the headline, lede and call to action at the middle of
+   that height; the logos hang below them. */
+.ed-mk-hero--solo.ed-mk-hero--bento { padding-block: 0; }
 .ed-mk-hero--solo .ed-mk-split { grid-template-columns: minmax(0, 760px); }
+.ed-mk-hero--solo .ed-mk-hero__copy { min-height: calc(100svh - var(--ed-mk-chrome-h, 104px)); }
+@media (max-width: 900px) {
+  .ed-mk-hero--solo .ed-mk-hero__copy { display: grid; }
+  .ed-mk-hero--solo .ed-mk-hero__copy::before { content: ''; }
+}

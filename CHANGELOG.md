@@ -131,7 +131,9 @@ versions follow [semver](https://semver.org/).
     illustration or a live figure — on a dark ink ground.
   - **Footer `art`**: a visual under the brand description; a compact
     bento (`ed-mk-bento--footer`) fits the brand column, fading on every
-    side. A Hero with no `aside` sets one column of copy.
+    side. A Hero with no `aside` sets one column of copy, as tall as the
+    first screen below the site chrome (`--ed-mk-chrome-h`), with the
+    headline group at its vertical middle.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
