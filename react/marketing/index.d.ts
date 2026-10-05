@@ -71,7 +71,7 @@ export declare function BentoTile(props: React.HTMLAttributes<HTMLElement> & Ben
 export declare function BentoHub(props: { children?: React.ReactNode }): JSX.Element;
 export declare function BentoOrbit(props: { items: { name: string; src?: string }[]; slots?: number; duration?: number; label?: string }): JSX.Element | null;
 /** Three blocks stacked vertically, joined by moving rings centred on the middle one. Hover the top or bottom block to grow it. */
-export declare function Bento(props: Div & { items?: BentoItem[]; orbit?: { name: string; src?: string }[]; tone?: 'dark' | 'light'; /** ms per block in the auto loop; false stops it */ cycle?: number | false }): JSX.Element;
+export declare function Bento(props: Div & { items?: BentoItem[]; orbit?: { name: string; src?: string }[]; /** tiles round the ring (default 12); fewer for a small bento */ orbitSlots?: number; tone?: 'dark' | 'light'; /** ms per block in the auto loop; false stops it */ cycle?: number | false }): JSX.Element;
 /** A product-screen frame; without `image`, a dashed slot naming the screenshot. */
 export declare function Screen(props: Div & { image?: string; alt?: string; label?: React.ReactNode }): JSX.Element;
 /** A system drawn as a small product card: name, line, up to three capabilities as a tree. */
@@ -128,6 +128,8 @@ export declare function Footer(props: {
   legal?: { legalName: string; address: string; phone?: string; email?: string; grievance?: string };
   links?: { label: string; href: string }[];
   copyright?: React.ReactNode;
+  /** A visual under the brand description, e.g. a compact <Bento className="ed-mk-bento--footer" />. */
+  art?: React.ReactNode;
   /** light (default) | ink, for a page that is dark to the bottom. */
   tone?: 'light' | 'ink';
 }): JSX.Element;

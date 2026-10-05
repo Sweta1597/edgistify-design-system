@@ -129,6 +129,9 @@ versions follow [semver](https://semver.org/).
     ending at a wall, then teal steps with a drawn return path.
   - **ShowcaseCard `media`**: any node in place of the image — an
     illustration or a live figure — on a dark ink ground.
+  - **Footer `art`**: a visual under the brand description; a compact
+    bento (`ed-mk-bento--footer`) fits the brand column, fading on every
+    side. A Hero with no `aside` sets one column of copy.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

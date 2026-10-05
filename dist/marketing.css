@@ -727,6 +727,7 @@
 @media (max-width: 1024px) { .ed-mk-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ed-mk-footer__brand { grid-column: 1 / -1; } }
 @media (max-width: 560px)  { .ed-mk-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .ed-mk-footer__brand p { margin: var(--ed-space-4) 0 0; max-width: 40ch; color: var(--ed-text-secondary); line-height: var(--ed-leading-relaxed); }
+.ed-mk-footer__art { margin-top: var(--ed-space-8); }
 .ed-mk-footer__col h4 { margin: 0 0 var(--ed-space-3); font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui);
                         letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted); }
 .ed-mk-footer__col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ed-space-2); }
@@ -1938,3 +1939,27 @@
 }
 .ed-mk .ed-btn.ed-btn--glow:hover, .ed-mk .ed-btn.ed-btn--glow:focus-visible { background: var(--ed-ink); color: var(--ed-teal-300); }
 .ed-mk .ed-btn.ed-btn--glow:hover::before, .ed-mk .ed-btn.ed-btn--glow:focus-visible::before { opacity: 1; }
+
+/* ==================================================================
+   34. BENTO in the footer, and the hero without an aside
+   ================================================================== */
+/* A compact bento for the footer's brand column: shorter, smaller hub and
+   channel tiles, and the rings fade out on every side. */
+.ed-mk-bento.ed-mk-bento--footer {
+  --ed-mk-bento-gap: var(--ed-space-2);
+  height: clamp(260px, 22vw, 320px);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+          mask-image:
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+}
+.ed-mk-bento--footer .ed-mk-bento__hub { width: 48px; height: 48px; border-radius: 13px; }
+.ed-mk-bento--footer .ed-mk-bento__hub svg, .ed-mk-bento--footer .ed-mk-bento__hub img { width: 26px; height: 26px; }
+.ed-mk-bento--footer .ed-mk-orbit__chip { min-width: 0; height: 24px; padding-inline: var(--ed-space-2); border-radius: 7px; font-size: 10px; }
+
+/* A hero with no aside: one column of copy at a comfortable measure, with
+   room above it now that nothing meets the header. */
+.ed-mk-hero--solo.ed-mk-hero--bento { padding-top: clamp(72px, 12vh, 140px); }
+.ed-mk-hero--solo .ed-mk-split { grid-template-columns: minmax(0, 760px); }

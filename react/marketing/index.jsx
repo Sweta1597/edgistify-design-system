@@ -177,7 +177,7 @@ export function UtilityBar({ links = [] }) {
 
 export function Hero({ eyebrow, title, lede, actions, aside, note, variant, children }) {
   return (
-    <section className={cx('ed-mk-hero', variant && `ed-mk-hero--${variant}`)}>
+    <section className={cx('ed-mk-hero', variant && `ed-mk-hero--${variant}`, !aside && 'ed-mk-hero--solo')}>
       <Container>
         <Split top ratio="minmax(0, 1.05fr) minmax(0, 1fr)">
           <div className="ed-mk-hero__copy">
@@ -359,7 +359,7 @@ export function BentoOrbit({ items = [], slots = 12, duration = 60, label = 'Sal
  *  bottom block. tone: 'dark' (default) or 'light'. `cycle`: ms each block
  *  stays open in the automatic loop (false to stop it); hover holds a block
  *  open. */
-export function Bento({ items = [], orbit, tone = 'dark', cycle = 2000, className, ...rest }) {
+export function Bento({ items = [], orbit, orbitSlots, tone = 'dark', cycle = 2000, className, ...rest }) {
   const [top = {}, hub = {}, bottom = {}] = items;
   return (
     <div className={cx('ed-mk-bento', tone === 'light' && 'ed-mk-bento--light', className)} data-open="2" {...rest}>
@@ -369,7 +369,7 @@ export function Bento({ items = [], orbit, tone = 'dark', cycle = 2000, classNam
         {hub.children || hub.image ? <BentoTile {...hub} /> : <BentoTile {...hub}><BentoHub /></BentoTile>}
         <BentoTile {...bottom}>
           {bottom.children}
-          {orbit && <BentoOrbit items={orbit} />}
+          {orbit && <BentoOrbit items={orbit} slots={orbitSlots} />}
           {!bottom.children && !orbit && bottom.label && <span className="ed-mk-bento__slot"><ImageGlyph /><span>{bottom.label}</span><small>Block</small></span>}
         </BentoTile>
       </div>
@@ -733,7 +733,7 @@ export function Doors({ doors = [] }) {
  * legal: { legalName, address, phone, email, grievance }
  */
 /** `tone`: light (default) | ink — ink for a page that is dark to the bottom. */
-export function Footer({ description, columns = [], legal, links = [], copyright, tone = 'light' }) {
+export function Footer({ description, columns = [], legal, links = [], copyright, art, tone = 'light' }) {
   return (
     <footer className={cx('ed-mk-footer', tone === 'ink' && 'ed-mk-band ed-mk-footer--ink')}>
       <Container>
@@ -741,6 +741,7 @@ export function Footer({ description, columns = [], legal, links = [], copyright
           <div className="ed-mk-footer__brand">
             <Wordmark />
             {description && <p>{description}</p>}
+            {art && <div className="ed-mk-footer__art">{art}</div>}
           </div>
           {columns.map((c) => (
             <div className="ed-mk-footer__col" key={c.title}>
