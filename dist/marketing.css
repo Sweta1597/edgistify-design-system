@@ -1982,9 +1982,13 @@
 .ed-mk-hero--solo .ed-mk-split { grid-template-columns: minmax(0, 1fr); }
 .ed-mk-hero--solo .ed-mk-hero__copy { grid-template-rows: minmax(0, 1fr) repeat(3, auto) minmax(0, 1fr) auto minmax(0, 2fr); }
 .ed-mk-hero--solo .ed-mk-hero__copy > .ed-mk-marquee { grid-row: 6; align-self: start; justify-self: stretch; margin-top: 0; padding-top: 0; }
-/* The headline is one line on anything wider than a phone, scaled with the
-   window; a smaller second line can sit inside it (.ed-mk-display__sub). */
-.ed-mk-hero--solo .ed-mk-display { font-size: clamp(2rem, 4.5vw, 3.25rem); max-width: none; }
+/* The headline takes the full display size and its narrow measure, so it
+   wraps into a few balanced lines; a serif-italic phrase (.ed-mk-serif)
+   flows inline at the same size. For a one-line headline with a smaller
+   second line, wrap the parts in .ed-mk-display__line and
+   .ed-mk-display__sub instead. */
+.ed-mk-hero--solo .ed-mk-display { font-size: var(--ed-mk-text-display); max-width: var(--ed-mk-measure-narrow); }
+.ed-mk-hero--solo .ed-mk-display:has(.ed-mk-display__line) { font-size: clamp(2rem, 4.5vw, 3.25rem); max-width: none; }
 .ed-mk-hero--solo .ed-mk-lede { max-width: 60ch; }
 .ed-mk-display__line { display: block; }
 .ed-mk-display__sub {
