@@ -2034,11 +2034,11 @@
    ------------------------------------------------------------------
    The two questions in a narrow column on the left, the answer filling
    the rest of the row and changing as the answers do. The left column is
-   a quarter of the row, but never under 20rem: three option boxes a row
-   need that much to keep their labels whole.
+   a quarter of the row, but never under 22rem: a question split in two
+   halves (options, then their platforms) needs that much to keep labels whole.
    ================================================================== */
 .ed-mk-builder {
-  display: grid; grid-template-columns: minmax(20rem, 1fr) minmax(0, 3fr);
+  display: grid; grid-template-columns: minmax(22rem, 1fr) minmax(0, 3fr);
   gap: clamp(24px, 3.4vw, 48px); align-items: start;
 }
 .ed-mk-builder__ask { display: flex; flex-direction: column; gap: var(--ed-space-8); min-width: 0; }
@@ -2182,6 +2182,58 @@
 .ed-mk-board__aside a { color: var(--ed-text-link); text-decoration: none; font-weight: var(--ed-weight-medium); }
 .ed-mk-board__aside a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .ed-mk-board .ed-btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+.ed-mk-board .ed-btn--ghost[aria-disabled="true"] { background: transparent; }
+
+/* A question in two halves: the options on the left, and on the right
+   what each picked option opens up (the platforms under a channel). */
+.ed-mk-builder__halves { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ed-space-3); align-items: start; }
+.ed-mk-checks { display: flex; flex-direction: column; gap: var(--ed-space-1-5); }
+
+/* Row option: label, then the tick at the right; a leading mark if given. */
+.ed-mk-tick--row {
+  display: flex; align-items: center; gap: var(--ed-space-2);
+  min-height: 44px; padding: var(--ed-space-2) var(--ed-space-3); border-radius: 10px;
+}
+.ed-mk-tick--row .ed-mk-tick__icon { order: 0; }
+.ed-mk-tick--row .ed-mk-tick__label { order: 1; flex: 1; align-self: center; min-width: 0; }
+.ed-mk-tick--row .ed-mk-tick__box { order: 2; flex: none; }
+.ed-mk-tick--sm { min-height: 38px; gap: var(--ed-space-1-5); padding: 6px var(--ed-space-2) 6px 6px; }
+.ed-mk-tick--sm .ed-mk-mark { width: 22px; height: 22px; border-radius: 6px; font-size: 11px; }
+
+/* The second half: one group per picked option. */
+.ed-mk-picks { display: flex; flex-direction: column; gap: var(--ed-space-4); min-width: 0; }
+.ed-mk-picks__group { display: flex; flex-direction: column; gap: var(--ed-space-1-5); animation: ed-mk-board-in .35s var(--ed-mk-ease); }
+.ed-mk-picks__k {
+  margin: 0 0 2px; font: var(--ed-weight-semibold) var(--ed-text-2xs)/1.3 var(--ed-font-ui);
+  letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-text-muted);
+}
+.ed-mk-picks__empty {
+  margin: 0; display: grid; place-items: center; min-height: 132px; padding: var(--ed-space-4);
+  border: 1px dashed var(--ed-mk-board-line, var(--ed-border)); border-radius: 10px;
+  font-size: var(--ed-text-xs); line-height: 1.45; color: var(--ed-text-muted); text-align: center; text-wrap: balance;
+}
+
+/* A platform's mark: its logo when there is one, else its initial on its
+   colour, so the slot is right before the artwork arrives. */
+.ed-mk-mark {
+  flex: none; width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; overflow: hidden;
+  background: var(--ed-mk-mark-bg, var(--ed-surface-raised)); color: var(--ed-mk-mark-ink, var(--ed-white));
+  font: var(--ed-weight-bold) var(--ed-text-xs)/1 var(--ed-font-ui);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ed-white) 12%, transparent);
+}
+.ed-mk-mark img { width: 100%; height: 100%; object-fit: contain; }
+.ed-mk-mark--sm { width: 18px; height: 18px; border-radius: 5px; font-size: 10px; }
+.ed-mk-tick:not(:has(:checked)) .ed-mk-mark { filter: saturate(.35) brightness(.85); transition: filter .2s; }
+
+/* Under the board's title: the channels and platforms picked. */
+.ed-mk-board__chips { list-style: none; margin: var(--ed-space-1) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--ed-space-1-5); }
+.ed-mk-board__chip {
+  display: inline-flex; align-items: center; gap: var(--ed-space-1-5); height: 28px; padding: 0 10px 0 5px;
+  border: 1px solid var(--ed-mk-board-line); border-radius: 999px;
+  font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui); color: var(--ed-text-secondary);
+  animation: ed-mk-board-in .35s var(--ed-mk-ease);
+}
+.ed-mk-board__chip--plain { padding-left: 10px; }
 
 @media (max-width: 900px) {
   .ed-mk-builder { grid-template-columns: minmax(0, 1fr); }
@@ -2191,5 +2243,5 @@
   .ed-mk-board__foot .ed-mk-actions { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ed-mk-board__why, .ed-mk-board__note { animation: none; }
+  .ed-mk-board__why, .ed-mk-board__note, .ed-mk-picks__group, .ed-mk-board__chip { animation: none; }
 }

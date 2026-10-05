@@ -295,15 +295,26 @@ export function Ticks({ label, labelledBy, className = '', children }) {
   return <div role="group" aria-label={label} aria-labelledby={labelledBy} className={cx('ed-mk-ticks', className)}>{children}</div>;
 }
 
-/** One option box: a real checkbox inside a label that draws the box. */
-export function Tick({ icon, checked, onChange, children, className = '', ...rest }) {
+/** One option box: a real checkbox inside a label that draws the box.
+ *  `row` lays it out as a line (mark, label, tick); `size="sm"` tightens it. */
+export function Tick({ icon, checked, onChange, row = false, size, children, className = '', ...rest }) {
   return (
-    <label className={cx('ed-mk-tick', className)}>
+    <label className={cx('ed-mk-tick', row && 'ed-mk-tick--row', size === 'sm' && 'ed-mk-tick--sm', className)}>
       <input type="checkbox" className="ed-mk-tick__input" checked={!!checked} onChange={onChange} {...rest} />
       {icon && <span className="ed-mk-tick__icon" aria-hidden="true">{icon}</span>}
       <span className="ed-mk-tick__box" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" /></svg></span>
       <span className="ed-mk-tick__label">{children}</span>
     </label>
+  );
+}
+
+/** A platform's mark: its logo (`src`) or, until that arrives, its initial on `color`. */
+export function Mark({ name, src, color, ink, size, className = '' }) {
+  return (
+    <span className={cx('ed-mk-mark', size === 'sm' && 'ed-mk-mark--sm', className)} aria-hidden="true"
+      style={color ? { '--ed-mk-mark-bg': color, '--ed-mk-mark-ink': ink } : undefined}>
+      {src ? <img src={src} alt="" /> : String(name || '').charAt(0)}
+    </span>
   );
 }
 
@@ -313,7 +324,7 @@ export function Tick({ icon, checked, onChange, children, className = '', ...res
  * the system under them all, the full width under the grid.
  */
 export function SetupBoard({
-  k = 'Your setup', title, empty = false, live = 'Live', servicesLabel = "Services you'd use",
+  k = 'Your setup', title, chips = [], empty = false, live = 'Live', servicesLabel = "Services you'd use",
   services = [], base, noteLabel = 'What matters in your category', note, noteEmpty = false,
   proof, actions, foot, className = '', ...rest
 }) {
@@ -323,6 +334,13 @@ export function SetupBoard({
         <div className="ed-mk-board__titles">
           <p className="ed-mk-board__k">{k}</p>
           <h3 className={cx('ed-mk-board__title', empty && 'is-empty')} aria-live="polite">{title}</h3>
+          {chips.length > 0 && (
+            <ul className="ed-mk-board__chips" aria-label="Where you sell">
+              {chips.map((c) => (
+                <li key={c.id || c.name} className={cx('ed-mk-board__chip', !c.mark && 'ed-mk-board__chip--plain')}>{c.mark}{c.name}</li>
+              ))}
+            </ul>
+          )}
         </div>
         {live && <span className="ed-mk-board__live">{live}</span>}
       </header>

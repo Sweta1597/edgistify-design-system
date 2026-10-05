@@ -153,6 +153,12 @@ versions follow [semver](https://semver.org/).
     a full-width last row, so changing an answer changes the board rather
     than swapping a card. On the band it sits just off the ink, not on grey,
     and the native select keeps a dark list.
+  - **A question in two halves** (`.ed-mk-builder__halves`): the options on
+    the left as row ticks (`<Tick row>`, no icon), and on the right what each
+    ticked option opens up (`.ed-mk-picks` groups of `<Tick row size="sm">`).
+    **`Mark`** is a platform's logo, or its initial on its brand colour until
+    the logo file arrives. `SetupBoard` takes `chips` — what was picked, shown
+    under the title. The builder's left column is now at least 22rem.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

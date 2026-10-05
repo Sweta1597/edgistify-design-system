@@ -74,11 +74,15 @@ export declare function SetupCard(props: Div & {
 export declare function Builder(props: Div & { ask: React.ReactNode }): JSX.Element;
 export declare function Ticks(props: { label?: string; labelledBy?: string; className?: string; children?: React.ReactNode }): JSX.Element;
 /** One option box: a real checkbox inside a label that draws the box. */
-export declare function Tick(props: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & { icon?: React.ReactNode }): JSX.Element;
+export declare function Tick(props: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> & { icon?: React.ReactNode; /** a line: mark, label, tick */ row?: boolean; size?: 'sm' }): JSX.Element;
+/** A platform's mark: its logo, or its initial on its colour until the logo arrives. */
+export declare function Mark(props: { name: string; src?: string; color?: string; ink?: string; size?: 'sm'; className?: string }): JSX.Element;
 export interface BoardService { id?: string; name: string; icon?: React.ReactNode; why: React.ReactNode; /** true lights it, false dims it, undefined is neutral */ on?: boolean }
 /** The live answer: every service listed, the answers lighting or dimming each. */
 export declare function SetupBoard(props: Div & {
   k?: React.ReactNode; title?: React.ReactNode; empty?: boolean; live?: React.ReactNode | false;
+  /** what was picked, under the title */
+  chips?: { id?: string; name: React.ReactNode; mark?: React.ReactNode }[];
   servicesLabel?: React.ReactNode; services?: BoardService[];
   base?: { name: React.ReactNode; icon?: React.ReactNode; why: React.ReactNode; tag?: React.ReactNode };
   noteLabel?: React.ReactNode; note?: React.ReactNode; noteEmpty?: boolean;
