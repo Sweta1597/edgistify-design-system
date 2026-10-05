@@ -1,7 +1,7 @@
 {
   "name": "@edgistify/design-system",
   "version": "0.12.0",
-  "description": "Edgistify design system \u2014 one visual language for the seller dashboard, warehouse apps and support docs.",
+  "description": "Edgistify design system — one visual language for the seller dashboard, warehouse apps and support docs.",
   "type": "module",
   "exports": {
     "./primitives.css": "./dist/primitives.css",
@@ -120,6 +120,14 @@
     "./react/marketing/Spotlight": {
       "types": "./react/marketing/Spotlight.d.ts",
       "default": "./react/marketing/Spotlight.jsx"
+    },
+    "./react/marketing/Dropdown": {
+      "types": "./react/marketing/Dropdown.d.ts",
+      "default": "./react/marketing/Dropdown.jsx"
+    },
+    "./react/marketing/SubTabs": {
+      "types": "./react/marketing/SubTabs.d.ts",
+      "default": "./react/marketing/SubTabs.jsx"
     }
   },
   "files": [

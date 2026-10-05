@@ -71,7 +71,9 @@ export declare function SetupCard(props: Div & {
 
 /* setup builder */
 /** The configurator as a section: questions left (a quarter, min 20rem), the live answer right. */
-export declare function Builder(props: Div & { ask: React.ReactNode }): JSX.Element;
+export declare function Builder(props: Div & { ask: React.ReactNode; /** questions in a row on top, the answer below */ stack?: boolean }): JSX.Element;
+export declare function BuilderField(props: { label: React.ReactNode; htmlFor?: string; id?: string; className?: string; children?: React.ReactNode }): JSX.Element;
+export declare function TextField(props: React.InputHTMLAttributes<HTMLInputElement> & { icon?: React.ReactNode }): JSX.Element;
 export declare function Ticks(props: { label?: string; labelledBy?: string; className?: string; children?: React.ReactNode }): JSX.Element;
 /** One option box: a real checkbox inside a label that draws the box. */
 export declare function Tick(props: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> & { icon?: React.ReactNode; /** a line: mark, label, tick */ row?: boolean; size?: 'sm' }): JSX.Element;
@@ -81,13 +83,20 @@ export interface BoardService { id?: string; name: string; icon?: React.ReactNod
 /** The live answer: every service listed, the answers lighting or dimming each. */
 export declare function SetupBoard(props: Div & {
   k?: React.ReactNode; title?: React.ReactNode; empty?: boolean; live?: React.ReactNode | false;
+  /** right of the title, in place of `live` (e.g. Share and Download) */
+  aside?: React.ReactNode;
   /** what was picked, under the title */
   chips?: { id?: string; name: React.ReactNode; mark?: React.ReactNode }[];
   servicesLabel?: React.ReactNode; services?: BoardService[];
   base?: { name: React.ReactNode; icon?: React.ReactNode; why: React.ReactNode; tag?: React.ReactNode };
   noteLabel?: React.ReactNode; note?: React.ReactNode; noteEmpty?: boolean;
   proof?: React.ReactNode; actions?: React.ReactNode; foot?: React.ReactNode;
+  /** custom blocks (BoardBlock) in place of the built-in services and note */
+  children?: React.ReactNode;
 }): JSX.Element;
+export declare function BoardBlock(props: Div & { label?: React.ReactNode }): JSX.Element;
+export declare function BoardCards(props: { items: BoardService[]; className?: string }): JSX.Element;
+export declare function BoardBrands(props: { items: { name: string; src?: string | null }[]; className?: string }): JSX.Element;
 
 /* proof */
 export interface BentoItem { image?: string; alt?: string; label?: React.ReactNode; children?: React.ReactNode }

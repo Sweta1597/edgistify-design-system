@@ -281,12 +281,33 @@ export function SetupCard({ k = 'EdgeOS · Your setup', title, services = [], no
  * The configurator as a section: the questions in a narrow column on the
  * left (`ask`), the live answer filling the rest (`children`).
  */
-export function Builder({ ask, children, className = '', ...rest }) {
+export function Builder({ ask, stack = false, children, className = '', ...rest }) {
   return (
-    <div className={cx('ed-mk-builder', className)} {...rest}>
+    <div className={cx('ed-mk-builder', stack && 'ed-mk-builder--stack', className)} {...rest}>
       <div className="ed-mk-builder__ask">{ask}</div>
       <div className="ed-mk-builder__out">{children}</div>
     </div>
+  );
+}
+
+/** One question in the stacked builder's row: a label over its control. */
+export function BuilderField({ label, htmlFor, id, children, className = '' }) {
+  const L = htmlFor ? 'label' : 'p';
+  return (
+    <div className={cx('ed-mk-builder__field', className)}>
+      <L className="ed-mk-builder__label" htmlFor={htmlFor} id={id}>{label}</L>
+      {children}
+    </div>
+  );
+}
+
+/** A text field dressed like the select; `icon` sits inside at the left. */
+export function TextField({ icon, className = '', ...rest }) {
+  return (
+    <span className={cx('ed-mk-input', icon && 'ed-mk-input--icon', className)}>
+      {icon && <span className="ed-mk-input__icon" aria-hidden="true">{icon}</span>}
+      <input className="ed-mk-input__control" {...rest} />
+    </span>
   );
 }
 
@@ -324,9 +345,9 @@ export function Mark({ name, src, color, ink, size, className = '' }) {
  * the system under them all, the full width under the grid.
  */
 export function SetupBoard({
-  k = 'Your setup', title, chips = [], empty = false, live = 'Live', servicesLabel = "Services you'd use",
+  k = 'Your setup', title, chips = [], empty = false, live = 'Live', aside, servicesLabel = "Services you'd use",
   services = [], base, noteLabel = 'What matters in your category', note, noteEmpty = false,
-  proof, actions, foot, className = '', ...rest
+  proof, actions, foot, children, className = '', ...rest
 }) {
   return (
     <section className={cx('ed-mk-board', className)} {...rest}>
@@ -342,9 +363,10 @@ export function SetupBoard({
             </ul>
           )}
         </div>
-        {live && <span className="ed-mk-board__live">{live}</span>}
+        {aside ? <div className="ed-mk-board__side">{aside}</div> : live && <span className="ed-mk-board__live">{live}</span>}
       </header>
-      <div className="ed-mk-board__block">
+      {children}
+      {!children && <div className="ed-mk-board__block">
         <p className="ed-mk-board__k">{servicesLabel}</p>
         <ul className="ed-mk-board__svcs">
           {services.map((s) => (
@@ -362,8 +384,8 @@ export function SetupBoard({
             </li>
           )}
         </ul>
-      </div>
-      {note && (
+      </div>}
+      {!children && note && (
         <div className="ed-mk-board__block">
           <p className="ed-mk-board__k">{noteLabel}</p>
           <p className={cx('ed-mk-board__note', noteEmpty && 'is-empty')} key={String(note)}>{note}</p>
@@ -377,6 +399,49 @@ export function SetupBoard({
         </footer>
       )}
     </section>
+  );
+}
+
+/** One labelled part of the board, under a hairline. */
+export function BoardBlock({ label, children, className = '', ...rest }) {
+  return (
+    <div className={cx('ed-mk-board__block ed-mk-board__block--ruled', className)} {...rest}>
+      {label && <p className="ed-mk-board__k">{label}</p>}
+      {children}
+    </div>
+  );
+}
+
+/**
+ * Service cards on the board. items: [{ id, name, icon, why, on }] — `on`
+ * lights a card, `on: false` dims it, undefined leaves it neutral; the
+ * order never changes, so an answer changes the cards rather than moves them.
+ */
+export function BoardCards({ items = [], className = '' }) {
+  return (
+    <ul className={cx('ed-mk-board__cards', className)}>
+      {items.map((s) => (
+        <li key={s.id || s.name} className={cx('ed-mk-board__card', s.on === true && 'is-on', s.on === false && 'is-off')}>
+          <span className="ed-mk-board__cardtop">
+            {s.icon && <span className="ed-mk-board__icon" aria-hidden="true">{s.icon}</span>}
+            {s.on === true && <span className="ed-mk-board__pick">Recommended</span>}
+          </span>
+          <span className="ed-mk-board__name">{s.name}</span>
+          <span className="ed-mk-board__why" key={String(s.why)}>{s.why}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Brand names in equal cells (or their logos, once there are files). */
+export function BoardBrands({ items = [], className = '' }) {
+  return (
+    <ul className={cx('ed-mk-board__brands', className)}>
+      {items.map((b) => (
+        <li key={b.name} className="ed-mk-board__brand">{b.src ? <img src={b.src} alt={b.name} /> : b.name}</li>
+      ))}
+    </ul>
   );
 }
 

@@ -159,6 +159,18 @@ versions follow [semver](https://semver.org/).
     **`Mark`** is a platform's logo, or its initial on its brand colour until
     the logo file arrives. `SetupBoard` takes `chips` — what was picked, shown
     under the title. The builder's left column is now at least 22rem.
+  - **Stacked builder** (`<Builder stack>`): the questions in a row on top
+    (`BuilderField` each — a select, a `Dropdown`, a `TextField`), the board
+    the full width below. **`Dropdown`** (`react/marketing/Dropdown`) is a
+    select-looking button over the system's `Popover`, holding anything —
+    here a nested list (`.ed-mk-nest`, children on a guide line under a ticked
+    parent). **`SubTabs`** (`react/marketing/SubTabs`) are left-aligned tabs
+    with counts whose panels stay in the page. `SetupBoard` takes `aside`
+    (actions right of the title) and `children` (`BoardBlock`s in ruled parts)
+    in place of its built-in blocks; **`BoardCards`** are service cards that
+    light, dim or stay neutral, marked *Recommended*; **`BoardBrands`** puts
+    brand names in equal cells. The board prints light, every tab's cards
+    under its tab's name.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
