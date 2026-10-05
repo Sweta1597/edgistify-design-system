@@ -1217,6 +1217,16 @@
   gap: 0;
 }
 .ed-mk-hero--bento .ed-mk-hero__copy::before { content: ''; }
+/* The headline is capped a step below the display size so a longer line
+   still sets in three lines and the column stays as tall as the bento. */
+.ed-mk-hero--bento .ed-mk-display { font-size: clamp(2.25rem, 1.4rem + 2.2vw, 3rem); max-width: none; }
+/* When the copy still needs more room than the bento (a narrow desktop),
+   the bento grows with the row instead of the copy spilling past it, so the
+   two always share a height and the headline group stays centred on it. */
+@media (min-width: 901px) {
+  .ed-mk-hero--bento .ed-mk-hero__aside { display: flex; flex-direction: column; }
+  .ed-mk-hero--bento .ed-mk-bento { flex: 1 0 auto; height: auto; min-height: clamp(480px, 50vw, 680px); }
+}
 .ed-mk-hero--bento .ed-mk-hero__copy > .ed-mk-lede    { margin-top: var(--n); }
 .ed-mk-hero--bento .ed-mk-hero__copy > .ed-mk-actions { margin-top: calc(var(--n) * 2); }
 .ed-mk-hero--bento .ed-mk-hero__copy > .ed-mk-marquee { grid-row: -2; align-self: start; margin-top: calc(var(--n) * 3); }

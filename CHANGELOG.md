@@ -78,6 +78,8 @@ versions follow [semver](https://semver.org/).
     Headline, lede and call to action sit as one group at the vertical
     middle of the bento's height. Spacing steps 1n, 2n, 3n: headline to
     lede, lede to call to action, call to action to the logo marquee.
+    The headline is capped at 3rem in this hero, and on narrow desktops the
+    bento grows with the copy so they share a height.
     The bento meets the header and bleeds to the window's right edge
     (full width on phones); its blocks have square corners.
   - **Bento** (`Bento`, `BentoTile`, `BentoHub`, `BentoOrbit`): three
