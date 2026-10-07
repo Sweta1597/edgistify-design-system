@@ -2727,3 +2727,18 @@
   .ed-mk-report__iconbtn, .ed-mk-report__foot { display: none !important; }
   .ed-mk-report__sec, .ed-mk-report__item, .ed-mk-report__svc { break-inside: avoid; }
 }
+
+/* Report: "Trusted by", under the channels — brand names (or logos) on one
+   line, as many as fit; the rest wait off the line rather than wrap. */
+.ed-mk-report__fact--trust { grid-column: 2; }
+.ed-mk-report__logos {
+  list-style: none; margin: 0; padding: 0; min-width: 0;
+  display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--ed-space-6); row-gap: 0;
+  height: 28px; overflow: hidden;
+}
+.ed-mk-report__logos li {
+  height: 28px; display: flex; align-items: center; white-space: nowrap;
+  font: var(--ed-weight-bold) var(--ed-text-md)/1 var(--ed-font-ui); letter-spacing: -0.015em; color: var(--ed-neutral-500);
+}
+.ed-mk-report__logos img { height: 20px; width: auto; filter: grayscale(1); opacity: .7; }
+@media (max-width: 640px) { .ed-mk-report__fact--trust { grid-column: auto; } }
