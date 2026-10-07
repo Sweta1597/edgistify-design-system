@@ -183,6 +183,12 @@ versions follow [semver](https://semver.org/).
     `url={false}`, in the URL field's place), `thin` (less padding, smaller
     tool buttons) and `rows`. A `Dropdown` in a narrow field drops the
     secondary count (`.ed-mk-dd__more`) and keeps the logos.
+  - **Hero with a search**: a one-column hero whose copy ends in
+    `.ed-mk-hero__search` (under the logo strip) spaces itself with one
+    measure, `--ed-mk-hero-n` (clamp(56px, 11.4svh, 120px), about 98px on a
+    laptop): above the headline, from the actions to the strip, from the
+    strip to the search and after it. It clips sideways for the wave behind
+    the box.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

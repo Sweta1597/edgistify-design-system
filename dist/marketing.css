@@ -2518,3 +2518,21 @@
 /* "Add to your search", under the box */
 .ed-mk-searchadd { margin-top: var(--ed-space-8); }
 @media (prefers-reduced-motion: reduce) { .ed-mk-prompt__logo, .ed-mk-prompt__tag { animation: none; } }
+
+/* ==================================================================
+   41. HERO WITH A SEARCH — one measure for its spacing
+   ------------------------------------------------------------------
+   When the one-column hero carries a search under its logo strip
+   (.ed-mk-hero__search), the hero grows past the first screen, so its
+   spacing stops sharing out the screen and becomes one measure, n:
+   above the headline, from the actions to the strip, from the strip to
+   the search, and after it. n is the size the shared-out space had on a
+   laptop screen, and it follows the screen's height.
+   ================================================================== */
+.ed-mk-hero--solo:has(.ed-mk-hero__search) { overflow-x: clip; }   /* the wave behind the box spans the viewport */
+.ed-mk-hero--solo .ed-mk-hero__copy:has(> .ed-mk-hero__search) {
+  --ed-mk-hero-n: clamp(56px, 11.4svh, 120px);
+  min-height: 0;
+  grid-template-rows: var(--ed-mk-hero-n) repeat(3, auto) var(--ed-mk-hero-n) auto var(--ed-mk-hero-n) auto var(--ed-mk-hero-n);
+}
+.ed-mk-hero--solo .ed-mk-hero__copy > .ed-mk-hero__search { grid-row: 8; min-width: 0; justify-self: stretch; }
