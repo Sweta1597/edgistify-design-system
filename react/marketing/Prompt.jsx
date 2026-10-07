@@ -10,6 +10,7 @@ const I = {
   mic:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>,
   arrow: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>,
   x:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>,
+  send:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>,
 };
 
 /**
@@ -28,7 +29,9 @@ const I = {
  * Enter submits; Shift+Enter makes a new line. `submit={false}` drops the
  * button and leaves Enter as the only way to send. `lead` puts anything at
  * the left of the tool bar (with `url={false}`, in the URL field's place);
- * `thin` and `rows` make a slimmer box.
+ * `thin` and `rows` make a slimmer box. `tools` sits in the bar before the
+ * buttons (e.g. a scope select); `submitStyle="icon"` makes the send button
+ * a round icon with an accent edge, `submitLabel` its accessible name.
  */
 export function Prompt({
   placeholder = 'Describe your requirement in a few lines.',
@@ -38,7 +41,7 @@ export function Prompt({
   suggestions = [],
   accept = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.webp',
   attach = true, mic = true, url = true, submit: showSubmit = true,
-  defaultText = '', defaultUrl = '', backdrop, lead, thin = false, rows = 3,
+  defaultText = '', defaultUrl = '', backdrop, lead, tools, submitStyle = 'button', thin = false, rows = 3,
   onSubmit, className = '', ...rest
 }) {
   const [text, setText] = useState(defaultText);
@@ -114,6 +117,7 @@ export function Prompt({
             </label>
           )}
           <div className="ed-mk-prompt__tools">
+            {tools}
             {attach && (
               <>
                 <input ref={fileRef} type="file" accept={accept} multiple hidden
@@ -128,11 +132,13 @@ export function Prompt({
                       title={canListen ? (listening ? 'Stop listening' : 'Speak your requirement') : "Voice input isn't available in this browser"}
                       disabled={!canListen} onClick={toggleMic}>{I.mic}</button>
             )}
-            {showSubmit && (
+            {showSubmit && (submitStyle === 'icon' ? (
+              <button type="button" className="ed-mk-prompt__send" aria-label={submitLabel} title={submitLabel} onClick={submit}>{I.send}</button>
+            ) : (
               <button type="button" className="ed-btn ed-btn--brand ed-mk-prompt__submit" onClick={submit}>
                 {submitLabel}{I.arrow}
               </button>
-            )}
+            ))}
           </div>
         </div>
         {hint && <p className="ed-mk-prompt__hint">{hint}</p>}

@@ -189,6 +189,10 @@ versions follow [semver](https://semver.org/).
     laptop): above the headline, from the actions to the strip, from the
     strip to the search and after it. It clips sideways for the wave behind
     the box.
+  - **`Prompt`** takes `tools` (in the bar before the buttons; a scope select
+    is styled as `.ed-mk-prompt__scope`) and `submitStyle="icon"`: a round
+    send button with a teal edge (`.ed-mk-prompt__send`), named by
+    `submitLabel`.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
