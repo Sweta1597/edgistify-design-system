@@ -193,6 +193,11 @@ versions follow [semver](https://semver.org/).
     is styled as `.ed-mk-prompt__scope`) and `submitStyle="icon"`: a round
     send button with a teal edge (`.ed-mk-prompt__send`), named by
     `submitLabel`.
+  - **Hero with a search** now reads headline · lede · search ·
+    `.ed-mk-textlinks` (text links in a centred row, a hairline between
+    each; stacked on a phone) · logo strip, n above the headline, from the
+    links to the strip and after it. `.ed-mk-searchadd--first` puts the
+    search's fields above its box.
   - **`ReportDialog`** and **`ReportSection`** (`react/marketing/Report`):
     a white report in the system's `Modal`, whatever the page behind it —
     a header (title; a tag, an edit button and close), ruled sections in a

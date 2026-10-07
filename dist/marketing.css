@@ -2522,20 +2522,43 @@
 /* ==================================================================
    41. HERO WITH A SEARCH — one measure for its spacing
    ------------------------------------------------------------------
-   When the one-column hero carries a search under its logo strip
-   (.ed-mk-hero__search), the hero grows past the first screen, so its
-   spacing stops sharing out the screen and becomes one measure, n:
-   above the headline, from the actions to the strip, from the strip to
-   the search, and after it. n is the size the shared-out space had on a
-   laptop screen, and it follows the screen's height.
+   A one-column hero can carry a search (.ed-mk-hero__search) where its
+   actions were: headline · lede · search · a row of text links
+   (.ed-mk-textlinks) · logo strip. It grows past the first screen, so its
+   spacing stops sharing out the screen and becomes one measure, n: above
+   the headline, from the links to the strip, and after the strip. n is
+   the size the shared-out space had on a laptop screen and follows the
+   screen's height.
    ================================================================== */
 .ed-mk-hero--solo:has(.ed-mk-hero__search) { overflow-x: clip; }   /* the wave behind the box spans the viewport */
 .ed-mk-hero--solo .ed-mk-hero__copy:has(> .ed-mk-hero__search) {
   --ed-mk-hero-n: clamp(56px, 11.4svh, 120px);
   min-height: 0;
-  grid-template-rows: var(--ed-mk-hero-n) repeat(3, auto) var(--ed-mk-hero-n) auto var(--ed-mk-hero-n) auto var(--ed-mk-hero-n);
+  grid-template-rows: var(--ed-mk-hero-n) repeat(4, auto) var(--ed-mk-hero-n) auto var(--ed-mk-hero-n);
 }
-.ed-mk-hero--solo .ed-mk-hero__copy > .ed-mk-hero__search { grid-row: 8; min-width: 0; justify-self: stretch; }
+.ed-mk-hero--solo .ed-mk-hero__copy > .ed-mk-hero__search { min-width: 0; justify-self: stretch; margin-top: calc(var(--n) * 2); }
+.ed-mk-hero--solo .ed-mk-hero__copy:has(> .ed-mk-hero__search) > .ed-mk-marquee { grid-row: 7; }
+
+/* Text links in a row, centred, a hairline between each. */
+.ed-mk-textlinks { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; row-gap: var(--ed-space-2); justify-self: center; }
+.ed-mk-hero__copy > .ed-mk-textlinks { margin-top: var(--ed-space-8); }
+.ed-mk-textlinks > a {
+  padding: var(--ed-space-1) var(--ed-space-5); line-height: 1.2; white-space: nowrap;
+  font: var(--ed-weight-medium) var(--ed-text-md)/1.2 var(--ed-font-ui); color: var(--ed-text); text-decoration: none;
+  transition: color var(--ed-mk-dur);
+}
+.ed-mk-textlinks > a + a { border-left: 1px solid var(--ed-border-strong); }
+.ed-mk-textlinks > a:hover { color: var(--ed-icon-accent); }
+.ed-mk-textlinks > a:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 2px; border-radius: 4px; }
+/* Too narrow for one row: stacked and centred, no hairlines. */
+@media (max-width: 560px) {
+  .ed-mk-textlinks { flex-direction: column; row-gap: var(--ed-space-1); }
+  .ed-mk-textlinks > a { padding-block: var(--ed-space-2); }
+  .ed-mk-textlinks > a + a { border-left: 0; }
+}
+
+/* The search's three fields above its box instead of below. */
+.ed-mk-searchadd.ed-mk-searchadd--first { margin-top: 0; margin-bottom: var(--ed-space-6); }
 
 /* Prompt: a scope select in the bar, and the round send button. */
 .ed-mk-prompt__scope {
