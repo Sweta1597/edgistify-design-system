@@ -26,7 +26,9 @@ const I = {
  * removable chips). The microphone uses the browser's SpeechRecognition
  * where it exists and is disabled, with a reason, where it does not.
  * Enter submits; Shift+Enter makes a new line. `submit={false}` drops the
- * button and leaves Enter as the only way to send.
+ * button and leaves Enter as the only way to send. `lead` puts anything at
+ * the left of the tool bar (with `url={false}`, in the URL field's place);
+ * `thin` and `rows` make a slimmer box.
  */
 export function Prompt({
   placeholder = 'Describe your requirement in a few lines.',
@@ -36,7 +38,7 @@ export function Prompt({
   suggestions = [],
   accept = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.webp',
   attach = true, mic = true, url = true, submit: showSubmit = true,
-  defaultText = '', defaultUrl = '', backdrop,
+  defaultText = '', defaultUrl = '', backdrop, lead, thin = false, rows = 3,
   onSubmit, className = '', ...rest
 }) {
   const [text, setText] = useState(defaultText);
@@ -85,11 +87,11 @@ export function Prompt({
     <div className={cx('ed-mk-promptwrap', className)} {...rest}>
     <div className="ed-mk-promptstage">
     {backdrop && <div className="ed-mk-prompt__backdrop" aria-hidden="true">{backdrop}</div>}
-    <div className="ed-mk-prompt">
+    <div className={cx('ed-mk-prompt', thin && 'ed-mk-prompt--thin')}>
       <div className="ed-mk-prompt__in">
         <textarea
           ref={textRef} className="ed-mk-prompt__text" value={text} placeholder={placeholder}
-          rows={3} aria-label="Your requirement"
+          rows={rows} aria-label="Your requirement"
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } }}
         />
@@ -104,6 +106,7 @@ export function Prompt({
           </div>
         )}
         <div className="ed-mk-prompt__bar">
+          {lead && <div className="ed-mk-prompt__lead">{lead}</div>}
           {url && (
             <label className="ed-mk-prompt__url">
               {I.link}

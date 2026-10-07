@@ -179,6 +179,10 @@ versions follow [semver](https://semver.org/).
     a click, the arrow keys (across and down the grid, Home/End) and the
     pager choose too, and the readout fades out, swaps and fades back in.
     Light on purpose, on the system's neutrals and teal-600.
+  - **`Prompt`** takes `lead` (anything at the left of the tool bar; with
+    `url={false}`, in the URL field's place), `thin` (less padding, smaller
+    tool buttons) and `rows`. A `Dropdown` in a narrow field drops the
+    secondary count (`.ed-mk-dd__more`) and keeps the logos.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

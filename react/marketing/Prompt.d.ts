@@ -19,5 +19,11 @@ export declare function Prompt(props: React.HTMLAttributes<HTMLDivElement> & {
   defaultText?: string; defaultUrl?: string;
   /** Rendered behind the box only, full viewport width — e.g. <WaveMesh />. */
   backdrop?: React.ReactNode;
+  /** At the left of the tool bar; with url={false}, in the URL field's place (e.g. picked channels' logos). */
+  lead?: React.ReactNode;
+  /** A slimmer box: less padding, smaller tool buttons. */
+  thin?: boolean;
+  /** The text field's starting height in lines (default 3). */
+  rows?: number;
   onSubmit?: (s: PromptSubmission) => void;
 }): JSX.Element;

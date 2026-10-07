@@ -2277,7 +2277,9 @@
 .ed-mk-input__control::placeholder { color: var(--ed-text-muted); font-weight: var(--ed-weight-regular); }
 
 /* The dropdown's button: the select's look, any content inside. */
-.ed-mk-dd { position: relative; min-width: 0; }
+.ed-mk-dd { position: relative; min-width: 0; container-type: inline-size; }
+/* In a narrow field the logos say it; the platform count goes. */
+@container (max-width: 300px) { .ed-mk-dd__more { display: none; } }
 .ed-mk-dd__trigger { display: flex; align-items: center; gap: var(--ed-space-2); text-align: left; white-space: nowrap; overflow: hidden; }
 .ed-mk-dd__placeholder { color: var(--ed-text-muted); font-weight: var(--ed-weight-regular); }
 .ed-mk-dd__marks { display: inline-flex; flex: none; }
@@ -2491,3 +2493,28 @@
   .ed-mk-instr__swap, .ed-mk-instr__tile { transition: none; }
   .ed-mk-instr__live::before { animation: none; }
 }
+
+/* ==================================================================
+   40. PROMPT, THIN — and a lead in the tool bar
+   ------------------------------------------------------------------
+   `thin`: less padding, a shorter field, smaller tool buttons. `lead`:
+   anything at the left of the bar (here, the logos of the channels
+   picked below the box), in the URL field's place.
+   ================================================================== */
+.ed-mk-prompt--thin .ed-mk-prompt__in { padding: var(--ed-space-3) var(--ed-space-3) var(--ed-space-2-5) var(--ed-space-4); gap: var(--ed-space-2); }
+.ed-mk-prompt--thin .ed-mk-prompt__text { min-height: 44px; font-size: var(--ed-text-sm); }
+.ed-mk-prompt--thin .ed-mk-prompt__icon { width: 32px; height: 32px; }
+.ed-mk-prompt--thin .ed-mk-prompt__icon > svg { width: 15px; height: 15px; }
+.ed-mk-prompt__lead { display: flex; align-items: center; gap: var(--ed-space-1-5); flex-wrap: wrap; min-width: 0; flex: 1 1 auto; min-height: 32px; }
+.ed-mk-prompt__logo { display: inline-flex; animation: ed-mk-board-in .3s var(--ed-mk-ease); }
+.ed-mk-prompt__logo .ed-mk-mark { width: 26px; height: 26px; border-radius: 8px; font-size: var(--ed-text-xs); }
+.ed-mk-prompt__tag {
+  display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px;
+  border: 1px solid var(--ed-neutral-800); color: var(--ed-neutral-300);
+  font: var(--ed-weight-medium) var(--ed-text-2xs)/1 var(--ed-font-ui); white-space: nowrap;
+  animation: ed-mk-board-in .3s var(--ed-mk-ease);
+}
+.ed-mk-prompt__empty { font-size: var(--ed-text-xs); color: var(--ed-neutral-500); }
+/* "Add to your search", under the box */
+.ed-mk-searchadd { margin-top: var(--ed-space-8); }
+@media (prefers-reduced-motion: reduce) { .ed-mk-prompt__logo, .ed-mk-prompt__tag { animation: none; } }
