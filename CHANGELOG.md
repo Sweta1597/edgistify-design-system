@@ -171,6 +171,14 @@ versions follow [semver](https://semver.org/).
     light, dim or stay neutral, marked *Recommended*; **`BoardBrands`** puts
     brand names in equal cells. The board prints light, every tab's cards
     under its tab's name.
+  - **`InstrumentBoard`** (`react/marketing/InstrumentBoard`): six live
+    tiles on a framed board (corner screws, hatched tiles, a mono label and
+    a status dot each) beside a readout of the chosen one — title, a serif
+    line, the lede, a flat screen, "Instrument n / 6", a link and a pager.
+    Hovering a tile chooses it while its figure answers the same pointer;
+    a click, the arrow keys (across and down the grid, Home/End) and the
+    pager choose too, and the readout fades out, swaps and fades back in.
+    Light on purpose, on the system's neutrals and teal-600.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
