@@ -32,6 +32,8 @@ const I = {
  * `thin` and `rows` make a slimmer box. `tools` sits in the bar before the
  * buttons (e.g. a scope select); `submitStyle="icon"` makes the send button
  * a round icon with an accent edge, `submitLabel` its accessible name.
+ * `allowEmpty` sends with an empty box (when fields outside it carry the
+ * answer); `inputId` names the text field, e.g. to focus it from elsewhere.
  */
 export function Prompt({
   placeholder = 'Describe your requirement in a few lines.',
@@ -42,6 +44,7 @@ export function Prompt({
   accept = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.webp',
   attach = true, mic = true, url = true, submit: showSubmit = true,
   defaultText = '', defaultUrl = '', backdrop, lead, tools, submitStyle = 'button', thin = false, rows = 3,
+  allowEmpty = false, inputId,
   onSubmit, className = '', ...rest
 }) {
   const [text, setText] = useState(defaultText);
@@ -66,7 +69,7 @@ export function Prompt({
   }, [text]);
 
   const submit = () => {
-    if (!text.trim() && !site.trim() && !files.length) return;
+    if (!allowEmpty && !text.trim() && !site.trim() && !files.length) return;
     onSubmit?.({ text: text.trim(), url: site.trim(), files });
   };
 
@@ -93,7 +96,7 @@ export function Prompt({
     <div className={cx('ed-mk-prompt', thin && 'ed-mk-prompt--thin')}>
       <div className="ed-mk-prompt__in">
         <textarea
-          ref={textRef} className="ed-mk-prompt__text" value={text} placeholder={placeholder}
+          ref={textRef} id={inputId} className="ed-mk-prompt__text" value={text} placeholder={placeholder}
           rows={rows} aria-label="Your requirement"
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } }}

@@ -25,6 +25,10 @@ export declare function Prompt(props: React.HTMLAttributes<HTMLDivElement> & {
   tools?: React.ReactNode;
   /** 'icon': the send button is a round icon with an accent edge, named by submitLabel. */
   submitStyle?: 'button' | 'icon';
+  /** Send even with an empty box (when fields outside it carry the answer). */
+  allowEmpty?: boolean;
+  /** The text field's id, e.g. to focus it from elsewhere. */
+  inputId?: string;
   /** A slimmer box: less padding, smaller tool buttons. */
   thin?: boolean;
   /** The text field's starting height in lines (default 3). */

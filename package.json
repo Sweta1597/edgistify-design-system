@@ -132,6 +132,10 @@
     "./react/marketing/InstrumentBoard": {
       "types": "./react/marketing/InstrumentBoard.d.ts",
       "default": "./react/marketing/InstrumentBoard.jsx"
+    },
+    "./react/marketing/Report": {
+      "types": "./react/marketing/Report.d.ts",
+      "default": "./react/marketing/Report.jsx"
     }
   },
   "files": [

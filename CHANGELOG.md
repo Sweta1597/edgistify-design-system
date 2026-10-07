@@ -193,6 +193,14 @@ versions follow [semver](https://semver.org/).
     is styled as `.ed-mk-prompt__scope`) and `submitStyle="icon"`: a round
     send button with a teal edge (`.ed-mk-prompt__send`), named by
     `submitLabel`.
+  - **`ReportDialog`** and **`ReportSection`** (`react/marketing/Report`):
+    a white report in the system's `Modal`, whatever the page behind it —
+    a header (title; a tag, an edit button and close), ruled sections in a
+    body that scrolls, and a thin footer (`helpful` left, `actions` right).
+    Classes for its content: facts and chips, challenge items, service
+    cards, brand cells and an inline email gate. It prints alone and open.
+    `Prompt` takes `allowEmpty` (send with an empty box when fields outside
+    carry the answer) and `inputId`.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the
