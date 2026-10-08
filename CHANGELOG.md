@@ -206,6 +206,16 @@ versions follow [semver](https://semver.org/).
     cards, brand cells and an inline email gate. It prints alone and open.
     `Prompt` takes `allowEmpty` (send with an empty box when fields outside
     carry the answer) and `inputId`.
+  - **`JourneyLoop`** (`react/marketing/Journey`, client) and `Hero`'s
+    **`backdrop`**: the getting-started journey as a background that plays
+    on its own — a hairline world (grey structure, teal light) seen through
+    a camera that walks up to a dock door as it rolls up, goes down a rack
+    aisle, out on the highway behind a truck and up over the network
+    running as one loop, then fades and starts again (about 30 seconds).
+    Colours come from the tokens; it draws only while on screen, and is a
+    still of the dock door under reduced motion. The backdrop is the
+    hero's width and the first screen's height at most, fading out toward
+    its foot.
   - **Glow button** (`.ed-btn--glow` + `Spotlight`, client): teal label on
     white; on hover the button goes black with a light-teal label, and a
     light-teal edge light covers about half the border, centred on the

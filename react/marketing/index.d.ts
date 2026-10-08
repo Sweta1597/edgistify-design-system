@@ -53,6 +53,8 @@ export declare function Hero(props: {
   align?: 'center';
   /** The lede's element, e.g. 'h2' when it is the page's second heading. Default p. */
   ledeAs?: keyof JSX.IntrinsicElements;
+  /** Decorative art behind the copy (e.g. JourneyLoop): the hero's width, the first screen's height at most, fading out toward its foot. */
+  backdrop?: React.ReactNode;
 }): JSX.Element;
 export declare function ConfigPanel(props: Div & { title?: React.ReactNode; hint?: React.ReactNode }): JSX.Element;
 export declare function ConfigQuestion(props: { label: React.ReactNode; hint?: React.ReactNode; htmlFor?: string; children?: React.ReactNode }): JSX.Element;

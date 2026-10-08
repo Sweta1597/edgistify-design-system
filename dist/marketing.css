@@ -2742,3 +2742,38 @@
 }
 .ed-mk-report__logos img { height: 20px; width: auto; filter: grayscale(1); opacity: .7; }
 @media (max-width: 640px) { .ed-mk-report__fact--trust { grid-column: auto; } }
+
+/* ==================================================================
+   43. HERO BACKDROP — the journey, looping behind the copy
+   ------------------------------------------------------------------
+   Hero's `backdrop` sits behind its copy: the hero's width, the first
+   screen's height at most, fading out toward its foot so the search and
+   the logo strip read on the plain band. JourneyLoop fills it: a canvas
+   of hairlines that walks up to a dock door, down a rack aisle, along
+   the highway and up over the network, then starts again, its eye to
+   the right of the copy at the headline's height. A vignette and a shade
+   from the left, in the page's own colour, keep the edges and the copy
+   quiet.
+   ================================================================== */
+.ed-mk-hero:has(> .ed-mk-hero__backdrop) { position: relative; isolation: isolate; }
+.ed-mk-hero__backdrop {
+  position: absolute; inset: 0 0 auto; height: min(100%, 100svh); z-index: -1; pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 85%);
+}
+.ed-mk-journey { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.ed-mk-journey > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ed-mk-journey::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--ed-canvas) 70%, transparent), transparent 55%),
+    radial-gradient(ellipse at 70% 32%, transparent 40%, color-mix(in srgb, var(--ed-canvas) 85%, transparent) 100%);
+}
+@media (max-width: 859px) {
+  .ed-mk-journey > canvas { opacity: .5; }   /* the copy spans the screen here: the world stays behind it */
+  .ed-mk-journey::after {
+    background:
+      linear-gradient(to bottom, transparent 15%, color-mix(in srgb, var(--ed-canvas) 55%, transparent) 50%),
+      radial-gradient(ellipse at 50% 30%, transparent 40%, color-mix(in srgb, var(--ed-canvas) 85%, transparent) 100%);
+  }
+}

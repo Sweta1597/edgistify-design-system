@@ -175,9 +175,10 @@ export function UtilityBar({ links = [] }) {
 
 /* ------------------------------------------------------------------ hero */
 
-export function Hero({ eyebrow, title, lede, ledeAs, actions, aside, note, variant, align, children }) {
+export function Hero({ eyebrow, title, lede, ledeAs, actions, aside, note, variant, align, backdrop, children }) {
   return (
     <section className={cx('ed-mk-hero', variant && `ed-mk-hero--${variant}`, !aside && 'ed-mk-hero--solo', align === 'center' && 'ed-mk-hero--center')}>
+      {backdrop && <div className="ed-mk-hero__backdrop" aria-hidden="true">{backdrop}</div>}
       <Container>
         <Split top ratio="minmax(0, 1.05fr) minmax(0, 1fr)">
           <div className="ed-mk-hero__copy">
