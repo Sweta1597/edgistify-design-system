@@ -206,6 +206,16 @@ versions follow [semver](https://semver.org/).
     cards, brand cells and an inline email gate. It prints alone and open.
     `Prompt` takes `allowEmpty` (send with an empty box when fields outside
     carry the answer) and `inputId`.
+  - **`FieldBar`** and **`FieldBarItem`**: a few questions in one rounded
+    strip, a hairline between each and a slow teal light round its edge;
+    each a small mono label over a bare control (a `Select`, or a
+    `Dropdown` with `matchWidth={false}`). Stacks on a phone; light inside
+    the report. `Dropdown` takes `onOpenChange` and `matchWidth`.
+  - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
+    what opened it) and rises out of it. Classes for a first section that
+    asks again: the FieldBar, a one-line ask with a send button
+    (`.ed-mk-report__ask`, `.ed-mk-report__send`) and a thin "Trusted by"
+    strip (`.ed-mk-report__trust`).
   - **`JourneyLoop`** (`react/marketing/Journey`, client) and `Hero`'s
     **`backdrop`**: the getting-started journey as a background that plays
     on its own — a hairline world (grey structure, teal light) seen through

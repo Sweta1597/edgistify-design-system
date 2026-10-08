@@ -59,6 +59,10 @@ export declare function Hero(props: {
 export declare function ConfigPanel(props: Div & { title?: React.ReactNode; hint?: React.ReactNode }): JSX.Element;
 export declare function ConfigQuestion(props: { label: React.ReactNode; hint?: React.ReactNode; htmlFor?: string; children?: React.ReactNode }): JSX.Element;
 export declare function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>): JSX.Element;
+/** One rounded strip of fields with a hairline between each and a slow teal light on its edge. Stacks on a phone; light inside the report. */
+export declare function FieldBar(props: Div): JSX.Element;
+/** A FieldBar field: a small mono label over a bare control (a Select, or a Dropdown with matchWidth={false}). */
+export declare function FieldBarItem(props: { label: React.ReactNode; htmlFor?: string; className?: string; children?: React.ReactNode }): JSX.Element;
 
 /* live flow */
 export interface FlowEvent { src: string; sys?: boolean; text: React.ReactNode; status?: React.ReactNode }

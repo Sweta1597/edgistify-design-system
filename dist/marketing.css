@@ -2777,3 +2777,105 @@
       radial-gradient(ellipse at 50% 30%, transparent 40%, color-mix(in srgb, var(--ed-canvas) 85%, transparent) 100%);
   }
 }
+
+/* ==================================================================
+   44. FIELD BAR — a few questions in one strip
+   ------------------------------------------------------------------
+   FieldBar: one rounded strip of fields, a hairline between each, its
+   edge carrying a slow teal light round it. Each FieldBarItem is a small
+   mono label over a bare control — a Select or a Dropdown's trigger,
+   both .ed-mk-select, stripped to their text and a small caret. Stacks
+   on a phone. Inside the white report it comes out light.
+   ================================================================== */
+@property --ed-mk-edge { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.ed-mk-fieldbar {
+  --ed-mk-fieldbar-bg: color-mix(in srgb, var(--ed-white) 4%, var(--ed-canvas));
+  --ed-mk-fieldbar-line: var(--ed-border-subtle);
+  position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+  border: 1px solid transparent; border-radius: 14px;
+  background:
+    linear-gradient(var(--ed-mk-fieldbar-bg), var(--ed-mk-fieldbar-bg)) padding-box,
+    conic-gradient(from var(--ed-mk-edge), var(--ed-mk-fieldbar-line), color-mix(in srgb, var(--ed-icon-accent) 75%, transparent) 18%, var(--ed-mk-fieldbar-line) 42%, var(--ed-mk-fieldbar-line)) border-box;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ed-mk-fieldbar { animation: ed-mk-edge 8s linear infinite -3s; }
+}
+@keyframes ed-mk-edge { to { --ed-mk-edge: 360deg; } }
+.ed-mk-fieldbar__item { position: relative; display: grid; align-content: center; gap: 6px; min-width: 0; padding: 14px 18px; }
+.ed-mk-fieldbar__item + .ed-mk-fieldbar__item { border-left: 1px solid var(--ed-mk-fieldbar-line); }
+.ed-mk-fieldbar__label {
+  font: var(--ed-weight-medium) 10.5px/1 var(--ed-font-id); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ed-text-muted);
+}
+/* The control: its text and a small caret, no box. */
+.ed-mk-fieldbar .ed-mk-select,
+.ed-mk-band .ed-mk-fieldbar .ed-mk-select {
+  height: auto; min-height: 24px; padding: 2px 24px 2px 0; border: 0; border-radius: 0;
+  background-color: transparent; background-repeat: no-repeat;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ed-text-muted) 50%),
+    linear-gradient(-45deg, transparent 50%, var(--ed-text-muted) 50%);
+  background-size: 5px 5px, 5px 5px; background-position: right 9px center, right 4px center;
+  color: var(--ed-text); font: var(--ed-weight-medium) var(--ed-text-md)/1.4 var(--ed-font-ui);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ed-mk-fieldbar select.ed-mk-select:has(> option[value='']:checked) { color: var(--ed-text-muted); }
+.ed-mk-fieldbar .ed-mk-dd__placeholder { color: var(--ed-text-muted); font-weight: var(--ed-weight-medium); }
+.ed-mk-fieldbar .ed-mk-select:hover { color: var(--ed-text); }
+.ed-mk-fieldbar .ed-mk-select:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 6px; border-radius: 4px; }
+.ed-mk-fieldbar .ed-mk-dd__marks .ed-mk-mark { box-shadow: 0 0 0 2px var(--ed-mk-fieldbar-bg); }
+/* A Dropdown here opens wider than its text: at least 300px. */
+.ed-mk-dd__panel--wide.ed-pop { min-width: max(var(--ed-pop-anchor-w, 0px), 300px); }
+@media (max-width: 600px) {
+  .ed-mk-fieldbar { grid-auto-flow: row; }
+  .ed-mk-fieldbar__item + .ed-mk-fieldbar__item { border-left: 0; border-top: 1px solid var(--ed-mk-fieldbar-line); }
+}
+
+/* ==================================================================
+   45. REPORT — asked in place
+   ------------------------------------------------------------------
+   The report's first part asks again: the FieldBar (light), a one-line
+   ask with a send button (.ed-mk-report__ask), and a thin "Trusted by"
+   strip (.ed-mk-report__trust). Opened from a FieldBar or a prompt with
+   `origin`, the dialog rises out of it.
+   ================================================================== */
+.ed-modal.ed-mk-report .ed-mk-fieldbar { --ed-mk-fieldbar-bg: var(--ed-white); --ed-mk-fieldbar-line: var(--ed-border); }
+.ed-mk-report .ed-mk-dd__panel.ed-pop { background: var(--ed-white); border-color: var(--ed-border); box-shadow: 0 18px 48px -16px color-mix(in srgb, var(--ed-ink) 35%, transparent); }
+.ed-mk-report__sec--ask { gap: var(--ed-space-3); }
+.ed-mk-report__ask {
+  display: flex; align-items: center; gap: var(--ed-space-2); min-width: 0;
+  padding: 5px 5px 5px var(--ed-space-4); border: 1px solid var(--ed-border); border-radius: 14px; background: var(--ed-white);
+  transition: border-color .2s, box-shadow .2s;
+}
+.ed-mk-report__ask:focus-within { border-color: var(--ed-teal-500); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ed-teal-500) 15%, transparent); }
+.ed-mk-report__ask input {
+  flex: 1; min-width: 0; height: 36px; border: 0; outline: 0; background: transparent;
+  color: var(--ed-neutral-950); font: var(--ed-weight-regular) var(--ed-text-base)/1 var(--ed-font-ui);
+}
+.ed-mk-report__ask input::placeholder { color: var(--ed-neutral-500); }
+.ed-mk-report__send {
+  width: 36px; height: 36px; flex: none; display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--ed-teal-500); border-radius: 50%; background: var(--ed-white); color: var(--ed-teal-700);
+  transition: background-color .2s, color .2s, opacity .2s;
+}
+.ed-mk-report__send > svg { width: 16px; height: 16px; }
+.ed-mk-report__send:hover:not(:disabled) { background: var(--ed-teal-600); border-color: var(--ed-teal-600); color: var(--ed-white); }
+.ed-mk-report__send:disabled { opacity: .45; cursor: default; }
+.ed-mk-report__send:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 2px; }
+.ed-mk-report__trust {
+  display: flex; align-items: center; gap: var(--ed-space-6); min-width: 0;
+  padding: var(--ed-space-2) var(--ed-space-4); border-radius: 10px; background: var(--ed-neutral-25);
+}
+.ed-mk-report__trust > span {
+  flex: none; font: var(--ed-weight-medium) 10.5px/1 var(--ed-font-id); letter-spacing: .1em; text-transform: uppercase; color: var(--ed-neutral-600);
+}
+.ed-mk-report__trust .ed-mk-report__logos { flex: 1; height: 24px; }
+.ed-mk-report__trust .ed-mk-report__logos li { height: 24px; font-size: var(--ed-text-sm); }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-modal.ed-mk-report[open] { animation: ed-mk-report-in .42s cubic-bezier(.2, .8, .2, 1); }
+}
+@keyframes ed-mk-report-in { from { opacity: 0; transform: translateY(var(--ed-mk-report-from, 8px)) scale(.94); } }
+@media (max-width: 640px) {
+  .ed-mk-report__trust { flex-direction: column; align-items: stretch; gap: var(--ed-space-2); }
+  .ed-mk-report__trust .ed-mk-report__logos { flex: none; column-gap: var(--ed-space-4); }
+}

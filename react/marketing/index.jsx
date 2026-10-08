@@ -222,6 +222,23 @@ export function ConfigQuestion({ label, hint, htmlFor, children }) {
 }
 export const Select = ({ className = '', ...rest }) => <select className={cx('ed-mk-select', className)} {...rest} />;
 
+/* One rounded strip of fields, a hairline between each, its edge carrying a
+   slow teal light. Each item is a small mono label over a bare control: a
+   Select, or a Dropdown's trigger (give it matchWidth={false}). Stacks on a
+   phone. Inside the white report it comes out light. */
+export function FieldBar({ className = '', children, ...rest }) {
+  return <div className={cx('ed-mk-fieldbar', className)} {...rest}>{children}</div>;
+}
+export function FieldBarItem({ label, htmlFor, children, className = '' }) {
+  const L = htmlFor ? 'label' : 'span';
+  return (
+    <div className={cx('ed-mk-fieldbar__item', className)}>
+      <L className="ed-mk-fieldbar__label" htmlFor={htmlFor}>{label}</L>
+      {children}
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------- live flow */
 
 /**

@@ -14,6 +14,8 @@ export declare function ReportDialog(props: {
   helpful?: React.ReactNode;
   /** footer, right: e.g. Download and Share */
   actions?: React.ReactNode;
+  /** a ref to what opened it: the dialog rises out of that place */
+  origin?: React.RefObject<Element | null>;
   children?: React.ReactNode;
   className?: string;
 }): JSX.Element;

@@ -10,6 +10,10 @@ export declare function Dropdown(props: {
   label?: string;
   /** extra content left of Done; false hides the footer */
   footer?: React.ReactNode | false;
+  /** hears the panel open (true) and close (false) */
+  onOpenChange?: (open: boolean) => void;
+  /** false: the panel may be wider than the trigger (at least 300px). Default true. */
+  matchWidth?: boolean;
   children?: React.ReactNode;
   className?: string;
   panelClassName?: string;

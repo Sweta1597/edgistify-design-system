@@ -1,5 +1,5 @@
 'use client';
-import { useId } from 'react';
+import { useId, useLayoutEffect, useRef } from 'react';
 import { Modal } from '../Modal.jsx';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
@@ -15,14 +15,23 @@ const I = {
  * sections in a body that scrolls, and a thin footer (`helpful` on the
  * left, `actions` on the right). The system's Modal underneath: a native
  * dialog, so focus is trapped, Escape closes and the page is inert.
+ * `origin` (a ref to what opened it) makes it rise out of that place.
  */
 export function ReportDialog({
   open, onClose, title, tag, onEdit, editLabel = 'Edit your search',
-  helpful, actions, children, className = '',
+  helpful, actions, origin, children, className = '',
 }) {
   const id = useId();
+  const ref = useRef(null);
+  // Before the dialog shows: how far its centre is from the opener's.
+  useLayoutEffect(() => {
+    const el = ref.current, from = origin?.current;
+    if (!open || !el || !from) return;
+    const r = from.getBoundingClientRect();
+    el.style.setProperty('--ed-mk-report-from', `${Math.round(r.top + r.height / 2 - window.innerHeight / 2)}px`);
+  }, [open, origin]);
   return (
-    <Modal open={open} onClose={onClose} size="xl" showClose={false}
+    <Modal ref={ref} open={open} onClose={onClose} size="xl" showClose={false}
       className={cx('ed-mk-report', className)} aria-labelledby={`${id}-title`}>
       <header className="ed-mk-report__head">
         <h2 className="ed-mk-report__title" id={`${id}-title`}>{title}</h2>
