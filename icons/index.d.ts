@@ -67,6 +67,7 @@ export type IconName =
   | 'panel-left-close'
   | 'panel-left-open'
   | 'pencil'
+  | 'phone'
   | 'pin'
   | 'pin-off'
   | 'play'
@@ -167,6 +168,7 @@ export declare const PackagePlus: IconDef;
 export declare const PanelLeftClose: IconDef;
 export declare const PanelLeftOpen: IconDef;
 export declare const Pencil: IconDef;
+export declare const Phone: IconDef;
 export declare const Pin: IconDef;
 export declare const PinOff: IconDef;
 export declare const Play: IconDef;

@@ -206,6 +206,9 @@ versions follow [semver](https://semver.org/).
     cards, brand cells and an inline email gate. It prints alone and open.
     `Prompt` takes `allowEmpty` (send with an empty box when fields outside
     carry the answer) and `inputId`.
+  - **`.ed-mk-textlinks--buttons`**: the hero's ways to start as pills,
+    an icon before each label (teal), hovering to a teal edge; stacked full
+    width on a phone. Icon library: **`phone`** (seed, Material `call`).
   - **`FieldBar`** and **`FieldBarItem`**: a few questions in one rounded
     strip, a hairline between each and a slow teal light round its edge;
     each a small mono label over a bare control (a `Select`, or a

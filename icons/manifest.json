@@ -1405,6 +1405,31 @@
       "seedHash": "6a7d4ccb1cea"
     },
     {
+      "name": "phone",
+      "category": "devices",
+      "lucide": "Phone",
+      "material": "call",
+      "status": "seed",
+      "hasAccent": true,
+      "nearPairs": [],
+      "version": 1,
+      "since": "0.12.0",
+      "updated": "0.12.0",
+      "sizes": [
+        20,
+        24,
+        48
+      ],
+      "fillIdentical": {
+        "20": false,
+        "24": false,
+        "48": false
+      },
+      "accentFirst": false,
+      "hash": "cad41a05e0a8",
+      "seedHash": "cad41a05e0a8"
+    },
+    {
       "name": "pin",
       "category": "actions",
       "lucide": "Pin",

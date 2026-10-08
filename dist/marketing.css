@@ -2557,6 +2557,28 @@
   .ed-mk-textlinks > a + a { border-left: 0; }
 }
 
+/* Or as buttons: a pill each with an icon before its label, no hairlines.
+   On a phone they stack, full width. */
+.ed-mk-textlinks--buttons { gap: var(--ed-space-3); }
+.ed-mk-textlinks--buttons > a,
+.ed-mk-textlinks--buttons > a + a {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--ed-space-2-5);
+  min-height: 48px; padding: 0 var(--ed-space-5) 0 var(--ed-space-4);
+  border: 1px solid var(--ed-border); border-radius: 999px;
+  background: color-mix(in srgb, var(--ed-canvas) 70%, transparent); backdrop-filter: blur(6px);
+  transition: color var(--ed-mk-dur), border-color var(--ed-mk-dur), background-color var(--ed-mk-dur);
+}
+.ed-mk-textlinks--buttons > a > .ed-icon { color: var(--ed-icon-accent); flex: none; }
+.ed-mk-textlinks--buttons > a:hover {
+  color: var(--ed-text); border-color: var(--ed-icon-accent);
+  background: color-mix(in srgb, var(--ed-icon-accent) 10%, var(--ed-canvas));
+}
+.ed-mk-textlinks--buttons > a:focus-visible { border-radius: 999px; outline-offset: 3px; }
+@media (max-width: 560px) {
+  .ed-mk-textlinks--buttons { width: 100%; align-items: stretch; row-gap: var(--ed-space-2); }
+  .ed-mk-textlinks--buttons > a, .ed-mk-textlinks--buttons > a + a { padding-block: 0; border-left: 1px solid var(--ed-border); }
+}
+
 /* The search's three fields above its box instead of below. */
 .ed-mk-searchadd.ed-mk-searchadd--first { margin-top: 0; margin-bottom: var(--ed-space-6); }
 

@@ -13,6 +13,12 @@ selection and on the names for imports.
 
 Line format: `name v1 → v2 — what changed, why`.
 
+## 0.12.0
+
+### Added
+- phone v1 — seed from Material Symbols Rounded `call`, for "Request a
+  Callback" on the website; to be redrawn with the rest.
+
 ## 0.5.0 — 2026-09-28
 
 The library exists. 100 icons, both fill states, two paths each.
