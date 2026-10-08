@@ -2844,7 +2844,10 @@
 .ed-mk-fieldbar select.ed-mk-select:has(> option[value='']:checked) { color: var(--ed-text-muted); }
 .ed-mk-fieldbar .ed-mk-dd__placeholder { color: var(--ed-text-muted); font-weight: var(--ed-weight-medium); }
 .ed-mk-fieldbar .ed-mk-select:hover { color: var(--ed-text); }
-.ed-mk-fieldbar .ed-mk-select:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 6px; border-radius: 4px; }
+/* No ring round a control here: keyboard focus shows as its label turning teal. */
+.ed-mk-fieldbar .ed-mk-select:focus,
+.ed-mk-fieldbar .ed-mk-select:focus-visible { outline: none; box-shadow: none; }
+.ed-mk-fieldbar__item:has(.ed-mk-select:focus-visible) .ed-mk-fieldbar__label { color: var(--ed-icon-accent); }
 .ed-mk-fieldbar .ed-mk-dd__marks .ed-mk-mark { box-shadow: 0 0 0 2px var(--ed-mk-fieldbar-bg); }
 /* A Dropdown here opens wider than its text: at least 300px. */
 .ed-mk-dd__panel--wide.ed-pop { min-width: max(var(--ed-pop-anchor-w, 0px), 300px); }
