@@ -2920,7 +2920,7 @@
   font-size: var(--ed-mk-text-h1); font-weight: var(--ed-weight-semibold);
 }
 .ed-mk-halo--map { padding-top: clamp(96px, 16vh, 160px); }
-.ed-mk-halo--map .ed-mk-halo__dome { height: auto; min-height: 50cqw; padding-top: 6cqw; padding-bottom: var(--ed-mk-section); }
+.ed-mk-halo--map .ed-mk-halo__dome { height: auto; min-height: 50cqw; padding-top: calc(var(--ed-mk-section) * 2); padding-bottom: var(--ed-mk-section); }   /* crown to map: n, as between sections */
 /* Under the equator the page's own black, without the hairlines, as after the halo. */
 /* Below the equator: the page's black over the planet's lower half and the
    hairlines, under the map. A cover rather than a clip: the rims are each
@@ -3003,7 +3003,7 @@
 .ed-mk-dotmap--side .ed-mk-dotmap__filters button.is-on,
 .ed-mk-dotmap--side .ed-mk-dotmap__filters button[aria-pressed='true'] { color: var(--ed-teal-200); background: none; }
 .ed-mk-dotmap--side .ed-mk-dotmap__filters button:focus-visible { outline-offset: 0; border-radius: 4px; }
-.ed-mk-halo--map .ed-mk-dotmap--side { width: auto; max-width: none; gap: 5cqw; padding-top: 3cqw; translate: -1cqw 0; }
+.ed-mk-halo--map .ed-mk-dotmap--side { width: auto; max-width: none; gap: 5cqw; translate: -1cqw 0; }
 .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__map { flex: none; width: min(46cqw, 620px); }
 .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { width: min(23cqw, 300px); }
 @media (max-width: 860px) {
@@ -3074,11 +3074,15 @@
   background: var(--ed-teal-300); border-color: var(--ed-teal-100);
   box-shadow: 0 0 12px color-mix(in srgb, var(--ed-teal-300) 90%, transparent);
 }
-@media (min-width: 961px) and (min-height: 640px) {
+/* Held while it plays only where the whole row fits under the header;
+   elsewhere it plays as the row scrolls through. Its content starts one
+   section measure down, so from the section before it is n. */
+.ed-mk-stepflow__stage { justify-content: flex-start; }
+@media (min-width: 961px) and (min-height: 760px) {
   .ed-mk-stepflow { height: calc(100vh - var(--ed-mk-stepflow-top) + (var(--n) + .35) * 30vh); }
-  .ed-mk-stepflow__stage { position: sticky; top: var(--ed-mk-stepflow-top); height: calc(100vh - var(--ed-mk-stepflow-top)); padding-block: var(--ed-space-6); }
+  .ed-mk-stepflow__stage { position: sticky; top: var(--ed-mk-stepflow-top); height: calc(100vh - var(--ed-mk-stepflow-top)); padding-bottom: var(--ed-space-6); }
 }
-@media (max-width: 960px), (max-height: 639px) {
+@media (max-width: 960px) {
   .ed-mk-stepflow__rail { display: none; }
   .ed-mk-stepflow__row { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; row-gap: var(--ed-space-12); max-width: 480px; margin-inline: auto; }
   .ed-mk-flowstep { grid-row: auto; grid-template-rows: none; gap: var(--ed-space-5); }

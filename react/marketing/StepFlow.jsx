@@ -24,9 +24,10 @@ export function StepScreen({ title, status = [], children }) {
 }
 
 /**
- * Steps in one row, joined by a line of light. On a wide screen the section
- * holds still while the page scrolls: the line runs left to right from step
- * to step, and each step comes live as the line reaches it — its screen's
+ * Steps in one row, joined by a line of light. On a wide screen tall enough
+ * for the row, the section holds still while the page scrolls (on a shorter
+ * one it plays as the row scrolls through): the line runs left to right
+ * from step to step, and each step comes live as the line reaches it — its screen's
  * numbers count up, its bars fill, its checks tick. On a narrow screen the
  * steps stack and each comes live as it scrolls into view. Under reduced
  * motion everything is simply there.
@@ -44,7 +45,8 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
     const flow = root.querySelector('.ed-mk-stepflow__flow');
     const fill = root.querySelector('.ed-mk-stepflow__fill');
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const wide = window.matchMedia('(min-width: 961px) and (min-height: 640px)');
+    const pin = window.matchMedia('(min-width: 961px) and (min-height: 760px)');
+    const row = window.matchMedia('(min-width: 961px)');
     const parts = [...root.querySelectorAll('.ed-mk-flowstep')].map((el) => ({
       el,
       node: el.querySelector('.ed-mk-flowstep__node'),
@@ -85,12 +87,19 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
     const update = () => {
       raf = 0;
       if (calm) { parts.forEach((s) => paint(s, 1)); rail(N); return; }
-      if (wide.matches) {
+      if (pin.matches) {
         const header = document.querySelector('.ed-mk-header');
         const top = header ? header.getBoundingClientRect().height : 0;
         root.style.setProperty('--ed-mk-stepflow-top', `${top}px`);
         const r = root.getBoundingClientRect(), span = r.height - stage.offsetHeight;
         const t = (span > 0 ? clamp((top - r.top) / span) : 1) * (N + LEAD);
+        parts.forEach((s, i) => paint(s, clamp(t - i)));
+        rail(Math.min(N, t));
+        return;
+      }
+      if (row.matches) {   // too short to hold: the line runs as the row scrolls through
+        const y = flow.getBoundingClientRect().top;
+        const t = clamp((window.innerHeight * 0.85 - y) / (window.innerHeight * 0.6)) * (N + LEAD);
         parts.forEach((s, i) => paint(s, clamp(t - i)));
         rail(Math.min(N, t));
         return;
@@ -104,12 +113,14 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
-    wide.addEventListener('change', onScroll);
+    pin.addEventListener('change', onScroll);
+    row.addEventListener('change', onScroll);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
-      wide.removeEventListener('change', onScroll);
+      pin.removeEventListener('change', onScroll);
+      row.removeEventListener('change', onScroll);
     };
   }, [steps.length]);
 
