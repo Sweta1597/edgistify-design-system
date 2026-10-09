@@ -5,6 +5,8 @@ export declare function LoopHalo(props: React.HTMLAttributes<HTMLElement> & {
   /** Small line above the title. */
   eyebrow?: React.ReactNode;
   title?: React.ReactNode;
+  /** A heading of your own in place of eyebrow and title (e.g. an .ed-mk-h2). */
+  head?: React.ReactNode;
   /** Labels placed on the rim over the crown, lit in turn as the glow sweeps past. */
   nodes?: React.ReactNode[];
   /** Content inside the dome, under the crown. */

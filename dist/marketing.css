@@ -2904,3 +2904,83 @@
   .ed-mk-report__trust { flex-direction: column; align-items: stretch; gap: var(--ed-space-2); }
   .ed-mk-report__trust .ed-mk-report__logos { flex: none; column-gap: var(--ed-space-4); }
 }
+
+/* ==================================================================
+   46. HALO WITH A MAP, AND THE DOT MAP
+   ------------------------------------------------------------------
+   .ed-mk-halo--map lets the dome grow under the arc to hold a DotMap
+   (the page's black is laid over the planet's lower half, so only the
+   arc ever shows):
+   the land as a field of dots, the network's places on it, and a row of
+   filters under it that light the places tagged with them. A heading of
+   the halo's own (`head`) takes the other sections' size.
+   ================================================================== */
+.ed-mk-halo__copy > .ed-mk-h2 {
+  margin: 0; max-width: 22ch; color: var(--ed-white); text-wrap: balance;
+  font-size: var(--ed-mk-text-h1); font-weight: var(--ed-weight-semibold);
+}
+.ed-mk-halo--map { padding-top: clamp(96px, 16vh, 160px); }
+.ed-mk-halo--map .ed-mk-halo__dome { height: auto; min-height: 50cqw; padding-top: 6cqw; padding-bottom: var(--ed-space-4); }
+/* Under the equator the page's own black, without the hairlines, as after the halo. */
+/* Below the equator: the page's black over the planet's lower half and the
+   hairlines, under the map. A cover rather than a clip: the rims are each
+   their own layer, and a clip edge rounds differently on each, which shows
+   as a line. */
+.ed-mk-halo--map .ed-mk-halo__dome::after { content: ''; position: absolute; inset: 50cqw 0 0; z-index: 1; background: var(--ed-ink); }
+.ed-mk-halo--map .ed-mk-halo__inner {
+  position: relative; left: auto; top: auto; translate: none;
+  width: 100%; max-width: none; padding-inline: var(--ed-mk-gutter);
+}
+.ed-mk-halo--map .ed-mk-dotmap__map { width: min(100%, 640px, 46cqw); }
+@media (max-width: 700px) {
+  .ed-mk-halo--map .ed-mk-dotmap__map { width: min(100%, 420px); }
+}
+
+.ed-mk-dotmap { display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-10); width: 100%; }
+.ed-mk-dotmap__map { position: relative; width: min(100%, 560px); }
+.ed-mk-dotmap__map > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ed-mk-dotmap__land { fill: color-mix(in srgb, var(--ed-neutral-300) 34%, transparent); }
+.ed-mk-dotmap__stop { stop-color: var(--ed-teal-300); }
+.ed-mk-dotmap__pt { transition: opacity .3s; }
+.ed-mk-dotmap__pt.is-dim { opacity: .2; }
+.ed-mk-dotmap__core { fill: var(--ed-teal-300); transition: fill .3s; }
+.ed-mk-dotmap__ring {
+  fill: none; stroke: var(--ed-teal-300); stroke-width: 1.4; opacity: .45;
+  transform-box: fill-box; transform-origin: center;
+}
+.ed-mk-dotmap__glow { opacity: .25; transition: opacity .3s; }
+.ed-mk-dotmap__pt.is-on .ed-mk-dotmap__core { fill: var(--ed-teal-100); }
+.ed-mk-dotmap__pt.is-on .ed-mk-dotmap__glow { opacity: .9; }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-mk-dotmap__pt.is-on .ed-mk-dotmap__ring { animation: ed-mk-ping 1.6s ease-out infinite; }
+}
+@keyframes ed-mk-ping { from { transform: scale(1); opacity: .9; } to { transform: scale(3); opacity: 0; } }
+.ed-mk-dotmap__name {
+  position: absolute; translate: 14px -50%; z-index: 1; pointer-events: none; white-space: nowrap;
+  padding: 4px 9px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ed-teal-300) 40%, transparent);
+  background: color-mix(in srgb, var(--ed-ink) 85%, transparent); color: var(--ed-white);
+  font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-ui);
+  opacity: 0; transition: opacity .25s;
+}
+.ed-mk-dotmap__name[data-side='left'] { translate: calc(-100% - 14px) -50%; }
+.ed-mk-dotmap__name.is-on { opacity: 1; }
+.ed-mk-dotmap__pick { display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-4); max-width: 1000px; }
+.ed-mk-dotmap__hint {
+  margin: 0; font: var(--ed-weight-medium) var(--ed-text-xs)/1 var(--ed-font-id); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ed-teal-300);
+}
+.ed-mk-dotmap__filters { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ed-space-2-5); }
+.ed-mk-dotmap__filters button {
+  height: 40px; padding: 0 var(--ed-space-4); border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--ed-border); background: transparent; color: var(--ed-neutral-300);
+  font: var(--ed-weight-medium) var(--ed-text-sm)/1 var(--ed-font-ui); white-space: nowrap;
+  transition: color .2s, border-color .2s, background-color .2s;
+}
+.ed-mk-dotmap__filters button:hover, .ed-mk-dotmap__filters button.is-on, .ed-mk-dotmap__filters button[aria-pressed='true'] {
+  color: var(--ed-white); border-color: var(--ed-teal-300); background: color-mix(in srgb, var(--ed-teal-300) 10%, transparent);
+}
+.ed-mk-dotmap__filters button:focus-visible { outline: 2px solid var(--ed-teal-300); outline-offset: 2px; }
+@media (max-width: 560px) {
+  .ed-mk-dotmap { gap: var(--ed-space-8); }
+  .ed-mk-dotmap__filters button { height: 36px; padding: 0 var(--ed-space-3); font-size: var(--ed-text-xs); }
+}

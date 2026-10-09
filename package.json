@@ -113,6 +113,10 @@
       "types": "./react/marketing/ScrollCards.d.ts",
       "default": "./react/marketing/ScrollCards.jsx"
     },
+    "./react/marketing/DotMap": {
+      "types": "./react/marketing/DotMap.d.ts",
+      "default": "./react/marketing/DotMap.jsx"
+    },
     "./react/marketing/Journey": {
       "types": "./react/marketing/Journey.d.ts",
       "default": "./react/marketing/Journey.jsx"

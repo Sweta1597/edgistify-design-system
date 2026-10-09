@@ -206,6 +206,14 @@ versions follow [semver](https://semver.org/).
     cards, brand cells and an inline email gate. It prints alone and open.
     `Prompt` takes `allowEmpty` (send with an empty box when fields outside
     carry the answer) and `inputId`.
+  - **`DotMap`** (`react/marketing/DotMap`, client): a country drawn as a
+    field of dots (rings of [lon, lat] in, a hex grid out, in one path),
+    places on it, and a row of filters under it — hovering, focusing or
+    tapping one lights the places tagged with it and names them; the rest
+    dim. **`LoopHalo`** takes `head` (a heading of your own, at the other
+    sections' size) and `.ed-mk-halo--map` (the dome grows under the arc to
+    hold a DotMap; the page's black covers the planet's lower half, so
+    only the arc shows).
   - **`.ed-mk-textlinks--buttons`**: the hero's ways to start as pills,
     an icon before each label (teal), hovering to a teal edge; stacked full
     width on a phone. Icon library: **`phone`** (seed, Material `call`).

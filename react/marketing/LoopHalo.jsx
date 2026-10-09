@@ -15,8 +15,11 @@ const STREAKS = [[8, 0, 9], [21, 3.5, 11], [37, 1.2, 8], [58, 5, 12], [71, 2.2, 
    As the section scrolls in (--p 0 → 1) the heading comes out of a blur;
    as the dome's crown rises from the bottom of the window to its top fifth
    (--q 0 → 1) the glow sweeps along the rim, from the left horizon over
-   the top to the right, completing the halo. Under reduced motion it is simply there. */
-export function LoopHalo({ eyebrow, title, nodes = [], inner, children, className, ...rest }) {
+   the top to the right, completing the halo. Under reduced motion it is simply there.
+   `head` replaces the eyebrow and title with a heading of your own (e.g. an
+   .ed-mk-h2, the size of the other sections' heads). With className
+   "ed-mk-halo--map" the dome grows under the arc to hold a DotMap in `inner`. */
+export function LoopHalo({ eyebrow, title, head, nodes = [], inner, children, className, ...rest }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -50,8 +53,10 @@ export function LoopHalo({ eyebrow, title, nodes = [], inner, children, classNam
         {STREAKS.map(([x, d, t], i) => <i key={i} style={{ left: `${x}%`, animationDelay: `${d}s`, animationDuration: `${t}s` }} />)}
       </div>
       <div className="ed-mk-halo__copy">
-        {eyebrow && <p className="ed-mk-halo__eyebrow">{eyebrow}</p>}
-        {title && <h2 className="ed-mk-halo__title">{title}</h2>}
+        {head ?? <>
+          {eyebrow && <p className="ed-mk-halo__eyebrow">{eyebrow}</p>}
+          {title && <h2 className="ed-mk-halo__title">{title}</h2>}
+        </>}
         {children}
       </div>
       <div className="ed-mk-halo__dome">
