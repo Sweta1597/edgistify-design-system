@@ -206,6 +206,13 @@ versions follow [semver](https://semver.org/).
     cards, brand cells and an inline email gate. It prints alone and open.
     `Prompt` takes `allowEmpty` (send with an empty box when fields outside
     carry the answer) and `inputId`.
+  - **`StepFlow`** and **`StepScreen`** (`react/marketing/StepFlow`,
+    client): steps side by side, joined by a line of light. On a wide
+    screen the section holds still while the page scrolls; the line runs
+    left to right and each step comes live as it is reached — its screen's
+    numbers count up (`data-to`), bars fill and checks tick (`data-at`),
+    paths draw (`data-draw`), and its status turns from working to done.
+    Stacked on a narrow screen; all there under reduced motion.
   - **`DotMap`** (`react/marketing/DotMap`, client): a country drawn as a
     field of dots (rings of [lon, lat] in, a hex grid out, in one path),
     places on it, and a row of filters under it — hovering, focusing or

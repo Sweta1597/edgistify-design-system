@@ -113,6 +113,10 @@
       "types": "./react/marketing/ScrollCards.d.ts",
       "default": "./react/marketing/ScrollCards.jsx"
     },
+    "./react/marketing/StepFlow": {
+      "types": "./react/marketing/StepFlow.d.ts",
+      "default": "./react/marketing/StepFlow.jsx"
+    },
     "./react/marketing/DotMap": {
       "types": "./react/marketing/DotMap.d.ts",
       "default": "./react/marketing/DotMap.jsx"
