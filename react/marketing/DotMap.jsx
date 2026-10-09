@@ -16,7 +16,7 @@ function inside(x, y, ring) {
 
 /* The land as a hex grid of dots, in one path; and a projection for the places. Longitude is
    squeezed by the cosine of the middle latitude, so the land keeps its proportions. */
-function layout(shape, extra, points, step) {
+function lay(shape, extra, points, step) {
   const all = [...shape.flat(), ...extra, ...points.map((p) => [p.lon, p.lat])];
   const lons = all.map((c) => c[0]), lats = all.map((c) => c[1]);
   const w0 = Math.min(...lons) - step, w1 = Math.max(...lons) + step;
@@ -48,19 +48,22 @@ function layout(shape, extra, points, step) {
  *   points  [{ id, name, lon, lat, tags: [filter ids], side: 'left' | 'right' }]
  *   filters [{ id, label }]
  *   hint    a line over the filters, e.g. "Hover a category"
+ *   layout  'side': the map on the left and the filters on the right as a
+ *           list of text with hairlines between (stacked on a narrow screen);
+ *           default: the filters as pills under the map
  */
-export function DotMap({ shape = [], extra = [], points = [], filters = [], step = 0.45, label, hint, className = '', ...rest }) {
+export function DotMap({ shape = [], extra = [], points = [], filters = [], step = 0.45, label, hint, layout, className = '', ...rest }) {
   const [hover, setHover] = useState(null);
   const [pinned, setPinned] = useState(null);
   const id = useId();
-  const map = useMemo(() => layout(shape, extra, points, step), [shape, extra, points, step]);
+  const map = useMemo(() => lay(shape, extra, points, step), [shape, extra, points, step]);
   const active = hover ?? pinned;
   const shown = filters.filter((f) => points.some((p) => p.tags?.includes(f.id)));
   const lit = active ? points.filter((p) => p.tags?.includes(active)) : [];
   const activeLabel = shown.find((f) => f.id === active)?.label;
 
   return (
-    <div className={cx('ed-mk-dotmap', active && 'ed-mk-dotmap--active', className)} role="group" aria-label={label} {...rest}>
+    <div className={cx('ed-mk-dotmap', layout === 'side' && 'ed-mk-dotmap--side', active && 'ed-mk-dotmap--active', className)} role="group" aria-label={label} {...rest}>
       <div className="ed-mk-dotmap__map" style={{ aspectRatio: `${map.W.toFixed(1)} / ${map.H.toFixed(1)}` }}>
         <svg viewBox={`0 0 ${map.W.toFixed(1)} ${map.H.toFixed(1)}`} aria-hidden="true">
           <defs>

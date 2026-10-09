@@ -2984,3 +2984,30 @@
   .ed-mk-dotmap { gap: var(--ed-space-8); }
   .ed-mk-dotmap__filters button { height: 36px; padding: 0 var(--ed-space-3); font-size: var(--ed-text-xs); }
 }
+
+/* DotMap side by side: the map on the left, the filters on the right as a
+   list of text with a hairline between each, its foot level with the map's.
+   Stacked on a narrow screen. In the map halo the two are sized to the
+   arc, so the list's top stays inside the curve at any width. */
+.ed-mk-dotmap--side { flex-direction: row; align-items: flex-end; justify-content: center; gap: var(--ed-space-12); }
+.ed-mk-dotmap--side .ed-mk-dotmap__map { flex: 1 1 auto; }
+.ed-mk-dotmap--side .ed-mk-dotmap__pick { flex: none; width: min(300px, 100%); align-items: stretch; gap: var(--ed-space-3); text-align: left; }
+.ed-mk-dotmap--side .ed-mk-dotmap__filters { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; gap: 0; }
+.ed-mk-dotmap--side .ed-mk-dotmap__filters li + li { border-top: 1px solid var(--ed-border); }
+.ed-mk-dotmap--side .ed-mk-dotmap__filters button {
+  display: block; width: 100%; height: auto; padding: 7px 0; border: 0; border-radius: 0; background: none;
+  text-align: left; white-space: normal; color: var(--ed-neutral-400);
+  font: var(--ed-weight-medium) var(--ed-text-sm)/1.35 var(--ed-font-ui);
+}
+.ed-mk-dotmap--side .ed-mk-dotmap__filters button:hover { color: var(--ed-white); background: none; }
+.ed-mk-dotmap--side .ed-mk-dotmap__filters button.is-on,
+.ed-mk-dotmap--side .ed-mk-dotmap__filters button[aria-pressed='true'] { color: var(--ed-teal-200); background: none; }
+.ed-mk-dotmap--side .ed-mk-dotmap__filters button:focus-visible { outline-offset: 0; border-radius: 4px; }
+.ed-mk-halo--map .ed-mk-dotmap--side { width: auto; max-width: none; gap: 5cqw; padding-top: 3cqw; translate: -1cqw 0; }
+.ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__map { flex: none; width: min(46cqw, 620px); }
+.ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { width: min(23cqw, 300px); }
+@media (max-width: 860px) {
+  .ed-mk-dotmap--side, .ed-mk-halo--map .ed-mk-dotmap--side { flex-direction: column; align-items: center; gap: var(--ed-space-8); width: 100%; translate: none; padding-top: 0; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__map, .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__map { width: min(100%, 460px); }
+  .ed-mk-dotmap--side .ed-mk-dotmap__pick, .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { width: min(100%, 420px); }
+}

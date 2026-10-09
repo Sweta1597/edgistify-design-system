@@ -210,7 +210,9 @@ versions follow [semver](https://semver.org/).
     field of dots (rings of [lon, lat] in, a hex grid out, in one path),
     places on it, and a row of filters under it — hovering, focusing or
     tapping one lights the places tagged with it and names them; the rest
-    dim. **`LoopHalo`** takes `head` (a heading of your own, at the other
+    dim. `layout="side"` puts the map left and the filters right as a
+    list of text with hairlines between (stacked on a narrow screen; in
+    the map halo, sized to stay inside the arc). **`LoopHalo`** takes `head` (a heading of your own, at the other
     sections' size) and `.ed-mk-halo--map` (the dome grows under the arc to
     hold a DotMap; the page's black covers the planet's lower half, so
     only the arc shows).

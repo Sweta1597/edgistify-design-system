@@ -25,4 +25,6 @@ export declare function DotMap(props: Omit<React.HTMLAttributes<HTMLDivElement>,
   label?: string;
   /** a line over the filters */
   hint?: React.ReactNode;
+  /** 'side': map left, filters right as a text list with hairlines between; default: pills under the map */
+  layout?: 'side';
 }): JSX.Element;
