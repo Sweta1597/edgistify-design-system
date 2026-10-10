@@ -11,15 +11,38 @@ const LEAD = 0.35;   // the last step finishes before the section lets go
    body. Inside it, any element with data-at=".4" gets .is-go once its step
    is that far along; data-to (with data-from, -dec, -pre, -suf) counts up;
    a path with pathLength="1" and data-draw draws itself. */
-export function StepScreen({ title, status = [], children }) {
+export function StepScreen({ title, status = [], className, children }) {
   return (
-    <div className="ed-mk-scr" aria-hidden="true">
+    <div className={cx('ed-mk-scr', className)} aria-hidden="true">
       <div className="ed-mk-scr__bar">
         <i /><i /><i /><b>{title}</b>
         {status.length > 0 && <span className="ed-mk-scr__live" data-at=".85" data-a={status[0]} data-b={status[1] ?? status[0]} />}
       </div>
       <div className="ed-mk-scr__body">{children}</div>
     </div>
+  );
+}
+
+const EXPAND = <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" /></svg>;
+
+/* A step as a tall dark card: its title and a line at the top, a small
+   teal expand mark, and its screen rising out of a teal glow at the
+   bottom. The glow swells and the screen lifts as the step plays (--p);
+   the edge turns teal once it is done (data-at). For a StepFlow with
+   .ed-mk-stepflow--cards, whose steps carry no title of their own. */
+export function StepCard({ title, body, at = '.9', children }) {
+  return (
+    <article className="ed-mk-stepcard" data-at={at}>
+      <div className="ed-mk-stepcard__hd">
+        <div>
+          <h3 className="ed-mk-stepcard__title">{title}</h3>
+          {body && <p className="ed-mk-stepcard__body">{body}</p>}
+        </div>
+        <span className="ed-mk-stepcard__exp" aria-hidden="true">{EXPAND}</span>
+      </div>
+      <div className="ed-mk-stepcard__glow" aria-hidden="true" />
+      <div className="ed-mk-stepcard__ui" aria-hidden="true">{children}</div>
+    </article>
   );
 }
 
@@ -136,7 +159,7 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
                 <div className="ed-mk-flowstep__txt">
                   <span className="ed-mk-flowstep__node" aria-hidden="true" />
                   <span className="ed-mk-flowstep__num">{s.num ?? String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="ed-mk-flowstep__title">{s.title}</h3>
+                  {s.title && <h3 className="ed-mk-flowstep__title">{s.title}</h3>}
                   {s.body && <p className="ed-mk-flowstep__body">{s.body}</p>}
                 </div>
                 {s.figure && <div className="ed-mk-flowstep__fig">{s.figure}</div>}

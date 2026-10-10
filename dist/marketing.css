@@ -3157,9 +3157,10 @@
 .ed-mk-scr__plan .z.is-go text { fill: var(--ed-teal-100); }
 .ed-mk-scr [data-draw] {
   fill: none; stroke: var(--ed-teal-200); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 1));
+  stroke-dasharray: 1; stroke-dashoffset: calc(1 - clamp(0, (var(--p, 1) - var(--d0, 0)) / (1 - var(--d0, 0)), 1));
   filter: drop-shadow(0 0 3px var(--ed-teal-300));
 }
+/* data-draw starts drawing at --d0 of the step (default 0) and is done at its end. */
 .ed-mk-scr__foot { display: flex; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--ed-neutral-500); }
 .ed-mk-scr__foot b { color: var(--ed-teal-300); font-weight: var(--ed-weight-medium); }
 .ed-mk-scr__checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -3186,3 +3187,150 @@
 .ed-mk-scr__trend .area { fill: color-mix(in srgb, var(--ed-teal-300) 10%, transparent); clip-path: inset(0 calc(100% - var(--p, 1) * 100%) 0 0); }
 .ed-mk-scr__trend .dot { fill: var(--ed-teal-100); filter: drop-shadow(0 0 6px var(--ed-teal-300)); opacity: 0; transition: opacity .4s; }
 .ed-mk-scr__trend .dot.is-go { opacity: 1; }
+
+/* ==================================================================
+   48. STEP CARD — a step as a tall dark card
+   ------------------------------------------------------------------
+   For StepFlow with .ed-mk-stepflow--cards: each step's figure is a
+   StepCard — title and a line at the top, a teal expand mark, and its
+   screen rising out of a teal glow at the bottom, a line of light along
+   its foot. As the step plays (--p) the glow swells and the screen lifts,
+   and the screen runs: bars re-sort, the floor plan rearranges, the
+   cutover completes, the graph climbs — each part at its data-at, or
+   drawn along with --p. .ed-mk-swap: two children; the second replaces
+   the first at its data-at.
+   ================================================================== */
+.ed-mk-stepflow--cards .ed-mk-stepflow__row { row-gap: 14px; }
+.ed-mk-stepflow--cards .ed-mk-flowstep__txt { padding-top: 28px; gap: 0; }
+
+.ed-mk-stepcard {
+  position: relative; isolation: isolate; overflow: hidden; box-sizing: border-box;
+  display: flex; flex-direction: column; height: 100%; min-height: clamp(380px, 50vh, 480px);
+  border-radius: 6px; border: 1px solid color-mix(in srgb, var(--ed-white) 9%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ed-ink) 94%, var(--ed-teal-950)), color-mix(in srgb, var(--ed-ink) 78%, var(--ed-black, #000)));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ed-white) 4%, transparent);
+  transition: border-color .5s;
+}
+.ed-mk-stepcard.is-go { border-color: color-mix(in srgb, var(--ed-teal-300) 35%, transparent); }
+.ed-mk-stepcard::after {
+  content: ''; position: absolute; z-index: 3; left: 12%; right: 12%; bottom: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ed-teal-200), transparent);
+  box-shadow: 0 0 14px 2px color-mix(in srgb, var(--ed-teal-300) 55%, transparent); opacity: .8;
+}
+.ed-mk-stepcard__hd { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 12px; padding: 22px 20px 0; }
+.ed-mk-stepcard__title { margin: 0; font: var(--ed-weight-medium) clamp(20px, 1.6vw, 25px)/1.15 var(--ed-font-ui); letter-spacing: -.02em; color: var(--ed-neutral-50); }
+.ed-mk-stepcard__body { margin: 8px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ed-neutral-400); text-wrap: pretty; }
+.ed-mk-stepcard__exp {
+  flex: none; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 4px;
+  background: linear-gradient(145deg, var(--ed-teal-400), var(--ed-teal-700));
+  box-shadow: 0 0 calc(22px + 10px * var(--p, 1)) color-mix(in srgb, var(--ed-teal-300) 40%, transparent), inset 0 1px 0 color-mix(in srgb, var(--ed-white) 25%, transparent);
+}
+.ed-mk-stepcard__exp svg { width: 16px; height: 16px; fill: none; stroke: var(--ed-teal-25); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ed-mk-stepcard__glow {
+  position: absolute; z-index: 0; left: -30%; right: -30%; bottom: -18%; height: 85%; pointer-events: none;
+  background: radial-gradient(62% 48% at 50% 100%,
+    color-mix(in srgb, var(--ed-teal-200) 80%, transparent),
+    color-mix(in srgb, var(--ed-teal-400) 55%, transparent) 32%,
+    color-mix(in srgb, var(--ed-teal-700) 22%, transparent) 60%, transparent 80%);
+  transform-origin: 50% 100%; transform: scale(calc(.92 + .16 * var(--p, 1))); opacity: calc(.55 + .45 * var(--p, 1));
+}
+.ed-mk-stepcard__ui { position: relative; z-index: 1; margin: auto 22px -14px; padding-top: 16px; transform: translateY(calc(var(--p, 1) * -10px)); }
+
+/* The screen, inside a card */
+.ed-mk-flowstep .ed-mk-stepcard .ed-mk-scr {
+  height: clamp(230px, 30vh, 262px); box-sizing: border-box; border-radius: 14px; font-family: var(--ed-font-ui);
+  border-color: color-mix(in srgb, var(--ed-white) 10%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ed-ink) 90%, var(--ed-teal-950)) 40%, color-mix(in srgb, var(--ed-teal-950) 72%, transparent));
+  backdrop-filter: blur(6px);
+  box-shadow: 0 -10px 40px -20px color-mix(in srgb, var(--ed-teal-300) 35%, transparent),
+    0 30px 60px -20px color-mix(in srgb, var(--ed-black, #000) 80%, transparent), inset 0 1px 0 color-mix(in srgb, var(--ed-white) 5%, transparent);
+}
+.ed-mk-stepcard .ed-mk-scr__bar { height: 34px; box-sizing: border-box; padding: 0 12px; font-family: var(--ed-font-id); }
+.ed-mk-stepcard .ed-mk-scr__body { gap: 12px; padding: 12px 14px 26px; }
+
+.ed-mk-swap > :last-child { display: none; }
+.ed-mk-swap.is-go > :first-child { display: none; }
+.ed-mk-swap.is-go > :last-child { display: inline; animation: ed-mk-swap-in .5s var(--ed-mk-ease) both; }
+@keyframes ed-mk-swap-in { from { opacity: 0; filter: blur(3px); transform: translateY(3px); } }
+
+/* 01 diagnose: cost per order, the channel mix re-sorting, leaks in amber */
+.ed-mk-scr__cost { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px; }
+.ed-mk-scr__cost > span { width: 100%; font: var(--ed-weight-medium) 9.5px var(--ed-font-id); letter-spacing: .12em; text-transform: uppercase; color: var(--ed-neutral-500); }
+.ed-mk-scr__cost > b { font: var(--ed-weight-semibold) 30px/1 var(--ed-font-ui); letter-spacing: -.03em; color: var(--ed-white); }
+.ed-mk-scr__cost > b > span { display: inline-block; }
+.ed-mk-scr__cost > small { font-size: 11px; color: var(--ed-teal-300); opacity: 0; translate: 0 4px; transition: opacity .4s, translate .4s var(--ed-mk-ease); }
+.ed-mk-scr__cost > small.is-go { opacity: 1; translate: 0 0; }
+.ed-mk-scr__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.ed-mk-scr__rows li { display: grid; grid-template-columns: 72px minmax(0, 1fr) 26px; align-items: center; gap: 8px; font: var(--ed-weight-regular) 10.5px/1.2 var(--ed-font-id); color: var(--ed-neutral-400); transition: color .4s; }
+.ed-mk-scr__rows s { height: 5px; border-radius: 3px; overflow: hidden; text-decoration: none; background: color-mix(in srgb, var(--ed-white) 6%, transparent); }
+.ed-mk-scr__rows s i { display: block; height: 100%; width: calc(var(--w) * 100%); border-radius: inherit; background: linear-gradient(90deg, var(--ed-teal-700), var(--ed-teal-300)); transition: width .8s var(--ed-mk-ease); }
+.ed-mk-scr__rows.is-go s i { width: calc(var(--w2) * 100%); }
+.ed-mk-scr__rows em { font-style: normal; text-align: right; font-size: 10px; color: var(--ed-neutral-500); }
+.ed-mk-scr__rows li.is-go { color: var(--ed-amber-200); }
+.ed-mk-scr__rows li.is-go s i { background: linear-gradient(90deg, var(--ed-amber-700), var(--ed-amber-200)); }
+.ed-mk-stepcard .ed-mk-scr__chip { max-width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; justify-self: start; }
+
+/* 02 design: the floor plan's zones move into place, the pick path shortens */
+.ed-mk-scr .ed-mk-scr__floor { max-height: 150px; }   /* keeps the pick path in view on a wide card */
+.ed-mk-scr__floor .fl { fill: color-mix(in srgb, var(--ed-white) 1.5%, transparent); stroke: color-mix(in srgb, var(--ed-white) 10%, transparent); }
+.ed-mk-scr__floor .z { transform: translate(var(--dx), var(--dy)); transition: transform .9s var(--ed-mk-ease); }
+.ed-mk-scr__floor .z rect { fill: color-mix(in srgb, var(--ed-white) 2%, transparent); stroke: color-mix(in srgb, var(--ed-neutral-400) 40%, transparent); stroke-width: .6; transition: fill .5s, stroke .5s; }
+.ed-mk-scr__floor .z text { font: var(--ed-weight-semibold) 4.2px var(--ed-font-id); letter-spacing: .08em; fill: var(--ed-neutral-500); text-anchor: middle; transition: fill .5s; }
+.ed-mk-scr__floor .z.is-go { transform: none; }
+.ed-mk-scr__floor .z.is-go rect { fill: color-mix(in srgb, var(--ed-teal-300) 8%, transparent); stroke: var(--ed-teal-300); }
+.ed-mk-scr__floor .z.is-go text { fill: var(--ed-teal-100); }
+.ed-mk-scr__floor .old { fill: none; stroke: color-mix(in srgb, var(--ed-neutral-400) 50%, transparent); stroke-width: .8; stroke-dasharray: 2 2; stroke-linecap: round; stroke-linejoin: round; transition: opacity .4s; }
+.ed-mk-scr__floor .old.is-go { opacity: 0; }
+.ed-mk-scr__floor [data-draw] { stroke: var(--ed-teal-200); stroke-width: 1.1; filter: drop-shadow(0 0 1.5px var(--ed-teal-300)); }
+.ed-mk-stepcard .ed-mk-scr__foot { font-family: var(--ed-font-id); }
+.ed-mk-stepcard .ed-mk-scr__foot b { font-weight: var(--ed-weight-regular); }
+
+/* 03 transition: a notification — the cutover completing */
+.ed-mk-scr--note .ed-mk-scr__body { padding-top: 12px; gap: 0; }
+.ed-mk-scr__nhd { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid color-mix(in srgb, var(--ed-white) 7%, transparent); font: var(--ed-weight-medium) 10px var(--ed-font-id); letter-spacing: .1em; color: var(--ed-neutral-400); }
+.ed-mk-scr__nhd > i { width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; background: linear-gradient(145deg, var(--ed-teal-400), var(--ed-teal-700)); }
+.ed-mk-scr__nhd > i svg { width: 11px; height: auto; fill: none; stroke: var(--ed-teal-25); stroke-width: 1.8; }
+.ed-mk-scr__nhd > small { margin-left: auto; font-size: 10px; letter-spacing: 0; color: var(--ed-neutral-500); }
+.ed-mk-scr__ntitle { display: flex; align-items: center; gap: 10px; padding: 14px 0; }
+.ed-mk-scr__ntitle > i { position: relative; flex: none; width: 32px; height: 32px; box-sizing: border-box; border-radius: 50%; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--ed-teal-300) 35%, transparent); background: color-mix(in srgb, var(--ed-teal-300) 8%, transparent); transition: box-shadow .4s .4s; }
+.ed-mk-scr__ntitle > i::before { content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: var(--ed-teal-300); animation: ed-mk-spin 1s linear infinite; }
+.ed-mk-scr__ntitle > i svg { width: 15px; height: auto; fill: none; stroke: var(--ed-teal-200); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset .5s var(--ed-mk-ease) .3s; }
+.ed-mk-scr__ntitle strong { font: var(--ed-weight-semibold) 13px/1.25 var(--ed-font-ui); color: var(--ed-neutral-50); }
+.ed-mk-scr__ntitle.is-go > i { box-shadow: 0 0 16px color-mix(in srgb, var(--ed-teal-300) 45%, transparent); }
+.ed-mk-scr__ntitle.is-go > i::before { animation: none; border-color: transparent; }
+.ed-mk-scr__ntitle.is-go > i svg { stroke-dashoffset: 0; }
+@keyframes ed-mk-spin { to { transform: rotate(360deg); } }
+.ed-mk-scr__tasks { list-style: none; margin: 0; padding: 0; border-radius: 10px; background: color-mix(in srgb, var(--ed-white) 3%, transparent); }
+.ed-mk-scr__tasks li { display: grid; grid-template-columns: auto minmax(20px, 1fr) auto; align-items: center; gap: 10px; padding: 9px 10px; border-top: 1px solid color-mix(in srgb, var(--ed-white) 5%, transparent); font: var(--ed-weight-regular) 11px/1.3 var(--ed-font-ui); color: var(--ed-neutral-200); }
+.ed-mk-scr__tasks li:first-child { border-top: 0; }
+.ed-mk-scr__tasks s { height: 4px; border-radius: 2px; overflow: hidden; text-decoration: none; background: color-mix(in srgb, var(--ed-white) 7%, transparent); }
+.ed-mk-scr__tasks s i { display: block; height: 100%; width: calc(var(--f) * 100%); border-radius: inherit; background: var(--ed-teal-300); transition: width .9s var(--ed-mk-ease); }
+.ed-mk-scr__tasks li.is-go s i { width: 100%; }
+.ed-mk-scr__tasks em { font: var(--ed-weight-regular) 10px var(--ed-font-id); font-style: normal; text-align: right; white-space: nowrap; color: var(--ed-neutral-500); }
+.ed-mk-scr__sales { margin-top: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 8px; font: var(--ed-weight-medium) 9.5px var(--ed-font-id); letter-spacing: .08em; text-transform: uppercase; color: var(--ed-neutral-500); }
+.ed-mk-scr__sales > b { font-weight: inherit; color: var(--ed-teal-300); }
+.ed-mk-scr .ed-mk-scr__sales svg { width: 100%; height: 24px; margin-top: 6px; }
+.ed-mk-scr__sales path { fill: none; stroke: var(--ed-teal-300); stroke-width: 1.4; stroke-dasharray: .2 .8; filter: drop-shadow(0 0 3px color-mix(in srgb, var(--ed-teal-300) 60%, transparent)); animation: ed-mk-run 3s linear infinite; }
+.ed-mk-scr__sales.is-go path { stroke-dasharray: 1 0; animation: none; }
+@keyframes ed-mk-run { to { stroke-dashoffset: -1; } }
+
+/* 04 operate: the figures improve, the new line climbs past the old */
+.ed-mk-stepcard .ed-mk-scr__kpis b .ed-mk-swap.is-go > :last-child { color: var(--ed-teal-100); }
+.ed-mk-stepcard .ed-mk-scr__kpis b { font-size: 14px; }
+.ed-mk-stepcard .ed-mk-scr__kpis span { font-size: 8px; letter-spacing: .1em; white-space: nowrap; }
+.ed-mk-scr .ed-mk-scr__graph { height: 90px; }
+.ed-mk-scr__graph .grid { fill: none; stroke: color-mix(in srgb, var(--ed-white) 5%, transparent); }
+.ed-mk-scr__graph .was { fill: none; stroke: color-mix(in srgb, var(--ed-neutral-400) 55%, transparent); stroke-width: 1.4; vector-effect: non-scaling-stroke; transition: opacity .5s; }
+.ed-mk-scr__graph .was-area { fill: color-mix(in srgb, var(--ed-neutral-400) 6%, transparent); transition: opacity .5s; }
+.ed-mk-scr__graph .was.is-go, .ed-mk-scr__graph .was-area.is-go { opacity: .25; }
+.ed-mk-scr__graph [data-draw] { stroke-width: 1.8; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 4px var(--ed-teal-300)); }
+.ed-mk-scr__graph .now-area { fill: color-mix(in srgb, var(--ed-teal-300) 12%, transparent); opacity: 0; transition: opacity .8s; }
+.ed-mk-scr__graph .now-area.is-go { opacity: 1; }
+
+@media (max-width: 960px) {
+  .ed-mk-stepcard { height: 470px; min-height: 0; }
+  .ed-mk-stepflow--cards .ed-mk-flowstep__txt { padding-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-stepcard, .ed-mk-stepcard * { transition: none !important; animation: none !important; }
+}
