@@ -1742,7 +1742,7 @@
 .ed-mk-halo {
   --p: 1; --q: 1;
   container-type: inline-size;
-  position: relative; overflow: hidden; isolation: isolate;
+  position: relative; overflow: clip; isolation: isolate;   /* clip, not hidden: focusing a filter must not scroll it sideways */
   background: var(--ed-ink); color: var(--ed-white);
   display: flex; flex-direction: column; align-items: center;
   padding: clamp(120px, 22vh, 200px) 0 0;
