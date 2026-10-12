@@ -2989,7 +2989,7 @@
    list of text with a hairline between each, its foot level with the map's.
    Stacked on a narrow screen. In the map halo the two are sized to the
    arc, so the list's top stays inside the curve at any width. */
-.ed-mk-dotmap--side { flex-direction: row; align-items: flex-end; justify-content: center; gap: var(--ed-space-12); }
+.ed-mk-dotmap--side { flex-direction: row; align-items: center; justify-content: center; gap: var(--ed-space-12); }
 .ed-mk-dotmap--side .ed-mk-dotmap__map { flex: 1 1 auto; }
 .ed-mk-dotmap--side .ed-mk-dotmap__pick { flex: none; width: min(300px, 100%); align-items: stretch; gap: var(--ed-space-3); text-align: left; }
 .ed-mk-dotmap--side .ed-mk-dotmap__filters { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; gap: 0; }
