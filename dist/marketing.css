@@ -2920,7 +2920,7 @@
   font-size: var(--ed-mk-text-h1); font-weight: var(--ed-weight-semibold);
 }
 .ed-mk-halo--map { padding-top: clamp(96px, 16vh, 160px); }
-.ed-mk-halo--map .ed-mk-halo__dome { height: auto; min-height: 50cqw; padding-top: calc(var(--ed-mk-section) * 2); padding-bottom: var(--ed-mk-section); }   /* crown to map: n, as between sections */
+.ed-mk-halo--map .ed-mk-halo__dome { height: auto; min-height: 50cqw; padding-top: calc(var(--ed-mk-section) * 4); padding-bottom: var(--ed-mk-section); }   /* crown to map: 2n, twice the gap between sections (n = 2 section measures) */
 /* Under the equator the page's own black, without the hairlines, as after the halo. */
 /* Below the equator: the page's black over the planet's lower half and the
    hairlines, under the map. A cover rather than a clip: the rims are each
