@@ -18,3 +18,6 @@ export declare function Dropdown(props: {
   className?: string;
   panelClassName?: string;
 }): JSX.Element;
+
+/** A second panel beside a row of a Dropdown's panel (a hierarchical dropdown's next level): against the panel's right edge, level with `anchor`, or its left edge when there's no room. Put it inside the Dropdown's children. */
+export declare function Flyout(props: { anchor: React.RefObject<Element | null>; open: boolean; label?: string; children?: React.ReactNode; className?: string }): JSX.Element;

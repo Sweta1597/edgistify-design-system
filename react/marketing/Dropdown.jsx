@@ -1,4 +1,5 @@
 'use client';
+import { useLayoutEffect, useRef } from 'react';
 import { Popover, useDropdown } from '../Popover.jsx';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
@@ -26,6 +27,46 @@ export function Dropdown({ id, value, placeholder = 'Choose', label, footer, onO
           </div>
         )}
       </Popover>
+    </div>
+  );
+}
+
+/**
+ * A second panel that opens beside a row of a Dropdown's panel — the
+ * hierarchical dropdown's next level. It sits against the panel's right
+ * edge, level with the row (`anchor`, a ref), or against its left edge when
+ * there is no room on the right. It lives inside the Dropdown's panel, so
+ * clicks in it keep that panel open; it is a manual popover in the top
+ * layer, so the panel's scroll never clips it.
+ */
+export function Flyout({ anchor, open, label, children, className = '' }) {
+  const ref = useRef(null);
+  useLayoutEffect(() => {
+    const p = ref.current;
+    if (!p) return undefined;
+    const shown = p.matches(':popover-open');
+    if (!open) { if (shown) p.hidePopover?.(); return undefined; }
+    if (!shown) p.showPopover?.();
+    const place = () => {
+      const a = anchor?.current;
+      if (!a) return;
+      const row = a.getBoundingClientRect();
+      const panel = (a.closest('.ed-pop') || a).getBoundingClientRect();
+      const w = p.offsetWidth, h = p.offsetHeight, gap = 6;
+      let left = panel.right + gap;
+      if (left + w > window.innerWidth - 8) left = Math.max(8, panel.left - gap - w);
+      const top = Math.max(8, Math.min(row.top - 6, window.innerHeight - h - 8));
+      p.style.left = `${left}px`;
+      p.style.top = `${top}px`;
+    };
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => { window.removeEventListener('resize', place); window.removeEventListener('scroll', place, true); };
+  }, [open, anchor]);
+  return (
+    <div ref={ref} popover="manual" className={cx('ed-pop ed-mk-flyout', className)} role="group" aria-label={label}>
+      {children}
     </div>
   );
 }

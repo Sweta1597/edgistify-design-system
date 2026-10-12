@@ -250,6 +250,13 @@ versions follow [semver](https://semver.org/).
     each a small mono label over a bare control (a `Select`, or a
     `Dropdown` with `matchWidth={false}`). Stacks on a phone; light inside
     the report. `Dropdown` takes `onOpenChange` and `matchWidth`.
+  - **`Flyout`** (`react/marketing/Dropdown`): a hierarchical dropdown's
+    next level — a panel beside a row of a Dropdown's panel, against its
+    right edge (its left when there's no room), level with the row. Classes:
+    `.ed-mk-nest__row` and `.ed-mk-nest__more` (a parent row and its
+    chevron), `.ed-mk-dd__panel--menu` (a compact 280px panel, so the
+    flyout fits beside it). Dropdown panels no longer show a focus outline
+    on the panel itself.
   - **Report as a sheet**: `ReportDialog` takes `sheet` (a module the
     width of the window, from a small gap under its top to the bottom edge,
     top corners rounded, rising from below), `strip` (under the header),

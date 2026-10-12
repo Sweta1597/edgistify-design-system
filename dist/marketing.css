@@ -2327,6 +2327,33 @@
   animation: ed-mk-board-in .25s var(--ed-mk-ease);
 }
 
+/* Hierarchical: a parent row with a chevron opens its children in a
+   Flyout beside the panel instead of under the row. */
+.ed-mk-nest__row { display: flex; align-items: center; gap: 2px; border-radius: 10px; }
+.ed-mk-nest__row > .ed-mk-tick { flex: 1; min-width: 0; }
+.ed-mk-nest__more {
+  flex: none; width: 30px; height: 30px; display: grid; place-items: center; cursor: pointer;
+  border: 0; border-radius: 8px; background: none; color: var(--ed-text-muted); transition: background-color .15s, color .15s;
+}
+.ed-mk-nest__more svg { width: 16px; height: 16px; }
+.ed-mk-nest__more:hover, .ed-mk-nest__row.is-open .ed-mk-nest__more { color: var(--ed-text); background: color-mix(in srgb, var(--ed-text) 8%, transparent); }
+.ed-mk-nest__more:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: -2px; }
+.ed-mk-nest__row.is-open { background: color-mix(in srgb, var(--ed-text) 5%, transparent); }
+.ed-mk-dd__panel.ed-pop:focus, .ed-mk-flyout.ed-pop:focus { outline: none; }   /* the panel takes focus to hear the arrow keys; its rows show focus */
+.ed-mk-dd__panel.ed-mk-dd__panel--menu.ed-pop { min-width: 0; width: min(280px, 92vw); }   /* compact, so its flyout fits beside it */
+.ed-mk-flyout.ed-pop {
+  position: fixed; min-width: 220px; max-height: min(60vh, 420px); padding: var(--ed-space-1-5); overflow-y: auto;
+  background: color-mix(in srgb, var(--ed-white) 4%, var(--ed-ink)); border-color: var(--ed-mk-board-line, var(--ed-border));
+  border-radius: 12px; box-shadow: 0 18px 48px -12px color-mix(in srgb, var(--ed-black, #000) 70%, transparent);
+}
+.ed-mk-flyout .ed-mk-nest .ed-mk-tick { min-height: 40px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-mk-flyout.ed-pop:popover-open { animation: ed-mk-flyout-in .18s var(--ed-mk-ease); }
+}
+@keyframes ed-mk-flyout-in { from { opacity: 0; translate: -6px 0; } }
+.ed-mk-report .ed-mk-flyout.ed-pop { background: var(--ed-white); border-color: var(--ed-border); box-shadow: 0 18px 48px -16px color-mix(in srgb, var(--ed-ink) 35%, transparent); }
+.ed-mk-report .ed-mk-nest .ed-mk-tick:hover { background: color-mix(in srgb, var(--ed-ink) 5%, transparent); }
+
 /* The board's head: who you are on the left, actions on the right. */
 .ed-mk-board__side { flex: none; display: flex; flex-wrap: wrap; gap: var(--ed-space-2); align-items: center; }
 .ed-mk-board__block--ruled { padding-top: var(--ed-space-6); border-top: 1px solid var(--ed-mk-board-line); }
