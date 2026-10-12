@@ -215,15 +215,17 @@ versions follow [semver](https://semver.org/).
     Stacked on a narrow screen; all there under reduced motion.
   - **`StepCard`** (`react/marketing/StepFlow`) and
     **`.ed-mk-stepflow--cards`**: each step as a tall dark card — title and
-    a line at the top, a teal expand mark, its screen rising out of a teal
-    glow, a line of light along its foot. As the step plays the glow swells
-    and the screen lifts, and the screen runs from before to after at its
-    `data-at`s (bars re-sort, a floor plan rearranges, a cutover completes,
-    a graph climbs). Screen classes for it: `__cost`, `__rows`, `__floor`,
-    `__tasks`, `__sales`, `__graph`, `.ed-mk-scr--note`, and `.ed-mk-swap`
-    (the second child replaces the first). `data-draw` takes `--d0` (start
-    drawing partway through the step); `StepScreen` takes `className`; a
-    step's own `title` is optional.
+    a line at the top, and its panel filling the rest over a teal glow, a
+    line of light along its foot. As the step plays the glow swells and the
+    panel rises, and the panel runs from before to after at its `data-at`s
+    (bars re-sort, a floor plan rearranges, a move completes, a graph
+    climbs). Panel classes: `__cost`, `__rows`, `__floor`, `__ntitle`,
+    `__tasks`, `__sales`, `__graph` (the floor plan and graph grow to fill),
+    and `.ed-mk-swap` (the second child replaces the first). `data-draw`
+    takes `--d0` (start drawing partway through the step); `StepScreen`
+    takes `className` and `icon` (in place of the window dots); a step's
+    own `title` is optional. StepFlow now holds still only on screens at
+    least 840px tall (was 760), so the card row always fits.
   - **`DotMap`** (`react/marketing/DotMap`, client): a country drawn as a
     field of dots (rings of [lon, lat] in, a hex grid out, in one path),
     places on it, and a row of filters under it — hovering, focusing or

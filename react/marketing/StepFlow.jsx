@@ -6,16 +6,16 @@ const clamp = (v) => Math.max(0, Math.min(1, v));
 const ease = (t) => 1 - (1 - t) ** 3;
 const LEAD = 0.35;   // the last step finishes before the section lets go
 
-/* A screen in a step: a title bar — three dots, a path, and a status that
+/* A screen in a step: a title bar — three dots (or an icon), a name, and a status that
    reads status[0] until the screen is nearly done, then status[1] — over a
    body. Inside it, any element with data-at=".4" gets .is-go once its step
    is that far along; data-to (with data-from, -dec, -pre, -suf) counts up;
    a path with pathLength="1" and data-draw draws itself. */
-export function StepScreen({ title, status = [], className, children }) {
+export function StepScreen({ title, icon, status = [], className, children }) {
   return (
     <div className={cx('ed-mk-scr', className)} aria-hidden="true">
       <div className="ed-mk-scr__bar">
-        <i /><i /><i /><b>{title}</b>
+        {icon ? <span className="ed-mk-scr__ic">{icon}</span> : <><i /><i /><i /></>}<b>{title}</b>
         {status.length > 0 && <span className="ed-mk-scr__live" data-at=".85" data-a={status[0]} data-b={status[1] ?? status[0]} />}
       </div>
       <div className="ed-mk-scr__body">{children}</div>
@@ -23,22 +23,17 @@ export function StepScreen({ title, status = [], className, children }) {
   );
 }
 
-const EXPAND = <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" /></svg>;
-
-/* A step as a tall dark card: its title and a line at the top, a small
-   teal expand mark, and its screen rising out of a teal glow at the
-   bottom. The glow swells and the screen lifts as the step plays (--p);
-   the edge turns teal once it is done (data-at). For a StepFlow with
-   .ed-mk-stepflow--cards, whose steps carry no title of their own. */
+/* A step as a tall dark card: its title and a line at the top, and its
+   panel filling the rest, over a teal glow. The glow swells and the panel
+   rises as the step plays (--p); the edge turns teal once it is done
+   (data-at). For a StepFlow with .ed-mk-stepflow--cards, whose steps
+   carry no title of their own. */
 export function StepCard({ title, body, at = '.9', children }) {
   return (
     <article className="ed-mk-stepcard" data-at={at}>
       <div className="ed-mk-stepcard__hd">
-        <div>
-          <h3 className="ed-mk-stepcard__title">{title}</h3>
-          {body && <p className="ed-mk-stepcard__body">{body}</p>}
-        </div>
-        <span className="ed-mk-stepcard__exp" aria-hidden="true">{EXPAND}</span>
+        <h3 className="ed-mk-stepcard__title">{title}</h3>
+        {body && <p className="ed-mk-stepcard__body">{body}</p>}
       </div>
       <div className="ed-mk-stepcard__glow" aria-hidden="true" />
       <div className="ed-mk-stepcard__ui" aria-hidden="true">{children}</div>
@@ -68,7 +63,7 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
     const flow = root.querySelector('.ed-mk-stepflow__flow');
     const fill = root.querySelector('.ed-mk-stepflow__fill');
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const pin = window.matchMedia('(min-width: 961px) and (min-height: 760px)');
+    const pin = window.matchMedia('(min-width: 961px) and (min-height: 840px)');
     const row = window.matchMedia('(min-width: 961px)');
     const parts = [...root.querySelectorAll('.ed-mk-flowstep')].map((el) => ({
       el,
