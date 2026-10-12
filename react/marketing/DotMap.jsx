@@ -51,8 +51,9 @@ function lay(shape, extra, points, step) {
  *   layout  'side': the map on the left and the filters on the right as a
  *           list of text with hairlines between (stacked on a narrow screen);
  *           default: the filters as pills under the map
+ *   listSide with layout 'side': 'left' puts the list left of the map
  */
-export function DotMap({ shape = [], extra = [], points = [], filters = [], step = 0.45, label, hint, layout, className = '', ...rest }) {
+export function DotMap({ shape = [], extra = [], points = [], filters = [], step = 0.45, label, hint, layout, listSide = 'right', className = '', ...rest }) {
   const [hover, setHover] = useState(null);
   const [pinned, setPinned] = useState(null);
   const id = useId();
@@ -63,7 +64,7 @@ export function DotMap({ shape = [], extra = [], points = [], filters = [], step
   const activeLabel = shown.find((f) => f.id === active)?.label;
 
   return (
-    <div className={cx('ed-mk-dotmap', layout === 'side' && 'ed-mk-dotmap--side', active && 'ed-mk-dotmap--active', className)} role="group" aria-label={label} {...rest}>
+    <div className={cx('ed-mk-dotmap', layout === 'side' && 'ed-mk-dotmap--side', layout === 'side' && listSide === 'left' && 'ed-mk-dotmap--list-left', active && 'ed-mk-dotmap--active', className)} role="group" aria-label={label} {...rest}>
       <div className="ed-mk-dotmap__map" style={{ aspectRatio: `${map.W.toFixed(1)} / ${map.H.toFixed(1)}` }}>
         <svg viewBox={`0 0 ${map.W.toFixed(1)} ${map.H.toFixed(1)}`} aria-hidden="true">
           <defs>
