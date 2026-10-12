@@ -3056,8 +3056,11 @@
 .ed-mk-flowstep { display: grid; grid-row: span 2; grid-template-rows: subgrid; min-width: 0; }
 .ed-mk-flowstep__txt {
   position: relative; display: flex; flex-direction: column; gap: var(--ed-space-2); padding-top: 32px;
-  opacity: .45; translate: 0 10px; transition: opacity .5s var(--ed-mk-ease), translate .5s var(--ed-mk-ease);
+  opacity: .45; transition: opacity .5s var(--ed-mk-ease);
 }
+/* The text rises into place as the step comes live; its node stays on the line. */
+.ed-mk-flowstep__txt > :not(.ed-mk-flowstep__node) { translate: 0 10px; transition: translate .5s var(--ed-mk-ease); }
+.ed-mk-flowstep.is-on .ed-mk-flowstep__txt > * { translate: 0 0; }
 .ed-mk-flowstep__node {
   position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; box-sizing: border-box;
   background: var(--ed-ink); border: 1.5px solid color-mix(in srgb, var(--ed-teal-300) 40%, transparent);
@@ -3093,7 +3096,7 @@
   .ed-mk-flowstep__node { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ed-mk-flowstep__txt, .ed-mk-flowstep__fig { transition: none; }
+  .ed-mk-flowstep__txt, .ed-mk-flowstep__txt > *, .ed-mk-flowstep__fig { transition: none; }
 }
 
 .ed-mk-scr {
