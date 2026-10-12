@@ -250,6 +250,14 @@ versions follow [semver](https://semver.org/).
     each a small mono label over a bare control (a `Select`, or a
     `Dropdown` with `matchWidth={false}`). Stacks on a phone; light inside
     the report. `Dropdown` takes `onOpenChange` and `matchWidth`.
+  - **Report as a sheet**: `ReportDialog` takes `sheet` (a module the
+    width of the window, from a small gap under its top to the bottom edge,
+    top corners rounded, rising from below), `strip` (under the header),
+    `aside` (splits the body: the aside in the left quarter, the report in
+    the right three, each scrolling on its own; stacked on a narrow screen)
+    and `footStart` (the footer's left; `helpful` still works). Classes for
+    it: `.ed-mk-report__textbtn` (a text button), `.ed-mk-report__gate--start`,
+    `.ed-mk-report__sent`, and a textarea in `.ed-mk-report__ask`.
   - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
     what opened it) and rises out of it. Classes for a first section that
     asks again: the FieldBar, a one-line ask with a send button

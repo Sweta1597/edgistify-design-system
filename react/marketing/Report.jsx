@@ -12,14 +12,19 @@ const I = {
 /**
  * A report in a dialog: white, whatever the page behind it. A header (the
  * title on the left; a tag, an edit button and close on the right), ruled
- * sections in a body that scrolls, and a thin footer (`helpful` on the
- * left, `actions` on the right). The system's Modal underneath: a native
- * dialog, so focus is trapped, Escape closes and the page is inert.
- * `origin` (a ref to what opened it) makes it rise out of that place.
+ * sections in a body that scrolls, and a thin footer (`footStart` — or
+ * `helpful` — on the left, `actions` on the right). The system's Modal
+ * underneath: a native dialog, so focus is trapped, Escape closes and the
+ * page is inert. `origin` (a ref to what opened it) makes it rise out of
+ * that place.
+ * `sheet`: a module the width of the window, from a small gap under its
+ * top to the bottom edge, rising from below. Under the header `strip`;
+ * then, with `aside`, a split — `aside` in the left quarter, the report in
+ * the right three — each scrolling on its own; the footer on the bottom.
  */
 export function ReportDialog({
   open, onClose, title, tag, onEdit, editLabel = 'Edit your search',
-  helpful, actions, origin, children, className = '',
+  helpful, footStart = helpful, actions, origin, sheet = false, strip, aside, children, className = '',
 }) {
   const id = useId();
   const ref = useRef(null);
@@ -32,7 +37,7 @@ export function ReportDialog({
   }, [open, origin]);
   return (
     <Modal ref={ref} open={open} onClose={onClose} size="xl" showClose={false}
-      className={cx('ed-mk-report', className)} aria-labelledby={`${id}-title`}>
+      className={cx('ed-mk-report', sheet && 'ed-mk-report--sheet', className)} aria-labelledby={`${id}-title`}>
       <header className="ed-mk-report__head">
         <h2 className="ed-mk-report__title" id={`${id}-title`}>{title}</h2>
         <div className="ed-mk-report__side">
@@ -43,10 +48,16 @@ export function ReportDialog({
           <button type="button" className="ed-mk-report__iconbtn" aria-label="Close" title="Close" onClick={onClose}>{I.x}</button>
         </div>
       </header>
-      <div className="ed-modal__body ed-mk-report__body">{children}</div>
-      {(helpful || actions) && (
+      {strip && <div className="ed-mk-report__strip">{strip}</div>}
+      {aside ? (
+        <div className="ed-mk-report__split">
+          <aside className="ed-mk-report__aside">{aside}</aside>
+          <div className="ed-modal__body ed-mk-report__body">{children}</div>
+        </div>
+      ) : <div className="ed-modal__body ed-mk-report__body">{children}</div>}
+      {(footStart || actions) && (
         <footer className="ed-mk-report__foot">
-          <div className="ed-mk-report__helpful">{helpful}</div>
+          <div className="ed-mk-report__helpful">{footStart}</div>
           <div className="ed-mk-report__actions">{actions}</div>
         </footer>
       )}

@@ -2912,6 +2912,74 @@
 }
 
 /* ==================================================================
+   45b. REPORT AS A SHEET — the full-width module
+   ------------------------------------------------------------------
+   ReportDialog with `sheet`: the width of the window, from a small gap
+   under its top to the bottom edge, top corners rounded, rising from
+   below. Under the header a strip; then a split — the questions in the
+   left quarter (the ask at its foot), the report in the right three,
+   each scrolling on its own — and the footer on the bottom. Stacked, and
+   scrolling as one, on a narrow screen.
+   ================================================================== */
+.ed-modal.ed-mk-report--sheet {
+  --ed-mk-report-gap: clamp(16px, 4vh, 40px);
+  margin: auto 0 0; width: 100vw; max-width: 100vw;
+  height: calc(100dvh - var(--ed-mk-report-gap)); max-height: none;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -24px 80px -24px color-mix(in srgb, var(--ed-ink) 70%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ed-modal.ed-mk-report--sheet[open] { animation: ed-mk-sheet-in .5s cubic-bezier(.2, .8, .2, 1); }
+}
+@keyframes ed-mk-sheet-in { from { transform: translateY(100%); } }
+.ed-mk-report--sheet .ed-mk-report__head { padding-inline: var(--ed-mk-gutter); }
+.ed-mk-report__strip { flex: none; padding: var(--ed-space-2) var(--ed-mk-gutter); border-bottom: 1px solid var(--ed-neutral-100); background: var(--ed-neutral-25); }
+.ed-mk-report__strip .ed-mk-report__trust { padding: var(--ed-space-1) 0; background: none; border-radius: 0; }
+.ed-mk-report__split { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(260px, 1fr) minmax(0, 3fr); }
+.ed-mk-report__aside {
+  min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--ed-space-4);
+  padding: var(--ed-space-6) var(--ed-space-6) var(--ed-space-6) var(--ed-mk-gutter); border-right: 1px solid var(--ed-neutral-100);
+}
+.ed-mk-report__aside .ed-mk-fieldbar { grid-auto-flow: row; }
+.ed-mk-report__aside .ed-mk-fieldbar__item + .ed-mk-fieldbar__item { border-left: 0; border-top: 1px solid var(--ed-mk-fieldbar-line); }
+.ed-mk-report__aside .ed-mk-report__ask { margin-top: auto; align-items: flex-end; padding: var(--ed-space-3) var(--ed-space-2) var(--ed-space-2) var(--ed-space-4); }
+.ed-mk-report__ask textarea {
+  flex: 1; min-width: 0; min-height: 6em; padding: 0; border: 0; outline: 0; resize: none; background: transparent;
+  color: var(--ed-neutral-950); font: var(--ed-weight-regular) var(--ed-text-sm)/1.5 var(--ed-font-ui);
+}
+.ed-mk-report__ask textarea::placeholder { color: var(--ed-neutral-500); }
+.ed-mk-report--sheet .ed-modal__body.ed-mk-report__body { min-height: 0; overflow-y: auto; padding: 0 var(--ed-mk-gutter) 0 var(--ed-space-8); }
+.ed-mk-report--sheet .ed-mk-report__list,
+.ed-mk-report--sheet .ed-mk-report__svcs { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.ed-mk-report--sheet .ed-mk-report__foot { padding: var(--ed-space-3) var(--ed-mk-gutter); background: var(--ed-white); }
+/* footer, left: a text button, and the form it opens */
+.ed-mk-report__textbtn {
+  display: inline-flex; align-items: center; gap: var(--ed-space-2); padding: var(--ed-space-1) 0; border: 0; background: none; cursor: pointer;
+  font: var(--ed-weight-semibold) var(--ed-text-sm)/1.3 var(--ed-font-ui); color: var(--ed-neutral-950); text-align: left;
+  text-decoration: underline; text-decoration-color: var(--ed-neutral-300); text-underline-offset: 4px; transition: text-decoration-color .2s;
+}
+.ed-mk-report__textbtn svg { width: 16px; height: 16px; flex: none; }
+.ed-mk-report__textbtn:hover { text-decoration-color: currentColor; }
+.ed-mk-report__textbtn:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 3px; border-radius: 4px; }
+.ed-mk-report__gate--start { justify-content: flex-start; }
+.ed-mk-report__gate--start small { text-align: left; }
+.ed-mk-report__sent { font-size: var(--ed-text-sm); color: var(--ed-neutral-700); }
+.ed-mk-report__sent b { color: var(--ed-neutral-950); }
+@media (max-width: 860px) {
+  .ed-mk-report__split { display: block; overflow-y: auto; }
+  .ed-mk-report__aside { overflow: visible; padding: var(--ed-space-5); border-right: 0; border-bottom: 1px solid var(--ed-neutral-100); }
+  .ed-mk-report--sheet .ed-modal__body.ed-mk-report__body { overflow: visible; padding: 0 var(--ed-space-5); }
+  .ed-mk-report--sheet .ed-mk-report__head, .ed-mk-report__strip, .ed-mk-report--sheet .ed-mk-report__foot { padding-inline: var(--ed-space-5); }
+}
+@media print {
+  .ed-modal.ed-mk-report--sheet { height: auto; }
+  .ed-mk-report--sheet .ed-mk-report__split { display: block; overflow: visible; }
+  .ed-mk-report--sheet .ed-mk-report__aside { overflow: visible; border: 0; padding: 0 0 var(--ed-space-4); }
+  .ed-mk-report--sheet .ed-mk-report__ask { display: none; }
+  .ed-mk-report--sheet .ed-modal__body.ed-mk-report__body { overflow: visible; }
+}
+
+/* ==================================================================
    46. HALO WITH A MAP, AND THE DOT MAP
    ------------------------------------------------------------------
    .ed-mk-halo--map lets the dome grow under the arc to hold a DotMap
