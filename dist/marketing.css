@@ -483,6 +483,32 @@
 .ed-mk-header--ink .ed-mk-header__nav .ed-mk-navitem__trigger[aria-expanded="true"] { color: var(--ed-white); }
 .ed-mk-announce.ed-mk-band { border-bottom: 1px solid var(--ed-mk-band-border); }
 
+/* The brand: the wordmark, or — compact — the E. monogram. Both sit in one
+   slot whose width eases between theirs, so the menus beside it slide. */
+.ed-mk-header__brand {
+  --ed-mk-brand-h: var(--ed-text-2xl);
+  position: relative; flex: none; display: block; height: var(--ed-mk-brand-h);
+  width: calc(var(--ed-mk-brand-h) * 4.012);            /* the wordmark's 2800:698 */
+  color: var(--ed-teal-400); text-decoration: none;
+  transition: width .5s var(--ed-mk-ease);
+}
+.ed-mk-header__brand > * { position: absolute; left: 0; transition: opacity .35s var(--ed-mk-ease), transform .5s var(--ed-mk-ease); }
+.ed-mk-header__word { top: 0; height: 100%; width: auto; transform-origin: 0 50%; }
+.ed-mk-header__mark { top: calc(var(--ed-mk-brand-h) * -.125); height: calc(var(--ed-mk-brand-h) * 1.25); width: auto; opacity: 0; transform: scale(.7); transform-origin: 0 50%; }
+.ed-mk-header.is-compact .ed-mk-header__brand { width: calc(var(--ed-mk-brand-h) * 1.25 * 1.032); }   /* the mark's 50.12:48.58 */
+.ed-mk-header.is-compact .ed-mk-header__word { opacity: 0; transform: scale(.85); }
+.ed-mk-header.is-compact .ed-mk-header__mark { opacity: 1; transform: none; transition-delay: .08s; }
+.ed-mk-header__brand:focus-visible { outline: 2px solid var(--ed-focus); outline-offset: 4px; border-radius: 4px; }
+/* What slides in left of the CTA when compact. */
+.ed-mk-header__compact {
+  display: inline-flex; max-width: 0; margin-right: calc(-1 * var(--ed-space-3)); opacity: 0; translate: 12px 0;
+  overflow: clip; overflow-clip-margin: 6px;   /* room for the button's focus ring */
+  transition: max-width .5s var(--ed-mk-ease), margin .5s var(--ed-mk-ease), opacity .3s var(--ed-mk-ease), translate .5s var(--ed-mk-ease);
+}
+.ed-mk-header.is-compact .ed-mk-header__compact { max-width: 280px; margin-right: 0; opacity: 1; translate: 0 0; transition-delay: 0s, 0s, .12s, 0s; }
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-header__brand, .ed-mk-header__brand > *, .ed-mk-header__compact { transition: none; }
+}
 .ed-mk-header__nav { display: flex; align-items: center; gap: var(--ed-space-1); margin-left: var(--ed-space-4); }
 .ed-mk-header__spacer { flex: 1; }
 .ed-mk-header__actions { display: flex; align-items: center; gap: var(--ed-space-3); }
@@ -700,7 +726,7 @@
 /* Hamburger + drawer, below 1024px. */
 .ed-mk-burger { display: none; }
 @media (max-width: 1023px) {
-  .ed-mk-header__nav, .ed-mk-header__actions .ed-mk-header__secondary { display: none; }
+  .ed-mk-header__nav, .ed-mk-header__actions .ed-mk-header__secondary, .ed-mk-header__compact { display: none; }
   .ed-mk-burger { display: inline-flex; }
 }
 .ed-mk-drawer {

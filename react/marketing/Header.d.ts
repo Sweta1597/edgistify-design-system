@@ -19,8 +19,12 @@ export type NavItem =
       /** The footer strip's link to the page the menu summarises: a waving hand, the sentence, an arrow. */
       lead?: { label: string; href: string } };
 
-/** Wordmark, disclosure mega-menus, one CTA, and a full-screen drawer below 1024px. Client component. */
+/** Wordmark (or, compact, the monogram), disclosure mega-menus, one CTA, and a full-screen drawer below 1024px. Client component. */
 export declare function SiteHeader(props: {
+  /** A selector for an element on the page; once it scrolls up under the header, the header goes compact (monogram, menus slide left, compactAction shows). */
+  compactAfter?: string;
+  /** Shown left of the CTA while compact, e.g. a button back to the hero's search. */
+  compactAction?: React.ReactNode;
   nav: NavItem[];
   /** The one call to action — a <Button variant="primary">. */
   cta?: React.ReactNode;

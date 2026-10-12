@@ -250,6 +250,12 @@ versions follow [semver](https://semver.org/).
     each a small mono label over a bare control (a `Select`, or a
     `Dropdown` with `matchWidth={false}`). Stacks on a phone; light inside
     the report. `Dropdown` takes `onOpenChange` and `matchWidth`.
+  - **`SiteHeader`** takes `compactAfter` (a selector) and `compactAction`:
+    once that element has scrolled up under the header, the wordmark
+    cross-fades to the E. monogram while its slot narrows (the menus slide
+    left), and `compactAction` slides in left of the CTA; scrolling back
+    up undoes it, all eased. The header's brand is now
+    `.ed-mk-header__brand` (wordmark and mark in one slot).
   - **`Flyout`** (`react/marketing/Dropdown`): a hierarchical dropdown's
     next level — a panel beside a row of a Dropdown's panel, against its
     right edge (its left when there's no room), level with the row. Classes:

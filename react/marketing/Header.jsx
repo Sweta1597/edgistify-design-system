@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const HOVER_CLOSE_MS = 160;
 import { Container, Wordmark } from './index.jsx';
+import { Logo } from '../Logo.jsx';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
 
@@ -47,6 +48,12 @@ const Lead = ({ lead }) => (
  * The panel is full width: three quarters sub-menu (one column per group,
  * icon + name per item), one quarter related content, and a footer strip.
  *
+ * `compactAfter`: a selector for an element on the page (the hero's
+ * search, say). Once it has scrolled up under the header, the header goes
+ * compact: the wordmark gives way to the E. monogram, its slot narrows so
+ * the menus slide left, and `compactAction` (e.g. a button back to that
+ * search) slides in left of the CTA. All of it eases; back up, it undoes.
+ *
  * Disclosure, not hover: a menu that opens on hover cannot be reached on a
  * touch laptop and closes when the pointer crosses the gap. Click opens,
  * Escape and outside-click close, and every item is a real link in the
@@ -58,9 +65,10 @@ const Lead = ({ lead }) => (
 
    Menus open on hover with a mouse and on click with anything else; the
    click always works, so a touch laptop is never locked out. */
-export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = 'light' }) {
+export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = 'light', compactAfter, compactAction }) {
   const [open, setOpen] = useState(null);      // index of the open menu
   const [drawer, setDrawer] = useState(false);
+  const [compact, setCompact] = useState(false);
   const rootRef = useRef(null);
   const closeTimer = useRef(null);
 
@@ -85,15 +93,35 @@ export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = '
     return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onDown); };
   }, [open]);
 
+  /* Compact once the `compactAfter` element's foot has passed under the header. */
+  useEffect(() => {
+    if (!compactAfter) return undefined;
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const target = document.querySelector(compactAfter), head = rootRef.current;
+      if (!target || !head) { setCompact(false); return; }
+      setCompact(target.getBoundingClientRect().bottom < head.getBoundingClientRect().bottom);
+    };
+    const on = () => { if (!raf) raf = requestAnimationFrame(check); };
+    check();
+    window.addEventListener('scroll', on, { passive: true });
+    window.addEventListener('resize', on);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', on); window.removeEventListener('resize', on); };
+  }, [compactAfter]);
+
   useEffect(() => {
     document.documentElement.style.overflow = drawer ? 'hidden' : '';
     return () => { document.documentElement.style.overflow = ''; };
   }, [drawer]);
 
   return (
-    <header className={cx('ed-mk-header', tone === 'ink' && 'ed-mk-header--ink ed-mk-band')} ref={rootRef}>
+    <header className={cx('ed-mk-header', tone === 'ink' && 'ed-mk-header--ink ed-mk-band', compact && 'is-compact')} ref={rootRef}>
       <Container className="ed-mk-header__in">
-        <Wordmark href={brandHref} />
+        <a className="ed-mk-header__brand" href={brandHref} aria-label="Edgistify home">
+          <Logo variant="wordmark" className="ed-mk-header__word" />
+          <Logo variant="mark" className="ed-mk-header__mark" />
+        </a>
         <nav className="ed-mk-header__nav" aria-label="Main">
           {nav.map((item, i) => item.groups ? (
             <div className="ed-mk-navitem" key={item.label}
@@ -186,6 +214,9 @@ export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = '
         </nav>
         <span className="ed-mk-header__spacer" />
         <div className="ed-mk-header__actions">
+          {compactAction && (
+            <span className="ed-mk-header__compact" inert={!compact || undefined} aria-hidden={!compact || undefined}>{compactAction}</span>
+          )}
           {secondary && <span className="ed-mk-header__secondary">{secondary}</span>}
           {cta}
           <button type="button" className="ed-btn ed-btn--ghost ed-btn--icon ed-mk-burger"
