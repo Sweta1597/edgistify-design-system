@@ -3016,7 +3016,8 @@
    47. STEP FLOW — how we work, in one row
    ------------------------------------------------------------------
    Steps side by side, joined by a line of light along their top. On a
-   wide screen the section holds still while the page scrolls: the line
+   wide screen, once the whole section is on screen it holds still while
+   the page scrolls (scaled down to fit, on a short screen): the line
    runs left to right from node to node and each step comes live as it
    is reached (--p, 0 → 1, set per step; .is-on once begun; .is-go on
    anything inside whose data-at it has passed). Each step's text and
@@ -3026,8 +3027,8 @@
    from working to done — for the step's figure.
    ================================================================== */
 .ed-mk-stepflow { --ed-mk-stepflow-top: 72px; position: relative; }
-.ed-mk-stepflow__stage {
-  display: flex; flex-direction: column; justify-content: center; gap: clamp(28px, 5vh, 56px);
+.ed-mk-stepflow__fit {
+  display: flex; flex-direction: column; justify-content: flex-start; gap: clamp(28px, 5vh, 56px);
   max-width: var(--ed-mk-container); margin-inline: auto; padding: var(--ed-mk-section) var(--ed-mk-gutter);
 }
 .ed-mk-stepflow__head { text-align: center; }
@@ -3074,13 +3075,15 @@
   background: var(--ed-teal-300); border-color: var(--ed-teal-100);
   box-shadow: 0 0 12px color-mix(in srgb, var(--ed-teal-300) 90%, transparent);
 }
-/* Held while it plays only where the whole row fits under the header;
-   elsewhere it plays as the row scrolls through. Its content starts one
-   section measure down, so from the section before it is n. */
-.ed-mk-stepflow__stage { justify-content: flex-start; }
-@media (min-width: 961px) and (min-height: 840px) {
+/* On a wide screen it holds still under the header from the moment the
+   whole section is on screen, for as long as the line takes to run. Its
+   content starts one section measure down, so from the section before it
+   is n. Where the screen is too short for it, the script scales it down
+   (--fit) so all of it stays in view. */
+@media (min-width: 961px) {
   .ed-mk-stepflow { height: calc(100vh - var(--ed-mk-stepflow-top) + (var(--n) + .35) * 30vh); }
-  .ed-mk-stepflow__stage { position: sticky; top: var(--ed-mk-stepflow-top); height: calc(100vh - var(--ed-mk-stepflow-top)); padding-bottom: var(--ed-space-6); }
+  .ed-mk-stepflow__stage { position: sticky; top: var(--ed-mk-stepflow-top); height: calc(100vh - var(--ed-mk-stepflow-top)); overflow: clip; }
+  .ed-mk-stepflow__fit { padding-bottom: var(--ed-space-6); transform: scale(var(--fit, 1)); transform-origin: 50% 0; }
 }
 @media (max-width: 960px) {
   .ed-mk-stepflow__rail { display: none; }

@@ -42,9 +42,9 @@ export function StepCard({ title, body, at = '.9', children }) {
 }
 
 /**
- * Steps in one row, joined by a line of light. On a wide screen tall enough
- * for the row, the section holds still while the page scrolls (on a shorter
- * one it plays as the row scrolls through): the line runs left to right
+ * Steps in one row, joined by a line of light. On a wide screen, once the
+ * whole section is on screen it holds still while the page scrolls (scaled
+ * down to fit on a short screen): the line runs left to right
  * from step to step, and each step comes live as the line reaches it — its screen's
  * numbers count up, its bars fill, its checks tick. On a narrow screen the
  * steps stack and each comes live as it scrolls into view. Under reduced
@@ -60,11 +60,11 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
     const root = ref.current;
     if (!root) return undefined;
     const stage = root.querySelector('.ed-mk-stepflow__stage');
+    const fitter = root.querySelector('.ed-mk-stepflow__fit');
     const flow = root.querySelector('.ed-mk-stepflow__flow');
     const fill = root.querySelector('.ed-mk-stepflow__fill');
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const pin = window.matchMedia('(min-width: 961px) and (min-height: 840px)');
-    const row = window.matchMedia('(min-width: 961px)');
+    const pin = window.matchMedia('(min-width: 961px)');
     const parts = [...root.querySelectorAll('.ed-mk-flowstep')].map((el) => ({
       el,
       node: el.querySelector('.ed-mk-flowstep__node'),
@@ -90,11 +90,12 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
       });
     };
 
-    /* The line: node to node as t (0..N) runs, then on to the row's end. */
+    /* The line: node to node as t (0..N) runs, then on to the row's end.
+       Measured on screen, then divided by the stage's scale (--fit). */
     const rail = (t) => {
       if (!flow || !fill) return;
-      const base = flow.getBoundingClientRect().left;
-      const xs = parts.map((s) => (s.node ? s.node.getBoundingClientRect().left + s.node.offsetWidth / 2 - base : 0));
+      const box = flow.getBoundingClientRect(), base = box.left, k = box.width / flow.offsetWidth || 1;
+      const xs = parts.map((s) => (s.node ? (s.node.getBoundingClientRect().left - base) / k + s.node.offsetWidth / 2 : 0));
       const end = flow.offsetWidth;
       const i = Math.min(N - 1, Math.floor(t)), f = t - i;
       const x = i < N - 1 ? xs[i] + (xs[i + 1] - xs[i]) * f : xs[N - 1] + (end - xs[N - 1]) * clamp(f);
@@ -109,15 +110,10 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
         const header = document.querySelector('.ed-mk-header');
         const top = header ? header.getBoundingClientRect().height : 0;
         root.style.setProperty('--ed-mk-stepflow-top', `${top}px`);
+        const fit = fitter ? Math.min(1, stage.clientHeight / fitter.offsetHeight) : 1;
+        root.style.setProperty('--fit', fit.toFixed(4));
         const r = root.getBoundingClientRect(), span = r.height - stage.offsetHeight;
         const t = (span > 0 ? clamp((top - r.top) / span) : 1) * (N + LEAD);
-        parts.forEach((s, i) => paint(s, clamp(t - i)));
-        rail(Math.min(N, t));
-        return;
-      }
-      if (row.matches) {   // too short to hold: the line runs as the row scrolls through
-        const y = flow.getBoundingClientRect().top;
-        const t = clamp((window.innerHeight * 0.85 - y) / (window.innerHeight * 0.6)) * (N + LEAD);
         parts.forEach((s, i) => paint(s, clamp(t - i)));
         rail(Math.min(N, t));
         return;
@@ -132,19 +128,17 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     pin.addEventListener('change', onScroll);
-    row.addEventListener('change', onScroll);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       pin.removeEventListener('change', onScroll);
-      row.removeEventListener('change', onScroll);
     };
   }, [steps.length]);
 
   return (
     <section ref={ref} className={cx('ed-mk-stepflow', className)} style={{ '--n': steps.length }} {...rest}>
-      <div className="ed-mk-stepflow__stage">
+      <div className="ed-mk-stepflow__stage"><div className="ed-mk-stepflow__fit">
         {head && <div className="ed-mk-stepflow__head">{head}</div>}
         <div className="ed-mk-stepflow__flow">
           <div className="ed-mk-stepflow__rail" aria-hidden="true"><span className="ed-mk-stepflow__fill" /></div>
@@ -163,7 +157,7 @@ export function StepFlow({ head, steps = [], note, className, ...rest }) {
           </ol>
         </div>
         {note && <p className="ed-mk-stepflow__note">{note}</p>}
-      </div>
+      </div></div>
     </section>
   );
 }

@@ -224,8 +224,11 @@ versions follow [semver](https://semver.org/).
     and `.ed-mk-swap` (the second child replaces the first). `data-draw`
     takes `--d0` (start drawing partway through the step); `StepScreen`
     takes `className` and `icon` (in place of the window dots); a step's
-    own `title` is optional. StepFlow now holds still only on screens at
-    least 840px tall (was 760), so the card row always fits.
+    own `title` is optional. StepFlow now holds still on every wide screen
+    (961px and up) from the moment the whole section is on screen; where the
+    screen is too short for it, its content is scaled down to fit
+    (`.ed-mk-stepflow__fit`, `--fit`), so the line always runs 1 → N with
+    all of it in view.
   - **`DotMap`** (`react/marketing/DotMap`, client): a country drawn as a
     field of dots (rings of [lon, lat] in, a hex grid out, in one path),
     places on it, and a row of filters under it — hovering, focusing or
