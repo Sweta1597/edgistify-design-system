@@ -1123,7 +1123,7 @@
 /* The greeting block above a composer: a large, centred greeting and a
    quiet one-line headline under it. Half a viewport, so what follows peeks. */
 .ed-mk-greet { text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--ed-space-3); margin-bottom: var(--ed-space-6); }
-.ed-mk-greet__hi { margin: 0; font: var(--ed-weight-semibold) var(--ed-mk-text-h1)/1.1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-tight); color: var(--ed-neutral-400); }
+.ed-mk-greet__hi { margin: 0; font: var(--ed-weight-semibold) var(--ed-mk-text-h1)/1.1 var(--ed-font-ui); letter-spacing: var(--ed-tracking-tight); color: var(--ed-white); }
 .ed-mk-greet__line { margin: 0; font: var(--ed-weight-regular) var(--ed-text-lg)/1.4 var(--ed-font-ui); color: var(--ed-white); max-width: 40ch; text-wrap: balance; }
 
 /* ==================================================================
