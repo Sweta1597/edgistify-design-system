@@ -6,7 +6,7 @@ const clamp = (v) => Math.max(0, Math.min(1, v));
 const ease = (t) => 1 - (1 - t) ** 3;
 const LEAD = 0.35;   // the last step finishes before the section lets go
 
-/* A screen in a step: a title bar — three dots (or an icon), a name, and a status that
+/* A screen in a step: a title bar (left out with no title or status) — three dots (or an icon), a name, and a status that
    reads status[0] until the screen is nearly done, then status[1] — over a
    body. Inside it, any element with data-at=".4" gets .is-go once its step
    is that far along; data-to (with data-from, -dec, -pre, -suf) counts up;
@@ -14,10 +14,12 @@ const LEAD = 0.35;   // the last step finishes before the section lets go
 export function StepScreen({ title, icon, status = [], className, children }) {
   return (
     <div className={cx('ed-mk-scr', className)} aria-hidden="true">
-      <div className="ed-mk-scr__bar">
-        {icon ? <span className="ed-mk-scr__ic">{icon}</span> : <><i /><i /><i /></>}<b>{title}</b>
-        {status.length > 0 && <span className="ed-mk-scr__live" data-at=".85" data-a={status[0]} data-b={status[1] ?? status[0]} />}
-      </div>
+      {(title || status.length > 0) && (
+        <div className="ed-mk-scr__bar">
+          {icon ? <span className="ed-mk-scr__ic">{icon}</span> : <><i /><i /><i /></>}<b>{title}</b>
+          {status.length > 0 && <span className="ed-mk-scr__live" data-at=".85" data-a={status[0]} data-b={status[1] ?? status[0]} />}
+        </div>
+      )}
       <div className="ed-mk-scr__body">{children}</div>
     </div>
   );

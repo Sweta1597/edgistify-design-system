@@ -3205,12 +3205,16 @@
    drawn along with --p. .ed-mk-swap: two children; the second replaces
    the first at its data-at.
    ================================================================== */
-.ed-mk-stepflow--cards .ed-mk-stepflow__row { row-gap: 14px; }
+.ed-mk-stepflow--cards .ed-mk-stepflow__row { row-gap: 14px; grid-template-rows: auto auto 1fr; }
 .ed-mk-stepflow--cards .ed-mk-flowstep__txt { padding-top: 28px; gap: 0; }
+/* Every card's text shares one row and every panel the next, so the
+   panels start level and are the same height whatever the text above. */
+.ed-mk-stepflow--cards .ed-mk-flowstep { grid-row: span 3; }
+.ed-mk-stepflow--cards .ed-mk-flowstep__fig { grid-row: span 2; display: grid; grid-template-rows: subgrid; row-gap: 0; }
 
 .ed-mk-stepcard {
   position: relative; isolation: isolate; overflow: hidden; box-sizing: border-box;
-  display: flex; flex-direction: column; height: 100%;
+  grid-row: span 2; display: grid; grid-template-rows: subgrid; row-gap: 0;
   border-radius: 6px; border: 1px solid color-mix(in srgb, var(--ed-white) 9%, transparent);
   background: linear-gradient(180deg, color-mix(in srgb, var(--ed-ink) 94%, var(--ed-teal-950)), color-mix(in srgb, var(--ed-ink) 78%, var(--ed-black, #000)));
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ed-white) 4%, transparent);
@@ -3326,7 +3330,12 @@
 .ed-mk-scr__graph .now-area.is-go { opacity: 1; }
 
 @media (max-width: 960px) {
-  .ed-mk-stepcard { height: auto; }
+  .ed-mk-stepflow--cards .ed-mk-flowstep, .ed-mk-stepflow--cards .ed-mk-flowstep__fig, .ed-mk-stepcard { grid-row: auto; }
+  .ed-mk-stepflow--cards .ed-mk-flowstep__fig { display: block; }
+  .ed-mk-stepcard { display: flex; flex-direction: column; }
+  /* Stacked, the cards can't share rows: a common minimum keeps them one size. */
+  .ed-mk-stepcard__hd { min-height: 120px; box-sizing: border-box; }
+  .ed-mk-flowstep .ed-mk-stepcard .ed-mk-scr { min-height: 240px; }
   .ed-mk-stepflow--cards .ed-mk-flowstep__txt { padding-top: 0; }
 }
 @media (prefers-reduced-motion: reduce) {

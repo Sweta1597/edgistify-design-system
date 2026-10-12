@@ -224,7 +224,10 @@ versions follow [semver](https://semver.org/).
     and `.ed-mk-swap` (the second child replaces the first). `data-draw`
     takes `--d0` (start drawing partway through the step); `StepScreen`
     takes `className` and `icon` (in place of the window dots); a step's
-    own `title` is optional. StepFlow now holds still on every wide screen
+    own `title` is optional; `StepScreen` with no `title` or `status` has
+    no bar. The cards share rows (subgrid), so their panels start level
+    and are one height; stacked, a common minimum keeps them one size.
+    StepFlow now holds still on every wide screen
     (961px and up) from the moment the whole section is on screen; where the
     screen is too short for it, its content is scaled down to fit
     (`.ed-mk-stepflow__fit`, `--fit`), so the line always runs 1 → N with
