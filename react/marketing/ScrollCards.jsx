@@ -9,6 +9,8 @@ const cx = (...a) => a.filter(Boolean).join(' ');
    cards sideways from the first to the last, and the copy on the left
    follows the card in front. When the last card is in place the page
    scrolls on.
+   On a short screen the stage scales down to fit (--fit) with room above
+   and below, so it never rises over the section before it.
    On a narrow screen there is no pinning: the cards sit in a row you swipe,
    each with its own copy. */
 export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }) {
@@ -31,12 +33,18 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
       const header = document.querySelector('.ed-mk-header');
       const top = header ? header.getBoundingClientRect().height : 0;
       el.style.setProperty('--ed-mk-hscroll-top', `${top}px`);
+      // Too tall for the pinned box: scale the stage down, keeping one gap
+      // (its own row gap) above and below it.
+      const box = el.firstElementChild, fit = box.firstElementChild;
+      const g = parseFloat(getComputedStyle(fit).rowGap) || 0;
+      const k = Math.min(1, (box.clientHeight - 2 * g) / fit.offsetHeight);
+      el.style.setProperty('--fit', k < 1 ? k.toFixed(4) : '1');
+      el.style.setProperty('--ed-mk-hscroll-pad', k < 1 ? `${g}px` : '0px');
       // The stage is centred in its pinned box, so the space above the
       // heading (n) depends on the window. `lead` adds n × lead above the
       // whole thing, so the gap from the section before reads (1 + lead) n.
       if (lead) {
-        const first = el.firstElementChild.firstElementChild;
-        const n = first ? first.offsetTop : 0;
+        const n = Math.max(0, fit.offsetTop);
         el.style.setProperty('--ed-mk-hscroll-lead', `${Math.round(n * lead)}px`);
       }
       const rect = el.getBoundingClientRect();
@@ -71,7 +79,7 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
 
   return (
     <div ref={ref} className={cx('ed-mk-hscroll', className)} style={{ '--n': n, '--per': per }}>
-      <div className="ed-mk-hscroll__sticky">
+      <div className="ed-mk-hscroll__sticky"><div className="ed-mk-hscroll__fit">
         {head && <div className="ed-mk-hscroll__head">{head}</div>}
         <div className="ed-mk-hscroll__stage">
           <div className="ed-mk-hscroll__copy" aria-live="polite">
@@ -92,7 +100,7 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
             </div>
           </div>
         </div>
-      </div>
+      </div></div>
     </div>
   );
 }

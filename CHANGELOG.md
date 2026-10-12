@@ -282,6 +282,13 @@ versions follow [semver](https://semver.org/).
     (wordmark, colour, type, voice, claims), the component gallery, and the
     landing-page recipe.
 
+### Fixed
+
+  - **`ScrollCards`** on a short window: the stage no longer centres up
+    over the section before it. It scales down to fit (`--fit`), keeping a
+    gap above and below, and its lead never goes negative. On a phone it
+    keeps a section measure above its heading.
+
 ## [0.8.0] — 2026-09-28
 
 ### Added
