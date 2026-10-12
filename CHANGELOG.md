@@ -264,7 +264,13 @@ versions follow [semver](https://semver.org/).
     the right three, each scrolling on its own; stacked on a narrow screen)
     and `footStart` (the footer's left; `helpful` still works). Classes for
     it: `.ed-mk-report__textbtn` (a text button), `.ed-mk-report__gate--start`,
-    `.ed-mk-report__sent`, and a textarea in `.ed-mk-report__ask`.
+    `.ed-mk-report__sent`, and a textarea in `.ed-mk-report__ask`. The
+    answer as tables: `.ed-mk-report__table` (`--solution`), with
+    `.ed-mk-report__dot`, `__src`, `__kind` (a small type icon) and
+    `__tags` (key highlights as pills); section labels coloured by
+    `.ed-mk-report__sec--challenges` (orange) and `--solution` (teal);
+    rows stack as labelled cards on a phone. The sheet's frame clips
+    rather than hides, so focus can't scroll it.
   - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
     what opened it) and rises out of it. Classes for a first section that
     asks again: the FieldBar, a one-line ask with a send button

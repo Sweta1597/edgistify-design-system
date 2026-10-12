@@ -2952,7 +2952,7 @@
   --ed-mk-report-gap: clamp(16px, 4vh, 40px);
   margin: auto 0 0; width: 100vw; max-width: 100vw;
   height: calc(100dvh - var(--ed-mk-report-gap)); max-height: none;
-  border-radius: 20px 20px 0 0;
+  border-radius: 20px 20px 0 0; overflow: clip;   /* clip, not hidden: focus and scrollIntoView can't scroll the frame itself */
   box-shadow: 0 -24px 80px -24px color-mix(in srgb, var(--ed-ink) 70%, transparent);
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -2992,6 +2992,56 @@
 .ed-mk-report__gate--start small { text-align: left; }
 .ed-mk-report__sent { font-size: var(--ed-text-sm); color: var(--ed-neutral-700); }
 .ed-mk-report__sent b { color: var(--ed-neutral-950); }
+/* The answer as tables: challenges (an orange label) and the solution (a
+   teal one), each row a thing, its description and where it came from or
+   what stands out. Stacked as cards on a phone. */
+.ed-mk-report__sec--challenges .ed-mk-report__label { color: color-mix(in srgb, var(--ed-amber-600) 70%, var(--ed-red-600)); }
+.ed-mk-report__sec--solution .ed-mk-report__label { color: var(--ed-teal-700); }
+.ed-mk-report__table {
+  width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed;
+  border: 1px solid var(--ed-neutral-200); border-radius: 12px; overflow: hidden;
+  font: var(--ed-weight-regular) var(--ed-text-sm)/1.5 var(--ed-font-ui); color: var(--ed-neutral-800);
+}
+.ed-mk-report__table thead th {
+  padding: var(--ed-space-2-5) var(--ed-space-4); text-align: left; background: var(--ed-neutral-25); border-bottom: 1px solid var(--ed-neutral-200);
+  font: var(--ed-weight-semibold) var(--ed-text-2xs)/1.2 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-neutral-600);
+}
+.ed-mk-report__table thead th:nth-child(1) { width: 28%; }
+.ed-mk-report__table thead th:nth-child(3) { width: 18%; }
+.ed-mk-report__table--solution thead th:nth-child(3) { width: 32%; }
+.ed-mk-report__table tbody th, .ed-mk-report__table tbody td { padding: var(--ed-space-3-5, 14px) var(--ed-space-4); text-align: left; vertical-align: top; }
+.ed-mk-report__table tbody tr + tr > * { border-top: 1px solid var(--ed-neutral-100); }
+.ed-mk-report__table tbody th { font-weight: var(--ed-weight-semibold); color: var(--ed-neutral-950); }
+.ed-mk-report__dot { display: inline-block; width: 7px; height: 7px; margin: 0 var(--ed-space-2) 1px 0; border-radius: 50%; background: color-mix(in srgb, var(--ed-amber-500) 75%, var(--ed-red-500)); vertical-align: middle; }
+.ed-mk-report__src { font-size: var(--ed-text-xs); color: var(--ed-neutral-500); }
+.ed-mk-report__kind {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; margin: -1px var(--ed-space-2) 0 0; vertical-align: middle;
+  border-radius: 6px; background: var(--ed-teal-50); color: var(--ed-teal-700);
+}
+.ed-mk-report__kind svg { width: 13px; height: 13px; }
+.ed-mk-report__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--ed-space-1-5); }
+.ed-mk-report__tags li {
+  display: inline-flex; align-items: center; height: 24px; padding: 0 var(--ed-space-2-5, 10px); border-radius: 999px; white-space: nowrap;
+  background: var(--ed-teal-50); color: var(--ed-teal-700); border: 1px solid color-mix(in srgb, var(--ed-teal-600) 20%, transparent);
+  font: var(--ed-weight-medium) var(--ed-text-2xs)/1 var(--ed-font-ui);
+}
+.ed-mk-report__tags li:has(.ed-mk-pending) { background: none; border: 0; padding: 0; }
+@media (max-width: 640px) {
+  .ed-mk-report__table, .ed-mk-report__table tbody, .ed-mk-report__table tr { display: block; }
+  .ed-mk-report__table thead { display: none; }
+  .ed-mk-report__table tbody tr { padding: var(--ed-space-3) var(--ed-space-4); }
+  .ed-mk-report__table tbody tr + tr { border-top: 1px solid var(--ed-neutral-100); }
+  .ed-mk-report__table tbody tr + tr > * { border-top: 0; }
+  .ed-mk-report__table tbody th, .ed-mk-report__table tbody td { display: block; padding: var(--ed-space-1) 0; }
+  .ed-mk-report__table tbody td[data-label]::before {
+    content: attr(data-label); display: block; margin-bottom: 2px;
+    font: var(--ed-weight-semibold) var(--ed-text-2xs)/1.2 var(--ed-font-ui); letter-spacing: var(--ed-tracking-wide); text-transform: uppercase; color: var(--ed-neutral-500);
+  }
+}
+@media print {
+  .ed-mk-report__table tr { break-inside: avoid; }
+}
+
 @media (max-width: 860px) {
   .ed-mk-report__split { display: block; overflow-y: auto; }
   .ed-mk-report__aside { overflow: visible; padding: var(--ed-space-5); border-right: 0; border-bottom: 1px solid var(--ed-neutral-100); }
