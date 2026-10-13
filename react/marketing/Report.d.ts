@@ -17,6 +17,8 @@ export declare function ReportDialog(props: {
   sheet?: boolean;
   /** a strip under the header, e.g. "Trusted by" */
   strip?: React.ReactNode;
+  /** beside the title after a hairline, e.g. a small "Trusted by" line */
+  titleAside?: React.ReactNode;
   /** with `sheet`: a row under the strip, before the split (its first child, e.g. a FieldBar, glides in from over `origin`; then a note, `.ed-mk-report__barnote`) */
   bar?: React.ReactNode;
   /** with it, the body splits: this in the left quarter (questions, an ask at its foot), the report in the right three; each scrolls on its own */

@@ -19,7 +19,7 @@ export function Dropdown({ id, value, placeholder = 'Choose', label, footer, onO
         {value || <span className="ed-mk-dd__placeholder">{placeholder}</span>}
       </button>
       <Popover {...dd.popoverProps} matchWidth={matchWidth} className={cx('ed-mk-dd__panel', !matchWidth && 'ed-mk-dd__panel--wide', panelClassName)} aria-label={label}>
-        <div className="ed-mk-dd__body">{children}</div>
+        <div className="ed-mk-dd__body">{typeof children === 'function' ? children({ close: dd.close }) : children}</div>
         {footer !== false && (
           <div className="ed-mk-dd__foot">
             {footer}

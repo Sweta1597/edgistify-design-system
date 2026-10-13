@@ -14,7 +14,8 @@ export declare function Dropdown(props: {
   onOpenChange?: (open: boolean) => void;
   /** false: the panel may be wider than the trigger (at least 300px). Default true. */
   matchWidth?: boolean;
-  children?: React.ReactNode;
+  /** the panel's contents, or ({ close }) => contents (to close on a pick) */
+  children?: React.ReactNode | ((api: { close: () => void }) => React.ReactNode);
   className?: string;
   panelClassName?: string;
 }): JSX.Element;

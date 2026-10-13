@@ -111,12 +111,17 @@ export const Popover = React.forwardRef(function Popover(
     if (matchWidth) { p.style.width = `${r.width}px`; p.style.minWidth = `${r.width}px`; }
     else p.style.setProperty('--ed-pop-anchor-w', `${r.width}px`);
     // Measure from a known origin — a stale offset would compound each pass.
-    p.style.left = '0px'; p.style.top = '0px';
+    p.style.left = '0px'; p.style.top = '0px'; p.style.maxHeight = '';
     const pr = p.getBoundingClientRect();
-    const below = window.innerHeight - r.bottom;
-    const top = (below < pr.height + gap && r.top > below)
-      ? r.top - pr.height - gap
-      : r.bottom + gap;
+    // Below if it fits there, else on the roomier side — and never taller
+    // than that side's room (a long list scrolls inside instead of running
+    // off the screen).
+    const below = window.innerHeight - r.bottom - gap - 8, above = r.top - gap - 8;
+    const up = below < pr.height && above > below;
+    const room = Math.max(160, up ? above : below);
+    if (pr.height > room) p.style.maxHeight = `${room}px`;
+    const h = Math.min(pr.height, room);
+    const top = up ? r.top - h - gap : r.bottom + gap;
     const wanted = align === 'end' ? r.right - pr.width : r.left;
     const left = Math.max(8, Math.min(wanted, window.innerWidth - pr.width - 8));
     p.style.left = `${left + window.scrollX}px`;

@@ -301,6 +301,16 @@ versions follow [semver](https://semver.org/).
     `.ed-mk-report__sec--challenges` (orange) and `--solution` (teal);
     rows stack as labelled cards on a phone. The sheet's frame clips
     rather than hides, so focus can't scroll it.
+  - **`Popover`** keeps to the screen: it opens below when it fits, else
+    on the roomier side, and is never taller than that side's room (its
+    contents scroll), so a long list no longer runs off the top or bottom.
+  - **Report header and bar, tidied**: `ReportDialog` takes `titleAside`
+    (beside the title, after a hairline — a small "Trusted by" line there
+    rather than a strip of its own). The `bar` runs the sheet's full width
+    with its note under it as a quiet tag. `Dropdown`'s children may be a
+    function of `{ close }`, and `.ed-mk-dd__options` / `.ed-mk-dd__option`
+    give it a single-choice list (a tick on the chosen row), so a select
+    can wear the same panel as the multi-choice dropdowns.
   - **Report, carried on**: `ReportDialog` (`sheet`) takes `bar` — a row
     under the strip, before the split, for the questions asked again (a
     FieldBar, then `.ed-mk-report__barnote`). With `origin` the sheet

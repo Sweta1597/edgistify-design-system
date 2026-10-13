@@ -21,6 +21,8 @@ const I = {
  * top to the bottom edge, rising from below. Under the header `strip`;
  * then, with `aside`, a split — `aside` in the left quarter, the report in
  * the right three — each scrolling on its own; the footer on the bottom.
+ * `titleAside`: beside the title, after a hairline (e.g. a small "Trusted
+ * by" line), in place of a strip of its own.
  * `bar`: a row under the strip, before the split, for the questions asked
  * again (its first child, e.g. a FieldBar, then a note). With `origin`,
  * the sheet fades in where it stands and that first child starts exactly
@@ -30,7 +32,7 @@ const I = {
  */
 export function ReportDialog({
   open, onClose, title, tag, onEdit, editLabel = 'Edit your search',
-  helpful, footStart = helpful, actions, origin, sheet = false, strip, bar, aside, children, className = '',
+  helpful, footStart = helpful, actions, origin, sheet = false, strip, titleAside, bar, aside, children, className = '',
 }) {
   const id = useId();
   const ref = useRef(null);
@@ -63,6 +65,7 @@ export function ReportDialog({
       className={cx('ed-mk-report', sheet && 'ed-mk-report--sheet', carried && 'ed-mk-report--carried', className)} aria-labelledby={`${id}-title`}>
       <header className="ed-mk-report__head">
         <h2 className="ed-mk-report__title" id={`${id}-title`}>{title}</h2>
+        {titleAside && <div className="ed-mk-report__titleaside">{titleAside}</div>}
         <div className="ed-mk-report__side">
           {tag && <span className="ed-mk-report__tag">{tag}</span>}
           {onEdit && (
