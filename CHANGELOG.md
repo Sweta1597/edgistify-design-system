@@ -267,8 +267,12 @@ versions follow [semver](https://semver.org/).
     still (deferring its cards' media), hold the shown one, or take over
     after its last card.
   - **`InstrumentBoard`'s readout** keeps one height: every tile's readout
-    is stacked in one place (so all are in the page), the chosen one
-    fading in. Items take `stats` (a strip of bold figures under the lede,
+    is stacked in one place (so all are in the page) and shares one set of
+    rows (subgrid), so the title, lede, strip and media each start at the
+    same height whichever is shown; the chosen one fades in. The title
+    links to the item's `href` (with a small arrow); the foot link is off
+    unless `linkLabel` is given. The pager is a row of dots under the
+    readout, not a column inside it. Items take `stats` (a strip of bold figures under the lede,
     `.ed-mk-instr__stats`) and `media` now suits a `Carousel`, which runs
     only while its readout is shown; once it has shown its last card the
     board moves to the next tile, touring every service, and all of it
