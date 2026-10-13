@@ -3259,55 +3259,28 @@
   .ed-mk-chat__suggest { padding-inline: var(--ed-space-5); }
 }
 @media print { .ed-mk-report__cta, .ed-mk-chat__suggest { display: none; } }
-/* The answer as a map, on one screen: challenges (left) and services
-   (right) as compact cards, a line from each challenge to the services
-   that meet it, drawn in the gap between. Pointing at a card lights its
-   lines and partners (and opens its text); the rest dim. Stacked, without
-   lines, on a narrow screen. */
-.ed-mk-rmap {
-  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) clamp(56px, 7vw, 120px) minmax(0, 1fr);
-  align-items: start; padding: var(--ed-space-6) 0 var(--ed-space-4);
+/* The answer as pairs: one table, a row per challenge (its title, then
+   what's in the way) beside the services that solve it (each named, then
+   why). Challenges carry the orange down the table's left edge; the
+   solution column's head is teal. */
+.ed-mk-report__sec--pairs { --ed-mk-report-tone: color-mix(in srgb, var(--ed-amber-600) 70%, var(--ed-red-600)); --ed-mk-report-tint: var(--ed-amber-50); border-top: 0; }
+.ed-mk-report__sec--pairs .ed-mk-report__label { color: var(--ed-neutral-800); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs { border-left: 3px solid var(--ed-mk-report-tone); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs thead th { background: var(--ed-neutral-25); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs thead th:nth-child(1) { width: 44%; color: var(--ed-mk-report-tone); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs thead th:nth-child(2) { width: auto; color: var(--ed-teal-700); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs tbody th { font-weight: var(--ed-weight-regular); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs tbody th b,
+.ed-mk-report__sec--pairs .ed-mk-report__fixes b { display: block; font-weight: var(--ed-weight-semibold); color: var(--ed-neutral-950); }
+.ed-mk-report__sec--pairs .ed-mk-report__table--pairs tbody th span { display: block; margin-top: 2px; font-weight: var(--ed-weight-regular); color: var(--ed-neutral-600); }
+.ed-mk-report__fixes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ed-space-2-5, 10px); }
+.ed-mk-report__fixes li { padding-left: var(--ed-space-3); border-left: 2px solid var(--ed-teal-200); }
+.ed-mk-report__sec--pairs .ed-mk-report__fixes b { color: var(--ed-teal-900); }
+.ed-mk-report__fixes span { display: block; margin-top: 1px; color: var(--ed-neutral-600); }
+.ed-mk-report__rest { margin: 0; font-size: var(--ed-text-sm); color: var(--ed-neutral-600); }
+@media (max-width: 640px) {
+  .ed-mk-report__sec--pairs .ed-mk-report__table--pairs tbody th { padding-bottom: var(--ed-space-2); }
 }
-.ed-mk-rmap__caption { grid-column: 1 / -1; margin: 0 0 var(--ed-space-4); font-size: var(--ed-text-xs); color: var(--ed-neutral-500); }
-@media (hover: none) { .ed-mk-rmap__caption { display: none; } }
-.ed-mk-rmap__col { min-width: 0; display: flex; flex-direction: column; gap: var(--ed-space-3); }
-.ed-mk-rmap__col:last-of-type { grid-column: 3; }
-.ed-mk-rmap__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ed-space-2); }
-.ed-mk-rmap__card {
-  position: relative; display: flex; flex-direction: column; gap: 4px;
-  padding: var(--ed-space-3) var(--ed-space-4);
-  border: 1px solid var(--ed-neutral-200); border-radius: 12px; background: var(--ed-white);
-  transition: border-color .2s var(--ed-mk-ease), background-color .2s var(--ed-mk-ease), box-shadow .2s var(--ed-mk-ease);
-}
-.ed-mk-rmap__card > * { transition: opacity .2s var(--ed-mk-ease); }
-/* each side's edge in its colour: the challenges' on the right, toward the lines; the services' on the left */
-.ed-mk-report__sec--challenges .ed-mk-rmap__card { border-right: 3px solid var(--ed-mk-report-tone); }
-.ed-mk-report__sec--solution .ed-mk-rmap__card { border-left: 3px solid var(--ed-mk-report-tone); }
-.ed-mk-rmap__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--ed-space-2); }
-.ed-mk-rmap__top b { font: var(--ed-weight-semibold) var(--ed-text-sm)/1.3 var(--ed-font-ui); color: var(--ed-neutral-950); }
-.ed-mk-rmap__top .ed-mk-report__srctag { flex: none; }
-.ed-mk-rmap__card p {
-  margin: 0; font-size: var(--ed-text-xs); line-height: 1.5; color: var(--ed-neutral-600);
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
-}
-.ed-mk-rmap__card .ed-mk-report__tags { margin-top: 4px; flex-wrap: nowrap; overflow: hidden; mask-image: linear-gradient(to right, #000 85%, transparent); }
-.ed-mk-rmap__card.is-lit .ed-mk-report__tags { flex-wrap: wrap; mask-image: none; }
-/* compact so both columns fit one screen: a service in one line of text and one row of tags */
-.ed-mk-report__sec--solution .ed-mk-rmap__card { padding-block: var(--ed-space-2-5, 10px); }
-.ed-mk-report__sec--solution .ed-mk-rmap__card p { -webkit-line-clamp: 1; line-clamp: 1; }
-.ed-mk-rmap__card.is-lit { background: color-mix(in srgb, var(--ed-mk-report-tint) 60%, var(--ed-white)); box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--ed-neutral-950) 40%, transparent); }
-.ed-mk-rmap__card.is-lit p { -webkit-line-clamp: unset; line-clamp: none; }
-.ed-mk-rmap__card.is-lit .ed-mk-rmap__top b { color: var(--ed-mk-report-tone); }
-.ed-mk-rmap__card.is-dim > * { opacity: .35; }   /* on the contents: Motion owns the card's own opacity */
-.ed-mk-rmap__wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.ed-mk-rmap__wires path {
-  fill: none; stroke: color-mix(in srgb, var(--ed-teal-600) 30%, transparent); stroke-width: 1.5;
-  transition: stroke .2s var(--ed-mk-ease), stroke-width .2s var(--ed-mk-ease), opacity .2s var(--ed-mk-ease);
-}
-.ed-mk-rmap__wires path.is-lit { stroke: var(--ed-teal-600); stroke-width: 2.25; }
-.ed-mk-rmap__wires path.is-dim { opacity: .15; }
-.ed-mk-rmap .ed-mk-report__label { min-height: 20px; }
-.ed-mk-rmap .ed-mk-report__note { margin: 0; }
 /* Next steps: the website card (deep teal) and a copy to keep, side by side. */
 .ed-mk-report__next { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--ed-space-4); margin: var(--ed-space-4) 0 var(--ed-space-8); }
 .ed-mk-report__next .ed-mk-report__cta.ed-mk-band { margin: 0; grid-template-columns: minmax(0, 1fr); align-content: start; }
@@ -3331,14 +3304,8 @@
 @media (max-width: 1100px) {
   .ed-mk-report__next { grid-template-columns: minmax(0, 1fr); }
 }
-@media (max-width: 860px) {
-  .ed-mk-rmap { grid-template-columns: minmax(0, 1fr); gap: var(--ed-space-6); }
-  .ed-mk-rmap__col:last-of-type { grid-column: auto; }
-  .ed-mk-rmap__wires { display: none; }
-}
 @media print {
   .ed-mk-report__next { display: none; }
-  .ed-mk-rmap__card p { -webkit-line-clamp: unset; line-clamp: none; }
 }
 /* The footer's actions in the same family: the primary in deep teal, the other outlined. */
 .ed-mk-report__actions .ed-btn--primary { background: var(--ed-teal-950); color: var(--ed-white); }

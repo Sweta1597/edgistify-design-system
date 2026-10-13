@@ -327,13 +327,13 @@ versions follow [semver](https://semver.org/).
     One-tap replies over the chat's composer (`.ed-mk-chat__suggest`). A
     deep-teal card for the next step (`.ed-mk-report__cta` on a band, with
     `__cta-copy`, `__cta-form`, `__cta-done`).
-  - **The answer as a map** (`.ed-mk-rmap`): challenges and services as
-    compact cards in two columns (`__col`, `__list`, `__card`, `__top`),
-    each edged in its section's colour, with an SVG of lines between them
-    (`__wires`, paths `is-lit`/`is-dim`); a lit card opens its text. The
-    columns stack, without lines, on a narrow screen. Next steps side by
-    side (`.ed-mk-report__next`): the deep-teal website card and a "keep
-    a copy" card (`.ed-mk-report__keep`, `__keep-copy`, `__keep-actions`,
+  - **The answer as pairs** (`.ed-mk-report__sec--pairs`,
+    `.ed-mk-report__table--pairs`): one table, a row per challenge (title,
+    then what's in the way) beside the services that solve it
+    (`.ed-mk-report__fixes`, each named, then why), and the rest of the
+    setup on a line (`.ed-mk-report__rest`). Next steps side by side
+    (`.ed-mk-report__next`): the deep-teal website card and a "keep a
+    copy" card (`.ed-mk-report__keep`, `__keep-copy`, `__keep-actions`,
     `__keep-form`) for Share and Download, so the sheet needs no footer.
   - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
     what opened it) and rises out of it. Classes for a first section that
