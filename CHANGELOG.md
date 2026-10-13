@@ -257,6 +257,19 @@ versions follow [semver](https://semver.org/).
     left), and `compactAction` slides in left of the CTA; scrolling back
     up undoes it, all eased. The header's brand is now
     `.ed-mk-header__brand` (wordmark and mark in one slot).
+  - **`Carousel`** (`react/marketing/Carousel`, client): cards (media on
+    a hatched plate, a title, up to three lines, all one height) with the
+    current one centred and its neighbours peeking; it moves on by itself
+    every `interval` ms (default 1000) and wraps round without jumping
+    back, with round arrow buttons over the media. Still while hovered,
+    focused, off screen, or under reduced motion. `CarouselActive` (a
+    context) holds a hidden one still and defers its cards' media.
+  - **`InstrumentBoard`'s readout** keeps one height: every tile's readout
+    is stacked in one place (so all are in the page), the chosen one
+    fading in. Items take `stats` (a strip of bold figures under the lede,
+    `.ed-mk-instr__stats`) and `media` now suits a `Carousel`, which runs
+    only while its readout is shown. The eyebrow (`readout`, `live`) and
+    the count are off by default.
   - **`Flyout`** (`react/marketing/Dropdown`): a hierarchical dropdown's
     next level — a panel beside a row of a Dropdown's panel, against its
     right edge (its left when there's no room), level with the row. Classes:

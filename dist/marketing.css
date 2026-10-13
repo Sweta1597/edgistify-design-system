@@ -2475,9 +2475,11 @@
    ------------------------------------------------------------------
    A framed board with corner screws holding the tiles (hatched ground,
    a light line figure, a mono label and a status dot), beside a readout
-   for the chosen tile: title, a serif line, the lede, a screen, a count,
-   a link and a pager. Hover, click, arrows or the pager choose a tile;
-   the readout fades out, swaps and fades back in. Light on purpose.
+   for the chosen tile: title, the lede, a strip of figures, a carousel
+   of cards and a link (optionally an eyebrow, a serif line and a count),
+   and a pager. Hover, click, arrows or the pager choose a tile. Every
+   tile's readout is stacked in one place, so the readout keeps the
+   tallest one's height; the chosen one fades in. Light on purpose.
    ================================================================== */
 .ed-mk-instr {
   --ed-mk-instr-ink: var(--ed-neutral-950);
@@ -2518,13 +2520,33 @@
 
 /* the readout */
 .ed-mk-instr__readout {
-  position: relative; display: flex; flex-direction: column; gap: 18px; min-width: 0;
+  position: relative; display: grid; min-width: 0;
   padding: 40px 56px 28px 40px; border: 1px solid var(--ed-mk-instr-line-strong); background: var(--ed-mk-instr-tile);
 }
+/* Every readout in the same cell: the cell is as tall as the tallest. */
+.ed-mk-instr__panel {
+  grid-area: 1 / 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 18px;
+  opacity: 0; visibility: hidden; translate: 0 6px;
+  transition: opacity .28s ease, translate .28s ease, visibility 0s linear .28s;
+}
+.ed-mk-instr__panel.is-on { opacity: 1; visibility: visible; translate: none; transition: opacity .28s ease .08s, translate .28s ease .08s, visibility 0s; }
+/* The strip of figures: equal columns, hairlines between, each a bold
+   value over its label. */
+.ed-mk-instr__stats {
+  list-style: none; margin: 0; padding: 14px 0;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+  border-block: 1px solid var(--ed-mk-instr-line);
+}
+.ed-mk-instr__stat { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding-inline: 14px; border-left: 1px solid var(--ed-mk-instr-line); }
+.ed-mk-instr__stat:first-child { padding-left: 0; border-left: 0; }
+.ed-mk-instr__stat b { font: var(--ed-weight-semibold) 15px/1.3 var(--ed-font-ui); color: var(--ed-mk-instr-ink); }
+.ed-mk-instr__stat--figure b { font-size: 24px; line-height: 1.1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--ed-mk-instr-accent); }
+.ed-mk-instr__stat span { font-size: 13px; line-height: 1.3; color: var(--ed-mk-instr-muted); }
 .ed-mk-instr__top { display: flex; justify-content: space-between; font: var(--ed-weight-medium) 11px/1 var(--ed-font-id); letter-spacing: .14em; text-transform: uppercase; color: var(--ed-mk-instr-accent); }
 .ed-mk-instr__live::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 8px; vertical-align: 1px; border-radius: 50%; background: currentColor; animation: ed-mk-instr-pulse 2s ease-in-out infinite; }
 @keyframes ed-mk-instr-pulse { 50% { opacity: .25; } }
-.ed-mk-instr__title { margin: 6px 0 0; font: var(--ed-weight-semibold) clamp(30px, 3.4vw, 46px)/1.05 var(--ed-font-ui); letter-spacing: -.02em; text-wrap: balance; color: var(--ed-mk-instr-ink); }
+.ed-mk-instr__title { margin: 0; font: var(--ed-weight-semibold) clamp(24px, 2.4vw, 34px)/1.1 var(--ed-font-ui); letter-spacing: -.02em; text-wrap: balance; color: var(--ed-mk-instr-ink); }
 .ed-mk-instr__head { margin: 0; font: italic var(--ed-weight-regular) 20px/1.35 var(--ed-mk-font-serif); color: var(--ed-mk-instr-ink); text-wrap: balance; }
 .ed-mk-instr__lede { margin: 0; max-width: 54ch; font-size: 14.5px; line-height: 1.6; color: var(--ed-mk-instr-muted); }
 .ed-mk-instr__media { margin-top: 4px; }
@@ -2549,8 +2571,71 @@
   .ed-mk-instr__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ed-mk-instr__swap, .ed-mk-instr__tile { transition: none; }
+  .ed-mk-instr__swap, .ed-mk-instr__tile, .ed-mk-instr__panel, .ed-mk-instr__panel.is-on { transition: none; translate: none; }
   .ed-mk-instr__live::before { animation: none; }
+}
+
+/* ==================================================================
+   39b. CAROUSEL — cards that move on by themselves
+   ------------------------------------------------------------------
+   The current card in the middle, its neighbours peeking either side;
+   it moves on every `interval` and wraps round. Round arrow buttons over
+   the media move it by hand. Each card: media on a hatched plate, a
+   title and up to three lines, every card the same height.
+   ================================================================== */
+.ed-mk-carousel {
+  --ed-mk-carousel-w: 74%;          /* a card's share of the width */
+  --ed-mk-carousel-gap: 12px;
+  --ed-mk-carousel-media: 150px;
+  --ed-mk-carousel-line: var(--ed-neutral-200);
+  --ed-mk-carousel-plate: color-mix(in srgb, var(--ed-neutral-950) 3.5%, transparent);
+  position: relative; min-width: 0;
+}
+.ed-mk-carousel__view { position: relative; overflow: clip; }
+.ed-mk-carousel__track {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; gap: var(--ed-mk-carousel-gap);
+  translate: calc((100% - var(--ed-mk-carousel-w)) / 2 - var(--i, 0) * (var(--ed-mk-carousel-w) + var(--ed-mk-carousel-gap))) 0;
+  transition: translate .5s var(--ed-mk-ease);
+}
+.ed-mk-carousel__track.is-jumping { transition: none; }
+.ed-mk-carousel__card {
+  flex: 0 0 var(--ed-mk-carousel-w); min-width: 0;
+  display: flex; flex-direction: column;
+  border: 1px solid var(--ed-mk-carousel-line); border-radius: 12px; overflow: clip;
+  background: var(--ed-white);
+  opacity: .5; transition: opacity .5s var(--ed-mk-ease);
+}
+.ed-mk-carousel__card.is-current { opacity: 1; }
+.ed-mk-carousel__media {
+  height: var(--ed-mk-carousel-media); display: grid; place-items: center; overflow: clip;
+  background: repeating-linear-gradient(135deg, var(--ed-mk-carousel-plate) 0 1px, transparent 1px 7px), var(--ed-white);
+  border-bottom: 1px solid var(--ed-mk-carousel-line);
+}
+.ed-mk-carousel__media > * { width: 100%; height: 100%; }
+.ed-mk-carousel__media .hl-figure__stage { --hairline-plate: var(--ed-white); --hairline-hi: var(--ed-teal-600); }
+.ed-mk-carousel__text { padding: 14px 16px 16px; }
+.ed-mk-carousel__text h4 { margin: 0 0 6px; font: var(--ed-weight-semibold) 16px/1.3 var(--ed-font-ui); color: var(--ed-neutral-950); }
+.ed-mk-carousel__text p {
+  margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ed-neutral-600);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
+  min-height: calc(3 * 1.5em);
+}
+.ed-mk-carousel__btn {
+  position: absolute; top: calc(var(--ed-mk-carousel-media) / 2); translate: 0 -50%; z-index: 1;
+  width: 36px; height: 36px; padding: 0; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid var(--ed-mk-carousel-line);
+  background: var(--ed-white); color: var(--ed-neutral-950); cursor: pointer;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--ed-neutral-950) 12%, transparent);
+  transition: background var(--ed-mk-dur) var(--ed-mk-ease), border-color var(--ed-mk-dur) var(--ed-mk-ease);
+}
+.ed-mk-carousel__btn:hover { background: var(--ed-neutral-50); border-color: var(--ed-neutral-300); }
+.ed-mk-carousel__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ed-mk-carousel__btn--prev { left: 4px; }
+.ed-mk-carousel__btn--next { right: 4px; }
+.ed-mk-carousel__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .ed-mk-carousel__track, .ed-mk-carousel__card { transition: none; }
 }
 
 /* ==================================================================

@@ -141,6 +141,10 @@
       "types": "./react/marketing/SubTabs.d.ts",
       "default": "./react/marketing/SubTabs.jsx"
     },
+    "./react/marketing/Carousel": {
+      "types": "./react/marketing/Carousel.d.ts",
+      "default": "./react/marketing/Carousel.jsx"
+    },
     "./react/marketing/InstrumentBoard": {
       "types": "./react/marketing/InstrumentBoard.d.ts",
       "default": "./react/marketing/InstrumentBoard.jsx"

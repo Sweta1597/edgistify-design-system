@@ -8,17 +8,23 @@ export interface Instrument {
   headline?: React.ReactNode;
   lede?: React.ReactNode;
   href?: string;
-  /** the readout's screen, e.g. <Screen label="EdgeOS · Warehousing" /> */
+  /** a strip of figures under the lede; a stat with a label is set as a figure */
+  stats?: { value: React.ReactNode; label?: React.ReactNode }[];
+  /** under the strip, e.g. a <Carousel /> (it runs only while its readout is shown) or a <Screen /> */
   media?: React.ReactNode;
 }
 
-/** Six live tiles on a framed board beside a readout of the chosen one. Hover, click, arrows or the pager choose. Client component. */
+/** Six live tiles on a framed board beside a readout of the chosen one. Hover, click, arrows or the pager choose. Every readout is stacked in one place, so the readout keeps one height. Client component. */
 export declare function InstrumentBoard(props: {
   items: Instrument[];
   label?: string;
+  /** an eyebrow over each readout (none by default) */
   readout?: React.ReactNode;
+  /** a pulsing status on the eyebrow's right (none by default) */
   live?: React.ReactNode | false;
-  count?: (i: number, n: number) => React.ReactNode;
-  linkLabel?: (item: Instrument) => React.ReactNode;
+  /** a count left of the link, e.g. (i, n) => `${i} / ${n}` (none by default) */
+  count?: ((i: number, n: number) => React.ReactNode) | null;
+  /** the link's text, or a function of the item (pass text from a server component) */
+  linkLabel?: React.ReactNode | ((item: Instrument) => React.ReactNode);
   className?: string;
 }): JSX.Element;
