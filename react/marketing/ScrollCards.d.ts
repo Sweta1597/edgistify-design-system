@@ -18,5 +18,7 @@ export declare function ScrollCards(props: {
   per?: number;
   /** Extra space above, in multiples of the stage's own top space n: 1 makes the gap from the section before 2n. Default 0. */
   lead?: number;
+  /** false: no pinning at any width — a swipeable row with arrow buttons on a wide screen (default true) */
+  pinned?: boolean;
   className?: string;
 }): JSX.Element;

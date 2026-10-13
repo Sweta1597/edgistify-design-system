@@ -301,6 +301,14 @@ versions follow [semver](https://semver.org/).
     `.ed-mk-report__sec--challenges` (orange) and `--solution` (teal);
     rows stack as labelled cards on a phone. The sheet's frame clips
     rather than hides, so focus can't scroll it.
+  - **Calmer motion** (from the site review: one or two moving things per
+    view). `ScrollCards` takes `pinned={false}` — the swipeable row at
+    every width, with arrow buttons on a wide screen (`.ed-mk-hscroll--free`,
+    `.ed-mk-hscroll__nav`) — so the page needn't hold. `Carousel` moves
+    every 3.5s by default (was 1s) and has a pause button
+    (`.ed-mk-carousel__pause`; it also stops a host's tour). The FieldBar's
+    edge light sweeps once as it appears, then stays still. LoopHalo's
+    streaks are four, slower, and run only while the section is on screen.
   - **`Popover`** keeps to the screen: it opens below when it fits, else
     on the roomier side, and is never taller than that side's room (its
     contents scroll), so a long list no longer runs off the top or bottom.

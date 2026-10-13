@@ -3,8 +3,9 @@ import { useEffect, useRef } from 'react';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
 
-/* Light streaks drifting down the hairline background: [left %, delay s, duration s]. */
-const STREAKS = [[8, 0, 9], [21, 3.5, 11], [37, 1.2, 8], [58, 5, 12], [71, 2.2, 9.5], [86, 6.4, 10.5], [94, 0.8, 13]];
+/* Light streaks drifting down the hairline background: [left %, delay s, duration s].
+   Four, slow, and only while the section is on screen (.is-live). */
+const STREAKS = [[12, 0, 11], [38, 4, 13], [64, 1.6, 12], [88, 6, 14]];
 
 /* "The only 3PL with / Closed-loop Fulfilment" — Attio's Universal Context
    halo. A dark planet as wide as the page rises under the heading; its
@@ -26,7 +27,9 @@ export function LoopHalo({ eyebrow, title, head, nodes = [], inner, children, cl
     const el = ref.current;
     if (!el) return undefined;
     const planet = el.querySelector('.ed-mk-halo__planet');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.style.setProperty('--p', '1'); el.style.setProperty('--q', '1'); return undefined; }
+    const io = new IntersectionObserver(([e]) => el.classList.toggle('is-live', e.isIntersecting));
+    io.observe(el);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.style.setProperty('--p', '1'); el.style.setProperty('--q', '1'); return () => io.disconnect(); }
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -44,7 +47,7 @@ export function LoopHalo({ eyebrow, title, head, nodes = [], inner, children, cl
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+    return () => { cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
   }, []);
 
   return (

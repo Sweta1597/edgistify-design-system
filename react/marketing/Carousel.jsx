@@ -18,13 +18,14 @@ const DUR = 500;   // ms, one slide — matches the CSS transition
    in the middle with its neighbours peeking either side. It moves on by
    itself every `interval` ms and wraps round without a jump back (two
    copies at each end) — or, in a host with `onRound`, hands over to the
-   host after its last card; the arrow buttons move it by hand. It holds
-   still while the pointer or focus is on it (or its host holds it), while
-   it is off screen or not shown, and under reduced motion (the arrows
-   still work).
+   host after its last card; the arrow buttons move it by hand, and a
+   pause button stops it (and its host's tour) until pressed again. It
+   holds still while the pointer or focus is on it (or its host holds it),
+   while it is off screen or not shown, and under reduced motion (the
+   arrows still work; the pause button is hidden).
 
    items: [{ title, body, media }] */
-export function Carousel({ items = [], interval = 1000, label = 'Cards', className = '', ...rest }) {
+export function Carousel({ items = [], interval = 3500, label = 'Cards', className = '', ...rest }) {
   const host = useContext(CarouselHost);
   const on = host.active;
   const n = items.length;
@@ -35,6 +36,7 @@ export function Carousel({ items = [], interval = 1000, label = 'Cards', classNa
   const [i, setI] = useState(C);           // index into list
   const [anim, setAnim] = useState(true);
   const [held, setHeld] = useState(false);
+  const [stopped, setStopped] = useState(false);   // the visitor pressed pause
   const [seen, setSeen] = useState(on);
   const [still, setStill] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -61,10 +63,10 @@ export function Carousel({ items = [], interval = 1000, label = 'Cards', classNa
   const current = n ? (((i - C) % n) + n) % n : 0;
   const { onRound } = host;
   useEffect(() => {
-    if (!loop || !on || held || host.held || still || !visible) return undefined;
+    if (!loop || !on || held || stopped || host.held || still || !visible) return undefined;
     const t = setTimeout(() => (current === n - 1 && onRound ? onRound() : go(1)), interval);
     return () => clearTimeout(t);
-  }, [loop, on, held, host.held, still, visible, interval, go, i, current, n, onRound]);
+  }, [loop, on, held, stopped, host.held, still, visible, interval, go, i, current, n, onRound]);
 
   /* Once a slide into the copies has finished, jump to the same card in
      the middle set without animating; then animate again. */
@@ -125,6 +127,14 @@ export function Carousel({ items = [], interval = 1000, label = 'Cards', classNa
             <button type="button" className="ed-mk-carousel__btn ed-mk-carousel__btn--next" aria-label="Next card" onClick={() => go(1)}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6" /></svg>
             </button>
+            {!still && (
+              <button type="button" className="ed-mk-carousel__pause" aria-pressed={stopped}
+                aria-label={stopped ? 'Play the cards' : 'Pause the cards'} onClick={() => setStopped((x) => !x)}>
+                {stopped
+                  ? <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+                  : <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" /></svg>}
+              </button>
+            )}
           </>
         )}
       </div>

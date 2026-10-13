@@ -12,17 +12,19 @@ const cx = (...a) => a.filter(Boolean).join(' ');
    On a short screen the stage scales down to fit (--fit) with room above
    and below, so it never rises over the section before it.
    On a narrow screen there is no pinning: the cards sit in a row you swipe,
-   each with its own copy. */
-export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }) {
+   each with its own copy. `pinned={false}` gives that row at every width
+   (the page never holds), with arrow buttons to move it on a wide screen. */
+export function ScrollCards({ head, items = [], per = 0.8, lead = 0, pinned = true, className }) {
   const ref = useRef(null);
   const trackRef = useRef(null);
+  const viewRef = useRef(null);
   const [active, setActive] = useState(0);
   const n = items.length;
 
   useEffect(() => {
     const el = ref.current;
     const track = trackRef.current;
-    if (!el || !track) return undefined;
+    if (!el || !track || !pinned) return undefined;
     const wide = window.matchMedia('(min-width: 901px)');
     let raf = 0;
     let last = -1;
@@ -68,7 +70,16 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
       window.removeEventListener('resize', onScroll);
       wide.removeEventListener('change', onScroll);
     };
-  }, [n, lead]);
+  }, [n, lead, pinned]);
+
+  /* Unpinned: the arrows move the row by one card. */
+  const move = (d) => {
+    const v = viewRef.current, kids = trackRef.current?.children;
+    if (!v || !kids?.length) return;
+    const step = kids.length > 1 ? kids[1].offsetLeft - kids[0].offsetLeft : kids[0].offsetWidth;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    v.scrollBy({ left: d * step, behavior: still ? 'auto' : 'smooth' });
+  };
 
   const copy = (it) => (<>
     {it.eyebrow && <p className="ed-mk-hscroll__eyebrow">{it.eyebrow}</p>}
@@ -78,7 +89,7 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
   </>);
 
   return (
-    <div ref={ref} className={cx('ed-mk-hscroll', className)} style={{ '--n': n, '--per': per }}>
+    <div ref={ref} className={cx('ed-mk-hscroll', !pinned && 'ed-mk-hscroll--free', className)} style={{ '--n': n, '--per': per }}>
       <div className="ed-mk-hscroll__sticky"><div className="ed-mk-hscroll__fit">
         {head && <div className="ed-mk-hscroll__head">{head}</div>}
         <div className="ed-mk-hscroll__stage">
@@ -89,7 +100,7 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
               </div>
             ))}
           </div>
-          <div className="ed-mk-hscroll__viewport">
+          <div className="ed-mk-hscroll__viewport" ref={viewRef}>
             <div className="ed-mk-hscroll__track" ref={trackRef}>
               {items.map((it, i) => (
                 <div key={i} className="ed-mk-hscroll__item" data-active={i === active || undefined} data-past={i < active || undefined}>
@@ -99,6 +110,12 @@ export function ScrollCards({ head, items = [], per = 0.8, lead = 0, className }
               ))}
             </div>
           </div>
+          {!pinned && n > 1 && (
+            <div className="ed-mk-hscroll__nav">
+              <button type="button" aria-label="Previous" onClick={() => move(-1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" /></svg></button>
+              <button type="button" aria-label="Next" onClick={() => move(1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6" /></svg></button>
+            </div>
+          )}
         </div>
       </div></div>
     </div>
