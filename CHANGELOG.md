@@ -320,6 +320,13 @@ versions follow [semver](https://semver.org/).
     header row; labels take a count (`.ed-mk-report__count`) and sources
     show as tags (`.ed-mk-report__srctag`, `--said` for the visitor's own
     words). The "Trusted by" names are quieter.
+  - **Report, linked and next-stepped**: tables marked
+    `.ed-mk-report__table--linked` light a row (`is-lit`) and dim the rest
+    (`is-dim`), so a challenge shows the services that meet it and back;
+    `.ed-mk-report__hint` beside a label says so (hidden on touch).
+    One-tap replies over the chat's composer (`.ed-mk-chat__suggest`). A
+    deep-teal card for the next step (`.ed-mk-report__cta` on a band, with
+    `__cta-copy`, `__cta-form`, `__cta-done`).
   - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
     what opened it) and rises out of it. Classes for a first section that
     asks again: the FieldBar, a one-line ask with a send button
