@@ -301,6 +301,17 @@ versions follow [semver](https://semver.org/).
     `.ed-mk-report__sec--challenges` (orange) and `--solution` (teal);
     rows stack as labelled cards on a phone. The sheet's frame clips
     rather than hides, so focus can't scroll it.
+  - **Report, carried on**: `ReportDialog` (`sheet`) takes `bar` — a row
+    under the strip, before the split, for the questions asked again (a
+    FieldBar, then `.ed-mk-report__barnote`). With `origin` the sheet
+    fades in where it stands and the bar's FieldBar starts over the search
+    the visitor just used, gliding into place and widening as it goes.
+    The aside can be a chat: `.ed-mk-chat__head`, `.ed-mk-chat` (a thread
+    of `.ed-mk-chat__msg`, `--you` on the right in deep teal, ours on the
+    left beside `.ed-mk-chat__avatar`), `.ed-mk-chat__bubble`,
+    `.ed-mk-chat__chips`/`__chip` and `.ed-mk-chat__typing`, over a faint
+    dot grid, with `.ed-mk-report__ask` as its composer. The thread hides
+    on a narrow screen (the bar asks there).
   - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
     what opened it) and rises out of it. Classes for a first section that
     asks again: the FieldBar, a one-line ask with a send button

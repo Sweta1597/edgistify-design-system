@@ -1,5 +1,5 @@
 'use client';
-import { useId, useLayoutEffect, useRef } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef } from 'react';
 import { Modal } from '../Modal.jsx';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
@@ -21,13 +21,21 @@ const I = {
  * top to the bottom edge, rising from below. Under the header `strip`;
  * then, with `aside`, a split — `aside` in the left quarter, the report in
  * the right three — each scrolling on its own; the footer on the bottom.
+ * `bar`: a row under the strip, before the split, for the questions asked
+ * again (its first child, e.g. a FieldBar, then a note). With `origin`,
+ * the sheet fades in where it stands and that first child starts exactly
+ * over the opener — the search the visitor just used — and glides into
+ * its place, widening as it goes: the same control, carried into the
+ * module, so it reads as "carry on choosing here".
  */
 export function ReportDialog({
   open, onClose, title, tag, onEdit, editLabel = 'Edit your search',
-  helpful, footStart = helpful, actions, origin, sheet = false, strip, aside, children, className = '',
+  helpful, footStart = helpful, actions, origin, sheet = false, strip, bar, aside, children, className = '',
 }) {
   const id = useId();
   const ref = useRef(null);
+  const barRef = useRef(null);
+  const carried = Boolean(sheet && bar && origin);
   // Before the dialog shows: how far its centre is from the opener's.
   useLayoutEffect(() => {
     const el = ref.current, from = origin?.current;
@@ -35,9 +43,24 @@ export function ReportDialog({
     const r = from.getBoundingClientRect();
     el.style.setProperty('--ed-mk-report-from', `${Math.round(r.top + r.height / 2 - window.innerHeight / 2)}px`);
   }, [open, origin]);
+  /* Once the dialog shows (the Modal's own effect has run): the bar's first
+     child from over the opener to its place, widening as it goes. */
+  useEffect(() => {
+    const el = barRef.current?.firstElementChild, from = origin?.current;
+    if (!open || !carried || !el || !from || !el.animate) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const a = from.getBoundingClientRect(), b = el.getBoundingClientRect();
+    if (!a.width || !b.width) return;
+    const cut = Math.max(0, b.width - a.width);
+    const r = getComputedStyle(el).borderRadius || '16px';
+    el.animate([
+      { transform: `translate(${a.left - b.left}px, ${a.top - b.top}px)`, clipPath: `inset(0 ${cut}px 0 0 round ${r})` },
+      { transform: 'none', clipPath: `inset(0 0 0 0 round ${r})` },
+    ], { duration: 640, easing: 'cubic-bezier(.2, .8, .2, 1)' });
+  }, [open, carried, origin]);
   return (
     <Modal ref={ref} open={open} onClose={onClose} size="xl" showClose={false}
-      className={cx('ed-mk-report', sheet && 'ed-mk-report--sheet', className)} aria-labelledby={`${id}-title`}>
+      className={cx('ed-mk-report', sheet && 'ed-mk-report--sheet', carried && 'ed-mk-report--carried', className)} aria-labelledby={`${id}-title`}>
       <header className="ed-mk-report__head">
         <h2 className="ed-mk-report__title" id={`${id}-title`}>{title}</h2>
         <div className="ed-mk-report__side">
@@ -49,6 +72,7 @@ export function ReportDialog({
         </div>
       </header>
       {strip && <div className="ed-mk-report__strip">{strip}</div>}
+      {bar && <div className="ed-mk-report__bar" ref={barRef}>{bar}</div>}
       {aside ? (
         <div className="ed-mk-report__split">
           <aside className="ed-mk-report__aside">{aside}</aside>
