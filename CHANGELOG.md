@@ -262,14 +262,20 @@ versions follow [semver](https://semver.org/).
     current one centred and its neighbours peeking; it moves on by itself
     every `interval` ms (default 1000) and wraps round without jumping
     back, with round arrow buttons over the media. Still while hovered,
-    focused, off screen, or under reduced motion. `CarouselActive` (a
-    context) holds a hidden one still and defers its cards' media.
+    focused, off screen, or under reduced motion. `CarouselHost` (a
+    context: `active`, `held`, `onRound`) lets a host hold a hidden one
+    still (deferring its cards' media), hold the shown one, or take over
+    after its last card.
   - **`InstrumentBoard`'s readout** keeps one height: every tile's readout
     is stacked in one place (so all are in the page), the chosen one
     fading in. Items take `stats` (a strip of bold figures under the lede,
     `.ed-mk-instr__stats`) and `media` now suits a `Carousel`, which runs
-    only while its readout is shown. The eyebrow (`readout`, `live`) and
-    the count are off by default.
+    only while its readout is shown; once it has shown its last card the
+    board moves to the next tile, touring every service, and all of it
+    holds while the pointer is on the board or the readout. The tiles sit
+    centred in their frame, against the readout's height. The eyebrow
+    (`readout`, `live`) and the count are off by default; `linkLabel`
+    takes text as well as a function.
   - **`Flyout`** (`react/marketing/Dropdown`): a hierarchical dropdown's
     next level — a panel beside a row of a Dropdown's panel, against its
     right edge (its left when there's no room), level with the row. Classes:

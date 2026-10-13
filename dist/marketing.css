@@ -2494,7 +2494,7 @@
 }
 
 /* the board */
-.ed-mk-instr__board { position: relative; padding: 28px; border: 1px solid var(--ed-mk-instr-line-strong); background: var(--ed-mk-instr-tile); }
+.ed-mk-instr__board { position: relative; padding: 28px; border: 1px solid var(--ed-mk-instr-line-strong); background: var(--ed-mk-instr-tile); display: flex; flex-direction: column; justify-content: center; }   /* the tiles centred against the readout */
 .ed-mk-instr__screw { position: absolute; width: 9px; height: 9px; border: 1px solid var(--ed-mk-instr-line-strong); border-radius: 50%; }
 .ed-mk-instr__screw::after { content: ''; position: absolute; left: 1px; right: 1px; top: 3px; height: 1px; background: var(--ed-mk-instr-line-strong); transform: rotate(-35deg); }
 .ed-mk-instr__screw--tl { top: 8px; left: 8px; } .ed-mk-instr__screw--tr { top: 8px; right: 8px; }

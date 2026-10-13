@@ -1,6 +1,6 @@
 'use client';
-import { useId, useRef, useState } from 'react';
-import { CarouselActive } from './Carousel';
+import { useCallback, useId, useRef, useState } from 'react';
+import { CarouselHost } from './Carousel';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
 
@@ -14,7 +14,10 @@ const cx = (...a) => a.filter(Boolean).join(' ');
 
    items: [{ id, label, figure, headline, lede, stats, media, href }]
      stats  [{ value, label }] — a strip of figures under the lede
-     media  e.g. a Carousel; it runs only while its readout is shown
+     media  e.g. a Carousel; it runs only while its readout is shown, and
+            once it has shown its last card the next tile is chosen (so
+            the board tours every service); all of it holds while the
+            pointer is on the board or the readout
    linkLabel: text, or (item) => text (text from a server component) */
 export function InstrumentBoard({
   items = [], label = 'Services', readout = null, live = null,
@@ -22,6 +25,7 @@ export function InstrumentBoard({
   className = '',
 }) {
   const [active, setActive] = useState(0);
+  const [held, setHeld] = useState(false);   // the pointer is on the board or readout
   const tiles = useRef([]);
   const grid = useRef(null);
   const id = useId();
@@ -31,6 +35,8 @@ export function InstrumentBoard({
     if (focus) tiles.current[i]?.focus({ preventScroll: true });
     setActive(i);
   };
+  /* A readout's carousel has shown its last card: on to the next tile. */
+  const next = useCallback(() => setActive((a) => (a + 1) % items.length), [items.length]);
 
   const onKey = (e) => {
     const cols = grid.current ? getComputedStyle(grid.current).gridTemplateColumns.split(' ').length : 3;
@@ -43,7 +49,7 @@ export function InstrumentBoard({
   };
 
   return (
-    <div className={cx('ed-mk-instr', className)}>
+    <div className={cx('ed-mk-instr', className)} onPointerEnter={() => setHeld(true)} onPointerLeave={() => setHeld(false)}>
       <div className="ed-mk-instr__board">
         <span className="ed-mk-instr__screw ed-mk-instr__screw--tl" aria-hidden="true" />
         <span className="ed-mk-instr__screw ed-mk-instr__screw--tr" aria-hidden="true" />
@@ -99,7 +105,7 @@ export function InstrumentBoard({
                   ))}
                 </ul>
               )}
-              {it.media && <div className="ed-mk-instr__media"><CarouselActive.Provider value={on}>{it.media}</CarouselActive.Provider></div>}
+              {it.media && <div className="ed-mk-instr__media"><CarouselHost.Provider value={{ active: on, held, onRound: next }}>{it.media}</CarouselHost.Provider></div>}
               <div className="ed-mk-instr__end">
                 {count && <span className="ed-mk-instr__count">{count(i + 1, items.length)}</span>}
                 {it.href && <a className="ed-mk-instr__link" href={it.href}>{typeof linkLabel === 'function' ? linkLabel(it) : linkLabel} <span aria-hidden="true">→</span></a>}
