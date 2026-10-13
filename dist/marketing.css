@@ -3169,6 +3169,47 @@
 .ed-mk-report__aside:has(.ed-mk-chat) .ed-mk-report__ask textarea { min-height: 3em; }
 .ed-mk-report__aside:has(.ed-mk-chat) .ed-mk-report__send { background: var(--ed-teal-950); border-color: var(--ed-teal-950); color: var(--ed-white); }
 .ed-mk-report__aside:has(.ed-mk-chat) .ed-mk-report__send:disabled { background: var(--ed-neutral-100); border-color: var(--ed-neutral-100); color: var(--ed-neutral-400); }
+/* One palette for the sheet. Deep teal (teal-950) for what the visitor
+   controls — the bar and the primary action — and nothing else dark; a
+   light teal tint for what they told us (their messages, the solution's
+   tags); white for our replies; orange only for what's in the way (the
+   challenges). Each table carries its section's colour down its left
+   edge, and each label a count. */
+.ed-mk-chat__avatar { background: var(--ed-teal-950); }
+.ed-mk-chat__head small::before { background: var(--ed-teal-500); }
+.ed-mk-chat__msg--you .ed-mk-chat__bubble {
+  background: var(--ed-teal-50); color: var(--ed-teal-900);
+  border: 1px solid color-mix(in srgb, var(--ed-teal-600) 18%, transparent);
+}
+.ed-mk-chat__msg--you .ed-mk-chat__bubble b { color: var(--ed-teal-950); }
+.ed-mk-chat__chip { background: var(--ed-white); color: var(--ed-teal-900); border: 1px solid var(--ed-teal-100); }
+.ed-mk-chat__chip .ed-mk-mark { box-shadow: 0 0 0 1.5px var(--ed-white); }
+.ed-mk-chat { mask-image: linear-gradient(to bottom, transparent, #000 28px); }
+.ed-mk-report__trust .ed-mk-report__logos li { font-weight: var(--ed-weight-semibold); color: var(--ed-neutral-400); }
+.ed-mk-report__trust > span { color: var(--ed-neutral-500); }
+.ed-mk-report__sec--challenges { --ed-mk-report-tone: color-mix(in srgb, var(--ed-amber-600) 70%, var(--ed-red-600)); --ed-mk-report-tint: var(--ed-amber-50); }
+.ed-mk-report__sec--solution { --ed-mk-report-tone: var(--ed-teal-700); --ed-mk-report-tint: var(--ed-teal-50); }
+.ed-mk-report__sec--challenges .ed-mk-report__table,
+.ed-mk-report__sec--solution .ed-mk-report__table { border-left: 3px solid var(--ed-mk-report-tone); }
+.ed-mk-report__sec--challenges .ed-mk-report__table thead th,
+.ed-mk-report__sec--solution .ed-mk-report__table thead th { background: color-mix(in srgb, var(--ed-mk-report-tint) 55%, var(--ed-white)); }
+.ed-mk-report__label { display: inline-flex; align-items: center; gap: var(--ed-space-2); }
+.ed-mk-report__count {
+  display: inline-grid; place-items: center; min-width: 22px; height: 20px; padding: 0 6px; border-radius: 999px;
+  background: var(--ed-mk-report-tint, var(--ed-neutral-100)); color: var(--ed-mk-report-tone, var(--ed-neutral-700));
+  font: var(--ed-weight-semibold) var(--ed-text-2xs)/1 var(--ed-font-ui); letter-spacing: 0; font-variant-numeric: tabular-nums;
+}
+.ed-mk-report__srctag {
+  display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; white-space: nowrap;
+  background: var(--ed-neutral-50); border: 1px solid var(--ed-neutral-200); color: var(--ed-neutral-600);
+  font: var(--ed-weight-medium) var(--ed-text-2xs)/1 var(--ed-font-ui);
+}
+.ed-mk-report__srctag--said { background: var(--ed-teal-50); border-color: var(--ed-teal-100); color: var(--ed-teal-800); }
+/* The footer's actions in the same family: the primary in deep teal, the other outlined. */
+.ed-mk-report__actions .ed-btn--primary { background: var(--ed-teal-950); color: var(--ed-white); }
+.ed-mk-report__actions .ed-btn--primary:hover { background: color-mix(in srgb, var(--ed-teal-950) 86%, var(--ed-white)); }
+.ed-mk-report__actions .ed-btn--secondary { background: var(--ed-white); color: var(--ed-teal-950); border-color: var(--ed-neutral-200); }
+.ed-mk-report__actions .ed-btn--secondary:hover { background: var(--ed-neutral-50); border-color: var(--ed-neutral-300); }
 @media (max-width: 860px) {
   .ed-mk-report__bar { flex-direction: column; align-items: stretch; gap: var(--ed-space-3); padding-inline: var(--ed-space-5); }
   .ed-mk-report__bar > :first-child { flex: none; }

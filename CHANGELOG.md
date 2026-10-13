@@ -312,6 +312,14 @@ versions follow [semver](https://semver.org/).
     `.ed-mk-chat__chips`/`__chip` and `.ed-mk-chat__typing`, over a faint
     dot grid, with `.ed-mk-report__ask` as its composer. The thread hides
     on a narrow screen (the bar asks there).
+  - **One palette for the report sheet**: deep teal (teal-950) only for
+    what the visitor controls — the bar and the footer's primary action
+    (the secondary outlined to match); the visitor's chat messages in a
+    light teal tint, ours white; orange only for the challenges. Each
+    table carries its section's colour down its left edge with a tinted
+    header row; labels take a count (`.ed-mk-report__count`) and sources
+    show as tags (`.ed-mk-report__srctag`, `--said` for the visitor's own
+    words). The "Trusted by" names are quieter.
   - **Report, asked in place**: `ReportDialog` takes `origin` (a ref to
     what opened it) and rises out of it. Classes for a first section that
     asks again: the FieldBar, a one-line ask with a send button
