@@ -86,6 +86,34 @@
   --ed-blue-900: #11365d;
   --ed-blue-950: #0d2743;
 
+  /* saffron: marketing accent, the one highlight on a screen (never a status: amber is warning) */
+  --ed-saffron-25: #fdfaf8;
+  --ed-saffron-50: #fcf0e8;
+  --ed-saffron-100: #ffdec9;
+  --ed-saffron-200: #fec198;
+  --ed-saffron-300: #ffa05b;
+  --ed-saffron-400: #f58007;
+  --ed-saffron-500: #d77005;
+  --ed-saffron-600: #a95705;
+  --ed-saffron-700: #8a4502;
+  --ed-saffron-800: #6f3600;
+  --ed-saffron-900: #532905;
+  --ed-saffron-950: #3b1e07;
+
+  /* indigo: marketing accent for Edgistify's software (EdgeOS, EdgeWMS, EdgeLMS, EdgeFMS); blue is info */
+  --ed-indigo-25: #fafafd;
+  --ed-indigo-50: #eff2ff;
+  --ed-indigo-100: #dfe4fe;
+  --ed-indigo-200: #c5ccff;
+  --ed-indigo-300: #aab4fe;
+  --ed-indigo-400: #8f98ff;
+  --ed-indigo-500: #7980f9;
+  --ed-indigo-600: #5e63c5;
+  --ed-indigo-700: #4c509f;
+  --ed-indigo-800: #3c407d;
+  --ed-indigo-900: #2d305d;
+  --ed-indigo-950: #202342;
+
   /* pure */
   --ed-white: #ffffff;
   --ed-ink:   #0f1417;

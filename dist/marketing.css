@@ -92,6 +92,24 @@
   --ed-mk-band-text-muted:     var(--ed-neutral-300);
   --ed-mk-band-accent:         var(--ed-teal-300);
 
+  /* ---- accents ----------------------------------------------------
+     Two colours beside teal, for marketing pages only, never a status
+     (green, amber, red and blue keep those meanings). Saffron is the
+     one highlight on a screen: a key figure, a featured card, a warm
+     band. Indigo marks Edgistify's software (EdgeOS, EdgeWMS, EdgeLMS,
+     EdgeFMS). Buttons stay teal. Components read them through a tone
+     class (.ed-tone-accent / .ed-tone-tech, below), not directly. */
+  --ed-mk-accent-text:     var(--ed-saffron-700);   /* 7.2:1 on white */
+  --ed-mk-accent-subtle:   var(--ed-saffron-50);
+  --ed-mk-accent-border:   var(--ed-saffron-200);
+  --ed-mk-accent-solid:    var(--ed-saffron-400);
+  --ed-mk-on-accent-solid: var(--ed-saffron-950);   /* 5.8:1 */
+  --ed-mk-tech-text:       var(--ed-indigo-600);    /* 5.2:1 on white */
+  --ed-mk-tech-subtle:     var(--ed-indigo-50);
+  --ed-mk-tech-border:     var(--ed-indigo-200);
+  --ed-mk-tech-solid:      var(--ed-indigo-600);
+  --ed-mk-on-tech-solid:   var(--ed-white);         /* 5.2:1 */
+
   /* ---- motion ---------------------------------------------------- */
   --ed-mk-ease: cubic-bezier(.2,.7,.2,1);
   --ed-mk-dur:  .18s;
@@ -240,6 +258,34 @@
   --ed-brand-muted:       var(--ed-teal-800);
   --ed-on-brand-subtle:   var(--ed-teal-300);
   --ed-elevation-1: none;
+  /* the accents, lit for the dark: light text, tints over the band */
+  --ed-mk-accent-text:     var(--ed-saffron-300);
+  --ed-mk-accent-subtle:   color-mix(in srgb, var(--ed-saffron-500) 16%, transparent);
+  --ed-mk-accent-border:   color-mix(in srgb, var(--ed-saffron-400) 45%, transparent);
+  --ed-mk-accent-solid:    var(--ed-saffron-400);
+  --ed-mk-on-accent-solid: var(--ed-saffron-950);
+  --ed-mk-tech-text:       var(--ed-indigo-300);
+  --ed-mk-tech-subtle:     color-mix(in srgb, var(--ed-indigo-500) 20%, transparent);
+  --ed-mk-tech-border:     color-mix(in srgb, var(--ed-indigo-400) 45%, transparent);
+  --ed-mk-tech-solid:      var(--ed-indigo-400);
+  --ed-mk-on-tech-solid:   var(--ed-indigo-950);
+}
+
+/* A tone: one class that points a component's colours at teal (brand),
+   saffron (accent) or indigo (tech). A component styles itself with the
+   --ed-tone-* values, so `class="ed-tone-accent"` (or a `tone` in the
+   content) recolours it, on the band or off it. */
+.ed-tone-brand {
+  --ed-tone-text: var(--ed-text-link); --ed-tone-subtle: var(--ed-brand-subtle); --ed-tone-border: var(--ed-brand-muted);
+  --ed-tone-solid: var(--ed-mk-band-accent); --ed-on-tone-solid: var(--ed-ink);
+}
+.ed-tone-accent {
+  --ed-tone-text: var(--ed-mk-accent-text); --ed-tone-subtle: var(--ed-mk-accent-subtle); --ed-tone-border: var(--ed-mk-accent-border);
+  --ed-tone-solid: var(--ed-mk-accent-solid); --ed-on-tone-solid: var(--ed-mk-on-accent-solid);
+}
+.ed-tone-tech {
+  --ed-tone-text: var(--ed-mk-tech-text); --ed-tone-subtle: var(--ed-mk-tech-subtle); --ed-tone-border: var(--ed-mk-tech-border);
+  --ed-tone-solid: var(--ed-mk-tech-solid); --ed-on-tone-solid: var(--ed-mk-on-tech-solid);
 }
 .ed-mk-section--band .ed-mk-eyebrow { color: var(--ed-mk-band-accent); }
 .ed-mk-section--band .ed-mk-eyebrow::before { background: var(--ed-mk-band-accent); }

@@ -150,6 +150,37 @@ export default function BrandPage() {
         <li><strong>WebP or AVIF, sized, lazy below the fold, width and height set</strong> — so nothing shifts.</li>
       </ul>
 
+      <h2>Accents: saffron and indigo</h2>
+      <p>
+        Teal is the brand; two accents sit beside it on marketing pages, and only there.
+        <strong> Saffron</strong> is the one highlight on a screen: a key figure, a featured card,
+        a warm band. <strong>Indigo</strong> marks Edgistify&rsquo;s software: EdgeOS, EdgeWMS,
+        EdgeLMS, EdgeFMS. Neither is a status (green, amber, red and blue keep those meanings),
+        buttons stay teal, and accents stay near a tenth of the page. A component takes one
+        through a tone class, <code>ed-tone-accent</code> or <code>ed-tone-tech</code>, and reads
+        the <code>--ed-tone-*</code> values, which re-map on the band like every other role.
+      </p>
+      <MarketingDemo code={`
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+  <span className="ed-tone-accent" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-solid)', color: 'var(--ed-on-tone-solid)' }}>Most brands</span>
+  <span className="ed-tone-accent" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-subtle)', color: 'var(--ed-tone-text)', border: '1px solid var(--ed-tone-border)' }}>New</span>
+  <span className="ed-tone-tech" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-solid)', color: 'var(--ed-on-tone-solid)' }}>EdgeLMS</span>
+  <span className="ed-tone-tech" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-subtle)', color: 'var(--ed-tone-text)', border: '1px solid var(--ed-tone-border)' }}>Built in-house</span>
+  <b className="ed-tone-accent" style={{ color: 'var(--ed-tone-text)', fontSize: 32 }}>1 lakh+</b>
+</div>
+`} caption="On the page: a solid and a tinted badge in each accent, and a highlighted figure." />
+      <MarketingDemo code={`
+<Section tone="band" tight>
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+    <span className="ed-tone-accent" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-solid)', color: 'var(--ed-on-tone-solid)' }}>Most brands</span>
+    <span className="ed-tone-accent" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-subtle)', color: 'var(--ed-tone-text)', border: '1px solid var(--ed-tone-border)' }}>New</span>
+    <span className="ed-tone-tech" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-solid)', color: 'var(--ed-on-tone-solid)' }}>EdgeLMS</span>
+    <span className="ed-tone-tech" style={{ padding: '4px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600, background: 'var(--ed-tone-subtle)', color: 'var(--ed-tone-text)', border: '1px solid var(--ed-tone-border)' }}>Built in-house</span>
+    <b className="ed-tone-accent" style={{ color: 'var(--ed-tone-text)', fontSize: 32 }}>1 lakh+</b>
+  </div>
+</Section>
+`} caption="The same on the dark band: the same classes, lit for the dark." />
+
       <h2>The dark band</h2>
       <p>
         Ink, in both themes. Used for the EdgeOS platform under the service cards, the order
