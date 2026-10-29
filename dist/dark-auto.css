@@ -90,6 +90,16 @@
     --ed-info-solid:         var(--ed-blue-500);
     /* The chrome steps down with the product, so the sidebar stays the
        darker plane rather than becoming lighter than the page beside it. */
+    /* A near-black button on a dark page is invisible, so the primary
+       inverts rather than darkening further. */
+    --ed-primary-surface:   var(--ed-neutral-25);  /* 17.76:1 under ink */
+    --ed-primary-hover:     var(--ed-white);
+    --ed-primary-active:    var(--ed-neutral-200);
+    --ed-on-primary:        var(--ed-ink);
+    --ed-secondary-surface: var(--ed-neutral-800); /*  9.24:1 */
+    --ed-secondary-hover:   var(--ed-neutral-700); /*  6.80:1 */
+    --ed-on-secondary:      var(--ed-white);
+
     --ed-icon-accent: var(--ed-teal-400);
 
     --ed-nav-surface:          var(--ed-ink);
