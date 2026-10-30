@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export type IsoIconName = "parcel" | "warehouse" | "weighed" | "truck" | "route" | "cod" | "layers" | "returns" | "contract" | "invoice" | "reconcile" | "label" | "parcel-check" | "pin" | "split" | "phone" | "shield" | "flag";
+export type IsoIconName = "parcel" | "warehouse" | "weighed" | "truck" | "route" | "cod" | "layers" | "returns" | "contract" | "invoice" | "reconcile" | "label" | "parcel-check" | "pin" | "split" | "phone" | "shield" | "flag" | "address" | "claim";
 
 /** Every isometric line icon, by name, as SVG markup. */
 export declare const ISO_ICONS: Record<IsoIconName, string>;
