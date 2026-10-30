@@ -45,6 +45,7 @@ const GROUPS = [
   {
     label: 'Decisions',
     items: [
+      { href: '/compare/brand', title: 'Brand: three directions' },
       { href: '/compare/icons', title: 'Icons: lucide vs Material' },
       { href: '/compare/nav', title: 'Nav: filled + teal' },
     ],
