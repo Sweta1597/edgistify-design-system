@@ -569,6 +569,25 @@ export default function MarketingComponentsPage() {
   </div>
 </Section>
 `} caption="On the dark band the outline turns light." />
+
+      <H id="iso-icons" title="Isometric icons">
+        Line icons for a page&rsquo;s features, drawn at the same 30° angle as the highlight mark and the
+        Hairline figures: one stroke, no fill, in the parent&rsquo;s colour, so a list reads as drawings and the
+        highlight mark stays the one solid shape beside them. Wheels and pin heads take the ground behind them
+        (<code>--ed-mk-iso-knock</code>, the canvas by default). Decorative unless given a <code>label</code>.
+      </H>
+      <MarketingDemo code={`
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: 12, padding: 24 }}>
+  {Object.keys(ISO_ICONS).map((n) => (
+    <div key={n} style={{ display: 'grid', justifyItems: 'center', gap: 6, fontSize: 11 }}>
+      <span style={{ display: 'grid', placeItems: 'center', width: 48, height: 48, borderRadius: 12, background: 'var(--ed-brand-subtle)', color: 'var(--ed-text-link)' }}>
+        <IsoIcon name={n} size={30} />
+      </span>
+      {n}
+    </div>
+  ))}
+</div>
+`} caption="Every icon, by name, on a brand-subtle tile in the link colour." />
     </article>
   );
 }

@@ -4001,3 +4001,11 @@
 .ed-mk-hl__depth { fill: var(--ed-mk-hl-depth, var(--ed-saffron-700)); }
 .ed-mk-hl__face { fill: var(--ed-mk-hl-face, var(--ed-saffron-400)); }
 .ed-mk-section--band, .ed-mk-band { --ed-mk-hl-line: var(--ed-neutral-50); }
+
+/* ── Isometric line icons (IsoIcon) ──────────────────────────────────
+   One stroke, no fill, in the parent's colour; wheels and pin heads take
+   the ground behind them so lines don't show through. Quiet beside the
+   highlight mark, which stays the one solid shape. */
+.ed-mk-iso { display: block; flex: none; overflow: visible; }
+.ed-mk-iso * { fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linejoin: round; stroke-linecap: round; }
+.ed-mk-iso .wh, .ed-mk-iso .pin { fill: var(--ed-mk-iso-knock, var(--ed-canvas)); }
