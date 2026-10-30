@@ -7,6 +7,7 @@ import { ExpandOnScroll } from '@edgistify/design-system/react/marketing/Expand'
 import { ShowcaseTabs } from '@edgistify/design-system/react/marketing/ShowcaseTabs';
 import { ScrollCards } from '@edgistify/design-system/react/marketing/ScrollCards';
 import { LoopHalo } from '@edgistify/design-system/react/marketing/LoopHalo';
+import { HighlightMark } from '@edgistify/design-system/react/marketing/HighlightMark';
 import { Button } from '@edgistify/design-system/react/Button';
 import { Badge } from '@edgistify/design-system/react/Badge';
 import { Icon } from '@edgistify/design-system/react/Icon';
@@ -18,7 +19,7 @@ import { Example } from '@/components/Example';
 export function MarketingDemo(props) {
   return (
     <div className="ed-mk mk-demo">
-      <Example {...props} scope={{ ...M, SiteHeader, Announcement, Prompt, ExpandOnScroll, ShowcaseTabs, ScrollCards, LoopHalo, Button, Badge, Icon, Package, Warehouse, Truck, CalendarClock, Building, Layers, Sparkles, ArrowRight, Navigation, ShoppingCart, Boxes, ArrowLeftRight, MapPin, User }} />
+      <Example {...props} scope={{ ...M, SiteHeader, Announcement, Prompt, ExpandOnScroll, ShowcaseTabs, ScrollCards, LoopHalo, HighlightMark, Button, Badge, Icon, Package, Warehouse, Truck, CalendarClock, Building, Layers, Sparkles, ArrowRight, Navigation, ShoppingCart, Boxes, ArrowLeftRight, MapPin, User }} />
     </div>
   );
 }

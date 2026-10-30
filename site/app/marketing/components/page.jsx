@@ -542,6 +542,33 @@ export default function MarketingComponentsPage() {
   copyright="© 2026 Edgistify"
 />
 `} />
+
+      <H id="highlight" title="Highlight mark">
+        A chunky five-point star with depth, like a die-cut token, for the one feature in a section
+        that matters most. It takes the place of that feature&rsquo;s icon, so the row keeps its shape.
+        Saffron, outlined in ink; on the dark band the outline turns light, like a sticker&rsquo;s
+        die-cut edge (<code>--ed-mk-hl-line</code> overrides it). One per section, never on every row.
+        Screen readers hear &ldquo;Highlighted&rdquo;; pass <code>label=&#123;null&#125;</code> where the text says so already.
+      </H>
+      <MarketingDemo code={`
+<div style={{ display: 'grid', gap: 16, padding: 24, maxWidth: 520 }}>
+  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+    <HighlightMark size={34} />
+    <div><b>Pooled across every brand</b><p style={{ margin: 0 }}>Courier rates negotiated on the volume of every brand we ship for.</p></div>
+  </div>
+  <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
+    <HighlightMark size={64} /><HighlightMark size={32} /><HighlightMark size={20} />
+  </div>
+</div>
+`} caption="Sizes 64, 32 and 20. On a light section; the band version follows." />
+      <MarketingDemo code={`
+<Section tone="band" tight>
+  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', maxWidth: 520 }}>
+    <HighlightMark size={34} />
+    <div><b>Pooled across every brand</b><p style={{ margin: 0 }}>Courier rates negotiated on the volume of every brand we ship for.</p></div>
+  </div>
+</Section>
+`} caption="On the dark band the outline turns light." />
     </article>
   );
 }

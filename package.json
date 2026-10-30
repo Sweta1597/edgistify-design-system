@@ -125,6 +125,10 @@
       "types": "./react/marketing/Journey.d.ts",
       "default": "./react/marketing/Journey.jsx"
     },
+    "./react/marketing/HighlightMark": {
+      "types": "./react/marketing/HighlightMark.d.ts",
+      "default": "./react/marketing/HighlightMark.jsx"
+    },
     "./react/marketing/LoopHalo": {
       "types": "./react/marketing/LoopHalo.d.ts",
       "default": "./react/marketing/LoopHalo.jsx"
