@@ -181,6 +181,34 @@ export default function BrandPage() {
 </Section>
 `} caption="The same on the dark band: the same classes, lit for the dark." />
 
+      <h2>Brand A colours: stone, tan, orange and ink</h2>
+      <p>
+        The palette of brand direction A, the shipping label, as it runs on the Shipping page.
+        <strong> Stone</strong> is the warm grey: 50 is the page ground, 25 the cards, 100 and 200
+        the wells, 400 to 700 the muted text (600 is 4.4:1 on white, so text on a light ground is
+        700 or darker). <strong>Tan</strong> 400 is the carton brown, for quiet fills.
+        <strong> Orange</strong> 400 is the sticker, one small one per surface, with 950 as its
+        text; 600 and 700 are the warm error. <strong>Ink</strong> 600 to 950 are the near-blacks
+        around <code>--ed-ink</code>, for panels in ink and what is raised on them, and
+        <code> --ed-teal-975</code> is a teal-tinted well inside one. Lines are ink or stone at an
+        opacity, through <code>color-mix()</code>, not tokens of their own.
+      </p>
+      <MarketingDemo code={`
+<div style={{ display: 'grid', gap: 8 }}>
+  {[
+    ['stone', [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+    ['tan', [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+    ['orange', [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+    ['ink', [600, 700, 800, 900, 950]],
+  ].map(([name, steps]) => (
+    <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      <code style={{ width: 64, fontSize: 12 }}>{name}</code>
+      {steps.map((s) => <span key={s} title={'--ed-' + name + '-' + s} style={{ flex: 1, maxWidth: 56, height: 32, borderRadius: 6, background: 'var(--ed-' + name + '-' + s + ')', boxShadow: 'inset 0 0 0 1px rgb(15 20 23 / .08)' }} />)}
+    </div>
+  ))}
+</div>
+`} caption="The four ramps. Hover a swatch for its token." />
+
       <h2>The dark band</h2>
       <p>
         Ink, in both themes. Used for the EdgeOS platform under the service cards, the order

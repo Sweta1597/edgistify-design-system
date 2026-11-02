@@ -114,7 +114,63 @@
   --ed-indigo-900: #2d305d;
   --ed-indigo-950: #202342;
 
+  /* stone: the warm greys of brand direction A, the shipping label (grounds, cards, muted text).
+     Pinned to A's palette, so the light end is closer-set than teal's and 600 is 4.4:1 on white:
+     text on a light ground uses 700 or darker */
+  --ed-stone-25: #faf6ee;
+  --ed-stone-50: #f3ede2;
+  --ed-stone-100: #ece4d6;
+  --ed-stone-200: #e6ddcc;
+  --ed-stone-300: #ddd7cc;
+  --ed-stone-400: #b4ada1;
+  --ed-stone-500: #8a857b;
+  --ed-stone-600: #7d786f;
+  --ed-stone-700: #5c5a55;
+  --ed-stone-800: #474540;
+  --ed-stone-900: #34332f;
+  --ed-stone-950: #23211e;
+
+  /* tan: brand A's carton brown (400), for cartons and quiet fills */
+  --ed-tan-25: #fbfaf9;
+  --ed-tan-50: #f5f2ee;
+  --ed-tan-100: #f0e4d3;
+  --ed-tan-200: #e5ccaa;
+  --ed-tan-300: #d3b58d;
+  --ed-tan-400: #c8a97e;
+  --ed-tan-500: #a88a61;
+  --ed-tan-600: #846c4b;
+  --ed-tan-700: #6b573c;
+  --ed-tan-800: #554431;
+  --ed-tan-900: #403325;
+  --ed-tan-950: #2e241b;
+
+  /* orange: brand A's sticker (400, one small sticker per surface; text on it is 950),
+     turning to rust in its darker steps (600 and 700 are A's warm error) */
+  --ed-orange-25: #fef9f7;
+  --ed-orange-50: #fbe9e3;
+  --ed-orange-100: #fcded3;
+  --ed-orange-200: #fdc1a4;
+  --ed-orange-300: #f8a36a;
+  --ed-orange-400: #f08a1c;
+  --ed-orange-500: #da6d18;
+  --ed-orange-600: #b3401a;
+  --ed-orange-700: #8a2c0d;
+  --ed-orange-800: #6b2501;
+  --ed-orange-900: #4a1e01;
+  --ed-orange-950: #2b1503;
+
   /* pure */
   --ed-white: #ffffff;
   --ed-ink:   #0f1417;
+
+  /* ink: the near-blacks around ink, for panels in ink and the parts raised on them.
+     Dark steps only: a light ground is white, neutral or stone */
+  --ed-ink-600: #2e3232;
+  --ed-ink-700: #1f2a2e;
+  --ed-ink-800: #1e2427;
+  --ed-ink-900: #151a1d;
+  --ed-ink-950: #0a0e10;
+
+  /* teal past 950, for a teal-tinted well inside an ink panel */
+  --ed-teal-975: #0a2321;
 }
