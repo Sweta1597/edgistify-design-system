@@ -81,6 +81,18 @@
 }
 .doc .sw.key .chip{outline:2px solid var(--fg);outline-offset:-2px}
 .doc .sw.key .hex{color:var(--fg);font-weight:500}
+/* every colour, in groups; a step a ramp doesn't have keeps its column empty */
+.doc .ramp-group{margin-bottom:40px}
+.doc .ramp-group:last-child{margin-bottom:0}
+.doc .group-head{margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line-soft)}
+.doc .group-head h3{font-size:16px;font-weight:600}
+.doc .group-head p{margin:4px 0 0;font-size:13px;color:var(--fg3)}
+.doc .sw.empty .chip{border:1px dashed var(--line-soft)}
+.doc .singles{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.doc .single{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:10px;align-items:center}
+.doc .single .chip{grid-row:span 2;height:40px;border-radius:4px;box-shadow:inset 0 0 0 1px var(--line-soft)}
+.doc .single .ramp-name{font-size:12px}
+.doc .single .hex{font:400 11px/1.4 "JetBrains Mono",monospace;color:var(--fg3)}
 @media(max-width:780px){
 .doc .swatches{grid-template-columns:repeat(6,1fr)}
 .doc .sw .chip{height:44px}

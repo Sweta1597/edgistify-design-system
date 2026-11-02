@@ -56,6 +56,50 @@ export function ramps() {
   }));
 }
 
+/* Every colour in the system, grouped, read from primitives.css so a ramp
+   added there appears on Foundations > Colour by itself. Foundations holds
+   all of them; the app and marketing pages show the ones each one uses. */
+export const COLOUR_GROUPS = [
+  { key: 'core', title: 'Core ramps', note: 'Generated in OKLCH from the brand teal. Used across the apps and the website.', hues: ['teal', 'neutral', 'green', 'amber', 'red', 'blue'] },
+  { key: 'accent', title: 'Marketing accents', note: 'Beside teal on marketing pages only. Never a status.', hues: ['saffron', 'indigo'] },
+  { key: 'brand-a', title: 'Brand A, the shipping label', note: 'Pinned to the palette of direction A, so these are not evenly spaced like the core ramps.', hues: ['stone', 'tan', 'orange', 'ink'] },
+];
+
+const COLOUR_ROLES = {
+  ...RAMP_ROLES,
+  saffron: 'the one highlight on a screen',
+  indigo:  'Edgistify’s software: EdgeOS, EdgeWMS, EdgeLMS, EdgeFMS',
+  stone:   'warm greys: grounds, cards, muted text',
+  tan:     'cartons and quiet fills (400)',
+  orange:  'the sticker (400) and its text (950); warm error (600, 700)',
+  ink:     'near-blacks for panels in ink and what is raised on them',
+};
+
+/** Every primitive colour: the ramps by group, and the single colours outside a ramp's 25–950. */
+export function colours() {
+  const all = rootTokens('primitives.css').filter((t) => /^#[0-9a-f]{6}$/i.test(t.value));
+  const byHue = {};
+  const singles = [];
+  for (const { name, value } of all) {
+    const m = name.match(/^--ed-([a-z]+)-(\d+)$/);
+    if (m && STEPS.includes(m[2])) (byHue[m[1]] ||= {})[m[2]] = value;
+    else singles.push({ name, hex: value, onWhite: contrast(value, '#ffffff') });
+  }
+  const ramp = (name) => ({
+    name,
+    role: COLOUR_ROLES[name] ?? '',
+    steps: STEPS.map((step) => (byHue[name][step]
+      ? { step, hex: byHue[name][step], onWhite: contrast(byHue[name][step], '#ffffff') }
+      : { step, hex: null })),
+  });
+  const grouped = new Set(COLOUR_GROUPS.flatMap((g) => g.hues));
+  const groups = COLOUR_GROUPS.map((g) => ({ ...g, ramps: g.hues.filter((h) => byHue[h]).map(ramp) }));
+  // a ramp added to primitives.css but not to a group above still shows
+  const other = Object.keys(byHue).filter((h) => !grouped.has(h));
+  if (other.length) groups.push({ key: 'other', title: 'Other ramps', note: '', ramps: other.map(ramp) });
+  return { groups, singles, count: all.length };
+}
+
 /** The two invariants, checked against the tokens rather than asserted. */
 export function invariants() {
   const all = ramps();

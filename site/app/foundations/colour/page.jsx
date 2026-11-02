@@ -1,9 +1,9 @@
 import '@/styles/colour.css';
-import { ramps, brand, contrastSummary } from '@/lib/tokens';
+import { colours, brand, contrastSummary } from '@/lib/tokens';
 
 export const metadata = {
   title: 'Colour',
-  description: 'Six OKLCH ramps from one brand teal, with every pairing measured.',
+  description: 'Every colour in the system: the core ramps from one brand teal, the marketing accents and brand A, with every pairing measured.',
 };
 
 /* Verbatim from the published specimen — this is content, not data. */
@@ -26,7 +26,20 @@ const ROLES = [
 ];
 
 export default function ColourPage() {
-  const all = ramps();
+  const { groups, singles, count } = colours();
+  const rampCount = groups.reduce((n, g) => n + g.ramps.length, 0);
+  const chip = (s) => (
+    <div className={`sw${!s.hex ? ' empty' : s.step === '500' || s.step === '600' ? ' key' : ''}`} key={s.step}>
+      <div className="chip" style={s.hex ? { background: s.hex } : undefined}>
+        {s.hex && (
+          <span className="step" style={{ color: s.onWhite >= 4.5 ? '#fff' : '#0f1417' }}>
+            {s.step}
+          </span>
+        )}
+      </div>
+      <span className="hex">{s.hex ? s.hex.slice(1) : ''}</span>
+    </div>
+  );
 
   return (
     <div className="doc">
@@ -34,13 +47,15 @@ export default function ColourPage() {
         <header>
           <div className="eyebrow"><span className="dot" /> Edgistify Design System · Foundation 01 of 07</div>
           <h1>Colour</h1>
-          <p className="lede">Six ramps generated in OKLCH from a single brand teal, with one palette serving
-          the seller dashboard, the warehouse picker app and the support docs. Every pairing below is
-          measured, not eyeballed.</p>
+          <p className="lede">Every colour in the system, kept here in one place: six core ramps generated
+          in OKLCH from a single brand teal, the two marketing accents, and the ramps of brand A, the
+          shipping label. The app and marketing pages show the ones each uses; this page holds them all.
+          Every pairing below is measured, not eyeballed.</p>
           <dl className="meta">
             <div><dt>Brand</dt><dd>{brand.hex}</dd></div>
             <div><dt>Hue</dt><dd>{brand.hue}°</dd></div>
-            <div><dt>Ramps</dt><dd>{all.length} × 12</dd></div>
+            <div><dt>Ramps</dt><dd>{rampCount}</dd></div>
+            <div><dt>Colours</dt><dd>{count}</dd></div>
             <div><dt>States</dt><dd>2 × 2</dd></div>
             <div><dt>Checked pairings</dt><dd>{contrastSummary.passing} / {contrastSummary.total}</dd></div>
           </dl>
@@ -53,29 +68,38 @@ export default function ColourPage() {
             same thing in every colour. Outlined swatches are the two load-bearing steps.</p>
           </div>
           <div id="ramps">
-            {all.map((ramp) => (
-              <div className="ramp" key={ramp.name}>
-                <div className="ramp-head">
-                  <span className="ramp-name">--ed-{ramp.name}-*</span>
-                  <span className="ramp-role">{ramp.role}</span>
+            {groups.map((g) => (
+              <div className="ramp-group" key={g.key}>
+                <div className="group-head">
+                  <h3>{g.title}</h3>
+                  {g.note && <p>{g.note}</p>}
                 </div>
-                <div className="swatches">
-                  {ramp.steps.map((s) => {
-                    const key = s.step === '500' || s.step === '600';
-                    return (
-                      <div className={`sw${key ? ' key' : ''}`} key={s.step}>
-                        <div className="chip" style={{ background: s.hex }}>
-                          <span className="step" style={{ color: s.onWhite >= 4.5 ? '#fff' : '#0f1417' }}>
-                            {s.step}
-                          </span>
-                        </div>
-                        <span className="hex">{s.hex.slice(1)}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+                {g.ramps.map((ramp) => (
+                  <div className="ramp" key={ramp.name}>
+                    <div className="ramp-head">
+                      <span className="ramp-name">--ed-{ramp.name}-*</span>
+                      <span className="ramp-role">{ramp.role}</span>
+                    </div>
+                    <div className="swatches">{ramp.steps.map(chip)}</div>
+                  </div>
+                ))}
               </div>
             ))}
+            <div className="ramp-group">
+              <div className="group-head">
+                <h3>Single colours</h3>
+                <p>Outside a ramp’s 25 to 950: pure white, ink, and teal past its 950.</p>
+              </div>
+              <div className="singles">
+                {singles.map((s) => (
+                  <div className="single" key={s.name}>
+                    <div className="chip" style={{ background: s.hex }} />
+                    <span className="ramp-name">{s.name}</span>
+                    <span className="hex">{s.hex.slice(1)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="rule">
             <span className="k">RULE 01</span>
@@ -89,8 +113,10 @@ export default function ColourPage() {
         <section>
           <div className="sec-head">
             <h2>Two invariants</h2>
-            <p className="sub">These hold across all six ramps, which is what makes the palette safe to use
-            without looking anything up. <code>npm test</code> fails the build if either breaks.</p>
+            <p className="sub">These hold across the six core ramps and the two accents, which is what makes
+            the palette safe to use without looking anything up. <code>npm test</code> fails the build if
+            either breaks on a core ramp. Brand A is pinned to its palette instead: tan and orange keep both,
+            but <strong>stone-600 is 4.4:1</strong>, so text on a light ground is stone-700 or darker.</p>
           </div>
           <div className="inv">
             <div>
@@ -194,7 +220,7 @@ export default function ColourPage() {
         </section>
 
         <footer>
-          <p>Generated from <code>tokens/color.json</code>. Verify with <code>npm test</code> in
+          <p>Read from <code>dist/primitives.css</code>, so a colour added there appears here. Verify with <code>npm test</code> in
           <code>edgistify-design-system/</code>. Next foundation: <strong>Type</strong> — including the
           identifier face these SKU and order numbers are set in.</p>
         </footer>
