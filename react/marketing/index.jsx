@@ -659,7 +659,9 @@ export function LogoMarquee({ label, logos = [], speed = 40, variant, className,
     <ul className="ed-mk-marquee__row" aria-hidden={hidden || undefined}>
       {logos.map((l, i) => (
         <li key={i} className={cx('ed-mk-marquee__logo', !l.src && (l.name ? 'ed-mk-marquee__logo--text' : 'ed-mk-marquee__logo--empty'))}>
-          {l.src ? <img src={l.src} alt={hidden ? '' : l.name} loading="lazy" height="28" /> : (l.name || 'Logo')}
+          {/* the span carries the logo's file as --ed-mk-logo, so a page can draw
+              its shape in one colour with a mask (see .ed-mk-marquee__img) */}
+          {l.src ? <span className="ed-mk-marquee__img" style={{ '--ed-mk-logo': `url("${l.src}")` }}><img src={l.src} alt={hidden ? '' : l.name} loading="lazy" height="28" /></span> : (l.name || 'Logo')}
         </li>
       ))}
     </ul>

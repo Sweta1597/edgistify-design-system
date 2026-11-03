@@ -1523,6 +1523,9 @@
 .ed-mk-marquee:hover .ed-mk-marquee__track { animation-play-state: paused; }
 .ed-mk-marquee__row { display: flex; align-items: center; gap: var(--ed-space-12); padding-right: var(--ed-space-12); margin: 0; list-style: none; padding-left: 0; }
 .ed-mk-marquee__logo { flex: none; height: 32px; display: grid; place-items: center; }
+/* Each logo's box, the size of its image: a page can lay the logo's shape
+   over it in one colour, `mask: var(--ed-mk-logo) center / contain no-repeat`. */
+.ed-mk-marquee__img { position: relative; display: grid; place-items: center; }
 .ed-mk-marquee__logo img, .ed-mk-marquee__logo svg {
   max-height: 28px; max-width: 128px; width: auto; display: block;
   filter: grayscale(1) brightness(0); opacity: .7; transition: opacity var(--ed-mk-dur) var(--ed-mk-ease);
