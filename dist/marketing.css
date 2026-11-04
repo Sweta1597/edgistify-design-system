@@ -3658,11 +3658,36 @@
 .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { width: min(23cqw, 300px); }
 .ed-mk-dotmap--side.ed-mk-dotmap--list-left { flex-direction: row-reverse; }
 .ed-mk-halo--map .ed-mk-dotmap--side.ed-mk-dotmap--list-left { translate: 1cqw 0; }   /* the mirror of the default's nudge, to sit inside the arc */
+/* the list never narrower than its longest names, at any width above the stack */
+.ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { width: clamp(200px, 23cqw, 300px); }
+/* Stacked: the filters first, as one row of pills that scrolls on its own
+   (edge to edge, never the page), with the map under it, so choosing one
+   shows its cities on the map in the same view. */
 @media (max-width: 860px) {
-  .ed-mk-dotmap--side, .ed-mk-halo--map .ed-mk-dotmap--side { flex-direction: column; align-items: center; gap: var(--ed-space-8); width: 100%; translate: none; padding-top: 0; }
-  .ed-mk-halo--map .ed-mk-dotmap--side.ed-mk-dotmap--list-left { translate: none; }
-  .ed-mk-dotmap--side .ed-mk-dotmap__map, .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__map { width: min(100%, 460px); }
-  .ed-mk-dotmap--side .ed-mk-dotmap__pick, .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { width: min(100%, 420px); }
+  .ed-mk-dotmap--side, .ed-mk-halo--map .ed-mk-dotmap--side { flex-direction: column; align-items: stretch; gap: var(--ed-space-6); width: 100%; translate: none; padding-top: 0; }
+  .ed-mk-halo--map .ed-mk-dotmap--side.ed-mk-dotmap--list-left { flex-direction: column; translate: none; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__pick, .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__pick { order: -1; width: auto; min-width: 0; align-items: stretch; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__hint { text-align: center; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters {
+    flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; gap: var(--ed-space-2);
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none;
+    margin-inline: calc(var(--ed-mk-gutter, 16px) * -1); padding-inline: var(--ed-mk-gutter, 16px); scroll-padding-inline: var(--ed-mk-gutter, 16px);
+  }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters::-webkit-scrollbar { display: none; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters li { flex: none; scroll-snap-align: start; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters li + li { border-top: 0; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters button {
+    display: inline-flex; align-items: center; width: auto; height: 36px; padding: 0 var(--ed-space-4);
+    border: 1px solid var(--ed-border); border-radius: 999px; white-space: nowrap; color: var(--ed-neutral-300);
+  }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters button:hover { color: var(--ed-white); }
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters button.is-on,
+  .ed-mk-dotmap--side .ed-mk-dotmap__filters button[aria-pressed='true'] {
+    color: var(--ed-white); border-color: var(--ed-teal-300); background: color-mix(in srgb, var(--ed-teal-300) 12%, transparent);
+  }
+  /* nudged right, so the names set to the left of the west-coast cities stay on screen */
+  .ed-mk-dotmap--side .ed-mk-dotmap__map, .ed-mk-halo--map .ed-mk-dotmap--side .ed-mk-dotmap__map { align-self: center; width: min(calc(100% - 72px), 460px); translate: 36px 0; }
+  .ed-mk-dotmap--side .ed-mk-dotmap__name { font-size: 11px; }
 }
 
 /* ==================================================================
