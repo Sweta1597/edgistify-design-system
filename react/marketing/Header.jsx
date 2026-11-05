@@ -68,6 +68,7 @@ const Lead = ({ lead }) => (
 export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = 'light', compactAfter, compactAction }) {
   const [open, setOpen] = useState(null);      // index of the open menu
   const [drawer, setDrawer] = useState(false);
+  const [section, setSection] = useState(null);   // the drawer's open section
   const [compact, setCompact] = useState(false);
   const rootRef = useRef(null);
   const closeTimer = useRef(null);
@@ -112,8 +113,27 @@ export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = '
 
   useEffect(() => {
     document.documentElement.style.overflow = drawer ? 'hidden' : '';
-    return () => { document.documentElement.style.overflow = ''; };
+    if (!drawer) return () => { document.documentElement.style.overflow = ''; };
+    const onKey = (e) => { if (e.key === 'Escape') setDrawer(false); };
+    document.addEventListener('keydown', onKey);
+    return () => { document.documentElement.style.overflow = ''; document.removeEventListener('keydown', onKey); };
   }, [drawer]);
+  /* a link in the drawer that stays on this page (a #hash) must still close it */
+  const closeOnLink = (e) => { if (e.target.closest('a')) setDrawer(false); };
+  /* Open one menu (closing the one before) and bring its row to the top of
+     the list, so it never opens above the view. */
+  const openSection = (i, row) => {
+    const next = section === i ? null : i;
+    setSection(next);
+    if (next === null) return;
+    requestAnimationFrame(() => {
+      const list = row.closest('.ed-mk-drawer__nav');
+      if (!list) return;
+      const top = row.getBoundingClientRect().top - list.getBoundingClientRect().top + list.scrollTop - 8;
+      const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      list.scrollTo({ top: Math.max(0, top), behavior: still ? 'auto' : 'smooth' });
+    });
+  };
 
   return (
     <header className={cx('ed-mk-header', tone === 'ink' && 'ed-mk-header--ink ed-mk-band', compact && 'is-compact')} ref={rootRef}>
@@ -238,17 +258,46 @@ export function SiteHeader({ nav = [], cta, secondary, brandHref = '/', tone = '
             </svg>
           </button>
         </div>
-        {nav.map((item) => (
-          <div className="ed-mk-drawer__group" key={item.label}>
-            <h4>{item.label}</h4>
-            {item.groups
-              ? item.groups.flatMap((g) => g.items).map((it, ii) => <a href={it.href} key={ii}>{it.title}</a>)
-              : <a href={item.href}>{item.label}</a>}
-            {item.lead && <a href={item.lead.href} className="ed-mk-more">{item.lead.label}</a>}
-            {item.footer?.cta && <a href={item.footer.cta.href} className="ed-mk-more">{item.footer.cta.label}</a>}
-          </div>
-        ))}
-        <div className="ed-mk-drawer__cta">{cta}{secondary}</div>
+        {/* One row per menu; a menu opens in place (one at a time) to its
+            groups, each a small label over its items: icon, name and line,
+            as the panel has them. The panel's side column is left out — it
+            repeats what the other menus hold. The CTA stays at the foot. */}
+        <nav className="ed-mk-drawer__nav" aria-label="Main" onClick={closeOnLink}>
+          {nav.map((item, i) => item.groups ? (
+            <div className={cx('ed-mk-drawer__sec', section === i && 'is-open')} key={item.label}>
+              <button type="button" className="ed-mk-drawer__row" aria-expanded={section === i}
+                      aria-controls={`ed-mk-drawer-${i}`} onClick={(e) => openSection(i, e.currentTarget)}>
+                {item.label}<Caret />
+              </button>
+              <div className="ed-mk-drawer__body" id={`ed-mk-drawer-${i}`} hidden={section !== i}>
+                {item.groups.map((g, gi) => (
+                  <div className="ed-mk-drawer__grp" key={gi}>
+                    {g.label && <p className="ed-mk-drawer__label">{g.label}</p>}
+                    <ul className={cx('ed-mk-drawer__list', !g.items.some((it) => it.icon || it.desc) && 'ed-mk-drawer__list--plain')}>
+                      {g.items.map((it, ii) => (
+                        <li key={ii}>
+                          <a className="ed-mk-drawer__item" href={it.href}>
+                            {it.icon && <span className="ed-mk-drawer__icon" aria-hidden="true">{it.icon}</span>}
+                            <span className="ed-mk-drawer__text">
+                              <b>{it.title}{it.tag && <span className="ed-badge ed-badge--brand ed-badge--sm">{it.tag}</span>}</b>
+                              {it.desc && <span>{it.desc}</span>}
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    {g.all && <a className="ed-mk-more ed-mk-drawer__more" href={g.all.href}>{g.all.label}</a>}
+                  </div>
+                ))}
+                {item.lead && <a className="ed-mk-more ed-mk-drawer__more" href={item.lead.href}>{item.lead.label}</a>}
+                {item.footer?.cta && <a className="ed-mk-more ed-mk-drawer__more" href={item.footer.cta.href}>{item.footer.cta.label}</a>}
+              </div>
+            </div>
+          ) : (
+            <a className="ed-mk-drawer__row" href={item.href} key={item.label}>{item.label}</a>
+          ))}
+        </nav>
+        <div className="ed-mk-drawer__cta" onClick={closeOnLink}>{cta}{secondary}</div>
       </div>
     </header>
   );
